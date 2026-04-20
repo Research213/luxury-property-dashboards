@@ -179,10 +179,21 @@
                 maxZoom: 6,
                 scrollWheelZoom: true
             });
-            L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© OpenStreetMap © CartoDB',
-                subdomains: 'abcd',
-                maxZoom: 19,
+            // 使用天地图（国家地理信息公共服务平台）- 国内访问稳定
+            L.tileLayer('https://t{s}.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=', {
+                attribution: '© 天地图 Tianditu',
+                subdomains: '01234567',
+                maxZoom: 18,
+                minZoom: 2,
+                crossOrigin: true
+            }).addTo(map);
+            
+            // 天地图注记层
+            L.tileLayer('https://t{s}.tianditu.gov.cn/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=', {
+                attribution: '© 天地图 Tianditu',
+                subdomains: '01234567',
+                maxZoom: 18,
+                minZoom: 2,
                 crossOrigin: true
             }).addTo(map);
 
