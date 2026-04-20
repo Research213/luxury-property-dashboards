@@ -207,7 +207,7 @@
                                 <div class="metric"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
                                 <div class="metric"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
                                 <div class="metric"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
-                                <div class="metric"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                                <div class="metric"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange && city.metrics.chineseChange.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
                             </div>
                         </div>
                         <div class="popup-footer"><a href="${city.url}" class="view-btn" target="_blank">📊 查看详细看板</a></div>
@@ -233,7 +233,7 @@
                             <div class="metric-item"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
                             <div class="metric-item"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
                             <div class="metric-item"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
-                            <div class="metric-item" style="grid-column:span 2;"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                            <div class="metric-item" style="grid-column:span 2;"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange && city.metrics.chineseChange.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
                         </div>
                     </div>`;
             });
