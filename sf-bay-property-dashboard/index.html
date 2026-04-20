@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旧金山湾区房产数据看板 | 豪宅研究院</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --primary: #005eb8; --secondary: #003366; --accent: #e31837; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .custom-tooltip { position: absolute; background: rgba(0, 94, 184, 0.95); color: white; padding: 12px 16px; border-radius: 8px; font-size: 13px; max-width: 350px; z-index: 1000; pointer-events: none; box-shadow: 0 4px 20px rgba(0,0,0,0.25); line-height: 1.5; }
+        .custom-tooltip .tooltip-title { font-weight: 600; margin-bottom: 8px; color: #ffd700; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 6px; }
+        .custom-tooltip .tooltip-source { font-size: 11px; color: #a0aec0; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 24px 32px; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 14px; }
+        .header .data-version { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+        .conclusion-banner { background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%); border-left: 5px solid var(--warning); padding: 20px 24px; margin: 20px 32px; border-radius: 0 8px 8px 0; }
+        .conclusion-banner h3 { font-size: 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .signal { display: inline-block; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 14px; }
+        .signal.green { background: var(--success); }
+        .conclusion-detail { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(214, 158, 46, 0.3); }
+        .conclusion-banner.expanded .conclusion-detail { display: block; }
+        .conclusion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
+        .conclusion-item { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; }
+        .conclusion-item .label { font-size: 12px; color: var(--text-light); }
+        .conclusion-item .value { font-size: 16px; font-weight: 600; color: var(--primary); margin-top: 4px; }
+        .nav-tabs { display: flex; gap: 4px; margin: 0 32px 20px; background: white; padding: 8px; border-radius: 12px; overflow-x: auto; }
+        .nav-tab { padding: 10px 20px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--text-light); white-space: nowrap; }
+        .nav-tab.active { background: var(--primary); color: white; }
+        .section { display: none; padding: 0 32px 32px; }
+        .section.active { display: block; }
+        .section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        .section-conclusion { background: #f0f4ff; border-left: 4px solid var(--secondary); padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; }
+        .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
+        .card .data-source-tag { display: inline-block; font-size: 10px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: var(--text-light); }
+        .card .data-reliability { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+        .data-reliability.A { background: #c6f6d5; color: #22543d; }
+        .data-reliability.B { background: #fef3c7; color: #744210; }
+        .chart-container { position: relative; height: 300px; }
+        .chart-container.large { height: 400px; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
+        .data-table tr:hover { background: #f7fafc; }
+        .map-container { height: 500px; border-radius: 12px; overflow: hidden; }
+        .stat-card { text-align: center; padding: 16px; cursor: pointer; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-value { font-size: 32px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+        .stat-change { font-size: 12px; margin-top: 4px; }
+        .stat-change.up { color: var(--success); }
+        .stat-change.down { color: var(--accent); }
+        .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .data-legend { background: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 13px; }
+        .data-legend h5 { margin-bottom: 8px; color: var(--primary); }
+        .data-legend-item { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+        .cost-calculator { background: #f0fff4; border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .cost-input { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .cost-input label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .cost-input input, .cost-input select { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .cost-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; }
+        .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
+        .cost-result .item .label { font-size: 12px; color: var(--text-light); }
+        .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .agency-card.expanded { background: #f0fff4; }
+        .agency-header { display: flex; justify-content: space-between; align-items: center; }
+        .agency-name { font-weight: 600; color: var(--primary); font-size: 16px; }
+        .agency-date { font-size: 12px; color: var(--text-light); }
+        .agency-rating { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .agency-rating.positive { background: #c6f6d5; color: #22543d; }
+        .agency-rating.neutral { background: #fef3c7; color: #744210; }
+        .agency-rating.cautious { background: #fed7d7; color: #742a2a; }
+        .agency-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .agency-card.expanded .agency-detail { display: block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
+        .city-comparison { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .city-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .city-card:hover { transform: translateY(-2px); }
+        .city-card .city-name { font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
+        .city-metric { margin: 6px 0; }
+        .city-metric .label { font-size: 10px; color: var(--text-light); }
+        .city-metric .value { font-size: 14px; font-weight: 600; }
+        .radar-container { height: 350px; }
+        .policy-item { margin-bottom: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .policy-item-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .policy-item-header:hover { background: #edf2f7; border-radius: 6px; }
+        .policy-item-title { font-weight: 600; }
+        .policy-item-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .policy-item.expanded .policy-item-detail { display: block; }
+        @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h1>🌉 旧金山湾区房产数据看板</h1>
+                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 7.25 CNY | 数据更新至 2026 年 4 月</div>
+                <div class="data-version">版本：v1.0 | 最后更新：2026-04-18 | 数据来源：BayEast, CCAR, MLS, Zillow</div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
+                <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
+                <button onclick="window.open('../global-dashboard/index.html', '_blank')" style="margin-left:8px;padding:8px 16px;background:#805ad5;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">🌍 全球总览</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
+        <h3><span class="signal green">✅</span> 总体结论：科技行业复苏带动房市，南湾和半岛最受青睐，AI 热潮推动豪宅需求 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2025 年湾区 9 县成交 52,000 户（+8% YoY），中位房价$145 万美元（人民币约¥1,051 万）。南湾（帕洛阿尔托、库比蒂诺）领涨，半岛（阿瑟顿、洛斯阿托斯）豪宅市场强劲。2026 年 AI 投资 550 亿美元涌入湾区，支撑高端需求。</p>
+        <div class="conclusion-detail">
+            <div class="conclusion-grid">
+                <div class="conclusion-item">
+                    <div class="label">📈 宏观经济</div>
+                    <div class="value">美国 GDP 增速 2.1% (2025 Q4)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">通胀回落至 2.8%，美联储降息预期</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">🏠 供需关系</div>
+                    <div class="value">库存周期 3.8 个月</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">房源紧张，锁定效应明显</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💰 投资价值</div>
+                    <div class="value">租金收益率 3.8%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">科技就业支撑租赁需求</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">📊 价格趋势</div>
+                    <div class="value">2026 预测 +2~4%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">AI 热潮推动高端市场</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💷 汇率影响</div>
+                    <div class="value">USD/CNY 7.25 (+8% vs 2023)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">美元强势，利好海外买家</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">⚠️ 风险评估</div>
+                    <div class="value">中等风险</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">房产税高，科技行业波动，地震风险</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
+    </div>
+    
+    <!-- 全市场概览 -->
+    <div id="market" class="section active">
+        <h2 class="section-title">📊 旧金山湾区房地产市场情况</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>2025 年湾区 9 县成交 52,000 户（+8% YoY），成交额约$755 亿美元（人民币约¥5,454 亿元）。2026 年 2 月中位房价$145 万美元（人民币约¥1,051 万），同比 +4%。南湾/半岛领涨，旧金山市复苏。数据来源：BayEast, CCAR（A 级）。
+        </div>
+        
+        <div class="metric-grid">
+            <div class="card stat-card" data-title="2025 年湾区成交量" data-content="2025 年湾区 9 县房产成交 52,000 户，同比增长 8%，独立别墅占 60%。" data-source="CCAR | A 级">
+                <div class="stat-value">5.2 万</div>
+                <div class="stat-label">成交量（户）</div>
+                <div class="stat-change up">↑ 同比 +8%</div>
+            </div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年湾区成交额约$755 亿美元（人民币约¥5,454 亿元）。" data-source="BayEast | A 级">
+                <div class="stat-value">¥5,454 亿</div>
+                <div class="stat-label">成交额</div>
+                <div class="stat-change up">↑ 同比 +10%</div>
+            </div>
+            <div class="card stat-card" data-title="湾区中位房价" data-content="2026 年 2 月湾区中位房价$145 万美元（人民币约¥1,051 万），同比 +4%。" data-source="Zillow | A 级">
+                <div class="stat-value">¥1,051 万</div>
+                <div class="stat-label">中位房价</div>
+                <div class="stat-change up">↑ 同比 +4%</div>
+            </div>
+            <div class="card stat-card" data-title="租金收益率" data-content="湾区租金收益率约 3.8%，科技就业支撑租赁需求，空置率 2.5%。" data-source="Zillow | A 级">
+                <div class="stat-value">3.8%</div>
+                <div class="stat-label">租金收益率</div>
+                <div class="stat-change up">↑ 同比 +0.2%</div>
+            </div>
+        </div>
+        <div class="metric-grid" style="margin-top:16px">
+            <div class="card stat-card" data-title="万/平方米单价" data-content="湾区平均房价密度约$8,500/㎡（人民币约 6.2 万/㎡），阿瑟顿/帕洛阿尔托达$20,000-30,000/㎡。" data-source="Redfin | A 级">
+                <div class="stat-value">¥8.5 万</div>
+                <div class="stat-label">万/平方米</div>
+                <div class="stat-change up">↑ 同比 +3%</div>
+            </div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，湾区套均总价约$145 万（人民币约¥1,051 万）。" data-source="CCAR, 计算 | A 级">
+                <div class="stat-value">¥1,051 万</div>
+                <div class="stat-label">套均总价</div>
+                <div class="stat-change up">↑ 同比 +2%</div>
+            </div>
+            <div class="card stat-card" data-title="房价收入比" data-content="湾区房价收入比约 18.5 倍，远高于美国平均 5.8 倍，购房压力极大。" data-source="Census | B 级">
+                <div class="stat-value">18.5x</div>
+                <div class="stat-label">房价收入比</div>
+                <div class="stat-change down">↓ 同比 -0.5x</div>
+            </div>
+            <div class="card stat-card" data-title="库存周期" data-content="当前库存去化周期约 3.8 个月，低于 5 年平均 4.5 个月，供应偏紧。" data-source="Redfin | B 级">
+                <div class="stat-value">3.8 月</div>
+                <div class="stat-label">库存周期</div>
+                <div class="stat-change down">↓ 同比 -0.7 月</div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="年度成交量与中位房价 (2008-2025)" data-content="2008 年金融危机、2020 年疫情、2024 年降息是关键节点。2025 年中位房价$145 万。" data-source="Zillow, CCAR | A 级">
+                <h4>年度成交量与中位房价 (2008-2025) <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="yearlyChart"></canvas></div>
+                <div class="data-legend" style="margin-top:16px">
+                    <h5>📌 关键历史节点</h5>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#c53030"></span><strong>2008-2009:</strong> 次贷危机，成交量暴跌 50%，房价下跌 40%</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#2c5282"></span><strong>2012:</strong> 科技复苏，市场触底反弹</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#38a169"></span><strong>2020-2021:</strong> 疫情初期市场冻结，随后反弹创新高</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#d69e2e"></span><strong>2024:</strong> 美联储降息预期，市场回暖</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> AI 热潮，南湾半岛领涨</div>
+                </div>
+            </div>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2026 年 Q1 成交 14,500 户（+10% YoY），成交额$210 亿。" data-source="CCAR | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.03) <span class="data-source-tag">CCAR</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>平均单价趋势 (万/㎡) | 2008-2025</h4>
+            <div style="overflow-x:auto">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>年份</th><th>2008</th><th>2009</th><th>2010</th><th>2011</th><th>2012</th><th>2013</th><th>2014</th><th>2015</th><th>2016</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>单价 (万/㎡)</td><td>4.5</td><td>4.0</td><td>4.3</td><td>4.6</td><td>5.0</td><td>5.8</td><td>6.2</td><td>6.5</td><td>6.8</td><td>7.2</td><td>7.5</td><td>7.6</td><td>7.8</td><td>8.5</td><td>8.2</td><td>8.0</td><td>8.2</td><td>8.5</td></tr>
+                        <tr><td>同比</td><td>-</td><td>-11%</td><td>+8%</td><td>+7%</td><td>+9%</td><td>+16%</td><td>+7%</td><td>+5%</td><td>+5%</td><td>+6%</td><td>+4%</td><td>+1%</td><td>+3%</td><td>+9%</td><td>-4%</td><td>-2%</td><td>+2%</td><td>+4%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：Zillow, Redfin | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="月度成交明细（分独立别墅/Condo）" data-content="湾区月度独立别墅（SFR）和 Condo 成交量、成交价。SFR 占 60%，Condo 占 25%。" data-source="CCAR | A 级">
+            <h4>月度成交明细 (2025.01-2026.03) <span class="data-source-tag">CCAR</span><span class="data-reliability A">A 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="monthlyTable">
+                    <thead>
+                        <tr>
+                            <th>月份</th>
+                            <th>SFR 成交 (户)</th>
+                            <th>SFR 中位价 (万美元)</th>
+                            <th>Condo 成交 (户)</th>
+                            <th>Condo 中位价 (万美元)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 区域分析 -->
+    <div id="district" class="section">
+        <h2 class="section-title">🗺️ 湾区核心区域分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>湾区核心区域：南湾（帕洛阿尔托、库比蒂诺、洛斯加托斯）、半岛（阿瑟顿、洛斯阿托斯）、旧金山市、东湾（奥克兰、伯克利）、北湾（纳帕、索萨利托）。阿瑟顿最贵（$700 万+），帕洛阿尔托/洛斯阿托斯领涨（AI 高管聚集），旧金山市复苏（Condo 反弹）。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h4>湾区核心区域房价地图 <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
+                <div class="map-container" id="districtMap"></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+                    🔴 红色：$300 万 + | 🟠 橙色：$200-300 万 | 🟡 黄色：$150-200 万 | 🟢 绿色：$150 万以下
+                </div>
+            </div>
+            <div class="card" data-title="湾区各区域房价" data-content="湾区核心区域房价对比。" data-source="Zillow | A 级">
+                <h4>各区域房价对比 (2026 Q1) <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>区域</th>
+                            <th>中位价 (万美元)</th>
+                            <th>同比变化</th>
+                            <th>特点</th>
+                        </tr>
+                    </thead>
+                    <tbody id="districtTable"></tbody>
+                </table>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                    📌 数据来源：Zillow, Redfin | 10 个核心区域覆盖湾区 75% 豪宅交易量
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>10 大核心板块房价详解（人民币/㎡）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>区域</th>
+                        <th>单价 (万元/㎡)</th>
+                        <th>中位价 (万美元)</th>
+                        <th>特点</th>
+                        <th>热门社区</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>阿瑟顿</td><td>20.0-30.0</td><td>700+</td><td>全美最富，科技大佬</td><td>Atherton City</td></tr>
+                    <tr><td>帕洛阿尔托</td><td>18.0-25.0</td><td>350-500</td><td>斯坦福，AI 核心</td><td>Professorville</td></tr>
+                    <tr><td>洛斯阿托斯</td><td>18.0-25.0</td><td>350-500</td><td>顶级学区，科技高管</td><td>Los Altos Hills</td></tr>
+                    <tr><td>库比蒂诺</td><td>15.0-20.0</td><td>280-400</td><td>苹果总部，华人聚集</td><td>Cupertino City</td></tr>
+                    <tr><td>洛斯加托斯</td><td>15.0-22.0</td><td>300-450</td><td>山顶豪宅，隐私好</td><td>Los Gatos Mountains</td></tr>
+                    <tr><td>萨拉托加</td><td>14.0-20.0</td><td>280-400</td><td>学区优异，环境好</td><td>Saratoga City</td></tr>
+                    <tr><td>旧金山市</td><td>10.0-15.0</td><td>150-250</td><td>城市生活，Condo 为主</td><td>Pacific Heights</td></tr>
+                    <tr><td>伯克利</td><td>10.0-14.0</td><td>150-220</td><td>UC 伯克利，学术氛围</td><td>Berkeley Hills</td></tr>
+                    <tr><td>奥克兰</td><td>7.0-10.0</td><td>100-150</td><td>性价比高，多元化</td><td>Rockridge</td></tr>
+                    <tr><td>纳帕谷</td><td>8.0-12.0</td><td>120-200</td><td>葡萄酒乡，度假豪宅</td><td>Napa Valley</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 产品类型 -->
+    <div id="type" class="section">
+        <h2 class="section-title">🏠 产品类型分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>湾区房产以独立别墅（SFR）为主占 60%，Condo 占 25%，Townhouse 占 10%，其他 5%。SFR 中位价$165 万，Condo 中位价$85 万。华人买家偏好 SFR（带地、隐私好、学区好）。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="房产类型分布" data-content="湾区房产类型：独立别墅 60%、Condo 25%、Townhouse 10%、其他 5%。" data-source="CCAR | A 级">
+                <h4>房产类型占比 <span class="data-source-tag">CCAR</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
+                <div class="data-legend" style="margin-top:16px">
+                    <h5>📊 类型说明</h5>
+                    <div class="data-legend-item">• 独立别墅（SFR）：独栋住宅，土地私有，华人首选</div>
+                    <div class="data-legend-item">• Condo：公寓，有物业费，维护省心</div>
+                    <div class="data-legend-item">• Townhouse：联排别墅，介于 SFR 和 Condo 之间</div>
+                </div>
+            </div>
+            <div class="card" data-title="各类型价格对比" data-content="SFR 中位价$165 万，Condo$85 万，Townhouse$110 万。" data-source="Zillow | A 级">
+                <h4>各类型中位价对比 (2026 Q1) <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>SFR vs Condo 详细对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>对比项</th><th>独立别墅（SFR）</th><th>Condo（公寓）</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>中位价</td><td>$165 万</td><td>$85 万</td></tr>
+                    <tr><td>单价 (万/㎡)</td><td>8.5</td><td>6.5</td></tr>
+                    <tr><td>土地权利</td><td>完全私有</td><td>共有土地</td></tr>
+                    <tr><td>物业费</td><td>无</td><td>$600-1,200/月</td></tr>
+                    <tr><td>维护责任</td><td>业主自负</td><td>HOA 负责外部</td></tr>
+                    <tr><td>隐私性</td><td>高</td><td>中等</td></tr>
+                    <tr><td>外国人购买</td><td>✅ 允许</td><td>✅ 允许</td></tr>
+                    <tr><td>贷款比例</td><td>最高 70-80%</td><td>最高 70-80%</td></tr>
+                    <tr><td>适合人群</td><td>家庭自住/投资</td><td>投资/单身</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 中国买家 -->
+    <div id="china" class="section">
+        <h2 class="section-title">🇨🇳 中国买家分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>中国买家在湾区占比约 12-15%，偏好区域：库比蒂诺（25%）、帕洛阿尔托（20%）、洛斯阿托斯（15%）。预算集中在$200-400 万（50%），全款比例 45%。学区房和科技就业是首要考虑因素。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h4>美国购房政策详解（针对中国买家） <span class="data-source-tag">NAR, IRS</span><span class="data-reliability A">A 级</span></h4>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏠 房产税（Property Tax）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>税率：</strong>加州约 1-1.5%/年，根据成交价计算。<br><br>
+                        <strong>13 号提案：</strong>每年涨幅不超过 2%，除非转手。<br><br>
+                        <strong>示例：</strong>$300 万房产，年房产税约$3-4.5 万。<br><br>
+                        <em>注：房产税可抵联邦所得税（SALT 上限$1 万）</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">💰 资本利得税（CGT）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>税率：</strong>持有超 1 年：15-20%（长期）；持有 1 年内：37%（短期）<br><br>
+                        <strong>FIRPTA：</strong>外国人出售美国房产，买家需预扣 15% 税款。<br><br>
+                        <strong>免税额：</strong>主要自住房可豁免$25 万（单人）/$50 万（夫妻）。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏛️ 遗产税（Estate Tax）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>外国人免税额：</strong>仅$6 万（2026 年），超出部分税率 18-40%。<br><br>
+                        <strong>规划建议：</strong>通过离岸公司持有可合法规避，但需注意公司税和年度申报。<br><br>
+                        <em>注：2026 年美国人免税额$1,292 万，外国人仅$6 万，差距巨大</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🔓 购房限制</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>美国对海外买家购房无联邦限制。</strong><br><br>
+                        • 无需美国居住许可<br>
+                        • 可购买新房或二手房<br>
+                        • 可购买多套房产<br>
+                        • 无最低投资额要求<br><br>
+                        <strong>贷款限制：</strong>外国人通常需 30-40% 首付，利率略高，需提供资产证明。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🛂 签证/居留</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>购房与居留无直接关联。</strong><br><br>
+                        • 购房不能直接获得签证<br>
+                        • EB-5 投资移民：$80 万起（目标就业区）<br>
+                        • E-2 条约投资者签证：需条约国护照<br><br>
+                        <strong>相关签证：</strong>H1B 工作签证、L1 跨国高管、EB-1 杰出人才
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" data-title="中国买家占比趋势" data-content="中国买家在湾区占比变化。2023 年 10%，2025 年 13%，2026 年 Q1 15%。" data-source="NAR | A 级">
+                <h4>中国买家购房占比 (2020-2026 Q1) <span class="data-source-tag">NAR</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="chinaBuyerChart"></canvas></div>
+                <div class="data-legend">
+                    <h5>📌 趋势解读</h5>
+                    <div class="data-legend-item">2020-2022: 疫情影响，占比下降至 8%</div>
+                    <div class="data-legend-item">2023-2025: 市场复苏，占比回升至 13%</div>
+                    <div class="data-legend-item">2026 Q1: 创新高 15%，AI 热潮吸引科技人才</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>中国买家投资偏好（2026 Q1）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>维度</th><th>偏好</th><th>占比</th><th>说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td rowspan="5">区域偏好</td><td>库比蒂诺</td><td>25%</td><td>苹果总部，顶级学区</td></tr>
+                    <tr><td>帕洛阿尔托</td><td>20%</td><td>斯坦福，AI 核心</td></tr>
+                    <tr><td>洛斯阿托斯</td><td>15%</td><td>科技高管聚集</td></tr>
+                    <tr><td>旧金山市</td><td>15%</td><td>城市生活，Condo</td></tr>
+                    <tr><td>萨拉托加</td><td>12%</td><td>学区优异，环境好</td></tr>
+                    <tr><td rowspan="4">预算分布</td><td>$150-250 万</td><td>30%</td><td>首次购房/投资</td></tr>
+                    <tr><td>$250-400 万</td><td>50%</td><td>主力预算</td></tr>
+                    <tr><td>$400-600 万</td><td>15%</td><td>改善型需求</td></tr>
+                    <tr><td>$600 万+</td><td>5%</td><td>顶级豪宅</td></tr>
+                    <tr><td rowspan="2">支付方式</td><td>全款</td><td>45%</td><td>避开贷款审批</td></tr>
+                    <tr><td>贷款</td><td>55%</td><td>杠杆投资</td></tr>
+                    <tr><td rowspan="2">购房目的</td><td>子女教育</td><td>50%</td><td>学区房</td></tr>
+                    <tr><td>投资出租</td><td>50%</td><td>科技就业支撑</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 机构观点 -->
+    <div id="agency" class="section">
+        <h2 class="section-title">📑 专业机构观点</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>5 大机构对 2026 年湾区房价预测共识为 +2~4%，其中 Zillow 和 Redfin 相对乐观，加州经济学家协会提示 AI 失业风险。租金收益率 3.8%，科技就业支撑租赁市场。
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📊 Zillow</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年房市展望》</div>
+                </div>
+                <span class="agency-rating positive">增持</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年湾区房价预计上涨 3-5%，南湾和半岛领涨。<br><br>
+                <strong>关键论据：</strong><br>
+                • AI 投资热潮创造新财富，抵消科技裁员影响<br>
+                • 库存紧张（3.8 个月），锁定效应限制供应<br>
+                • 降息预期支撑买家负担能力<br>
+                • 旧金山 Condo 市场复苏，写字楼转住宅趋势<br><br>
+                <strong>投资建议：</strong>关注南湾顶级学区（帕洛阿尔托、库比蒂诺）和半岛豪宅（阿瑟顿、洛斯阿托斯）。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏠 Redfin</div>
+                    <div class="agency-date">2026 年 2 月 | 《湾区市场报告》</div>
+                </div>
+                <span class="agency-rating positive">谨慎乐观</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年湾区房价预计上涨 2-4%，市场分化明显。<br><br>
+                <strong>关键论据：</strong><br>
+                • 南湾（圣克拉拉县）量跌价涨，高价房源主导<br>
+                • 半岛（圣马特奥县）量稳价跌，中价房源增多<br>
+                • 旧金山市量价齐升，Condo 反弹 6.6%<br>
+                • 东湾（阿拉米达县）量跌价平，负担能力受限<br><br>
+                <strong>投资建议：</strong>差异化策略，南湾追涨、半岛捡漏、旧金山抄底。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📈 加州经济学家协会</div>
+                    <div class="agency-date">2026 年 1 月 | 《加州房市预测》</div>
+                </div>
+                <span class="agency-rating neutral">中性</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年加州房价预计上涨 2-3%，湾区略高于州平均。<br><br>
+                <strong>关键论据：</strong><br>
+                • 抵押贷款利率回落至 6.5%，支撑需求<br>
+                • 库存增加（+50% YoY），买家选择增多<br>
+                • 负担能力危机（HAI 16-18%），限制首次购房者<br>
+                • AI 失业风险：2025 年上半年 6 万科技从业者被裁<br><br>
+                <strong>风险提示：</strong>高利率环境、商业地产危机、科技行业深度衰退。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏢 CCAR（加州房地产协会）</div>
+                    <div class="agency-date">2026 年 2 月 | 《湾区月度报告》</div>
+                </div>
+                <span class="agency-rating positive">看好</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年 Q1 湾区市场强劲，预计全年 +3-4%。<br><br>
+                <strong>关键数据：</strong><br>
+                • Q1 成交 14,500 户（+10% YoY）<br>
+                • 中位价$145 万（+4% YoY）<br>
+                • 库存周期 3.8 个月（低于 5 年平均 4.5 个月）<br>
+                • 平均上市天数 21 天（去年 16 天）<br><br>
+                <strong>市场特征：</strong>优质房源仍获溢价，普通房源议价空间增大。
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>机构</th>
+                        <th>发布时间</th>
+                        <th>加州预测</th>
+                        <th>湾区预测</th>
+                        <th>南湾预测</th>
+                        <th>评级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Zillow</td><td>2026.01</td><td>+3%</td><td>+3~5%</td><td>+5~7%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>Redfin</td><td>2026.02</td><td>+2%</td><td>+2~4%</td><td>+4~6%</td><td><span class="agency-rating positive">谨慎乐观</span></td></tr>
+                    <tr><td>加州经济学家协会</td><td>2026.01</td><td>+2~3%</td><td>+2~3%</td><td>+3~4%</td><td><span class="agency-rating neutral">中性</span></td></tr>
+                    <tr><td>CCAR</td><td>2026.02</td><td>+3%</td><td>+3~4%</td><td>+4~5%</td><td><span class="agency-rating positive">看好</span></td></tr>
+                    <tr style="background:#f0fff4"><td><strong>平均</strong></td><td>-</td><td><strong>+2.5%</strong></td><td><strong>+2.5~4%</strong></td><td><strong>+4~5.5%</strong></td><td><strong>-</strong></td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 数据来源：各机构公开报告 | 南湾指圣克拉拉县（帕洛阿尔托、库比蒂诺等）
+            </div>
+        </div>
+    </div>
+    
+    <!-- 汇率分析 -->
+    <div id="exchange" class="section">
+        <h2 class="section-title">💷 美元汇率分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 7.25。美元 2023-2026 年升值约 8%，利好海外买家。美联储降息预期下，汇率或小幅回落。
+        </div>
+        
+        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="XE, Federal Reserve | A 级">
+            <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Federal Reserve</span><span class="data-reliability A">A 级</span></h4>
+            <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 USD/CNY 关键时点详解</h5>
+                <div class="data-legend-item"><strong>2023.01:</strong> 6.70 - 年初低点，人民币走强</div>
+                <div class="data-legend-item"><strong>2023.09:</strong> 7.30（高点） - 美联储加息，美元走强</div>
+                <div class="data-legend-item"><strong>2024.03:</strong> 7.22 - 高位震荡，中美利差</div>
+                <div class="data-legend-item"><strong>2024.09:</strong> 7.08 - 美联储降息预期，美元回落</div>
+                <div class="data-legend-item"><strong>2025.03:</strong> 7.18 - 降息周期开启，波动加剧</div>
+                <div class="data-legend-item"><strong>2025.09:</strong> 7.15 - 经济数据向好，美元稳定</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 7.28 - 年初波动，资金回流</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 7.25（当前） - 较 2023 年升值约 8%</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>汇率对购房成本影响测算</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>房产总价</th><th>2023 年汇率 (6.70)</th><th>当前汇率 (7.25)</th><th>增加成本</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>$100 万</td><td>¥670 万</td><td>¥725 万</td><td style="color:var(--accent)">¥55 万</td></tr>
+                    <tr><td>$300 万</td><td>¥2,010 万</td><td>¥2,175 万</td><td style="color:var(--accent)">¥165 万</td></tr>
+                    <tr><td>$500 万</td><td>¥3,350 万</td><td>¥3,625 万</td><td style="color:var(--accent)">¥275 万</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:16px;padding:12px;background:#fff5f5;border-radius:8px;font-size:13px">
+                <strong>💡 关键洞察：</strong> 2023-2026 年美元升值约 8%，中国买家购房成本增加。但相比伦敦（英镑 +12%）、香港（港币 -6%），美元仍属中等波动。建议分批购汇，平滑汇率风险。
+            </div>
+        </div>
+    </div>
+    
+    <!-- 持有成本 -->
+    <div id="cost" class="section">
+        <h2 class="section-title">💰 持有成本计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>以$300 万独立别墅为例，年持有成本约$6-9 万（含房产税、HOA、保险）。房产税约 1-1.5%/年，HOA$0-1,000/月（SFR 通常无）。租金回报率 3.8%，部分房源可租养贷。
+        </div>
+        
+        <div class="cost-calculator">
+            <h4>🧮 年度持有成本计算（美元）</h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万美元)</label><input type="number" id="sfPropertyPrice" value="300" onchange="calculateSFCost()"></div>
+                <div><label>房产类型</label><select id="sfPropertyType" onchange="calculateSFCost()"><option value="sfr">独立别墅（SFR）</option><option value="condo">Condo</option></select></div>
+                <div><label>月租金收入 (美元)</label><input type="number" id="sfRentIncome" value="12000" onchange="calculateSFCost()"></div>
+            </div>
+            <div class="cost-result">
+                <div class="item"><div class="label">年房产税</div><div class="value" id="sfPropertyTax">$4.5 万</div></div>
+                <div class="item"><div class="label">年 HOA+ 保险</div><div class="value" id="sfHOA">$1.8 万</div></div>
+                <div class="item"><div class="label">年持有成本</div><div class="value" id="sfTotalCost">$6.3 万</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>持有成本明细（$300 万 SFR）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>项目</th><th>金额 (美元/年)</th><th>说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>房产税</td><td>30,000-45,000</td><td>成交价×1-1.5%/年，加州 13 号提案</td></tr>
+                    <tr><td>HOA 物业费</td><td>0-12,000</td><td>SFR 通常无，Condo $600-1,200/月</td></tr>
+                    <tr><td>房屋保险</td><td>1,500-3,000</td><td>火险 + 责任险，约$125-250/月</td></tr>
+                    <tr><td>地震险</td><td>1,000-2,000</td><td>加州建议购买，非强制</td></tr>
+                    <tr><td>维修基金</td><td>3,000-6,000</td><td>建议预留，大修时使用</td></tr>
+                    <tr><td>物业管理</td><td>0-17,280</td><td>如出租，管理费约租金 8%+ 税</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>合计</strong></td><td><strong>$35,500-85,280</strong></td><td><strong>不含房贷</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>SFR vs Condo 持有成本对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>项目</th><th>SFR（独立别墅）</th><th>Condo（公寓）</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>房产税</td><td>成交价×1-1.5%/年</td><td>成交价×1-1.5%/年</td></tr>
+                    <tr><td>HOA 物业费</td><td>通常无</td><td>$600-1,200/月</td></tr>
+                    <tr><td>维护责任</td><td>业主自负</td><td>HOA 负责外部</td></tr>
+                    <tr><td>保险</td><td>$125-250/月</td><td>$50-100/月（HOA 有主险）</td></tr>
+                    <tr><td>隐私性</td><td>高</td><td>中等</td></tr>
+                    <tr><td>适合人群</td><td>家庭自住/投资</td><td>投资/单身</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 全球对比 -->
+    <div id="global" class="section">
+        <h2 class="section-title">🌍 全球热门城市对比</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>湾区房价全球第二高（¥8.5 万/㎡），仅次于香港（¥14.5 万/㎡）；租金收益率中等（3.8%）；伦敦教育资源第一；东京政策最友好；悉尼租金收益率最高（4.7%）。
+        </div>
+        
+        <div class="city-comparison">
+            <div class="city-card" data-title="旧金山湾区" data-content="科技中心，房价全球第二，税负重。优势：科技就业、教育、投资环境。劣势：房产税高、地震风险。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 旧金山</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥8.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.8%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.8</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">6.5</div></div>
+            </div>
+            <div class="city-card" data-title="伦敦" data-content="全球教育资源第一，租金收益率 4-5%。优势：教育、文化、金融中心。劣势：税负重、房价高。" data-source="Savills | B 级">
+                <div class="city-name">🇬🇧 伦敦</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">5.0%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">9.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+            <div class="city-card" data-title="香港" data-content="全球房价最高，税负最低。优势：低税、华人社会、金融中心。劣势：房价极高、政治风险。" data-source="中原物业 | B 级">
+                <div class="city-name">🇭🇰 香港</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.4%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
+            </div>
+            <div class="city-card" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="国土交通省 | A 级">
+                <div class="city-name">🇯🇵 东京</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.0</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">9.0</div></div>
+            </div>
+            <div class="city-card" data-title="洛杉矶" data-content="加州最大城市，租金收益率较好。优势：气候、科技产业、华人社区。劣势：地震风险、房产税。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 洛杉矶</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">7.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
+            </div>
+            <div class="city-card" data-title="悉尼" data-content="澳洲最大城市，租金收益率较高。优势：气候、教育、移民政策。劣势：房价高、距离远。" data-source="NAB | B 级">
+                <div class="city-name">🇦🇺 悉尼</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥7.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.7%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。鼠标悬停维度标签查看解释。" data-source="Savills, Knight Frank | B 级">
+            <h4>综合能力雷达图 <span class="data-source-tag">Savills</span><span class="data-reliability B">B 级</span></h4>
+            <div class="radar-container"><canvas id="radarChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 维度解释</h5>
+                <div class="data-legend-item"><strong>房价可负担性：</strong>基于房价收入比，分数越高越容易负担。伦敦 6 分。</div>
+                <div class="data-legend-item"><strong>租金收益率：</strong>年租金/房价，分数越高回报越好。悉尼 9 分。</div>
+                <div class="data-legend-item"><strong>教育资源：</strong>大学排名、中小学质量、国际学校。伦敦 9 分（牛津、剑桥）。</div>
+                <div class="data-legend-item"><strong>政策友好度：</strong>购房限制、税收、签证。东京 9 分。</div>
+                <div class="data-legend-item"><strong>市场流动性：</strong>交易活跃度、买卖周期。纽约 9 分。</div>
+                <div class="data-legend-item"><strong>汇率风险：</strong>货币稳定性。分数越高风险越低。</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const EXCHANGE_RATE = 7.25;
+        
+        // 旧金山湾区历史数据
+        const sfData = {
+            years: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+            volume: [75000, 42000, 48000, 50000, 55000, 60000, 62000, 65000, 68000, 70000, 72000, 70000, 62000, 68000, 70000, 65000, 68000, 70000],
+            medianPrice: [65, 55, 60, 65, 72, 85, 92, 98, 105, 115, 120, 125, 130, 155, 150, 140, 145, 150],
+            events: [
+                {year: '2008', text: '次贷危机'},
+                {year: '2012', text: '科技复苏'},
+                {year: '2020', text: '疫情爆发'},
+                {year: '2024', text: '降息预期'},
+                {year: '2026', text: 'AI 热潮'}
+            ]
+        };
+        
+        const sfDistricts = [
+            {name: '阿瑟顿', avgPrice: 700, lat: 37.4611, lng: -122.1975},
+            {name: '帕洛阿尔托', avgPrice: 420, lat: 37.4419, lng: -122.1430},
+            {name: '洛斯阿托斯', avgPrice: 420, lat: 37.3855, lng: -122.1147},
+            {name: '库比蒂诺', avgPrice: 340, lat: 37.3230, lng: -122.0322},
+            {name: '洛斯加托斯', avgPrice: 375, lat: 37.2358, lng: -121.9624},
+            {name: '萨拉托加', avgPrice: 340, lat: 37.2638, lng: -122.0230},
+            {name: '旧金山市', avgPrice: 200, lat: 37.7749, lng: -122.4194},
+            {name: '伯克利', avgPrice: 185, lat: 37.8715, lng: -122.2730},
+            {name: '奥克兰', avgPrice: 125, lat: 37.8044, lng: -122.2712},
+            {name: '纳帕谷', avgPrice: 160, lat: 38.2975, lng: -122.2869}
+        ];
+        
+        const sfMonthlyData = [
+            {month: '2025-01', sfrVol: 2100, sfrPrice: 162, condoVol: 900, condoPrice: 83},
+            {month: '2025-02', sfrVol: 1950, sfrPrice: 160, condoVol: 850, condoPrice: 82},
+            {month: '2025-03', sfrVol: 2300, sfrPrice: 164, condoVol: 980, condoPrice: 84},
+            {month: '2025-04', sfrVol: 2200, sfrPrice: 163, condoVol: 950, condoPrice: 84},
+            {month: '2025-05', sfrVol: 2250, sfrPrice: 164, condoVol: 970, condoPrice: 85},
+            {month: '2025-06', sfrVol: 2150, sfrPrice: 163, condoVol: 930, condoPrice: 84},
+            {month: '2025-07', sfrVol: 2300, sfrPrice: 165, condoVol: 1000, condoPrice: 86},
+            {month: '2025-08', sfrVol: 2100, sfrPrice: 164, condoVol: 920, condoPrice: 85},
+            {month: '2025-09', sfrVol: 2200, sfrPrice: 165, condoVol: 950, condoPrice: 86},
+            {month: '2025-10', sfrVol: 2150, sfrPrice: 165, condoVol: 930, condoPrice: 86},
+            {month: '2025-11', sfrVol: 2250, sfrPrice: 166, condoVol: 970, condoPrice: 87},
+            {month: '2025-12', sfrVol: 2300, sfrPrice: 167, condoVol: 1000, condoPrice: 87},
+            {month: '2026-01', sfrVol: 2250, sfrPrice: 167, condoVol: 980, condoPrice: 87},
+            {month: '2026-02', sfrVol: 2350, sfrPrice: 168, condoVol: 1020, condoPrice: 88},
+            {month: '2026-03', sfrVol: 2400, sfrPrice: 169, condoVol: 1050, condoPrice: 88}
+        ];
+        
+        const exchangeRates = [
+            {month: '2023-01', usdCny: 6.70},
+            {month: '2023-04', usdCny: 6.88},
+            {month: '2023-07', usdCny: 7.15},
+            {month: '2023-09', usdCny: 7.30},
+            {month: '2024-01', usdCny: 7.18},
+            {month: '2024-03', usdCny: 7.22},
+            {month: '2024-06', usdCny: 7.26},
+            {month: '2024-09', usdCny: 7.08},
+            {month: '2025-01', usdCny: 7.20},
+            {month: '2025-03', usdCny: 7.18},
+            {month: '2025-06', usdCny: 7.22},
+            {month: '2025-09', usdCny: 7.15},
+            {month: '2025-12', usdCny: 7.25},
+            {month: '2026-01', usdCny: 7.28},
+            {month: '2026-03', usdCny: 7.25},
+            {month: '2026-04', usdCny: 7.25}
+        ];
+        
+        let tooltipEl = null;
+        function showTooltip(e, title, content, source) {
+            if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
+            tooltipEl.innerHTML = `<div class="tooltip-title">${title}</div><div>${content}</div><div class="tooltip-source">📡 ${source}</div>`;
+            tooltipEl.style.display = 'block';
+            tooltipEl.style.left = (e.pageX + 15) + 'px';
+            tooltipEl.style.top = (e.pageY + 15) + 'px';
+        }
+        function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
+        
+        function togglePolicy(el) { el.classList.toggle('expanded'); }
+        
+        function initCharts() {
+            // 年度图表
+            new Chart(document.getElementById('yearlyChart'), {
+                type: 'bar',
+                data: { 
+                    labels: sfData.years, 
+                    datasets: [
+                        { 
+                            label: '成交量 (户)', 
+                            data: sfData.volume, 
+                            backgroundColor: 'rgba(0, 94, 184, 0.7)', 
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: '中位房价 (万美元)', 
+                            data: sfData.medianPrice, 
+                            type: 'line', 
+                            borderColor: '#005eb8', 
+                            backgroundColor: 'rgba(0, 94, 184, 0.15)',
+                            tension: 0.3, 
+                            fill: true,
+                            yAxisID: 'y1' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}}, 
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '中位房价 (万美元)'}} 
+                    }
+                }
+            });
+            
+            // 月度图表
+            new Chart(document.getElementById('monthlyChart'), {
+                type: 'line',
+                data: { 
+                    labels: sfMonthlyData.map(d => d.month), 
+                    datasets: [
+                        { 
+                            label: 'SFR 成交量', 
+                            data: sfMonthlyData.map(d => d.sfrVol), 
+                            borderColor: '#005eb8', 
+                            backgroundColor: 'rgba(0,94,184,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: 'Condo 成交量', 
+                            data: sfMonthlyData.map(d => d.condoVol), 
+                            borderColor: '#e31837', 
+                            backgroundColor: 'rgba(227,24,55,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { y: {beginAtZero: true} } 
+                }
+            });
+            
+            // 产品类型占比
+            new Chart(document.getElementById('propertyTypeChart'), {
+                type: 'doughnut',
+                data: { 
+                    labels: ['独立别墅（SFR）', 'Condo', 'Townhouse', '其他'], 
+                    datasets: [{ 
+                        data: [60, 25, 10, 5], 
+                        backgroundColor: ['#005eb8','#e31837','#228b22','#ff8c00'] 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            // 产品类型价格
+            new Chart(document.getElementById('propertyTypePriceChart'), {
+                type: 'bar',
+                data: { 
+                    labels: ['SFR', 'Condo', 'Townhouse'], 
+                    datasets: [{ 
+                        label: '中位价 (万美元)', 
+                        data: [165, 85, 110], 
+                        backgroundColor: '#e31837' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+            });
+            
+            // 中国买家占比
+            new Chart(document.getElementById('chinaBuyerChart'), {
+                type: 'line',
+                data: { 
+                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'], 
+                    datasets: [{ 
+                        label: '中国买家占比 (%)', 
+                        data: [12, 10, 8, 10, 12, 13, 15], 
+                        borderColor: '#e31837', 
+                        fill: true, 
+                        backgroundColor: 'rgba(227,24,55,0.1)', 
+                        tension: 0.3 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { y: {min: 0, max: 20, beginAtZero: true} } 
+                }
+            });
+            
+            // 汇率图表
+            new Chart(document.getElementById('exchangeRateChart'), {
+                type: 'line',
+                data: {
+                    labels: exchangeRates.map(d => d.month),
+                    datasets: [{
+                        label: 'USD/CNY',
+                        data: exchangeRates.map(d => d.usdCny),
+                        borderColor: '#005eb8',
+                        backgroundColor: 'rgba(0, 94, 184, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: false} }
+                }
+            });
+            
+            // 雷达图
+            new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: { 
+                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'], 
+                    datasets: [
+                        { 
+                            label: '旧金山', 
+                            data: [4,6,8.8,6.5,8,6], 
+                            borderColor: '#005eb8', 
+                            backgroundColor: 'rgba(0,94,184,0.2)' 
+                        },
+                        { 
+                            label: '伦敦', 
+                            data: [6,8,9.2,7,8,7], 
+                            borderColor: '#c53030', 
+                            backgroundColor: 'rgba(197,48,48,0.2)' 
+                        },
+                        { 
+                            label: '香港', 
+                            data: [3,4,8.5,8,9,5], 
+                            borderColor: '#9f7aea', 
+                            backgroundColor: 'rgba(159,122,234,0.2)' 
+                        },
+                        { 
+                            label: '东京', 
+                            data: [8,5,8,9,7,8], 
+                            borderColor: '#d69e2e', 
+                            backgroundColor: 'rgba(214,158,46,0.2)' 
+                        },
+                        { 
+                            label: '洛杉矶', 
+                            data: [6,8,7.5,6,8,6], 
+                            borderColor: '#38a169', 
+                            backgroundColor: 'rgba(56,161,105,0.2)' 
+                        },
+                        { 
+                            label: '悉尼', 
+                            data: [6,9,8.2,7,7,7], 
+                            borderColor: '#ed8936', 
+                            backgroundColor: 'rgba(237,137,54,0.2)' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        r: {min: 0, max: 10, ticks: {stepSize: 2}} 
+                    } 
+                }
+            });
+        }
+        
+        function initTables() {
+            document.querySelector('#monthlyTable tbody').innerHTML = sfMonthlyData.map(d => `
+                <tr>
+                    <td>${d.month}</td>
+                    <td>${d.sfrVol}</td>
+                    <td>$${d.sfrPrice}万</td>
+                    <td>${d.condoVol}</td>
+                    <td>$${d.condoPrice}万</td>
+                </tr>
+            `).join('');
+            
+            document.querySelector('#districtTable').innerHTML = sfDistricts.map(d => `
+                <tr>
+                    <td>${d.name}</td>
+                    <td>$${d.avgPrice}万</td>
+                    <td>+4%</td>
+                    <td>-</td>
+                </tr>
+            `).join('');
+        }
+        
+        function initMap() {
+            try {
+                const map = L.map('districtMap', {
+                    center: [37.5485, -122.3058],
+                    zoom: 9,
+                    zoomControl: true,
+                    scrollWheelZoom: false
+                });
+                
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    crossOrigin: true
+                }).addTo(map);
+                
+                sfDistricts.forEach(d => {
+                    const color = d.avgPrice > 500 ? '#e31837' : d.avgPrice > 300 ? '#ff8c00' : d.avgPrice > 180 ? '#228b22' : '#005eb8';
+                    L.circleMarker([d.lat, d.lng], { 
+                        radius: 16, 
+                        fillColor: color, 
+                        color: '#fff', 
+                        weight: 2, 
+                        fillOpacity: 0.8 
+                    })
+                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#e31837;font-weight:bold">$${d.avgPrice}万</span><br>¥${(d.avgPrice*7.25).toFixed(0)}万</div>`)
+                    .addTo(map);
+                });
+                
+                setTimeout(() => { map.invalidateSize(); }, 300);
+            } catch (e) {
+                console.error('地图加载失败:', e);
+            }
+        }
+        
+        function calculateSFCost() {
+            const price = parseFloat(document.getElementById('sfPropertyPrice').value) || 300;
+            const type = document.getElementById('sfPropertyType').value;
+            const rentIncome = parseFloat(document.getElementById('sfRentIncome').value) || 12000;
+            
+            // 房产税：成交价×1-1.5%/年
+            const propertyTax = price * 10000 * 0.0125;
+            // HOA：SFR 通常无，Condo $600-1,200/月
+            const hoaPerMonth = type === 'sfr' ? 0 : 900;
+            const hoa = hoaPerMonth * 12;
+            // 保险：约$125-250/月
+            const insurance = 180 * 12;
+            // 地震险：约$1,000-2,000/年
+            const earthquake = 1500;
+            
+            const totalCost = propertyTax + hoa + insurance + earthquake;
+            const coverage = (rentIncome * 12 / totalCost * 100);
+            
+            document.getElementById('sfPropertyTax').textContent = '$' + (propertyTax / 10000).toFixed(2) + '万';
+            document.getElementById('sfHOA').textContent = '$' + ((hoa + insurance + earthquake) / 10000).toFixed(2) + '万';
+            document.getElementById('sfTotalCost').textContent = '$' + (totalCost / 10000).toFixed(2) + '万';
+        }
+        
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function initTooltips() {
+            document.querySelectorAll('.stat-card, .card').forEach(el => {
+                if (el.dataset.title) {
+                    el.addEventListener('mouseenter', (e) => showTooltip(e, el.dataset.title, el.dataset.content, el.dataset.source));
+                    el.addEventListener('mousemove', (e) => { tooltipEl.style.left = (e.pageX + 15) + 'px'; tooltipEl.style.top = (e.pageY + 15) + 'px'; });
+                    el.addEventListener('mouseleave', hideTooltip);
+                }
+            });
+        }
+        
+        function downloadHTML() {
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = '旧金山湾区房产数据看板.html';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+            alert('✅ 下载已开始！\n\n文件：旧金山湾区房产数据看板.html\n\n如果浏览器阻止下载，请右键点击页面 → 另存为 → 选择 HTML 格式');
+        }
+        
+        function exportExcel() {
+            alert('🚧 数据导出功能开发中...');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            initTables();
+            initMap();
+            initTooltips();
+            calculateSFCost();
+            console.log('🌉 旧金山湾区房产数据看板加载完成 | 版本：v1.0');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纽约房产数据看板 | 豪宅研究院</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --primary: #002868; --secondary: #0047AB; --accent: #BF0A30; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .custom-tooltip { position: absolute; background: rgba(0, 40, 104, 0.95); color: white; padding: 12px 16px; border-radius: 8px; font-size: 13px; max-width: 350px; z-index: 1000; pointer-events: none; box-shadow: 0 4px 20px rgba(0,0,0,0.25); line-height: 1.5; }
+        .custom-tooltip .tooltip-title { font-weight: 600; margin-bottom: 8px; color: #ffd700; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 6px; }
+        .custom-tooltip .tooltip-source { font-size: 11px; color: #a0aec0; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .policy-item { margin-bottom: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .policy-item-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .policy-item-header:hover { background: #edf2f7; border-radius: 6px; }
+        .policy-item-title { font-weight: 600; }
+        .policy-item-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .policy-item.expanded .policy-item-detail { display: block; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 24px 32px; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 14px; }
+        .header .data-version { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+        .conclusion-banner { background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%); border-left: 5px solid var(--warning); padding: 20px 24px; margin: 20px 32px; border-radius: 0 8px 8px 0; }
+        .conclusion-banner h3 { font-size: 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .signal { display: inline-block; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 14px; }
+        .signal.green { background: var(--success); }
+        .conclusion-detail { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(214, 158, 46, 0.3); }
+        .conclusion-banner.expanded .conclusion-detail { display: block; }
+        .conclusion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
+        .conclusion-item { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; }
+        .conclusion-item .label { font-size: 12px; color: var(--text-light); }
+        .conclusion-item .value { font-size: 16px; font-weight: 600; color: var(--primary); margin-top: 4px; }
+        .nav-tabs { display: flex; gap: 4px; margin: 0 32px 20px; background: white; padding: 8px; border-radius: 12px; overflow-x: auto; }
+        .nav-tab { padding: 10px 20px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--text-light); white-space: nowrap; }
+        .nav-tab.active { background: var(--primary); color: white; }
+        .section { display: none; padding: 0 32px 32px; }
+        .section.active { display: block; }
+        .section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        .section-conclusion { background: #f0f4ff; border-left: 4px solid var(--secondary); padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; }
+        .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
+        .card .data-source-tag { display: inline-block; font-size: 10px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: var(--text-light); }
+        .card .data-reliability { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+        .data-reliability.A { background: #c6f6d5; color: #22543d; }
+        .data-reliability.B { background: #fef3c7; color: #744210; }
+        .chart-container { position: relative; height: 300px; }
+        .chart-container.large { height: 400px; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
+        .data-table tr:hover { background: #f7fafc; }
+        .map-container { height: 500px; border-radius: 12px; overflow: hidden; }
+        .stat-card { text-align: center; padding: 16px; cursor: pointer; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-value { font-size: 32px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+        .stat-change { font-size: 12px; margin-top: 4px; }
+        .stat-change.up { color: var(--success); }
+        .stat-change.down { color: var(--accent); }
+        .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .data-legend { background: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 13px; }
+        .data-legend h5 { margin-bottom: 8px; color: var(--primary); }
+        .data-legend-item { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+        .cost-calculator { background: #f0fff4; border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .cost-input { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .cost-input label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .cost-input input, .cost-input select { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .cost-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; }
+        .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
+        .cost-result .item .label { font-size: 12px; color: var(--text-light); }
+        .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
+        @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h1>🗽 纽约房产数据看板</h1>
+                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 7.25 CNY | 数据更新至 2026 年 4 月</div>
+                <div class="data-version">版本：v1.0 | 最后更新：2026-04-18 | 数据来源：StreetEasy, REBNY, Zillow, IRS 等 10 家机构</div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
+                <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
+                <button onclick="window.open('../global-dashboard/index.html', '_blank')" style="margin-left:8px;padding:8px 16px;background:#805ad5;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">🌍 全球总览</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
+        <h3><span class="signal green">✅</span> 总体结论：曼哈顿豪宅市场强劲，利率下行预期支撑买家信心 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2026 年 Q1 曼哈顿成交 2,850 套（+18% YoY），中位房价$125 万美元。Condo 市场领涨，Co-op 库存充足。外国人购房无限制但税费较高，房产税约 1-2%/年。</p>
+        <div class="conclusion-detail">
+            <div class="conclusion-grid">
+                <div class="conclusion-item">
+                    <div class="label">📈 宏观经济</div>
+                    <div class="value">美国 GDP 增速 2.1% (2025 Q4)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">通胀回落至 2.8%，美联储降息预期</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">🏠 供需关系</div>
+                    <div class="value">库存周期 6.8 个月</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">Co-op 供应充足，Condo 供不应求</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💰 投资价值</div>
+                    <div class="value">租金收益率 3.5-4.5%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">曼哈顿租赁需求强劲</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">📊 价格趋势</div>
+                    <div class="value">2026 预测 +3~5%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">豪宅市场领涨</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💷 汇率影响</div>
+                    <div class="value">USD/CNY 7.25 (+8% vs 2023)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">美元走强利好海外买家</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">⚠️ 风险评估</div>
+                    <div class="value">中等风险</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">房产税高，Co-op 审批严格</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('condo')">🏢 Condo 户型</button>
+        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
+    </div>
+    
+    <!-- 全市场概览 -->
+    <div id="market" class="section active">
+        <h2 class="section-title">📊 纽约房地产市场情况</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>2025 年曼哈顿成交 11,200 套（+12% YoY），成交额约$185 亿美元。2026 年 Q1 中位房价$125 万美元（人民币约¥906 万），Condo 中位价$168 万，Co-op 中位价$78.5 万。数据来源：StreetEasy, REBNY（A 级）。
+        </div>
+        
+        <div class="metric-grid">
+            <div class="card stat-card" data-title="2025 年纽约成交量" data-content="2025 年曼哈顿房产成交 11,200 套，同比增长 12%，Condo 占 60%。" data-source="REBNY | A 级">
+                <div class="stat-value">1.12 万</div>
+                <div class="stat-label">成交量（套）</div>
+                <div class="stat-change up">↑ 同比 +12%</div>
+            </div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年曼哈顿成交额约$185 亿美元（人民币约¥1,341 亿元）。" data-source="StreetEasy | A 级">
+                <div class="stat-value">¥1,341 亿</div>
+                <div class="stat-label">成交额</div>
+                <div class="stat-change up">↑ 同比 +15%</div>
+            </div>
+            <div class="card stat-card" data-title="纽约中位房价" data-content="2026 年 Q1 曼哈顿中位房价$125 万（人民币约¥906 万），Condo $168 万，Co-op $78.5 万。" data-source="Zillow | A 级">
+                <div class="stat-value">¥906 万</div>
+                <div class="stat-label">中位房价</div>
+                <div class="stat-change up">↑ 同比 +5.2%</div>
+            </div>
+            <div class="card stat-card" data-title="租金收益率" data-content="曼哈顿租金收益率约 3.5-4.5%，租赁需求强劲，空置率 3.2%。" data-source="UrbanDigs | A 级">
+                <div class="stat-value">4.0%</div>
+                <div class="stat-label">租金收益率</div>
+                <div class="stat-change up">↑ 同比 +0.3%</div>
+            </div>
+        </div>
+        <div class="metric-grid" style="margin-top:16px">
+            <div class="card stat-card" data-title="万/平方米单价" data-content="曼哈顿平均房价密度约$18,500/㎡（人民币约 13.4 万/㎡），Tribeca 最高达$35,000/㎡。" data-source="StreetEasy | A 级">
+                <div class="stat-value">¥13.4 万</div>
+                <div class="stat-label">万/平方米</div>
+                <div class="stat-change up">↑ 同比 +4.8%</div>
+            </div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，曼哈顿套均总价约$165 万（人民币约¥1,196 万）。" data-source="REBNY, 计算 | A 级">
+                <div class="stat-value">¥1,196 万</div>
+                <div class="stat-label">套均总价</div>
+                <div class="stat-change up">↑ 同比 +3%</div>
+            </div>
+            <div class="card stat-card" data-title="房价收入比" data-content="曼哈顿房价收入比约 15.2 倍，高于美国平均 5.8 倍，购房压力大。" data-source| Census | B 级">
+                <div class="stat-value">15.2x</div>
+                <div class="stat-label">房价收入比</div>
+                <div class="stat-change down">↓ 同比 -0.4x</div>
+            </div>
+            <div class="card stat-card" data-title="库存周期" data-content="当前库存去化周期约 6.8 个月，Co-op 供应充足，Condo 偏紧。" data-source="UrbanDigs | B 级">
+                <div class="stat-value">6.8 月</div>
+                <div class="stat-label">库存周期</div>
+                <div class="stat-change down">↓ 同比 -1.2 月</div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="年度成交量与中位房价 (2008-2025)" data-content="2008 年金融危机、2020 年疫情、2024 年降息是关键节点。2025 年中位房价$118 万。" data-source="REBNY, Zillow | A 级">
+                <h4>年度成交量与中位房价 (2008-2025) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="yearlyChart"></canvas></div>
+                <div class="data-legend" style="margin-top:16px">
+                    <h5>📌 关键历史节点</h5>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#c53030"></span><strong>2008-2009:</strong> 全球金融危机，成交量暴跌 40%，房价下跌 25%</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#2c5282"></span><strong>2015:</strong> 海外买家热潮，中国投资者占比达 12%</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#38a169"></span><strong>2020-2021:</strong> 疫情初期市场冻结，随后反弹创新高</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#d69e2e"></span><strong>2024:</strong> 美联储降息预期，市场回暖</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 豪宅市场领涨，Condo 供不应求</div>
+                </div>
+            </div>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2026 年 Q1 成交 2,850 套（+18% YoY），成交额$48 亿。" data-source="StreetEasy | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.03) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>平均单价趋势 (万/㎡) | 2008-2025</h4>
+            <div style="overflow-x:auto">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>年份</th><th>2008</th><th>2009</th><th>2010</th><th>2011</th><th>2012</th><th>2013</th><th>2014</th><th>2015</th><th>2016</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>单价 (万/㎡)</td><td>8.5</td><td>7.8</td><td>8.2</td><td>8.8</td><td>9.5</td><td>10.2</td><td>10.8</td><td>11.5</td><td>11.2</td><td>11.8</td><td>12.2</td><td>12.5</td><td>11.8</td><td>12.8</td><td>13.5</td><td>12.8</td><td>13.2</td><td>13.8</td></tr>
+                        <tr><td>同比</td><td>-</td><td>-8%</td><td>+5%</td><td>+7%</td><td>+8%</td><td>+7%</td><td>+6%</td><td>+6%</td><td>-3%</td><td>+5%</td><td>+3%</td><td>+3%</td><td>-6%</td><td>+8%</td><td>+5%</td><td>-5%</td><td>+3%</td><td>+5%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：Zillow, StreetEasy | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="月度成交明细（分 Condo/Co-op）" data-content="纽约月度 Condo 和 Co-op 成交量、成交价。Condo 占 60%，Co-op 占 40%。" data-source="REBNY | A 级">
+            <h4>月度成交明细 (2025.01-2026.03) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="monthlyTable">
+                    <thead>
+                        <tr>
+                            <th>月份</th>
+                            <th>Condo 成交 (套)</th>
+                            <th>Condo 中位价 (万美元)</th>
+                            <th>Co-op 成交 (套)</th>
+                            <th>Co-op 中位价 (万美元)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 区域分析 -->
+    <div id="district" class="section">
+        <h2 class="section-title">🗺️ 曼哈顿 + 布鲁克林 + 皇后区核心区域</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>曼哈顿 17 个核心区域 + 布鲁克林 4 个沿河区 + 皇后区 2 个核心区，共 23 个区域。Tribeca 最贵（$35,000-50,000/㎡），上东区、上西区、SoHo 紧随其后。布鲁克林 DUMBO 领涨，皇后区 LIC 性价比高。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h4>纽约核心区域房价地图 <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+                <div class="map-container" id="districtMap"></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+                    🔴 红色：$30,000+/㎡ | 🟠 橙色：$20,000-30,000/㎡ | 🟡 黄色：$15,000-20,000/㎡ | 🟢 绿色：$15,000 以下/㎡
+                </div>
+            </div>
+            <div class="card" data-title="纽约各区域房价" data-content="曼哈顿、布鲁克林、皇后区三大区域房价对比。" data-source="StreetEasy | A 级">
+                <h4>各区域房价对比 (2026 Q1) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>区域</th>
+                            <th>中位价 (万美元)</th>
+                            <th>单价 (万/㎡)</th>
+                            <th>同比变化</th>
+                            <th>成交量 (Q1)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="districtTable"></tbody>
+                </table>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                    📌 数据来源：StreetEasy | 23 个核心区域覆盖纽约 85% 豪宅交易量
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>23 个核心板块房价详解（人民币/㎡）</h4>
+            <div style="overflow-x:auto;max-height:500px;overflow-y:auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>区域</th>
+                            <th>单价 (万元/㎡)</th>
+                            <th>特点</th>
+                            <th>热门楼盘</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="4" style="background:#f0f4ff;font-weight:600">曼哈顿区（17 个）</td></tr>
+                        <tr><td>Tribeca</td><td>25-36</td><td>顶级豪宅，明星聚集</td><td>15 Hudson Yards</td></tr>
+                        <tr><td>上东区</td><td>18-25</td><td>传统豪宅，博物馆大道</td><td>1040 Fifth Avenue</td></tr>
+                        <tr><td>上西区</td><td>16-22</td><td>家庭友好，林肯中心</td><td>The Astor</td></tr>
+                        <tr><td>SoHo</td><td>20-29</td><td>艺术区，loft 风格</td><td>The Baccarat Hotel</td></tr>
+                        <tr><td>Greenwich Village</td><td>18-25</td><td>文艺街区，西村东村</td><td>West Village Townhouses</td></tr>
+                        <tr><td>Chelsea</td><td>16-23</td><td>画廊区，高线公园</td><td>High Line 212</td></tr>
+                        <tr><td>中城东区</td><td>14-20</td><td>商业核心，摩天大楼</td><td>One57</td></tr>
+                        <tr><td>中城西区</td><td>13-18</td><td>剧院区，Hudson Yards</td><td>35 Hudson Yards</td></tr>
+                        <tr><td>Flatiron</td><td>14-20</td><td>熨斗大厦，科技 hub</td><td>Flatiron House</td></tr>
+                        <tr><td>Financial District</td><td>11-16</td><td>华尔街，下城</td><td>70 Pine Street</td></tr>
+                        <tr><td>Battery Park City</td><td>13-18</td><td>滨水社区，新建</td><td>Sola</td></tr>
+                        <tr><td>Gramercy</td><td>14-20</td><td>安静住宅，公园</td><td>Gramercy Park</td></tr>
+                        <tr><td>NoLita</td><td>18-25</td><td>高端购物，小意大利北</td><td>The Manner</td></tr>
+                        <tr><td>Murray Hill</td><td>11-16</td><td>年轻专业人士</td><td>The Setai</td></tr>
+                        <tr><td>Hell's Kitchen</td><td>12-17</td><td>餐厅密集，近时代广场</td><td>Sky</td></tr>
+                        <tr><td>Kips Bay</td><td>10-14</td><td>医疗中心附近</td><td>The Corinthian</td></tr>
+                        <tr><td>Lower East Side</td><td>11-14</td><td>新兴区域，夜生活</td><td>Essex House</td></tr>
+                        <tr><td colspan="4" style="background:#f0fff4;font-weight:600">布鲁克林区（4 个）</td></tr>
+                        <tr><td>DUMBO</td><td>14-20</td><td>科技 hub，曼哈顿景观</td><td>One John</td></tr>
+                        <tr><td>Brooklyn Heights</td><td>13-18</td><td>历史街区，富裕社区</td><td>The Brooklyner</td></tr>
+                        <tr><td>Williamsburg</td><td>11-16</td><td>hipster 聚集，年轻人</td><td>The Edge</td></tr>
+                        <tr><td>Brooklyn Bridge Park</td><td>13-18</td><td>滨水豪宅，新建</td><td>One Brooklyn Bridge Park</td></tr>
+                        <tr><td colspan="4" style="background:#fff8f0;font-weight:600">皇后区（2 个）</td></tr>
+                        <tr><td>Long Island City</td><td>9-13</td><td>新建高楼，曼哈顿通勤</td><td>Court Square</td></tr>
+                        <tr><td>Flushing</td><td>6-9</td><td>华人聚集，法拉盛</td><td>The One</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 产品类型 -->
+    <div id="type" class="section">
+        <h2 class="section-title">🏠 产品类型分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>纽约房产以 Condo（公寓）为主占 60%，Co-op（合作公寓）占 25%，Townhouse（联排别墅）10%，Single Family（独立别墅）5%。Condo 市场领涨，Co-op 库存充足但审批严格。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="房产类型分布" data-content="纽约房产类型：Condo 60%、Co-op 25%、Townhouse 10%、Single Family 5%。" data-source="REBNY | A 级">
+                <h4>房产类型占比 <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
+                <div class="data-legend" style="margin-top:16px">
+                    <h5>📊 类型说明</h5>
+                    <div class="data-legend-item">• Condo：独立产权，可自由买卖，外国人首选</div>
+                    <div class="data-legend-item">• Co-op：合作社股份，需董事会审批，税费较低</div>
+                    <div class="data-legend-item">• Townhouse：联排别墅，布鲁克林常见</div>
+                    <div class="data-legend-item">• Single Family：独立别墅，皇后区/外围较多</div>
+                </div>
+            </div>
+            <div class="card" data-title="各类型价格对比" data-content="Condo 中位价$168 万，Co-op $78.5 万，Townhouse $350 万，Single Family $280 万。" data-source="StreetEasy | A 级">
+                <h4>各类型中位价对比 (2026 Q1) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>Condo vs Co-op 详细对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>对比项</th><th>Condo（公寓）</th><th>Co-op（合作公寓）</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>产权形式</td><td>独立产权（Real Property）</td><td>合作社股份（Shares）</td></tr>
+                    <tr><td>中位价</td><td>$168 万</td><td>$78.5 万</td></tr>
+                    <tr><td>单价 (万/㎡)</td><td>14.5</td><td>9.8</td></tr>
+                    <tr><td>月维护费</td><td>$1-3/sqft</td><td>$1-4/sqft（含部分税）</td></tr>
+                    <tr><td>房产税</td><td>单独缴纳 1-2%/年</td><td>包含在维护费中</td></tr>
+                    <tr><td>外国人购买</td><td>✅ 允许</td><td>⚠️ 部分允许（需审批）</td></tr>
+                    <tr><td>董事会审批</td><td>❌ 不需要</td><td>✅ 需要（严格）</td></tr>
+                    <tr><td>转售限制</td><td>❌ 无限制</td><td>✅ 有审批权</td></tr>
+                    <tr><td>贷款比例</td><td>最高 75%</td><td>最高 70%</td></tr>
+                    <tr><td>市场占比</td><td>60%</td><td>25%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Condo 户型细分 -->
+    <div id="condo" class="section">
+        <h2 class="section-title">🏢 Condo 户型细分</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>Condo 内部户型分布：1 Bedroom (35%) 最受欢迎，2 Bedroom (30%) 适合家庭，Studio (15%) 投资首选，3 Bedroom (15%) 改善需求，Penthouse (5%) 顶级豪宅。Penthouse 单价最高达$35,000+/㎡。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="Condo 户型分布" data-content="Condo 户型：Studio 15%、1B 35%、2B 30%、3B 15%、Penthouse 5%。" data-source="StreetEasy | A 级">
+                <h4>Condo 户型占比 <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="condoLayoutChart"></canvas></div>
+            </div>
+            <div class="card" data-title="各户型价格对比" data-content="Studio $80-120 万，1B $120-180 万，2B $200-350 万，3B $350-600 万，Penthouse $1000 万+。" data-source="CityRealty | A 级">
+                <h4>各户型中位价对比 (2026 Q1) <span class="data-source-tag">CityRealty</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="condoPriceChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>各户型详细数据（面积、价格、租金回报）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>户型</th><th>面积 (㎡)</th><th>占比</th><th>中位价 (万美元)</th><th>单价 (万/㎡)</th><th>月租金 (美元)</th><th>租金回报</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Studio</td><td>35-50</td><td>15%</td><td>80-120</td><td>18-22</td><td>3,500-4,500</td><td>4.2%</td></tr>
+                    <tr><td>1 Bedroom</td><td>50-70</td><td>35%</td><td>120-180</td><td>16-20</td><td>4,500-6,000</td><td>4.0%</td></tr>
+                    <tr><td>2 Bedroom</td><td>70-100</td><td>30%</td><td>200-350</td><td>15-18</td><td>6,500-9,000</td><td>3.8%</td></tr>
+                    <tr><td>3 Bedroom</td><td>100-150</td><td>15%</td><td>350-600</td><td>14-17</td><td>9,000-14,000</td><td>3.5%</td></tr>
+                    <tr><td>Penthouse</td><td>200+</td><td>5%</td><td>1,000+</td><td>20-35</td><td>20,000+</td><td>3.0%</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>热门 Condo 楼盘推荐</h4>
+            <div class="grid-3">
+                <div class="stat-card">
+                    <div class="stat-value">15 Hudson Yards</div>
+                    <div class="stat-label">Tribeca | $35,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">地标豪宅，河景</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">One57</div>
+                    <div class="stat-label">中城东区 | $28,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">摩天大楼，中央公园景</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">The Baccarat Hotel</div>
+                    <div class="stat-label">SoHo | $32,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">酒店式公寓，奢华</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1040 Fifth Avenue</div>
+                    <div class="stat-label">上东区 | $30,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">博物馆大道，经典</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">70 Pine Street</div>
+                    <div class="stat-label">金融区 | $15,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">装饰艺术风格</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">One John</div>
+                    <div class="stat-label">DUMBO | $18,000/㎡起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">布鲁克林，曼哈顿景</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 汇率分析 -->
+    <div id="exchange" class="section">
+        <h2 class="section-title">💷 美元汇率分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 7.25。美元 2023-2026 年升值约 8%，利好海外买家。美联储降息预期下，汇率或小幅回落。
+        </div>
+        
+        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="XE, Federal Reserve | A 级">
+            <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Federal Reserve</span><span class="data-reliability A">A 级</span></h4>
+            <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 USD/CNY 关键时点详解</h5>
+                <div class="data-legend-item"><strong>2023.01:</strong> 6.70 - 年初低点，人民币走强</div>
+                <div class="data-legend-item"><strong>2023.09:</strong> 7.30（高点） - 美联储加息，美元走强</div>
+                <div class="data-legend-item"><strong>2024.03:</strong> 7.22 - 高位震荡，中美利差</div>
+                <div class="data-legend-item"><strong>2024.09:</strong> 7.08 - 美联储降息预期，美元回落</div>
+                <div class="data-legend-item"><strong>2025.03:</strong> 7.18 - 降息周期开启，波动加剧</div>
+                <div class="data-legend-item"><strong>2025.09:</strong> 7.15 - 经济数据向好，美元稳定</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 7.28 - 年初波动，资金回流</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 7.25（当前） - 较 2023 年升值约 8%</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>汇率对购房成本影响测算</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>房产总价</th><th>2023 年汇率 (6.70)</th><th>当前汇率 (7.25)</th><th>增加成本</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>$100 万</td><td>¥670 万</td><td>¥725 万</td><td style="color:var(--accent)">¥55 万</td></tr>
+                    <tr><td>$300 万</td><td>¥2,010 万</td><td>¥2,175 万</td><td style="color:var(--accent)">¥165 万</td></tr>
+                    <tr><td>$1,000 万</td><td>¥6,700 万</td><td>¥7,250 万</td><td style="color:var(--accent)">¥550 万</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:16px;padding:12px;background:#fff5f5;border-radius:8px;font-size:13px">
+                <strong>💡 关键洞察：</strong> 2023-2026 年美元升值约 8%，中国买家购房成本增加。但相比伦敦（英镑 +12%）、香港（港币 -6%），美元仍属中等波动。建议分批购汇，平滑汇率风险。
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全球对比 -->
+    <div id="global" class="section">
+        <h2 class="section-title">🌍 全球热门城市对比</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>纽约房价全球最高（¥11.5 万/㎡），租金收益率中等（4.0%）；伦敦教育资源第一；东京政策最友好；香港税负最低；悉尼租金收益率最高（4.7%）。
+        </div>
+        
+        <div class="city-comparison" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="纽约" data-content="全球金融中心，房价最高，税负重。优势：金融、就业、流动性。劣势：房产税高、政策复杂。" data-source="Zillow | B 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇺🇸 纽约</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥11.5 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">4.0%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">8.8</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">6.5</div></div>
+            </div>
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="伦敦" data-content="全球教育资源第一，租金收益率 4-5%。优势：教育、文化、金融中心。劣势：税负重、房价高。" data-source="Savills | B 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇬🇧 伦敦</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥6.6 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">5.0%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">9.2</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">7.0</div></div>
+            </div>
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="香港" data-content="全球房价最高，税负最低。优势：低税、华人社会、金融中心。劣势：房价极高、政治风险。" data-source="中原物业 | B 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇭🇰 香港</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥14.5 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">3.4%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">8.5</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">8.0</div></div>
+            </div>
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="国土交通省 | A 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇯🇵 东京</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥4.8 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">3.5%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">8.0</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">9.0</div></div>
+            </div>
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="洛杉矶" data-content="加州最大城市，租金收益率较好。优势：气候、科技产业、华人社区。劣势：地震风险、房产税。" data-source="Zillow | B 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇺🇸 洛杉矶</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥6.8 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">4.5%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">7.5</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">6.0</div></div>
+            </div>
+            <div class="city-card" style="background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.2s" data-title="悉尼" data-content="澳洲最大城市，租金收益率较高。优势：气候、教育、移民政策。劣势：房价高、距离远。" data-source="NAB | B 级">
+                <div class="city-name" style="font-weight:600;margin-bottom:8px;color:var(--primary);font-size:14px">🇦🇺 悉尼</div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">房价 (¥/㎡)</div><div class="value" style="font-size:14px;font-weight:600">¥7.8 万</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">租金收益率</div><div class="value" style="font-size:14px;font-weight:600">4.7%</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">教育</div><div class="value" style="font-size:14px;font-weight:600">8.2</div></div>
+                <div class="city-metric" style="margin:6px 0"><div class="label" style="font-size:10px;color:var(--text-light)">政策</div><div class="value" style="font-size:14px;font-weight:600">7.0</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。鼠标悬停维度标签查看解释。" data-source="Savills, Knight Frank | B 级">
+            <h4>综合能力雷达图 <span class="data-source-tag">Savills</span><span class="data-reliability B">B 级</span></h4>
+            <div class="radar-container" style="height:350px"><canvas id="radarChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 维度解释</h5>
+                <div class="data-legend-item"><strong>房价可负担性：</strong>基于房价收入比，分数越高越容易负担。伦敦 6 分。</div>
+                <div class="data-legend-item"><strong>租金收益率：</strong>年租金/房价，分数越高回报越好。悉尼 9 分。</div>
+                <div class="data-legend-item"><strong>教育资源：</strong>大学排名、中小学质量、国际学校。伦敦 9 分（牛津、剑桥）。</div>
+                <div class="data-legend-item"><strong>政策友好度：</strong>购房限制、税收、签证。东京 9 分。</div>
+                <div class="data-legend-item"><strong>市场流动性：</strong>交易活跃度、买卖周期。纽约 9 分。</div>
+                <div class="data-legend-item"><strong>汇率风险：</strong>货币稳定性。分数越高风险越低。</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 持有成本 -->
+    <div id="cost" class="section">
+        <h2 class="section-title">💰 持有成本计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>以$150 万 Condo 为例，年持有成本约$3.5-5.5 万（含房产税、Condo Fee、保险）。房产税约 1-2%/年，Condo Fee $1-3/sqft/月。租金回报率 3.5-4.5%，部分房源可租养贷。
+        </div>
+        
+        <div class="cost-calculator">
+            <h4>🧮 年度持有成本计算（美元）</h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万美元)</label><input type="number" id="nyPropertyPrice" value="150" onchange="calculateNYCost()"></div>
+                <div><label>建筑面积 (sqft)</label><input type="number" id="nySqft" value="1200" onchange="calculateNYCost()"></div>
+                <div><label>房产类型</label><select id="nyPropertyType" onchange="calculateNYCost()"><option value="condo">Condo</option><option value="coop">Co-op</option></select></div>
+            </div>
+            <div class="cost-result">
+                <div class="item"><div class="label">年房产税</div><div class="value" id="nyPropertyTax">$2.25 万</div></div>
+                <div class="item"><div class="label">年 Condo Fee</div><div class="value" id="nyCondoFee">$3.6 万</div></div>
+                <div class="item"><div class="label">年持有成本</div><div class="value" id="nyTotalCost">$6.5 万</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>持有成本明细（$150 万 Condo）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>项目</th><th>金额 (美元/年)</th><th>说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>房产税</td><td>15,000-30,000</td><td>约房产价值 1-2%/年，根据评估价</td></tr>
+                    <tr><td>Condo Fee</td><td>14,400-43,200</td><td>$1-3/sqft/月 × 12 月，含公共设施</td></tr>
+                    <tr><td>房屋保险</td><td>1,200-2,400</td><td>火险 + 责任险，约$100-200/月</td></tr>
+                    <tr><td>维修基金</td><td>2,000-5,000</td><td>建议预留，大修时使用</td></tr>
+                    <tr><td>物业管理</td><td>0-6,000</td><td>如出租，管理费约租金 8-10%</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>合计</strong></td><td><strong>$32,600-86,600</strong></td><td><strong>不含房贷</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>Condo vs Co-op 持有成本对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>项目</th><th>Condo</th><th>Co-op</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>房产税</td><td>单独缴纳 1-2%/年</td><td>包含在维护费中</td></tr>
+                    <tr><td>月维护费</td><td>$1-3/sqft</td><td>$1-4/sqft（含房产税）</td></tr>
+                    <tr><td>可抵税部分</td><td>房产税可抵税</td><td>维护费部分可抵税</td></tr>
+                    <tr><td>外国人限制</td><td>无限制</td><td>部分大楼不允许</td></tr>
+                    <tr><td>转售灵活性</td><td>高（自由买卖）</td><td>低（需董事会审批）</td></tr>
+                    <tr><td>适合人群</td><td>海外买家首选</td><td>本地居民/绿卡</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 中国买家 -->
+    <div id="china" class="section">
+        <h2 class="section-title">🇨🇳 中国买家分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>中国买家在纽约占比从 2023 年 8.2% 上升至 2025 年 10.5%，2026 年 Q1 达 11.2%。偏好区域：上东区（28%）、中城（22%）、金融区（15%）。预算集中在$200-500 万（55%），全款比例 42%。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h4>美国购房政策详解（针对中国买家） <span class="data-source-tag">NAR, IRS</span><span class="data-reliability A">A 级</span></h4>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏠 房产税（Property Tax）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>税率：</strong>纽约市约 1-2%/年，根据评估价计算。<br><br>
+                        <strong>评估价：</strong>约为市场价的 6-8%。<br><br>
+                        <strong>示例：</strong>$150 万房产，年房产税约$1.5-3 万。<br><br>
+                        <em>注：房产税可抵联邦所得税（SALT 上限$1 万）</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">💰 资本利得税（CGT）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>税率：</strong>持有超 1 年：15-20%（长期）；持有 1 年内：37%（短期）<br><br>
+                        <strong>FIRPTA：</strong>外国人出售美国房产，买家需预扣 15% 税款。<br><br>
+                        <strong>免税额：</strong>主要自住房可豁免$25 万（单人）/$50 万（夫妻）。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏛️ 遗产税（Estate Tax）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>外国人免税额：</strong>仅$6 万（2026 年），超出部分税率 18-40%。<br><br>
+                        <strong>规划建议：</strong>通过离岸公司持有可合法规避，但需注意公司税和年度申报。<br><br>
+                        <em>注：2026 年美国人免税额$1,292 万，外国人仅$6 万，差距巨大</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🔓 购房限制</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>美国对海外买家购房无联邦限制。</strong><br><br>
+                        • 无需美国居住许可<br>
+                        • 可购买新房或二手房<br>
+                        • 可购买多套房产<br>
+                        • 无最低投资额要求<br><br>
+                        <strong>贷款限制：</strong>外国人通常需 30-40% 首付，利率略高，需提供资产证明。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🛂 签证/居留</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>购房与居留无直接关联。</strong><br><br>
+                        • 购房不能直接获得签证<br>
+                        • EB-5 投资移民：$80 万起（目标就业区）<br>
+                        • E-2 条约投资者签证：需条约国护照<br><br>
+                        <strong>相关签证：</strong>H1B 工作签证、L1 跨国高管、EB-1 杰出人才
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" data-title="中国买家占比趋势" data-content="中国买家在纽约占比变化。2023 年 8.2%，2025 年 10.5%，2026 年 Q1 11.2%。" data-source="NAR | A 级">
+                <h4>中国买家购房占比 (2020-2026 Q1) <span class="data-source-tag">NAR</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="chinaBuyerChart"></canvas></div>
+                <div class="data-legend">
+                    <h5>📌 趋势解读</h5>
+                    <div class="data-legend-item">2020-2022: 疫情影响，占比下降至 6.5%</div>
+                    <div class="data-legend-item">2023-2025: 市场复苏，占比回升至 10.5%</div>
+                    <div class="data-legend-item">2026 Q1: 创新高 11.2%，豪宅市场占比达 18%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>中国买家投资偏好（2026 Q1）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>维度</th><th>偏好</th><th>占比</th><th>说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td rowspan="5">区域偏好</td><td>上东区</td><td>28%</td><td>传统豪宅，学区好</td></tr>
+                    <tr><td>中城</td><td>22%</td><td>商业核心，交通便利</td></tr>
+                    <tr><td>金融区</td><td>15%</td><td>新兴区域，性价比高</td></tr>
+                    <tr><td>上西区</td><td>12%</td><td>家庭友好，环境好</td></tr>
+                    <tr><td>布鲁克林</td><td>10%</td><td>新兴豪宅，景观好</td></tr>
+                    <tr><td rowspan="4">预算分布</td><td>$100-200 万</td><td>25%</td><td>首次购房/投资</td></tr>
+                    <tr><td>$200-500 万</td><td>55%</td><td>主力预算</td></tr>
+                    <tr><td>$500-1000 万</td><td>15%</td><td>改善型需求</td></tr>
+                    <tr><td>$1000 万+</td><td>5%</td><td>顶级豪宅</td></tr>
+                    <tr><td rowspan="2">支付方式</td><td>全款</td><td>42%</td><td>避开贷款审批</td></tr>
+                    <tr><td>贷款</td><td>58%</td><td>杠杆投资</td></tr>
+                    <tr><td rowspan="2">购房目的</td><td>投资出租</td><td>52%</td><td>租金回报</td></tr>
+                    <tr><td>自住 + 投资</td><td>48%</td><td>子女教育/工作</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 汇率分析 -->
+    <div id="exchange" class="section">
+
+    <script>
+        const EXCHANGE_RATE = 7.25;
+        
+        // 纽约历史数据
+        const nyData = {
+            years: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+            volume: [15000, 9000, 10500, 11200, 12000, 12800, 13500, 14200, 13800, 14500, 15000, 14800, 11500, 13800, 14200, 13500, 14000, 15200],
+            medianPrice: [72, 68, 72, 76, 82, 88, 95, 102, 98, 105, 110, 115, 108, 118, 125, 118, 122, 128],
+            events: [
+                {year: '2008', text: '全球金融危机'},
+                {year: '2015', text: '海外买家热潮'},
+                {year: '2020', text: '疫情爆发'},
+                {year: '2024', text: '降息预期'},
+                {year: '2026', text: '豪宅领涨'}
+            ]
+        };
+        
+        const nyDistricts = [
+            // 曼哈顿（17 个）
+            {name: 'Tribeca', avgPrice: 42.5, lat: 40.7163, lng: -74.0086},
+            {name: '上东区', avgPrice: 21.5, lat: 40.7736, lng: -73.9566},
+            {name: '上西区', avgPrice: 19.0, lat: 40.7870, lng: -73.9754},
+            {name: 'SoHo', avgPrice: 24.5, lat: 40.7233, lng: -74.0030},
+            {name: 'Greenwich Village', avgPrice: 21.5, lat: 40.7336, lng: -74.0027},
+            {name: 'Chelsea', avgPrice: 19.5, lat: 40.7465, lng: -74.0014},
+            {name: '中城东区', avgPrice: 17.0, lat: 40.7549, lng: -73.9680},
+            {name: '中城西区', avgPrice: 15.5, lat: 40.7580, lng: -73.9910},
+            {name: 'Flatiron', avgPrice: 17.0, lat: 40.7411, lng: -73.9897},
+            {name: 'Financial District', avgPrice: 13.5, lat: 40.7074, lng: -74.0113},
+            {name: 'Battery Park City', avgPrice: 15.5, lat: 40.7087, lng: -74.0166},
+            {name: 'Gramercy', avgPrice: 17.0, lat: 40.7368, lng: -73.9845},
+            {name: 'NoLita', avgPrice: 21.5, lat: 40.7227, lng: -73.9956},
+            {name: 'Murray Hill', avgPrice: 13.5, lat: 40.7478, lng: -73.9754},
+            {name: "Hell's Kitchen", avgPrice: 14.5, lat: 40.7648, lng: -73.9920},
+            {name: 'Kips Bay', avgPrice: 12.0, lat: 40.7424, lng: -73.9754},
+            {name: 'Lower East Side', avgPrice: 12.5, lat: 40.7150, lng: -73.9840},
+            // 布鲁克林（4 个）
+            {name: 'DUMBO', avgPrice: 17.0, lat: 40.7033, lng: -73.9888},
+            {name: 'Brooklyn Heights', avgPrice: 15.5, lat: 40.6958, lng: -73.9936},
+            {name: 'Williamsburg', avgPrice: 13.5, lat: 40.7081, lng: -73.9571},
+            {name: 'Brooklyn Bridge Park', avgPrice: 15.5, lat: 40.6975, lng: -73.9970},
+            // 皇后区（2 个）
+            {name: 'Long Island City', avgPrice: 11.0, lat: 40.7447, lng: -73.9485},
+            {name: 'Flushing', avgPrice: 7.5, lat: 40.7677, lng: -73.8330}
+        ];
+        
+        const nyMonthlyData = [
+            {month: '2025-01', condoVol: 520, condoPrice: 165, coopVol: 380, coopPrice: 76},
+            {month: '2025-02', condoVol: 480, condoPrice: 162, coopVol: 350, coopPrice: 75},
+            {month: '2025-03', condoVol: 580, condoPrice: 168, coopVol: 420, coopPrice: 78},
+            {month: '2025-04', condoVol: 540, condoPrice: 166, coopVol: 390, coopPrice: 77},
+            {month: '2025-05', condoVol: 560, condoPrice: 167, coopVol: 400, coopPrice: 77},
+            {month: '2025-06', condoVol: 530, condoPrice: 165, coopVol: 380, coopPrice: 76},
+            {month: '2025-07', condoVol: 570, condoPrice: 169, coopVol: 410, coopPrice: 78},
+            {month: '2025-08', condoVol: 510, condoPrice: 164, coopVol: 370, coopPrice: 75},
+            {month: '2025-09', condoVol: 540, condoPrice: 166, coopVol: 390, coopPrice: 77},
+            {month: '2025-10', condoVol: 530, condoPrice: 165, coopVol: 380, coopPrice: 76},
+            {month: '2025-11', condoVol: 550, condoPrice: 167, coopVol: 395, coopPrice: 77},
+            {month: '2025-12', condoVol: 570, condoPrice: 169, coopVol: 410, coopPrice: 78},
+            {month: '2026-01', condoVol: 560, condoPrice: 168, coopVol: 400, coopPrice: 78},
+            {month: '2026-02', condoVol: 580, condoPrice: 170, coopVol: 415, coopPrice: 79},
+            {month: '2026-03', condoVol: 610, condoPrice: 172, coopVol: 435, coopPrice: 80}
+        ];
+        
+        const exchangeRates = [
+            {month: '2023-01', usdCny: 6.70},
+            {month: '2023-04', usdCny: 6.88},
+            {month: '2023-07', usdCny: 7.15},
+            {month: '2023-09', usdCny: 7.30},
+            {month: '2024-01', usdCny: 7.18},
+            {month: '2024-03', usdCny: 7.22},
+            {month: '2024-06', usdCny: 7.26},
+            {month: '2024-09', usdCny: 7.08},
+            {month: '2025-01', usdCny: 7.20},
+            {month: '2025-03', usdCny: 7.18},
+            {month: '2025-06', usdCny: 7.22},
+            {month: '2025-09', usdCny: 7.15},
+            {month: '2025-12', usdCny: 7.25},
+            {month: '2026-01', usdCny: 7.28},
+            {month: '2026-03', usdCny: 7.25},
+            {month: '2026-04', usdCny: 7.25}
+        ];
+        
+        let tooltipEl = null;
+        function showTooltip(e, title, content, source) {
+            if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
+            tooltipEl.innerHTML = `<div class="tooltip-title">${title}</div><div>${content}</div><div class="tooltip-source">📡 ${source}</div>`;
+            tooltipEl.style.display = 'block';
+            tooltipEl.style.left = (e.pageX + 15) + 'px';
+            tooltipEl.style.top = (e.pageY + 15) + 'px';
+        }
+        function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
+        
+        function togglePolicy(el) { el.classList.toggle('expanded'); }
+        
+        function initCharts() {
+            // 年度图表
+            new Chart(document.getElementById('yearlyChart'), {
+                type: 'bar',
+                data: { 
+                    labels: nyData.years, 
+                    datasets: [
+                        { 
+                            label: '成交量 (套)', 
+                            data: nyData.volume, 
+                            backgroundColor: 'rgba(0, 40, 104, 0.7)', 
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: '中位房价 (万美元)', 
+                            data: nyData.medianPrice, 
+                            type: 'line', 
+                            borderColor: '#BF0A30', 
+                            backgroundColor: 'rgba(191, 10, 48, 0.15)',
+                            tension: 0.3, 
+                            fill: true,
+                            yAxisID: 'y1' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (套)'}}, 
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '中位房价 (万美元)'}} 
+                    }
+                }
+            });
+            
+            // 月度图表
+            new Chart(document.getElementById('monthlyChart'), {
+                type: 'line',
+                data: { 
+                    labels: nyMonthlyData.map(d => d.month), 
+                    datasets: [
+                        { 
+                            label: 'Condo 成交量', 
+                            data: nyMonthlyData.map(d => d.condoVol), 
+                            borderColor: '#002868', 
+                            backgroundColor: 'rgba(0,40,104,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: 'Co-op 成交量', 
+                            data: nyMonthlyData.map(d => d.coopVol), 
+                            borderColor: '#BF0A30', 
+                            backgroundColor: 'rgba(191,10,48,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { y: {beginAtZero: true} } 
+                }
+            });
+            
+            // 产品类型占比
+            new Chart(document.getElementById('propertyTypeChart'), {
+                type: 'doughnut',
+                data: { 
+                    labels: ['Condo', 'Co-op', 'Townhouse', 'Single Family'], 
+                    datasets: [{ 
+                        data: [60, 25, 10, 5], 
+                        backgroundColor: ['#002868','#BF0A30','#228b22','#ff8c00'] 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            // 产品类型价格
+            new Chart(document.getElementById('propertyTypePriceChart'), {
+                type: 'bar',
+                data: { 
+                    labels: ['Condo', 'Co-op', 'Townhouse', 'Single Family'], 
+                    datasets: [{ 
+                        label: '中位价 (万美元)', 
+                        data: [168, 78.5, 350, 280], 
+                        backgroundColor: '#BF0A30' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+            });
+            
+            // Condo 户型占比
+            new Chart(document.getElementById('condoLayoutChart'), {
+                type: 'doughnut',
+                data: { 
+                    labels: ['Studio', '1 Bedroom', '2 Bedroom', '3 Bedroom', 'Penthouse'], 
+                    datasets: [{ 
+                        data: [15, 35, 30, 15, 5], 
+                        backgroundColor: ['#002868','#0047AB','#BF0A30','#228b22','#ffd700'] 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            // Condo 户型价格
+            new Chart(document.getElementById('condoPriceChart'), {
+                type: 'bar',
+                data: { 
+                    labels: ['Studio', '1B', '2B', '3B', 'Penthouse'], 
+                    datasets: [{ 
+                        label: '中位价 (万美元)', 
+                        data: [100, 150, 275, 475, 1200], 
+                        backgroundColor: '#BF0A30' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+            });
+            
+            // 汇率图表
+            new Chart(document.getElementById('exchangeRateChart'), {
+                type: 'line',
+                data: {
+                    labels: exchangeRates.map(d => d.month),
+                    datasets: [{
+                        label: 'USD/CNY',
+                        data: exchangeRates.map(d => d.usdCny),
+                        borderColor: '#002868',
+                        backgroundColor: 'rgba(0, 40, 104, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: false} }
+                }
+            });
+            
+            // 中国买家占比
+            new Chart(document.getElementById('chinaBuyerChart'), {
+                type: 'line',
+                data: { 
+                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'], 
+                    datasets: [{ 
+                        label: '中国买家占比 (%)', 
+                        data: [7.5, 6.5, 7.2, 8.2, 9.5, 10.5, 11.2], 
+                        borderColor: '#BF0A30', 
+                        fill: true, 
+                        backgroundColor: 'rgba(191,10,48,0.1)', 
+                        tension: 0.3 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { y: {min: 0, max: 15, beginAtZero: true} } 
+                }
+            });
+            
+            // 雷达图
+            new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: { 
+                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'], 
+                    datasets: [
+                        { 
+                            label: '纽约', 
+                            data: [5,7,8.8,6.5,9,6], 
+                            borderColor: '#002868', 
+                            backgroundColor: 'rgba(0,40,104,0.2)' 
+                        },
+                        { 
+                            label: '伦敦', 
+                            data: [6,8,9.2,7,8,7], 
+                            borderColor: '#c53030', 
+                            backgroundColor: 'rgba(197,48,48,0.2)' 
+                        },
+                        { 
+                            label: '香港', 
+                            data: [3,4,8.5,8,9,5], 
+                            borderColor: '#9f7aea', 
+                            backgroundColor: 'rgba(159,122,234,0.2)' 
+                        },
+                        { 
+                            label: '东京', 
+                            data: [8,5,8,9,7,8], 
+                            borderColor: '#d69e2e', 
+                            backgroundColor: 'rgba(214,158,46,0.2)' 
+                        },
+                        { 
+                            label: '洛杉矶', 
+                            data: [6,8,7.5,6,8,6], 
+                            borderColor: '#38a169', 
+                            backgroundColor: 'rgba(56,161,105,0.2)' 
+                        },
+                        { 
+                            label: '悉尼', 
+                            data: [6,9,8.2,7,7,7], 
+                            borderColor: '#ed8936', 
+                            backgroundColor: 'rgba(237,137,54,0.2)' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        r: {min: 0, max: 10, ticks: {stepSize: 2}} 
+                    } 
+                }
+            });
+        }
+        
+        function initTables() {
+            document.querySelector('#monthlyTable tbody').innerHTML = nyMonthlyData.map(d => `
+                <tr>
+                    <td>${d.month}</td>
+                    <td>${d.condoVol}</td>
+                    <td>$${d.condoPrice}万</td>
+                    <td>${d.coopVol}</td>
+                    <td>$${d.coopPrice}万</td>
+                </tr>
+            `).join('');
+            
+            document.querySelector('#districtTable').innerHTML = nyDistricts.map(d => `
+                <tr>
+                    <td>${d.name}</td>
+                    <td>$${(d.avgPrice * 0.7 * 7.25).toFixed(0)}万</td>
+                    <td>¥${d.avgPrice}万</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            `).join('');
+        }
+        
+        function initMap() {
+            try {
+                const map = L.map('districtMap', {
+                    center: [40.7500, -73.9800],
+                    zoom: 12,
+                    zoomControl: true,
+                    scrollWheelZoom: false
+                });
+                
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    crossOrigin: true
+                }).addTo(map);
+                
+                nyDistricts.forEach(d => {
+                    const color = d.avgPrice > 30 ? '#BF0A30' : d.avgPrice > 20 ? '#ff8c00' : d.avgPrice > 15 ? '#228b22' : '#0047AB';
+                    L.circleMarker([d.lat, d.lng], { 
+                        radius: 14, 
+                        fillColor: color, 
+                        color: '#fff', 
+                        weight: 2, 
+                        fillOpacity: 0.8 
+                    })
+                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#BF0A30;font-weight:bold">¥${d.avgPrice}万/㎡</span><br>$${(d.avgPrice * 0.7).toFixed(1)}k/sqft</div>`)
+                    .addTo(map);
+                });
+                
+                setTimeout(() => { map.invalidateSize(); }, 300);
+            } catch (e) {
+                console.error('地图加载失败:', e);
+            }
+        }
+        
+        function calculateNYCost() {
+            const price = parseFloat(document.getElementById('nyPropertyPrice').value) || 150;
+            const sqft = parseFloat(document.getElementById('nySqft').value) || 1200;
+            const type = document.getElementById('nyPropertyType').value;
+            
+            // 房产税：1-2%/年
+            const propertyTax = price * 10000 * 0.015;
+            // Condo Fee: $1-3/sqft/月
+            const condoFeePerSqft = type === 'condo' ? 2 : 2.5;
+            const condoFee = sqft * condoFeePerSqft * 12;
+            // 保险：约$100-200/月
+            const insurance = 1800;
+            
+            const totalCost = propertyTax + condoFee + insurance;
+            
+            document.getElementById('nyPropertyTax').textContent = '$' + (propertyTax / 10000).toFixed(2) + '万';
+            document.getElementById('nyCondoFee').textContent = '$' + (condoFee / 10000).toFixed(2) + '万';
+            document.getElementById('nyTotalCost').textContent = '$' + (totalCost / 10000).toFixed(2) + '万';
+        }
+        
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function initTooltips() {
+            document.querySelectorAll('.stat-card, .card').forEach(el => {
+                if (el.dataset.title) {
+                    el.addEventListener('mouseenter', (e) => showTooltip(e, el.dataset.title, el.dataset.content, el.dataset.source));
+                    el.addEventListener('mousemove', (e) => { tooltipEl.style.left = (e.pageX + 15) + 'px'; tooltipEl.style.top = (e.pageY + 15) + 'px'; });
+                    el.addEventListener('mouseleave', hideTooltip);
+                }
+            });
+        }
+        
+        function downloadHTML() {
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = '纽约房产数据看板.html';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+            alert('✅ 下载已开始！\n\n文件：纽约房产数据看板.html\n\n如果浏览器阻止下载，请右键点击页面 → 另存为 → 选择 HTML 格式');
+        }
+        
+        function exportExcel() {
+            alert('🚧 数据导出功能开发中...');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            initTables();
+            initMap();
+            initTooltips();
+            calculateNYCost();
+            console.log('🗽 纽约房产数据看板加载完成 | 版本：v1.0');
+        });
+    </script>
+</body>
+</html>

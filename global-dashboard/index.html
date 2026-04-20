@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅世界，置未来——全球豪宅数据看板 | 豪宅研究院</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --primary: #1a365d; --secondary: #2c5282; --accent: #c53030; --success: #38a169; --warning: #d69e2e; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 24px 32px; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 14px; }
+        .map-wrapper { position: relative; height: 500px; background: #a8d5e5; }
+        #worldMap { height: 100%; width: 100%; }
+        .city-popup { min-width: 320px; }
+        .city-popup .popup-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 12px 16px; border-radius: 8px 8px 0 0; }
+        .city-popup .city-name { font-size: 18px; font-weight: 700; }
+        .city-popup .city-flag { font-size: 24px; margin-right: 8px; }
+        .city-popup .popup-body { padding: 16px; }
+        .city-popup .conclusion { font-size: 13px; color: var(--text-light); margin-bottom: 12px; line-height: 1.6; background: #f8fafc; padding: 10px; border-radius: 6px; }
+        .city-popup .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .city-popup .metric { background: #f0fff4; padding: 8px; border-radius: 6px; }
+        .city-popup .metric .label { font-size: 10px; color: var(--text-light); }
+        .city-popup .metric .value { font-size: 14px; font-weight: 600; color: var(--primary); margin-top: 2px; }
+        .city-popup .metric .change { font-size: 10px; margin-top: 2px; }
+        .city-popup .metric .change.up { color: var(--success); }
+        .city-popup .metric .change.down { color: var(--accent); }
+        .city-popup .popup-footer { padding: 12px 16px; background: #f8fafc; border-radius: 0 0 8px 8px; text-align: center; }
+        .city-popup .view-btn { display: inline-block; padding: 8px 20px; background: var(--success); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 13px; transition: background 0.2s; }
+        .city-popup .view-btn:hover { background: #2f855a; }
+        .global-summary { padding: 32px; }
+        .global-summary h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+        .summary-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 32px; }
+        .summary-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .summary-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .summary-card .city-flag { font-size: 32px; margin-bottom: 8px; }
+        .summary-card .city-name { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .summary-card .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .summary-card .metric-item { background: #f8fafc; padding: 8px; border-radius: 6px; }
+        .summary-card .metric-item .label { font-size: 10px; color: var(--text-light); }
+        .summary-card .metric-item .value { font-size: 13px; font-weight: 600; color: var(--primary); margin-top: 2px; }
+        .summary-card .metric-item .change { font-size: 11px; margin-top: 2px; }
+        .summary-card .metric-item .change.up { color: var(--success); }
+        .summary-card .metric-item .change.down { color: var(--accent); }
+        .last-updated { text-align: center; padding: 20px; color: var(--text-light); font-size: 13px; }
+        @media (max-width: 1200px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h1>🌍 阅世界，置未来——全球豪宅数据看板</h1>
+                <div class="subtitle">覆盖 6 大国际都市 | 数据实时更新至 2026 年 4 月</div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
+                <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="map-wrapper">
+        <div id="worldMap"></div>
+    </div>
+    
+    <div class="global-summary">
+        <h2>📊 六大城市市场概览</h2>
+        <div class="summary-grid" id="summaryGrid"></div>
+    </div>
+    
+    <div class="last-updated">
+        数据更新时间：2026 年 4 月 18 日 | 数据来源：各城市官方统计 + 权威机构 | 汇率基准：2026 年 4 月 18 日
+    </div>
+
+    <script>
+        const GLOBAL_DATA = {
+            hk: {
+                name: '香港', flag: '🇭🇰', lat: 22.3193, lng: 114.1694, zoom: 11,
+                conclusion: '撤辣后量价齐升，Q1 一手 +44% 二手 18 季度新高，内地买家主导豪宅',
+                metrics: {
+                    volume: '6.0 万套', volumeChange: '+20%',
+                    amount: '¥6,324 亿', amountChange: '+25%',
+                    avgPrice: '¥1,280 万', avgPriceChange: '+9 连升',
+                    pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '+8%',
+                    rentalYield: '3.38%', rentalYieldChange: '+0.4%',
+                    policy: '全面撤辣', policyChange: '★★★★★',
+                    chineseInvestor: '25%', chineseChange: '+10%'
+                },
+                forecast: '+10~15%', exchangeRate: '1 HKD ≈ 0.93 CNY',
+                url: '../hk-property-dashboard/index.html'
+            },
+            london: {
+                name: '伦敦', flag: '🇬🇧', lat: 51.5074, lng: -0.1278, zoom: 11,
+                conclusion: '市场筑底期，长线配置窗口开启，租金收益率达 5 年高点',
+                metrics: {
+                    volume: '7.4 万套', volumeChange: '-20%',
+                    amount: '¥3,700 亿', amountChange: '-15%',
+                    avgPrice: '¥518 万', avgPriceChange: '-1.7%',
+                    pricePerSqm: '¥6.2 万/㎡', pricePerSqmChange: '-2.1%',
+                    rentalYield: '5.0%', rentalYieldChange: '+0.3%',
+                    policy: '海外买家 +2%', policyChange: '★★★☆☆',
+                    chineseInvestor: '7%', chineseChange: '+13%'
+                },
+                forecast: '+1~2%', exchangeRate: '1 GBP ≈ 9.35 CNY',
+                url: '../london-property-dashboard/index.html'
+            },
+            newyork: {
+                name: '纽约', flag: '🇺🇸', lat: 40.7128, lng: -74.0060, zoom: 11,
+                conclusion: '曼哈顿豪宅市场强劲，Q1 成交 +18%，Condo 市场领涨',
+                metrics: {
+                    volume: '1.12 万套', volumeChange: '+12%',
+                    amount: '¥1,341 亿', amountChange: '+15%',
+                    avgPrice: '¥906 万', avgPriceChange: '+5.2%',
+                    pricePerSqm: '¥13.4 万/㎡', pricePerSqmChange: '+4.8%',
+                    rentalYield: '4.0%', rentalYieldChange: '+0.3%',
+                    policy: '无限购', policyChange: '★★★★☆',
+                    chineseInvestor: '15%', chineseChange: '+18%'
+                },
+                forecast: '+3~5%', exchangeRate: '1 USD ≈ 7.25 CNY',
+                url: '../new-york-property-dashboard/index.html'
+            },
+            la: {
+                name: '洛杉矶', flag: '🇺🇸', lat: 34.0522, lng: -118.2437, zoom: 10,
+                conclusion: '西洛杉矶和尔湾领涨，Q1 成交 +10%，华人买家偏好稳定',
+                metrics: {
+                    volume: '6.85 万', volumeChange: '+10%',
+                    amount: '¥4,219 亿', amountChange: '+12%',
+                    avgPrice: '¥616 万', avgPriceChange: '+6%',
+                    pricePerSqm: '¥6.8 万/㎡', pricePerSqmChange: '+5%',
+                    rentalYield: '4.5%', rentalYieldChange: '+0.3%',
+                    policy: '无限购', policyChange: '★★★★☆',
+                    chineseInvestor: '18%', chineseChange: '+15%'
+                },
+                forecast: '+3~5%', exchangeRate: '1 USD ≈ 7.25 CNY',
+                url: '../la-property-dashboard/index.html'
+            },
+            sf: {
+                name: '旧金山湾区', flag: '🇺🇸', lat: 37.7749, lng: -122.4194, zoom: 10,
+                conclusion: '科技行业复苏，Q1 成交 +8%，AI 热潮推动豪宅需求',
+                metrics: {
+                    volume: '5.2 万', volumeChange: '+8%',
+                    amount: '¥5,454 亿', amountChange: '+10%',
+                    avgPrice: '¥1,051 万', avgPriceChange: '+4%',
+                    pricePerSqm: '¥8.5 万/㎡', pricePerSqmChange: '+3%',
+                    rentalYield: '3.8%', rentalYieldChange: '+0.2%',
+                    policy: '无限购', policyChange: '★★★★☆',
+                    chineseInvestor: '15%', chineseChange: '+12%'
+                },
+                forecast: '+2~4%', exchangeRate: '1 USD ≈ 7.25 CNY',
+                url: '../sf-bay-property-dashboard/index.html'
+            },
+            tokyo: {
+                name: '东京', flag: '🇯🇵', lat: 35.6762, lng: 139.6503, zoom: 11,
+                conclusion: '日元贬值利好海外买家，Q1 成交 +12%，公寓价格连涨 5 年',
+                metrics: {
+                    volume: '3.57 万', volumeChange: '+12%',
+                    amount: '¥1,344 亿', amountChange: '+15%',
+                    avgPrice: '¥389 万', avgPriceChange: '+8%',
+                    pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '+6%',
+                    rentalYield: '3.5%', rentalYieldChange: '+0.2%',
+                    policy: '无限购无税费', policyChange: '★★★★★',
+                    chineseInvestor: '10%', chineseChange: '+8%'
+                },
+                forecast: '+2~4%', exchangeRate: '1 JPY ≈ 0.048 CNY',
+                url: '../tokyo-property-dashboard/index.html'
+            }
+        };
+
+        function initMap() {
+            const map = L.map('worldMap', {
+                center: [30, 0],
+                zoom: 2,
+                minZoom: 2,
+                maxZoom: 6,
+                scrollWheelZoom: true
+            });
+            L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap © CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                crossOrigin: true
+            }).addTo(map);
+
+            Object.keys(GLOBAL_DATA).forEach(key => {
+                const city = GLOBAL_DATA[key];
+                const markerIcon = L.divIcon({
+                    className: 'city-marker',
+                    html: `<div style="width:24px;height:24px;background:${key==='hk'?'#c53030':'#2c5282'};border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer;"></div>`,
+                    iconSize: [24, 24], iconAnchor: [12, 12]
+                });
+                const marker = L.marker([city.lat, city.lng], { icon: markerIcon }).addTo(map);
+                
+                const popupContent = `
+                    <div class="city-popup">
+                        <div class="popup-header"><div class="city-name"><span class="city-flag">${city.flag}</span>${city.name}</div></div>
+                        <div class="popup-body">
+                            <div class="conclusion">${city.conclusion}</div>
+                            <div class="metrics">
+                                <div class="metric"><div class="label">成交量</div><div class="value">${city.metrics.volume}</div><div class="change ${city.metrics.volumeChange.includes('+')?'up':'down'}">${city.metrics.volumeChange}</div></div>
+                                <div class="metric"><div class="label">成交额</div><div class="value">${city.metrics.amount}</div><div class="change ${city.metrics.amountChange.includes('+')?'up':'down'}">${city.metrics.amountChange}</div></div>
+                                <div class="metric"><div class="label">平均房价</div><div class="value">${city.metrics.avgPrice}</div><div class="change ${city.metrics.avgPriceChange.includes('+')?'up':'down'}">${city.metrics.avgPriceChange}</div></div>
+                                <div class="metric"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
+                                <div class="metric"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
+                                <div class="metric"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
+                                <div class="metric"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                            </div>
+                        </div>
+                        <div class="popup-footer"><a href="${city.url}" class="view-btn" target="_blank">📊 查看详细看板</a></div>
+                    </div>`;
+                marker.bindPopup(popupContent, { maxWidth: 360 });
+                marker.on('click', () => { window.open(city.url, '_blank'); });
+            });
+        }
+
+        function renderSummaryGrid() {
+            const grid = document.getElementById('summaryGrid');
+            let html = '';
+            Object.keys(GLOBAL_DATA).forEach(key => {
+                const city = GLOBAL_DATA[key];
+                html += `
+                    <div class="summary-card" onclick="window.open('${city.url}', '_blank')">
+                        <div class="city-flag">${city.flag}</div>
+                        <div class="city-name">${city.name}</div>
+                        <div class="metrics">
+                            <div class="metric-item"><div class="label">成交量</div><div class="value">${city.metrics.volume}</div><div class="change ${city.metrics.volumeChange.includes('+')?'up':'down'}">${city.metrics.volumeChange}</div></div>
+                            <div class="metric-item"><div class="label">成交额</div><div class="value">${city.metrics.amount}</div><div class="change ${city.metrics.amountChange.includes('+')?'up':'down'}">${city.metrics.amountChange}</div></div>
+                            <div class="metric-item"><div class="label">平均房价</div><div class="value">${city.metrics.avgPrice}</div><div class="change ${city.metrics.avgPriceChange.includes('+')?'up':'down'}">${city.metrics.avgPriceChange}</div></div>
+                            <div class="metric-item"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
+                            <div class="metric-item"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
+                            <div class="metric-item"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
+                            <div class="metric-item" style="grid-column:span 2;"><div class="label">中国人投资占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                        </div>
+                    </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function downloadHTML() {
+            alert('📥 下载说明\n\n⚠️ 重要：本看板系统包含 7 个独立文件，需要保持文件夹结构才能正常跳转。\n\n✅ 正确分享方式（3 种）：\n\n1️⃣ 打包整个文件夹（推荐）\n   - 压缩 workspace 文件夹\n   - 分享给对方后解压\n   - 打开 global-dashboard/index.html\n\n2️⃣ 部署到 Web 服务器\n   - GitHub Pages（免费）\n   - Vercel/Netlify（免费）\n   - 公司内网服务器\n\n3️⃣ 单独分享各城市看板\n   - 每个城市看板可独立使用\n   - 如：london-property-dashboard/index.html\n\n📁 文件结构：\nworkspace/\n├── global-dashboard/       (全球总览)\n├── hk-property-dashboard/  (香港)\n├── london-property-dashboard/ (伦敦)\n├── new-york-property-dashboard/ (纽约)\n├── tokyo-property-dashboard/ (东京)\n├── la-property-dashboard/  (洛杉矶)\n└── sf-bay-property-dashboard/ (旧金山)\n\n💡 快速查看：直接打开各城市看板文件即可');
+        }
+        
+        function exportExcel() { alert('🚧 数据导出功能开发中...'); }
+
+        document.addEventListener('DOMContentLoaded', () => { initMap(); renderSummaryGrid(); });
+    </script>
+</body>
+</html>

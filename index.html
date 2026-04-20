@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球豪宅数据看板 | 豪宅研究院</title>
+    <style>
+        :root { --primary: #8b0000; --secondary: #c41e3a; --accent: #d4af37; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); color: var(--text); line-height: 1.6; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 48px 32px; text-align: center; }
+        .header h1 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+        .header .subtitle { font-size: 18px; opacity: 0.95; }
+        .header .tagline { font-size: 14px; opacity: 0.85; margin-top: 8px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+        .intro { text-align: center; margin-bottom: 40px; padding: 24px; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .intro h2 { font-size: 24px; color: var(--primary); margin-bottom: 12px; }
+        .intro p { font-size: 16px; color: #4a5568; }
+        .cities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .city-card { background: white; border-radius: 12px; padding: 28px; text-decoration: none; color: inherit; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid transparent; position: relative; overflow: hidden; }
+        .city-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(139, 0, 0, 0.15); border-color: var(--primary); }
+        .city-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transform: scaleX(0); transition: transform 0.3s ease; }
+        .city-card:hover::before { transform: scaleX(1); }
+        .city-flag { font-size: 48px; margin-bottom: 16px; }
+        .city-name { font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+        .city-desc { font-size: 14px; color: #718096; line-height: 1.5; }
+        .city-features { margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; }
+        .feature-tag { display: inline-block; font-size: 12px; background: #f1f5f9; padding: 4px 10px; border-radius: 12px; margin: 4px 6px 4px 0; color: #4a5568; }
+        .global-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .global-card .city-name { color: white; }
+        .global-card .city-desc { color: rgba(255,255,255,0.9); }
+        .global-card .feature-tag { background: rgba(255,255,255,0.2); color: white; }
+        .footer { text-align: center; padding: 32px; color: #718096; font-size: 14px; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+        .footer a { color: var(--primary); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        .update-badge { display: inline-block; background: #c6f6d5; color: #22543d; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; margin-top: 12px; }
+        @media (max-width: 768px) { .header h1 { font-size: 28px; } .container { padding: 24px 16px; } .cities-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏛️ 全球豪宅数据看板</h1>
+        <div class="subtitle">豪宅研究院 · 全球核心城市房产数据平台</div>
+        <div class="tagline">覆盖 9 国 22 城 · 实时数据 · 专业分析</div>
+        <div class="update-badge">📊 数据更新至 2026 年 4 月</div>
+    </div>
+    
+    <div class="container">
+        <div class="intro">
+            <h2>📍 选择城市查看数据</h2>
+            <p>点击下方城市卡片，查看当地最新房产市场数据、价格趋势、投资分析</p>
+        </div>
+        
+        <div class="cities-grid">
+            <!-- 全球总览 -->
+            <a href="./global-dashboard/" class="city-card global-card">
+                <div class="city-flag">🌍</div>
+                <div class="city-name">全球总览</div>
+                <div class="city-desc">9 国 22 城核心数据对比，全球资产配置一目了然</div>
+                <div class="city-features">
+                    <span class="feature-tag">跨国对比</span>
+                    <span class="feature-tag">投资热度</span>
+                    <span class="feature-tag">汇率分析</span>
+                </div>
+            </a>
+            
+            <!-- 香港 -->
+            <a href="./hk-property-dashboard/" class="city-card">
+                <div class="city-flag">🇭🇰</div>
+                <div class="city-name">香港</div>
+                <div class="city-desc">撤辣后量价齐升，内地买家主导豪宅市场</div>
+                <div class="city-features">
+                    <span class="feature-tag">全面撤辣</span>
+                    <span class="feature-tag">内地买家 25%</span>
+                    <span class="feature-tag">租金回报 3.38%</span>
+                </div>
+            </a>
+            
+            <!-- 伦敦 -->
+            <a href="./london-property-dashboard/" class="city-card">
+                <div class="city-flag">🇬🇧</div>
+                <div class="city-name">伦敦</div>
+                <div class="city-desc">核心区房价回调，长期投资价值凸显</div>
+                <div class="city-features">
+                    <span class="feature-tag">7 核心区分析</span>
+                    <span class="feature-tag">英镑汇率</span>
+                    <span class="feature-tag">学区投资</span>
+                </div>
+            </a>
+            
+            <!-- 纽约 -->
+            <a href="./new-york-property-dashboard/" class="city-card">
+                <div class="city-flag">🇺🇸</div>
+                <div class="city-name">纽约</div>
+                <div class="city-desc">曼哈顿豪宅市场动态，华尔街精英聚集地</div>
+                <div class="city-features">
+                    <span class="feature-tag">曼哈顿</span>
+                    <span class="feature-tag">布鲁克林</span>
+                    <span class="feature-tag">租金回报</span>
+                </div>
+            </a>
+            
+            <!-- 旧金山 -->
+            <a href="./sf-bay-property-dashboard/" class="city-card">
+                <div class="city-flag">🇺🇸</div>
+                <div class="city-name">旧金山湾区</div>
+                <div class="city-desc">硅谷科技核心，高端人才聚集地</div>
+                <div class="city-features">
+                    <span class="feature-tag">硅谷</span>
+                    <span class="feature-tag">科技新贵</span>
+                    <span class="feature-tag">学区优选</span>
+                </div>
+            </a>
+            
+            <!-- 洛杉矶 -->
+            <a href="./la-property-dashboard/" class="city-card">
+                <div class="city-flag">🇺🇸</div>
+                <div class="city-name">洛杉矶</div>
+                <div class="city-desc">好莱坞明星豪宅，加州阳光海岸生活</div>
+                <div class="city-features">
+                    <span class="feature-tag">比弗利山庄</span>
+                    <span class="feature-tag">海滨豪宅</span>
+                    <span class="feature-tag">华人区</span>
+                </div>
+            </a>
+            
+            <!-- 东京 -->
+            <a href="./tokyo-property-dashboard/" class="city-card">
+                <div class="city-flag">🇯🇵</div>
+                <div class="city-name">东京</div>
+                <div class="city-desc">亚洲金融中心，低利率投资良机</div>
+                <div class="city-features">
+                    <span class="feature-tag">核心 5 区</span>
+                    <span class="feature-tag">日元汇率</span>
+                    <span class="feature-tag">民宿投资</span>
+                </div>
+            </a>
+        </div>
+        
+        <div class="intro" style="margin-top: 40px;">
+            <h2>📊 数据说明</h2>
+            <p style="text-align: left; line-height: 2;">
+                <strong>数据来源：</strong>各国官方统计机构、权威房地产平台、一线中介机构<br>
+                <strong>更新频率：</strong>月度更新，关键指标周度追踪<br>
+                <strong>汇率数据：</strong>CFETS 中国外汇交易中心月末中间价<br>
+                <strong>覆盖城市：</strong>香港、伦敦、纽约、旧金山、洛杉矶、东京等全球核心城市<br>
+                <strong>适用人群：</strong>高净值人群、海外资产配置者、房产投资者
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 豪宅研究院 · 全球豪宅数据看板</p>
+        <p style="margin-top: 8px;">
+            <a href="https://github.com/Research213/luxury-property-dashboards" target="_blank">GitHub 仓库</a> · 
+            数据更新至 2026 年 4 月
+        </p>
+    </div>
+</body>
+</html>
