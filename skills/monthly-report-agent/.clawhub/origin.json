@@ -1,0 +1,7 @@
+{
+  "name": "monthly-report-agent",
+  "version": "1.0.0",
+  "description": "豪宅研究院月度指数报告撰写专家",
+  "author": "豪宅研究院",
+  "license": "INTERNAL"
+}
