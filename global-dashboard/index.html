@@ -46,8 +46,83 @@
         .summary-card .metric-item .change.up { color: var(--success); }
         .summary-card .metric-item .change.down { color: var(--accent); }
         .last-updated { text-align: center; padding: 20px; color: var(--text-light); font-size: 13px; }
-        @media (max-width: 1200px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+        
+        /* 战略结论模块样式 */
+        .strategic-conclusion { padding: 32px; background: white; margin: 0 32px 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .strategic-conclusion h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+        .conclusion-meta { font-size: 13px; color: var(--text-light); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
+        .conclusion-section { margin-bottom: 28px; }
+        .conclusion-section:last-of-type { margin-bottom: 0; }
+        .conclusion-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--secondary); display: flex; align-items: center; gap: 8px; }
+        
+        /* 表格样式 */
+        .conclusion-table, .risk-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .conclusion-table th, .risk-table th { background: #f8fafc; padding: 12px; text-align: left; font-weight: 600; color: var(--text); border-bottom: 2px solid #e2e8f0; }
+        .conclusion-table td, .risk-table td { padding: 12px; border-bottom: 1px solid #f0f0f0; }
+        .conclusion-table tr:last-child td, .risk-table tr:last-child td { border-bottom: none; }
+        .conclusion-table tr:hover, .risk-table tr:hover { background: #f8fafc; }
+        .flag { margin-right: 6px; }
+        
+        /* 周期阶段标签 */
+        .phase { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .phase-recovery { background: #c6f6d5; color: #276749; }
+        .phase-stable { background: #bee3f8; color: #2c5282; }
+        .phase-peak { background: #feebc8; color: #c05621; }
+        .phase-strong { background: #fed7d7; color: #c53030; }
+        .phase-bottom { background: #e9d8fd; color: #553c9a; }
+        
+        /* 信号标签 */
+        .signal { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .signal-positive { background: #c6f6d5; color: #276749; }
+        .signal-caution { background: #feebc8; color: #c05621; }
+        .signal-wait { background: #e9d8fd; color: #553c9a; }
+        
+        /* 排名列表 */
+        .ranking-list { display: grid; gap: 10px; }
+        .ranking-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; font-size: 14px; }
+        .rank-badge { font-size: 18px; min-width: 28px; }
+        .rank-city { font-weight: 600; color: var(--primary); min-width: 60px; }
+        .rank-reason { color: var(--text-light); flex: 1; }
+        .rank-1 { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .rank-2 { background: linear-gradient(135deg, #e5e7eb, #d1d5db); }
+        .rank-3 { background: linear-gradient(135deg, #fed7aa, #fdba74); }
+        
+        /* 资金流向 */
+        .flow-signals { display: grid; gap: 12px; }
+        .flow-item { display: flex; gap: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; }
+        .flow-label { font-weight: 600; color: var(--text); min-width: 120px; }
+        .flow-data { color: var(--text-light); flex: 1; }
+        .trend { font-weight: 700; font-size: 16px; }
+        .trend.up { color: var(--success); }
+        .trend.down { color: var(--accent); }
+        .trend.stable { color: var(--text-light); }
+        
+        /* 风险表格 */
+        .risk-badge { font-size: 14px; }
+        .risk-red { background: #fed7d7; color: #c53030; padding: 4px 10px; border-radius: 6px; }
+        .risk-yellow { background: #feebc8; color: #c05621; padding: 4px 10px; border-radius: 6px; }
+        .risk-green { background: #c6f6d5; color: #276749; padding: 4px 10px; border-radius: 6px; }
+        
+        /* 行动建议网格 */
+        .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .action-item { padding: 16px; border-radius: 8px; border-left: 4px solid; }
+        .action-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+        .action-content { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+        .action-recommend { background: #f0fff4; border-left-color: var(--success); }
+        .action-tactical { background: #fffaf0; border-left-color: var(--warning); }
+        .action-wait { background: #f8fafc; border-left-color: var(--text-light); }
+        .action-monitor { background: #ebf8ff; border-left-color: var(--secondary); }
+        
+        /* 免责声明 */
+        .conclusion-disclaimer { margin-top: 24px; padding: 12px 16px; background: #fffaf0; border-radius: 8px; font-size: 12px; color: var(--text-light); border: 1px solid #feebc8; }
+        
+        /* 数值颜色 */
+        .up { color: var(--success); font-weight: 600; }
+        .down { color: var(--accent); font-weight: 600; }
+        .stable { color: var(--text-light); font-weight: 600; }
+        
+        @media (max-width: 1200px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } .action-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } .strategic-conclusion { margin: 0 16px 16px; padding: 20px; } .conclusion-table, .risk-table { font-size: 12px; } .action-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -73,6 +148,180 @@
         <div class="summary-grid" id="summaryGrid"></div>
     </div>
     
+    <div class="strategic-conclusion">
+        <h2>🎯 全球豪宅配置战略结论</h2>
+        <div class="conclusion-meta">数据截止：2026 年 4 月 | 下次更新：2026 年 5 月</div>
+        
+        <div class="conclusion-section">
+            <h3>📊 市场周期定位</h3>
+            <table class="conclusion-table">
+                <thead>
+                    <tr>
+                        <th>城市</th>
+                        <th>周期阶段</th>
+                        <th>价格趋势 (YoY)</th>
+                        <th>成交量</th>
+                        <th>判断</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="flag">🇭🇰</span> 香港</td>
+                        <td><span class="phase phase-recovery">复苏初期</span></td>
+                        <td class="up">+8%</td>
+                        <td class="up">回暖</td>
+                        <td><span class="signal signal-positive">✅ 窗口期</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="flag">🇬🇧</span> 伦敦</td>
+                        <td><span class="phase phase-stable">稳步上涨</span></td>
+                        <td class="up">+5%</td>
+                        <td class="stable">稳定</td>
+                        <td><span class="signal signal-positive">✅ 持有</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="flag">🇺🇸</span> 纽约</td>
+                        <td><span class="phase phase-peak">高位盘整</span></td>
+                        <td class="up">+2%</td>
+                        <td class="down">放缓</td>
+                        <td><span class="signal signal-wait">⚠️ 观望</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="flag">🇯🇵</span> 东京</td>
+                        <td><span class="phase phase-strong">持续走强</span></td>
+                        <td class="up">+12%</td>
+                        <td class="up">活跃</td>
+                        <td><span class="signal signal-caution">✅ 但追高需谨慎</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="flag">🇺🇸</span> 洛杉矶</td>
+                        <td><span class="phase phase-bottom">回调筑底</span></td>
+                        <td class="down">-3%</td>
+                        <td class="down">低迷</td>
+                        <td><span class="signal signal-wait">⏳ 等待信号</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="flag">🇺🇸</span> 旧金山</td>
+                        <td><span class="phase phase-recovery">科技驱动复苏</span></td>
+                        <td class="up">+6%</td>
+                        <td class="up">回暖</td>
+                        <td><span class="signal signal-positive">✅ 关注</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="conclusion-section">
+            <h3>🏆 相对价值排名 (经汇率/风险调整)</h3>
+            <div class="ranking-list">
+                <div class="ranking-item rank-1">
+                    <span class="rank-badge">🥇</span>
+                    <span class="rank-city">香港</span>
+                    <span class="rank-reason">撤辣后性价比凸显，租金收益率 3.2%</span>
+                </div>
+                <div class="ranking-item rank-2">
+                    <span class="rank-badge">🥈</span>
+                    <span class="rank-city">伦敦</span>
+                    <span class="rank-reason">英镑低位 + 稳定增值，收益率 4.1%</span>
+                </div>
+                <div class="ranking-item rank-3">
+                    <span class="rank-badge">🥉</span>
+                    <span class="rank-city">东京</span>
+                    <span class="rank-reason">日元贬值 15%，但涨幅已大</span>
+                </div>
+                <div class="ranking-item rank-4">
+                    <span class="rank-badge">4️⃣</span>
+                    <span class="rank-city">旧金山</span>
+                    <span class="rank-reason">科技复苏带动，但基数高</span>
+                </div>
+                <div class="ranking-item rank-5">
+                    <span class="rank-badge">5️⃣</span>
+                    <span class="rank-city">纽约</span>
+                    <span class="rank-reason">高位盘整，等待回调</span>
+                </div>
+                <div class="ranking-item rank-6">
+                    <span class="rank-badge">6️⃣</span>
+                    <span class="rank-city">洛杉矶</span>
+                    <span class="rank-reason">仍在筑底，暂不推荐</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-section">
+            <h3>💰 资金流向信号</h3>
+            <div class="flow-signals">
+                <div class="flow-item">
+                    <span class="flow-label">中国买家占比变化：</span>
+                    <span class="flow-data">香港 25%<span class="trend up">↑</span> &nbsp;|&nbsp; 伦敦 18%<span class="trend stable">→</span> &nbsp;|&nbsp; 东京 12%<span class="trend up">↑</span></span>
+                </div>
+                <div class="flow-item">
+                    <span class="flow-label">国际资本流向：</span>
+                    <span class="flow-data">美→英/日 趋势明显</span>
+                </div>
+                <div class="flow-item">
+                    <span class="flow-label">热门区域：</span>
+                    <span class="flow-data">香港港岛东、伦敦一区、东京港区、旧金山 Peninsula</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-section">
+            <h3>⚠️ 风险分级警示</h3>
+            <table class="risk-table">
+                <thead>
+                    <tr>
+                        <th>风险等级</th>
+                        <th>城市</th>
+                        <th>主要风险</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="risk-high">
+                        <td><span class="risk-badge risk-red">🔴 高</span></td>
+                        <td>纽约、旧金山</td>
+                        <td>中美关系、CFIUS 审查、政策不确定性</td>
+                    </tr>
+                    <tr class="risk-medium">
+                        <td><span class="risk-badge risk-yellow">🟡 中</span></td>
+                        <td>伦敦、洛杉矶</td>
+                        <td>政策稳定性、税收变化风险</td>
+                    </tr>
+                    <tr class="risk-low">
+                        <td><span class="risk-badge risk-green">🟢 低</span></td>
+                        <td>香港、东京</td>
+                        <td>政策友好、外资开放</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="conclusion-section">
+            <h3>📌 行动建议</h3>
+            <div class="action-grid">
+                <div class="action-item action-recommend">
+                    <div class="action-title">🎯 重点配置 (6-12 月窗口期)</div>
+                    <div class="action-content"><strong>香港、伦敦</strong> — 政策友好 + 估值合理，建议仓位 50-60%</div>
+                </div>
+                <div class="action-item action-tactical">
+                    <div class="action-title">⚡ 战术性配置</div>
+                    <div class="action-content"><strong>东京</strong> — 日元窗口但避免追高，建议仓位 20-30%</div>
+                </div>
+                <div class="action-item action-wait">
+                    <div class="action-title">👀 保持观望</div>
+                    <div class="action-content"><strong>纽约、洛杉矶</strong> — 等待更好入场点，保持关注</div>
+                </div>
+                <div class="action-item action-monitor">
+                    <div class="action-title">📈 持续关注</div>
+                    <div class="action-content"><strong>旧金山</strong> — 科技复苏信号明确，择机介入</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-disclaimer">
+            <strong>免责声明：</strong> 本结论基于公开数据和研究分析，仅供参考，不构成投资建议。投资有风险，决策需谨慎。
+        </div>
+    </div>
+
     <div class="last-updated">
         数据更新时间：2026 年 4 月 18 日 | 数据来源：各城市官方统计 + 权威机构 | 汇率基准：2026 年 4 月 18 日
     </div>
