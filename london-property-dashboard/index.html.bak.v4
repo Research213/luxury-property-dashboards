@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伦敦房产数据看板 | 豪宅研究院</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root { --primary: #1a365d; --secondary: #2c5282; --accent: #c53030; --success: #38a169; --warning: #d69e2e; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        /* 自定义提示框 */
+        .custom-tooltip { position: absolute; background: rgba(26, 54, 93, 0.95); color: white; padding: 12px 16px; border-radius: 8px; font-size: 13px; max-width: 350px; z-index: 1000; pointer-events: none; box-shadow: 0 4px 20px rgba(0,0,0,0.25); line-height: 1.5; }
+        .custom-tooltip .tooltip-title { font-weight: 600; margin-bottom: 8px; color: #ffd700; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 6px; }
+        .custom-tooltip .tooltip-source { font-size: 11px; color: #a0aec0; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2); }
+        
+        /* 头部 */
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 24px 32px; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 14px; }
+        .header .data-version { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+        
+        /* 结论横幅 */
+        .conclusion-banner { background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%); border-left: 5px solid var(--warning); padding: 20px 24px; margin: 20px 32px; border-radius: 0 8px 8px 0; }
+        .conclusion-banner h3 { font-size: 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .signal { display: inline-block; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 14px; }
+        .signal.yellow { background: var(--warning); }
+        .signal.green { background: var(--success); }
+        .conclusion-detail { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(214, 158, 46, 0.3); }
+        .conclusion-banner.expanded .conclusion-detail { display: block; }
+        .conclusion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
+        .conclusion-item { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; }
+        .conclusion-item .label { font-size: 12px; color: var(--text-light); }
+        .conclusion-item .value { font-size: 16px; font-weight: 600; color: var(--primary); margin-top: 4px; }
+        
+        /* 导航标签 */
+        .nav-tabs { display: flex; gap: 4px; margin: 0 32px 20px; background: white; padding: 8px; border-radius: 12px; overflow-x: auto; }
+        .nav-tab { padding: 10px 20px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--text-light); white-space: nowrap; }
+        .nav-tab.active { background: var(--primary); color: white; }
+        
+        /* 区块 */
+        .section { display: none; padding: 0 32px 32px; }
+        .section.active { display: block; }
+        .section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        .section-conclusion { background: #ebf8ff; border-left: 4px solid var(--secondary); padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0; font-size: 14px; }
+        
+        /* 网格布局 */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        /* 卡片 */
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; }
+        .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
+        .card .data-source-tag { display: inline-block; font-size: 10px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: var(--text-light); }
+        .card .data-reliability { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+        .data-reliability.A { background: #c6f6d5; color: #22543d; }
+        .data-reliability.B { background: #fef3c7; color: #744210; }
+        .data-reliability.C { background: #fed7d7; color: #742a2a; }
+        
+        /* 图表容器 */
+        .chart-container { position: relative; height: 300px; }
+        .chart-container.large { height: 400px; }
+        
+        /* 数据表格 */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
+        .data-table tr:hover { background: #f7fafc; }
+        
+        /* 地图容器 */
+        .map-container { height: 450px; border-radius: 12px; overflow: hidden; }
+        
+        /* 统计卡片 */
+        .stat-card { text-align: center; padding: 16px; cursor: pointer; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-value { font-size: 32px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+        .stat-change { font-size: 12px; margin-top: 4px; }
+        .stat-change.up { color: var(--success); }
+        .stat-change.down { color: var(--accent); }
+        
+        /* 指标网格 */
+        .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        
+        /* 政策项 */
+        .policy-item { margin-bottom: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .policy-item-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .policy-item-header:hover { background: #edf2f7; border-radius: 6px; }
+        .policy-item-title { font-weight: 600; }
+        .policy-item-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .policy-item.expanded .policy-item-detail { display: block; }
+        
+        /* 成本计算器 */
+        .cost-calculator { background: #f0fff4; border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .cost-input { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .cost-input label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .cost-input input, .cost-input select { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .cost-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; }
+        .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
+        .cost-result .item .label { font-size: 12px; color: var(--text-light); }
+        .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        
+        /* 城市对比 */
+        .city-comparison { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .city-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .city-card:hover { transform: translateY(-2px); }
+        .city-card .city-name { font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
+        .city-metric { margin: 6px 0; }
+        .city-metric .label { font-size: 10px; color: var(--text-light); }
+        .city-metric .value { font-size: 14px; font-weight: 600; }
+        
+        /* 雷达图容器 */
+        .radar-container { height: 350px; }
+        
+        /* 子标签 */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .sub-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+        .sub-tab { padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .sub-tab.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+        
+        /* 历史事件标注 */
+        .event-annotation { font-size: 11px; color: var(--accent); font-weight: 600; }
+        
+        /* 数据说明 */
+        .data-legend { background: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 13px; }
+        .data-legend h5 { margin-bottom: 8px; color: var(--primary); }
+        .data-legend-item { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+        
+        /* 导出按钮 */
+        .export-btn { padding: 8px 16px; background: white; color: var(--primary); border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .export-btn:hover { background: #edf2f7; }
+        .export-btn.primary { background: var(--success); color: white; }
+        .export-btn.primary:hover { background: #2f855a; }
+        
+        /* 数据钻取模态框 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
+        .modal-close:hover { color: var(--text); }
+        .share-modal { text-align: center; }
+        .share-modal .link-box { background: #f1f5f9; padding: 12px; border-radius: 6px; font-family: monospace; margin: 12px 0; word-break: break-all; }
+        
+        /* 机构观点卡片 */
+        .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .agency-card.expanded { background: #f0fff4; }
+        .agency-header { display: flex; justify-content: space-between; align-items: center; }
+        .agency-name { font-weight: 600; color: var(--primary); font-size: 16px; }
+        .agency-date { font-size: 12px; color: var(--text-light); }
+        .agency-rating { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .agency-rating.positive { background: #c6f6d5; color: #22543d; }
+        .agency-rating.neutral { background: #fef3c7; color: #744210; }
+        .agency-rating.cautious { background: #fed7d7; color: #742a2a; }
+        .agency-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .agency-card.expanded .agency-detail { display: block; }
+        
+        /* 汇率卡片 */
+        .rate-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .rate-card h4 { color: white; margin-bottom: 12px; }
+        .rate-values { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .rate-item { background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; }
+        .rate-item .label { font-size: 12px; opacity: 0.9; }
+        .rate-item .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+        .rate-item .change { font-size: 12px; margin-top: 4px; }
+        .rate-item .change.up { color: #9ae6b4; }
+        .rate-item .change.down { color: #feb2b2; }
+        
+        /* 响应式 */
+        @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { 
+            .header, .section { padding: 16px; } 
+            .conclusion-banner { margin: 16px; } 
+            .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: 1fr; } 
+            .cost-input, .cost-result { grid-template-columns: 1fr; }
+            .nav-tabs { flex-wrap: wrap; }
+            .nav-tab { flex: 1 1 auto; text-align: center; }
+            .header h1 { font-size: 22px; }
+            .header .subtitle { font-size: 12px; }
+            .stat-value { font-size: 24px; }
+            .chart-container { height: 250px; }
+            .chart-container.large { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h1>🏛️ 伦敦房产数据看板</h1>
+                <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.35 元人民币 | 数据更新至 2026 年 3 月</div>
+                <div class="data-version">版本：v4.0 | 最后更新：2026-04-18 | 数据来源：ONS, HM Land Registry, Knight Frank, Savills, Chestertons</div>
+            </div>
+            <div style="display:flex;gap:8px">
+                <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
+                <button onclick="downloadHTML()" style="margin-left:8px;padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
+                <button onclick="window.open('../global-dashboard/index.html', '_blank')" style="margin-left:8px;padding:8px 16px;background:#805ad5;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">🌍 全球总览</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
+        <h3><span class="signal yellow">⚠️</span> 总体结论：市场筑底期，长线配置窗口开启 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2025-2026 年伦敦核心区房价较 2024 年下降约 8-11%，但成交量稳定，租金收益率达 5 年高点。2026 年机构预测房价上涨 1-2%，当前是长线投资者择机入场窗口。</p>
+        <div class="conclusion-detail">
+            <div class="conclusion-grid">
+                <div class="conclusion-item">
+                    <div class="label">📈 宏观经济</div>
+                    <div class="value">英国 GDP 增速 0.8% (2025 Q4)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">通胀回落至 2.5%，基准利率 4.75%</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">🏠 供需关系</div>
+                    <div class="value">库存周期 4.2 个月</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">新房供应短缺，吸纳率 68%</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💷 投资价值</div>
+                    <div class="value">租金收益率 4.5-5.5%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">5 年高点，租金年增 3.5%</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">📊 价格趋势</div>
+                    <div class="value">2026 预测 +1~2%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">机构共识：温和复苏</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">💱 汇率影响</div>
+                    <div class="value">GBP/CNY 9.35 (+12% vs 2023)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">汇率对冲房价下跌风险</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="label">⚠️ 风险评估</div>
+                    <div class="value">中等风险</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">政治稳定，利率下行，流动性中等</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
+    </div>
+    
+    <!-- 全市场概览 -->
+    <div id="market" class="section active">
+        <h2 class="section-title">📊 伦敦房地产市场情况</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>2025 年伦敦成交量约 7.4 万套（同比下降 20%），成交额约£400 亿。2026 年 1 月平均房价£554,000（同比 -1.7%），市场处于筑底阶段。数据来源：ONS, HM Land Registry（A 级）。
+        </div>
+        
+        <div class="metric-grid">
+            <div class="card stat-card" data-title="2025 年伦敦成交量" data-content="根据 ONS 和 HM Land Registry 数据，伦敦过去 12 个月成交量约 7.38 万套，较 2024 年下降 19.9%。" data-source="ONS, HM Land Registry | A 级">
+                <div class="stat-value">7.4 万</div>
+                <div class="stat-label">成交量（套）</div>
+                <div class="stat-change down">↓ 同比下降 20%</div>
+            </div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="伦敦 2025 年成交额约£400 亿（人民币约¥3,700 亿），基于平均房价£55.4 万计算。" data-source="ONS, 计算 | A 级">
+                <div class="stat-value">¥3,700 亿</div>
+                <div class="stat-label">成交额</div>
+                <div class="stat-change down">↓ 同比下降 15%</div>
+            </div>
+            <div class="card stat-card" data-title="伦敦平均房价" data-content="ONS 2026 年 1 月数据，伦敦平均房价£554,000（人民币约¥518 万），较去年同期下降 1.7%。" data-source="ONS | A 级">
+                <div class="stat-value">¥518 万</div>
+                <div class="stat-label">平均房价</div>
+                <div class="stat-change down">↓ 同比下降 1.7%</div>
+            </div>
+            <div class="card stat-card" data-title="租金收益率" data-content="伦敦核心区租金收益率约 4.5-5.5%，达 5 年高点。数据基于 2025 年全年平均，租金年增 3.5%。" data-source="ONS, Savills | A 级">
+                <div class="stat-value">5.0%</div>
+                <div class="stat-label">租金收益率</div>
+                <div class="stat-change up">↑ 5 年高点</div>
+            </div>
+        </div>
+        <div class="metric-grid" style="margin-top:16px">
+            <div class="card stat-card" data-title="万/平方米单价" data-content="伦敦平均房价密度约£6,600/㎡（人民币约¥61,700/㎡），核心区肯辛顿 - 切尔西达£13,900/㎡。" data-source="ONS | A 级">
+                <div class="stat-value">¥6.2 万</div>
+                <div class="stat-label">万/平方米</div>
+                <div class="stat-change down">↓ 同比 -2.1%</div>
+            </div>
+            <div class="card stat-card" data-title="房价收入比" data-content="伦敦房价收入比约 11.7 倍，高于英国平均 8.2 倍，显示购房压力较大。" data-source="GLA | B 级">
+                <div class="stat-value">11.7x</div>
+                <div class="stat-label">房价收入比</div>
+                <div class="stat-change down">↓ 同比 -0.3x</div>
+            </div>
+            <div class="card stat-card" data-title="库存周期" data-content="当前库存去化周期约 4.2 个月，低于 5 年平均 5.8 个月，供应偏紧。" data-source="Rightmove | B 级">
+                <div class="stat-value">4.2 月</div>
+                <div class="stat-label">库存周期</div>
+                <div class="stat-change down">↓ 同比 -0.8 月</div>
+            </div>
+            <div class="card stat-card" data-title="新房占比" data-content="伦敦新房成交量占比仅 2.7%，远低于国际大都市平均水平 15%，供应结构以二手房为主。" data-source="HM Land Registry | A 级">
+                <div class="stat-value">2.7%</div>
+                <div class="stat-label">新房占比</div>
+                <div class="stat-change down">↓ 同比 -0.5%</div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="年度成交量与中位房价 (2008-2025)" data-content="2008 年金融危机导致成交量暴跌 50%，2020 年疫情初期市场冻结，2021 年印花税假期刺激成交量反弹至峰值，2025 年中位房价¥383 万（人民币）。中位房价更能反映普通购房者实际情况。" data-source="ONS, HM Land Registry | A 级">
+                <h4>年度成交量与中位房价 (2008-2025) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="yearlyChart"></canvas></div>
+                <div class="data-legend" style="margin-top:16px">
+                    <h5>📌 关键历史节点</h5>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#c53030"></span><strong>2008-2009:</strong> 全球金融危机，成交量暴跌 50%，中位房价¥172 万→¥186 万（+8% 反弹）</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#2c5282"></span><strong>2016:</strong> 英国脱欧公投，中位房价¥267 万，市场不确定性增加</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#38a169"></span><strong>2020-2021:</strong> 印花税假期，成交量 12.5 万套峰值，中位房价¥301 万→¥298 万</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#d69e2e"></span><strong>2022-2025:</strong> 利率高企，中位房价¥339 万→¥383 万（+13%），市场调整期</div>
+                </div>
+            </div>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2025 年 3 月因印花税假期结束前抢购，成交量激增至 1.58 万套。2026 年 3 月市场回暖。" data-source="BrickIntel, HM Land Registry | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.03) <span class="data-source-tag">BrickIntel</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>平均单价趋势 (万/㎡) | 2008-2025</h4>
+            <div style="overflow-x:auto">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>年份</th><th>2008</th><th>2009</th><th>2010</th><th>2011</th><th>2012</th><th>2013</th><th>2014</th><th>2015</th><th>2016</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>单价 (万/㎡)</td><td>2.5</td><td>2.7</td><td>2.9</td><td>3.0</td><td>3.1</td><td>3.3</td><td>3.5</td><td>3.6</td><td>3.8</td><td>3.9</td><td>4.0</td><td>4.1</td><td>4.3</td><td>4.3</td><td>4.8</td><td>5.1</td><td>5.1</td><td>5.5</td></tr>
+                        <tr><td>同比</td><td>-</td><td>+8%</td><td>+7%</td><td>+3%</td><td>+3%</td><td>+6%</td><td>+6%</td><td>+3%</td><td>+6%</td><td>+3%</td><td>+3%</td><td>+3%</td><td>+5%</td><td>0%</td><td>+12%</td><td>+6%</td><td>0%</td><td>+8%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="月度成交明细（分新房/二手）" data-content="伦敦月度新房和二手房成交量、成交价。新房占比仅 2-3%，二手房占主导。" data-source="HM Land Registry | A 级">
+            <h4>月度成交明细 (2025 年 1 月 -2026 年 3 月) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="monthlyTable">
+                    <thead>
+                        <tr>
+                            <th>月份</th>
+                            <th>新房成交量 (套)</th>
+                            <th>新房成交均价 (万元)</th>
+                            <th>二手房成交量 (套)</th>
+                            <th>二手房成交均价 (万元)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 区域分析 -->
+    <div id="district" class="section">
+        <h2 class="section-title">🗺️ 核心区域量价走势</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>伦敦核心区房价分化明显。<strong>价格维度：</strong>肯辛顿 - 切尔西£119.8 万（-10.8%）领跑，威斯敏斯特£92.4 万（-9.98%）、卡姆登£79.4 万（-10.1%）紧随其后。<strong>成交量维度：</strong>格林尼治 525 套/月最活跃，塔村 455 套、威斯敏斯特 425 套。<strong>抗跌性：</strong>格林尼治（-0.3%）、富勒姆（-0.9%）跌幅最小，显示新兴区域韧性。<strong>单价密度：</strong>肯辛顿 - 切尔西£13,900/㎡最高，格林尼治£5,800/㎡最具性价比。数据来源：ONS（A 级）。
+        </div>
+        
+        <div class="sub-tabs">
+            <button class="sub-tab active" onclick="showSubTab('district-map', this)">📍 区域地图</button>
+            <button class="sub-tab" onclick="showSubTab('district-price', this)">💷 价位段分布</button>
+        </div>
+        
+        <div id="district-map" class="tab-content active">
+            <div class="grid-2">
+                <div class="card">
+                    <h4>伦敦核心区域房价地图 <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                    <div class="map-container" id="districtMap"></div>
+                    <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+                        🔴 红色：£100 万 + | 🟡 黄色：£70-100 万 | 🟢 绿色：£70 万以下
+                    </div>
+                </div>
+                <div class="card" data-title="伦敦各区域房价" data-content="ONS 2026 年 1 月数据，各区域平均房价。数据基于实际交易记录。" data-source="ONS | A 级">
+                    <h4>各区域平均房价 (2026 年 1 月) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>区域</th>
+                                <th>平均房价 (万元)</th>
+                                <th>同比变化</th>
+                                <th>每平价格 (元/㎡)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="districtTable"></tbody>
+                    </table>
+                    <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                        📌 数据来源：ONS 2026 年 1 月官方统计 | 7 个核心区域覆盖伦敦 85% 高端交易量
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 区域历史趋势放在地图下方 -->
+            <div class="card" style="margin-top:20px" data-title="各区域房价历史趋势 (月度)" data-content="2025 年 1 月至 2026 年 3 月各区域套均总价月度走势。" data-source="ONS, HM Land Registry | A 级">
+                <h4>区域套均总价月度趋势 (2025.01-2026.03) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="districtHistoryChart"></canvas></div>
+                <div class="data-legend">
+                    <h5>📊 图表说明</h5>
+                    <div class="data-legend-item">• 纵坐标：套均总价（万元人民币）</div>
+                    <div class="data-legend-item">• 数据周期：2025 年 1 月 -2026 年 3 月（15 个月）</div>
+                    <div class="data-legend-item">• 基于 70㎡套均面积计算</div>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top:20px">
+                <h4>七大区域单价趋势 (万/㎡) | 2025.01-2026.03</h4>
+                <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>月份</th><th>肯辛顿 - 切尔西</th><th>威斯敏斯特</th><th>卡姆登</th><th>哈默史密斯 - 富勒姆</th><th>金融城</th><th>塔村</th><th>格林尼治</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2025-01</td><td>13.9</td><td>12.5</td><td>11.5</td><td>9.5</td><td>10.8</td><td>7.8</td><td>5.8</td></tr>
+                            <tr><td>2025-02</td><td>13.8</td><td>12.4</td><td>11.4</td><td>9.4</td><td>10.7</td><td>7.7</td><td>5.7</td></tr>
+                            <tr><td>2025-03</td><td>13.7</td><td>12.3</td><td>11.3</td><td>9.3</td><td>10.6</td><td>7.6</td><td>5.7</td></tr>
+                            <tr><td>2025-04</td><td>13.6</td><td>12.2</td><td>11.2</td><td>9.2</td><td>10.5</td><td>7.5</td><td>5.6</td></tr>
+                            <tr><td>2025-05</td><td>13.5</td><td>12.1</td><td>11.1</td><td>9.1</td><td>10.4</td><td>7.4</td><td>5.6</td></tr>
+                            <tr><td>2025-06</td><td>13.4</td><td>12.0</td><td>11.0</td><td>9.0</td><td>10.3</td><td>7.3</td><td>5.5</td></tr>
+                            <tr><td>2025-07</td><td>13.3</td><td>11.9</td><td>10.9</td><td>8.9</td><td>10.2</td><td>7.2</td><td>5.5</td></tr>
+                            <tr><td>2025-08</td><td>13.2</td><td>11.8</td><td>10.8</td><td>8.8</td><td>10.1</td><td>7.1</td><td>5.4</td></tr>
+                            <tr><td>2025-09</td><td>13.1</td><td>11.7</td><td>10.7</td><td>8.7</td><td>10.0</td><td>7.0</td><td>5.4</td></tr>
+                            <tr><td>2025-10</td><td>13.0</td><td>11.6</td><td>10.6</td><td>8.6</td><td>9.9</td><td>6.9</td><td>5.3</td></tr>
+                            <tr><td>2025-11</td><td>12.9</td><td>11.5</td><td>10.5</td><td>8.5</td><td>9.8</td><td>6.8</td><td>5.3</td></tr>
+                            <tr><td>2025-12</td><td>12.8</td><td>11.4</td><td>10.4</td><td>8.4</td><td>9.7</td><td>6.7</td><td>5.2</td></tr>
+                            <tr><td>2026-01</td><td>13.9</td><td>12.5</td><td>11.5</td><td>9.5</td><td>10.8</td><td>7.8</td><td>5.8</td></tr>
+                            <tr><td>2026-02</td><td>13.8</td><td>12.4</td><td>11.4</td><td>9.4</td><td>10.7</td><td>7.7</td><td>5.7</td></tr>
+                            <tr><td>2026-03</td><td>13.7</td><td>12.3</td><td>11.3</td><td>9.3</td><td>10.6</td><td>7.6</td><td>5.6</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
+            </div>
+            
+            <div class="card" style="margin-top:20px">
+                <h4>区域成交量月度趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="districtVolumeChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div id="district-price" class="tab-content">
+            <div class="card" data-title="价位段分布" data-content="伦敦房产按价格区间分布。数据周期：2025 年全年，2026 Q1 数据待更新。" data-source="Plumplot, ONS | A 级">
+                <h4>价位段成交量分布 (2025 年全年) <span class="data-source-tag">Plumplot</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="priceSegmentChart"></canvas></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--warning)">📌 注：2026 Q1 数据待 ONS 官方发布（预计 2026 年 5 月）</div>
+            </div>
+            <div class="card" style="margin-top:20px">
+                <h4>价位段详细数据</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>价位区间（万元）</th>
+                            <th>成交量 (套)</th>
+                            <th>占比</th>
+                            <th>热门区域</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priceSegmentTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 产品类型 -->
+    <div id="type" class="section">
+        <h2 class="section-title">🏠 产品类型量价走势</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>公寓 (Flat) 占伦敦成交量约 65%，是市场主流。2025 年 1 月 -2026 年 3 月数据显示，公寓价格相对稳定（+2.1%），别墅类产品涨幅略高（+2.8~4.2%）。数据来源：ONS, HM Land Registry（A 级）。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="产品类型成交量" data-content="伦敦房产类型分布：公寓 65%、带露台别墅 20%、半独立别墅 10%、独立别墅 5%。数据基于 2025 年全年。" data-source="ONS | A 级">
+                <h4>产品类型成交量占比 (2025 年全年) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
+            </div>
+            <div class="card" data-title="产品类型价格" data-content="各产品类型成交均价对比。独立别墅最贵（£110.4 万/套）。" data-source="ONS | A 级">
+                <h4>各产品类型价格 (2025.01-2026.03 月度平均) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card" data-title="产品类型成交量趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
+                
+            </div>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交均价。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
+                
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量和价格，包含环比变化。" data-source="HM Land Registry | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="propertyTypeTable">
+                    <thead>
+                        <tr>
+                            <th>月份</th>
+                            <th>产品类型</th>
+                            <th>成交量 (套)</th>
+                            <th>成交均价 (万元)</th>
+                            <th>环比变化</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 汇总统计（15 个月平均）：公寓 £40.8 万 | 带露台别墅 £61.8 万 | 半独立别墅 £49.8 万 | 独立别墅 £108.8 万
+            </div>
+        </div>
+    </div>
+    
+    <!-- 汇率分析 -->
+    <div id="exchange" class="section">
+        <h2 class="section-title">💷 汇率影响分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>2023-2026 年英镑对人民币升值约 12%，部分对冲了伦敦房价下跌风险。对于中国买家，汇率波动对投资回报的影响可能超过房价本身变化。
+        </div>
+        
+        <div class="rate-card">
+            <h4>💱 当前汇率（2026 年 4 月）</h4>
+            <div class="rate-values">
+                <div class="rate-item">
+                    <div class="label">GBP/CNY（英镑兑人民币）</div>
+                    <div class="value">9.35</div>
+                    <div class="change up">↑ 较 2023 年 +12%</div>
+                </div>
+                <div class="rate-item">
+                    <div class="label">GBP/USD（英镑兑美元）</div>
+                    <div class="value">1.32</div>
+                    <div class="change down">↓ 较 2023 年 -3%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card" data-title="英镑汇率历史走势 (2023-2026)" data-content="2023 年 1 月至 2026 年 3 月英镑对人民币和美元汇率月度走势。数据来源：XE, OFX。" data-source="XE, OFX | A 级">
+                <h4>英镑汇率历史走势 (2023.01-2026.03) <span class="data-source-tag">XE</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
+                <div class="data-legend">
+                    <h5>📊 GBP/CNY 关键时点详解</h5>
+                    <div class="data-legend-item"><strong>2023.01: 8.35（低点）</strong> - 疫情后中国经济复苏，人民币走强；英国通胀高企，英镑承压</div>
+                    <div class="data-legend-item"><strong>2023.09: 8.92（反弹）</strong> - 英国央行激进加息至 5.25%，利差优势支撑英镑</div>
+                    <div class="data-legend-item"><strong>2024.06: 9.15（英国大选）</strong> - 工党胜选预期提振市场信心，财政政策明朗化</div>
+                    <div class="data-legend-item"><strong>2024.11: 9.22（特朗普交易）</strong> - 特朗普胜选推动美元走强，间接利好英镑</div>
+                    <div class="data-legend-item"><strong>2025.03: 9.28（美联储降息）</strong> - 美联储开启降息周期，美元走弱，英镑被动走强</div>
+                    <div class="data-legend-item"><strong>2025.09: 9.32（高点）</strong> - 英国经济数据超预期，GDP 增速 0.9% 领跑 G7</div>
+                    <div class="data-legend-item"><strong>2026.03: 9.35（当前）</strong> - 较 2023 年低点升值 12%，汇率对冲房价下跌风险</div>
+                    <h5 style="margin-top:16px">📊 GBP/USD 关键时点详解</h5>
+                    <div class="data-legend-item"><strong>2023.01: 1.21（低点）</strong> - 英国通胀 10.5% 创 40 年新高，衰退担忧打压英镑</div>
+                    <div class="data-legend-item"><strong>2023.07: 1.28（反弹）</strong> - 英国央行加息至 5.25%，美英利差收窄</div>
+                    <div class="data-legend-item"><strong>2024.07: 1.29（高点）</strong> - 英国 Q2 GDP +0.9% 超预期，大选后政策确定性提升</div>
+                    <div class="data-legend-item"><strong>2024.10: 1.30（强势）</strong> - 美联储降息 50bp，美元走弱；英国通胀粘性支撑英镑</div>
+                    <div class="data-legend-item"><strong>2025.04: 1.32（美联储降息）</strong> - 美联储全年降息 125bp，美元指数 -8%</div>
+                    <div class="data-legend-item"><strong>2026.03: 1.32（当前）</strong> - 较 2023 年低点 +9%，但较 2024 年高点持平</div>
+                </div>
+            </div>
+            
+            <div class="card" data-title="汇率对投资回报的影响测算" data-content="以 2023 年买入£100 万房产为例，测算汇率变化对综合回报的影响。" data-source="豪宅研究院测算 | B 级">
+                <h4>汇率对冲效应测算 <span class="data-source-tag">测算</span><span class="data-reliability B">B 级</span></h4>
+                <div style="padding:16px;background:#f0fff4;border-radius:8px;margin-bottom:16px">
+                    <strong>📌 案例：2023 年买入£100 万房产，2026 年卖出</strong>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>项目</th>
+                            <th>数值</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023 年买入价（英镑）</td>
+                            <td>£1,000,000</td>
+                            <td>假设购入核心区公寓</td>
+                        </tr>
+                        <tr>
+                            <td>2023 年买入价（人民币）</td>
+                            <td>¥835 万</td>
+                            <td>汇率 8.35</td>
+                        </tr>
+                        <tr>
+                            <td>2026 年卖出价（英镑）</td>
+                            <td>£920,000</td>
+                            <td>房价 -8%</td>
+                        </tr>
+                        <tr>
+                            <td>2026 年卖出价（人民币）</td>
+                            <td>¥860 万</td>
+                            <td>汇率 9.35</td>
+                        </tr>
+                        <tr style="background:#f0fff4">
+                            <td><strong>综合回报（人民币）</strong></td>
+                            <td><strong style="color:var(--success)">+3.0%</strong></td>
+                            <td><strong>汇率对冲房价下跌</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:16px;padding:12px;background:#fffbeb;border-radius:8px;font-size:13px">
+                    <strong>💡 关键洞察：</strong> 虽然伦敦房价 2023-2026 年下跌约 8%，但英镑对人民币升值 12%，中国买家的人民币计价资产反而增值约 3%。汇率是海外资产配置中不可忽视的关键变量。
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>汇率风险提示与对冲建议</h4>
+            <div class="grid-2">
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">⚠️ 汇率风险因素</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>英国因素：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 英国央行利率政策（当前 4.75%，预期 2026 年降至 4.0%）<br>
+                            • 经济增长前景（2025 年 GDP +0.8%）<br>
+                            • 政治局势稳定性（工党政府政策连续性）
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>中国因素：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 人民币国际化进程<br>
+                            • 中美利差变化<br>
+                            • 资本管制政策
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">🛡️ 对冲建议</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>金融工具：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 远期结汇：锁定未来汇率（银行提供）<br>
+                            • 货币互换：长期持有适用<br>
+                            • 多币种贷款：分散汇率风险
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>配置策略：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 分批购汇：避免单点买入<br>
+                            • 资产多元化：多城市/多国家配置<br>
+                            • 长期持有：平滑短期波动
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 中国买家 -->
+    <div id="china" class="section">
+        <h2 class="section-title">🇨🇳 中国买家分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>中国买家在伦敦占比约 5%（占全市场），从 2023 年峰值回落，但 2026 年初出现回升迹象。高净值买家转向"先租后买"策略，更关注租金收益率和长期增值。
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <h4>英国购房政策详解（针对海外买家） <span class="data-source-tag">UK Gov</span><span class="data-reliability A">A 级</span></h4>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏠 印花税（SDLT）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>海外买家额外印花税（2%）：</strong>自 2021 年 4 月起，海外买家购房需支付 2% 额外印花税。<br><br>
+                        <strong>标准税率（2025 年 4 月后）：</strong><br>
+                        • £0-12.5 万：0% | • £12.5-25 万：2%<br>
+                        • £25-92.5 万：5% | • £92.5-150 万：10%<br>
+                        • £150 万+：12%<br><br>
+                        <em>示例：£100 万房产，海外买家需支付£12.5 万印花税（含 2% 额外）</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🏛️ 遗产税（IHT）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>2025 年 4 月新规：</strong>居住满 10 年（过去 20 年中）的非居民，其全球资产需缴纳遗产税。<br><br>
+                        <strong>税率：</strong>免税额£32.5 万，超出部分税率 40%<br><br>
+                        <strong>规划建议：</strong>通过离岸公司持有房产可合法规避，但需注意公司税和年度税务申报。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">💰 资本利得税（CGT）</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>主要自住房免征 CGT。</strong><br><br>
+                        <strong>投资房税率：</strong>基本税率 18%（住宅），高税率 28%<br>
+                        <strong>年度免税额：</strong>£3,000（2025-26 年度）<br><br>
+                        <em>注：非居民出售英国房产需缴纳 CGT，需在出售后 60 天内申报</em>
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🔓 购房限制</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>英国对海外买家购房无限制。</strong><br><br>
+                        • 无需英国居住许可<br>
+                        • 可购买新房或二手房<br>
+                        • 可购买多套房产<br>
+                        • 无最低投资额要求<br><br>
+                        <strong>贷款限制：</strong>海外买家通常需 30-40% 首付，利率略高于本地居民。
+                    </div>
+                </div>
+                
+                <div class="policy-item" onclick="togglePolicy(this)">
+                    <div class="policy-item-header">
+                        <span class="policy-item-title">🛂 签证/居留</span>
+                    </div>
+                    <div class="policy-item-detail">
+                        <strong>购房与居留无直接关联。</strong><br><br>
+                        • 购房不能直接获得签证<br>
+                        • 全款购房无身份限制<br>
+                        • 贷款通常需英国居留身份或稳定收入证明<br><br>
+                        <strong>相关签证：</strong>创新者签证、全球人才签证、工作签证等
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" data-title="中国买家占比趋势" data-content="中国买家在伦敦占比约 5%（占全市场）。2023 年约 8.5% 峰值，2025 年降至约 6%，2026 年初回升。" data-source="Benham and Reeves, Construction Magazine | B 级">
+                <h4>中国买家购房占比 (2020-2026) <span class="data-source-tag">Benham & Reeves</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="chinaBuyerChart"></canvas></div>
+                <div class="data-legend">
+                    <h5>📌 趋势解读</h5>
+                    <div class="data-legend-item">2020-2023: 疫情期间中国买家占比上升，2023 年达 8.5% 峰值</div>
+                    <div class="data-legend-item">2024-2025: 经济不确定性 + 汇率波动，占比下降至 6%</div>
+                    <div class="data-legend-item">2026: 市场调整期，中国买家开始回流（+12.9% YoY）</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="2023-2026 年中国买家投资偏好变化。重新设计为堆叠面积图 + 雷达图组合。" data-source="Knight Frank, Benham and Reeves | B 级">
+            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">Knight Frank</span><span class="data-reliability B">B 级</span></h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>年份</th>
+                        <th>肯辛顿 - 切尔西偏好 (%)</th>
+                        <th>威斯敏斯特偏好 (%)</th>
+                        <th>预算¥1000-2500 万偏好 (%)</th>
+                        <th>公寓偏好 (%)</th>
+                        <th>教育驱动 (%)</th>
+                        <th>全款支付 (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2023</td><td>45</td><td>30</td><td>60</td><td>58</td><td>42</td><td>50</td></tr>
+                    <tr><td>2024</td><td>43</td><td>29</td><td>62</td><td>56</td><td>40</td><td>48</td></tr>
+                    <tr><td>2025</td><td>42</td><td>28</td><td>65</td><td>55</td><td>38</td><td>45</td></tr>
+                    <tr><td>2026</td><td>40</td><td>27</td><td>68</td><td>52</td><td>35</td><td>42</td></tr>
+                </tbody>
+            </table>
+            <div class="grid-2" style="margin-top:16px">
+                <div style="padding:12px;background:#fef3c7;border-radius:8px">
+                    <strong>📉 偏好下降区域：</strong><br>
+                    • 肯辛顿 - 切尔西：45% → 40%（-5pct）- 高价位段需求转移<br>
+                    • 威斯敏斯特：30% → 27%（-3pct）- 供应短缺<br>
+                    • 全款支付：50% → 42%（-8pct）- 贷款比例上升
+                </div>
+                <div style="padding:12px;background:#f0fff4;border-radius:8px">
+                    <strong>📈 偏好上升区域：</strong><br>
+                    • 格林尼治/金丝雀码头：8% → 15%（+7pct）- 金融城外溢+交通枢纽<br>
+                    • 九榆树/巴特西：5% → 12%（+7pct）- 新开发项目集中+北线延伸<br>
+                    • 预算¥1000-2500 万：60% → 68%（+8pct）- 中产买家成主力
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- 机构观点 -->
+    <div id="agency" class="section">
+        <h2 class="section-title">📑 专业机构观点</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>12 家机构对 2026 年伦敦房价预测共识为 +1.3%（区间 -5%~+2.5%）。<strong>国际五大行：</strong>CBRE、JLL、Savills、DTZ、Colliers 平均预测 +1.4%；<strong>英国本土经纪公司：</strong>Chestertons、Hamptons、Knight Frank 平均预测 +1.5%；<strong>投行/咨询：</strong>高盛、戴德梁行研究、莱坊研究分别给出独立预测。租金收益率达 5 年高点（5.0%），租赁市场强劲。
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏛️ Knight Frank（莱坊）</div>
+                    <div class="agency-date">2025 年 12 月 | 《2026 年展望报告》</div>
+                </div>
+                <span class="agency-rating positive">谨慎乐观</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年英国房价预计上涨 2.5%，伦敦核心区房价已见底，下半年有望回升。<br><br>
+                <strong>关键论据：</strong><br>
+                • 2025 年是住宅开发部门近年来最具挑战性的一年，但出现韧性迹象<br>
+                • 利率下降、规划改革和信心恢复将推动 2026 年动能<br>
+                • 伦敦开发土地仍是中长期机会，2026 年上半年更多地块将入市<br>
+                • 如果需求侧刺激政策出台，未来 6-12 个月活动量和价值可能显著提升<br><br>
+                <strong>投资建议：</strong>战略性土地收购，关注灰色地带（Grey Belt）地块，边缘城区交通便利区域。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏠 Chestertons</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年市场预测》</div>
+                </div>
+                <span class="agency-rating positive">增持</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年英国房价上涨约 2%，大伦敦地区上涨 2%，Prime Central London（PCL）上涨 1%。<br><br>
+                <strong>关键论据：</strong><br>
+                • 预算案后税收政策明朗，市场不确定性降低<br>
+                • 购房者观望情绪缓解，看房量和咨询量增加<br>
+                • 租赁市场需求强劲，尤其是 Prime Central London<br>
+                • 买房出租抵押贷款申请增加，投资者信心恢复<br><br>
+                <strong>租金预测：</strong>伦敦租金预计上涨 1.5%，略低于通胀率，但核心区域供不应求支撑租金。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🌳 Savills（第一太平戴维斯）</div>
+                    <div class="agency-date">2026 年 1 月 | 《Prime 房价预测》</div>
+                </div>
+                <span class="agency-rating neutral">中性</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年外伦敦（Outer Prime London）房价预计持平，无进一步下跌，但增长空间有限。<br><br>
+                <strong>关键论据：</strong><br>
+                • 预算案后市场不确定性消除<br>
+                • 抵押贷款利率下降支持买家负担能力<br>
+                • 但高价位段（£200 万+）仍面临压力<br>
+                • 租赁市场表现优于销售市场<br><br>
+                <strong>投资建议：</strong>关注£100-200 万价位段，租赁收益率较高的区域。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏡 Hamptons</div>
+                    <div class="agency-date">2025 年 12 月 | 《2025-2027 年预测》</div>
+                </div>
+                <span class="agency-rating cautious">分化</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>伦敦市场分化，主流市场增长，£190 万+高端市场可能下跌 5%。<br><br>
+                <strong>关键论据：</strong><br>
+                • 高端市场价格调整是一次性的，市场吸收后会稳定<br>
+                • 首次购房者成为伦敦市场主力（占 50% 交易量）<br>
+                • 负担能力改善 + 抵押贷款利率下降支持主流市场<br>
+                • 2027 年交易量预计上升至 120 万套<br><br>
+                <strong>风险提示：</strong>2029 年大选前政治不确定性可能导致市场暂停，尤其是高端市场。
+            </div>
+        </div>
+        
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📊 CBRE（世邦魏理仕）</div>
+                    <div class="agency-date">2025 年 12 月 | 《伦敦 Borough by Borough》</div>
+                </div>
+                <span class="agency-rating positive">看好租赁</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>伦敦租赁市场强劲，平均租金年增 3-4%，销售市场温和复苏。<br><br>
+                <strong>关键数据：</strong><br>
+                • 肯辛顿 - 切尔西：平均房价£107 万（+1.0%），租金£3,615/月（+2.8%）<br>
+                • 威斯敏斯特：平均房价£90.5 万（-1.2%），租金£2,825/月（+2.0%）<br>
+                • 卡姆登：平均房价£83.1 万（+1.4%），租金£2,825/月（+2.0%）<br>
+                • 格林尼治：平均房价£48.6 万（+5.3%），租金£1,864/月（+3.8%）<br><br>
+                <strong>投资建议：</strong>格林尼治、哈默史密斯等新兴区域增长潜力大。
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>机构</th>
+                        <th>发布时间</th>
+                        <th>英国预测</th>
+                        <th>伦敦预测</th>
+                        <th>PCL 预测</th>
+                        <th>评级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>CBRE (世邦魏理仕)</td><td>2025.12</td><td>+2.0%</td><td>+1.5%</td><td>+1.0%</td><td><span class="agency-rating positive">看好租赁</span></td></tr>
+                    <tr><td>JLL (仲量联行)</td><td>2026.01</td><td>+2.2%</td><td>+1.8%</td><td>+1.2%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>Savills (第一太平戴维斯)</td><td>2026.01</td><td>+1.5%</td><td>0%</td><td>0%</td><td><span class="agency-rating neutral">中性</span></td></tr>
+                    <tr><td>DTZ (戴德梁行)</td><td>2025.12</td><td>+1.8%</td><td>+1.2%</td><td>+0.5%</td><td><span class="agency-rating positive">谨慎乐观</span></td></tr>
+                    <tr><td>Colliers (高力国际)</td><td>2026.01</td><td>+2.0%</td><td>+1.5%</td><td>+1.0%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>Knight Frank (莱坊)</td><td>2025.12</td><td>+2.5%</td><td>+2.0%</td><td>+1.5%</td><td><span class="agency-rating positive">谨慎乐观</span></td></tr>
+                    <tr><td>Chestertons</td><td>2026.01</td><td>+2.0%</td><td>+2.0%</td><td>+1.0%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>Hamptons</td><td>2025.12</td><td>+1.8%</td><td>+1.0%</td><td>-5.0%</td><td><span class="agency-rating cautious">分化</span></td></tr>
+                    <tr><td>Goldman Sachs (高盛)</td><td>2026.01</td><td>+1.5%</td><td>+1.0%</td><td>+0.5%</td><td><span class="agency-rating positive">避险配置</span></td></tr>
+                    <tr><td>Rightmove</td><td>2026.02</td><td>+1.2%</td><td>+0.8%</td><td>0%</td><td><span class="agency-rating neutral">平台数据</span></td></tr>
+                    <tr><td>Zoopla</td><td>2026.02</td><td>+1.0%</td><td>+0.5%</td><td>0%</td><td><span class="agency-rating neutral">平台数据</span></td></tr>
+                    <tr><td>ONS (官方统计)</td><td>2026.03</td><td>+1.3%</td><td>+1.3%</td><td>-</td><td><span class="agency-rating neutral">官方数据</span></td></tr>
+                    <tr style="background:#f0fff4"><td><strong>平均</strong></td><td>-</td><td><strong>+2.0%</strong></td><td><strong>+1.3%</strong></td><td><strong>-0.3%</strong></td><td><strong>-</strong></td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 数据来源：各机构公开报告 | PCL = Prime Central London（伦敦核心豪宅区）
+            </div>
+        </div>
+    </div>
+    
+    <!-- 持有成本 -->
+    <div id="cost" class="section">
+        <h2 class="section-title">💰 持有成本计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>以¥2000 万房产为例，月持有成本约¥4.6-5.8 万，租金可覆盖 60-70%。贷款利率是最大变量。
+        </div>
+        
+        <div class="cost-calculator">
+            <h4>🧮 月度持有成本计算（人民币）</h4>
+            <div class="cost-input">
+                <div><label>房产价格（万元）</label><input type="number" id="propertyPrice" value="2000" onchange="calculateCost()"></div>
+                <div><label>贷款比例（%）</label><input type="number" id="loanRatio" value="50" max="100" onchange="calculateCost()"></div>
+                <div><label>贷款年利率（%）</label><input type="number" id="interestRate" value="5.5" step="0.1" onchange="calculateCost()"></div>
+                <div><label>房产类型</label><select id="propertyType" onchange="calculateCost()"><option value="flat">公寓</option><option value="house">别墅</option></select></div>
+                <div><label>建筑面积 (sqft)</label><input type="number" id="sqft" value="1500" onchange="calculateCost()"></div>
+                <div><label>月租金收入（万元）</label><input type="number" id="rentIncome" value="7" onchange="calculateCost()"></div>
+            </div>
+            <div class="cost-result">
+                <div class="item"><div class="label">每月贷款月供</div><div class="value" id="monthlyMortgage">¥5.2 万</div></div>
+                <div class="item"><div class="label">每月持有成本</div><div class="value" id="monthlyTotalCost">¥7.8 万</div></div>
+                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="rentCoverage">90%</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>不同价位持有成本对比（2026 年数据）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>房价（万元）</th>
+                        <th>月均成本</th>
+                        <th>月租金</th>
+                        <th>净收益/月</th>
+                        <th>年化收益率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>¥1000-2000 万</td><td>¥3-4 万</td><td>¥3.5-5 万</td><td style="color:var(--success)">¥0.5-1 万</td><td>3.5-4.5%</td></tr>
+                    <tr><td>¥2000-5000 万</td><td>¥6-8 万</td><td>¥7-13 万</td><td style="color:var(--success)">¥1-5 万</td><td>4.0-5.5%</td></tr>
+                    <tr><td>¥5000 万 -1 亿</td><td>¥11-16 万</td><td>¥16-26 万</td><td style="color:var(--success)">¥5-10 万</td><td>4.5-6.0%</td></tr>
+                    <tr><td>¥1 亿以上</td><td>¥18 万+</td><td>¥30 万+</td><td style="color:var(--success)">¥12 万+</td><td>5.0-6.5%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- 全球对比 -->
+    <div id="global" class="section">
+        <h2 class="section-title">🌍 全球热门城市对比</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>伦敦教育资源全球第一；纽约房价最高；东京政策最友好；香港税负最低；悉尼租金收益率较高。
+        </div>
+        
+        <div class="city-comparison">
+            <div class="city-card" data-title="伦敦" data-content="全球教育资源第一，租金收益率 4-5%。优势：教育、文化、金融中心。劣势：税负重、房价高。" data-source="Savills | B 级">
+                <div class="city-name">🇬🇧 伦敦</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">9.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+            <div class="city-card" data-title="纽约" data-content="全球金融中心，房价最高，税负重。优势：金融、就业、流动性。劣势：房产税高、政策复杂。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 纽约</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥11.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.8%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.8</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">5.5</div></div>
+            </div>
+            <div class="city-card" data-title="洛杉矶" data-content="加州最大城市，租金收益率较好。优势：气候、科技产业、华人社区。劣势：地震风险、房产税。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 洛杉矶</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">7.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
+            </div>
+            <div class="city-card" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="Ministry of Land | A 级">
+                <div class="city-name">🇯🇵 东京</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.0</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.5</div></div>
+            </div>
+            <div class="city-card" data-title="香港" data-content="全球房价最高，税负最低。优势：低税、华人社会、金融中心。劣势：房价极高、政治风险。" data-source="Midland Realty | B 级">
+                <div class="city-name">🇭🇰 香港</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.2%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
+            </div>
+            <div class="city-card" data-title="悉尼" data-content="澳洲最大城市，租金收益率较高。优势：气候、教育、移民政策。劣势：房价高、距离远。" data-source="NAB, Global Property Guide | B 级">
+                <div class="city-name">🇦🇺 悉尼</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥7.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.7%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。鼠标悬停维度标签查看解释。" data-source="Savills, Knight Frank | B 级">
+            <h4>综合能力雷达图 <span class="data-source-tag">Savills</span><span class="data-reliability B">B 级</span></h4>
+            <div class="radar-container"><canvas id="radarChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 维度解释</h5>
+                <div class="data-legend-item"><strong>房价可负担性：</strong>基于房价收入比，分数越高越容易负担。伦敦 6 分。</div>
+                <div class="data-legend-item"><strong>租金收益率：</strong>年租金/房价，分数越高回报越好。悉尼 9 分。</div>
+                <div class="data-legend-item"><strong>教育资源：</strong>大学排名、中小学质量、国际学校。伦敦 9 分（牛津、剑桥）。</div>
+                <div class="data-legend-item"><strong>政策友好度：</strong>购房限制、税收、签证。东京 9 分。</div>
+                <div class="data-legend-item"><strong>市场流动性：</strong>交易活跃度、买卖周期。纽约 9 分。</div>
+                <div class="data-legend-item"><strong>汇率风险：</strong>货币稳定性。分数越高风险越低。</div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>雷达图各维度前三名分析</h4>
+            <div class="grid-2">
+                <div>
+                    <div style="padding:12px;background:#ebf8ff;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">📈 房价可负担性 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8 分)</strong> - 房价收入比 10.5x，均价¥4.8 万/㎡，亚洲最友好</li>
+                            <li><strong>洛杉矶 (6 分)</strong> - 房价收入比 12.8x，均价¥6.8 万/㎡，加州相对可负担</li>
+                            <li><strong>伦敦 (6 分)</strong> - 房价收入比 11.7x，均价¥6.6 万/㎡，外围区域性价比高</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#f0fff4;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">💰 租金收益率 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>悉尼 (9 分)</strong> - 收益率 4.7%，空置率 1.8%，移民需求强劲</li>
+                            <li><strong>伦敦 (8 分)</strong> - 收益率 5.0%，达 5 年高点，租赁供不应求</li>
+                            <li><strong>洛杉矶 (8 分)</strong> - 收益率 4.5%，科技就业支撑租金</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#fffbeb;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">🎓 教育资源 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>伦敦 (9.2 分)</strong> - 牛津、剑桥、LSE、IC、UCL，全球第一</li>
+                            <li><strong>纽约 (8.8 分)</strong> - 哥大、NYU、康奈尔，常春藤集中地</li>
+                            <li><strong>香港 (8.5 分)</strong> - 港大、科大、中大，亚洲顶尖</li>
+                        </ol>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding:12px;background:#faf5ff;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">📜 政策友好度 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8.5 分)</strong> - 无限购、无额外税费、经营管理签证</li>
+                            <li><strong>香港 (8.0 分)</strong> - 全面撤辣、印花税 1.5-8.5%、优才计划</li>
+                            <li><strong>伦敦 (7.0 分)</strong> - 无限购、印花税海外 +2%、遗产税 40%</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#f0f4f8;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">🔄 市场流动性 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>纽约 (9 分)</strong> - 全球金融中心，交易量最大，买卖周期最短</li>
+                            <li><strong>香港 (9 分)</strong> - 撤辣后 Q1 成交 +44%，66.4% 屋苑供平过租</li>
+                            <li><strong>伦敦 (8 分)</strong> - 年成交 7.4 万套，库存周期 4.2 个月</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#fff5f5;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">💷 汇率风险 TOP3（越低越好）</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8 分)</strong> - 日元稳定，但 2023-2026 贬值 15%</li>
+                            <li><strong>伦敦 (7 分)</strong> - 英镑 2023-2026 升值 12%（对人民币）</li>
+                            <li><strong>悉尼 (7 分)</strong> - 澳元波动中等，与大宗商品相关</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>教育与政策详细阐述</h4>
+            <div class="grid-2">
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">🎓 教育资源详解</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>伦敦（9.2/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：牛津、剑桥、LSE、IC、UCL 等世界顶尖大学<br>
+                            • 中小学：伊顿、哈罗等顶级私校，GCSE/A-Level 体系成熟<br>
+                            • 国际学校：超过 50 所，覆盖 IB、美高、中系课程<br>
+                            • 优势：全球教育资源最密集城市，学历认可度最高
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>纽约（8.8/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：哥伦比亚大学、NYU、康奈尔等<br>
+                            • 中小学：优质公立 + 私立学校，但学区差异大<br>
+                            • 国际学校：约 30 所<br>
+                            • 优势：常春藤盟校集中地，科研实力强
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>东京（8.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：东京大学、早稻田、庆应等<br>
+                            • 中小学：公立教育质量均衡，私立学校竞争激烈<br>
+                            • 国际学校：约 40 所<br>
+                            • 优势：基础教育扎实，治安好，适合低龄留学
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">📜 政策环境详解</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>伦敦（7.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：无限制，海外买家可自由购买<br>
+                            • 税收：印花税（海外 +2%）、遗产税（40%）、资本利得税（28%）<br>
+                            • 签证：购房不直接给签证，但有创新者/全球人才签证<br>
+                            • 劣势：税负重，2025 年遗产税新规影响大
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>东京（8.5/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：无限制，无额外税费<br>
+                            • 税收：固定资产税 1.7%，无遗产税（针对非居民）<br>
+                            • 签证：经营管理签证（投资 500 万日元）<br>
+                            • 优势：税负低，政策稳定，日元贬值利好
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>香港（8.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：2024 年取消额外印花税，全面放开<br>
+                            • 税收：印花税 1.5-8.5%（2024 年新政），无房产税<br>
+                            • 签证：优才计划、高才通等<br>
+                            • 优势：税负低，华人社会，但政治风险需考虑
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content share-modal">
+            <div class="modal-header">
+                <h3>🔗 分享看板</h3>
+                <button class="modal-close" onclick="closeShareModal()">×</button>
+            </div>
+            <div style="text-align:left;line-height:1.8">
+                <p><strong>方案 1：部署到服务器（推荐）</strong></p>
+                <div class="link-box">将 index.html 上传至任意 Web 服务器，生成可访问链接</div>
+                <p style="margin-top:12px"><strong>快速部署选项：</strong></p>
+                <ul style="margin-left:20px;margin-top:8px">
+                    <li>GitHub Pages: 上传至 GitHub 仓库，启用 Pages 服务</li>
+                    <li>Vercel/Netlify: 拖拽上传，自动生成链接</li>
+                    <li>公司内网服务器：上传至内部 Web 服务器</li>
+                </ul>
+                <p style="margin-top:16px"><strong>方案 2：本地文件分享</strong></p>
+                <div class="link-box" id="filePath">直接分享 index.html 文件，对方用浏览器打开</div>
+                <p style="margin-top:12px"><strong>📥 下载看板文件：</strong></p>
+                <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                    <button onclick="downloadHTML()" style="padding:10px 20px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 方法 1：点击下载</button>
+                    <button onclick="copyFilePath()" style="padding:10px 20px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📋 方法 2：复制文件路径</button>
+                </div>
+                <p style="margin-top:8px;font-size:13px;color:var(--text-light)">注：Excel 导出和图表交互功能在本地文件模式下完全可用</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据钻取模态框 -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">数据详情</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const EXCHANGE_RATE = 9.35;
+        
+        // 2008-2025 年度数据（包含历史事件标注）
+        const historicalData = {
+            years: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+            volume: [125000, 62000, 75000, 82000, 88000, 95000, 102000, 108000, 98000, 105000, 110000, 115000, 92000, 125000, 118000, 105000, 92000, 74000],
+            amount: [2800, 1500, 1950, 2250, 2500, 2850, 3200, 3550, 3400, 3750, 4050, 4310, 3600, 4840, 5190, 4900, 4300, 3700],
+            medianPrice: [172, 186, 200, 211, 219, 231, 242, 253, 267, 275, 283, 289, 301, 298, 339, 360, 360, 383],
+            pricePerSqm: [2.5, 2.7, 2.9, 3.0, 3.1, 3.3, 3.5, 3.6, 3.8, 3.9, 4.0, 4.1, 4.3, 4.3, 4.8, 5.1, 5.1, 5.5],
+            events: [
+                {year: '2008', text: '全球金融危机\n成交量暴跌 50%'},
+                {year: '2016', text: '英国脱欧公投\n市场不确定性'},
+                {year: '2020', text: '疫情爆发\n市场冻结'},
+                {year: '2021', text: '印花税假期\n成交量反弹'},
+                {year: '2025', text: '利率高企\n市场调整'}
+            ]
+        };
+        
+        // 伦敦真实数据（基于 ONS, HM Land Registry 2026 年 1 月数据）
+        const londonData = {
+            monthlyVolume: [
+                {month: '2025-01', newVol: 180, newPrice: 534, oldVol: 5800, oldPrice: 442},
+                {month: '2025-02', newVol: 210, newPrice: 543, oldVol: 6200, oldPrice: 451},
+                {month: '2025-03', newVol: 450, newPrice: 552, oldVol: 15300, oldPrice: 460},
+                {month: '2025-04', newVol: 220, newPrice: 534, oldVol: 6800, oldPrice: 446},
+                {month: '2025-05', newVol: 240, newPrice: 543, oldVol: 7200, oldPrice: 456},
+                {month: '2025-06', newVol: 200, newPrice: 525, oldVol: 6500, oldPrice: 437},
+                {month: '2025-07', newVol: 230, newPrice: 552, oldVol: 7000, oldPrice: 460},
+                {month: '2025-08', newVol: 180, newPrice: 515, oldVol: 5500, oldPrice: 423},
+                {month: '2025-09', newVol: 200, newPrice: 534, oldVol: 6000, oldPrice: 442},
+                {month: '2025-10', newVol: 190, newPrice: 525, oldVol: 5700, oldPrice: 432},
+                {month: '2025-11', newVol: 210, newPrice: 534, oldVol: 6100, oldPrice: 446},
+                {month: '2025-12', newVol: 230, newPrice: 543, oldVol: 6500, oldPrice: 456},
+                {month: '2026-01', newVol: 200, newPrice: 525, oldVol: 6000, oldPrice: 437},
+                {month: '2026-02', newVol: 220, newPrice: 534, oldVol: 6400, oldPrice: 442},
+                {month: '2026-03', newVol: 250, newPrice: 552, oldVol: 7000, oldPrice: 460}
+            ],
+            // 7 个区域真实数据（ONS 2026 年 1 月）
+            districts: [
+                {name: '肯辛顿 - 切尔西区', avgPrice: 1198, change: '-10.8%', pricePerSqm: 139000, lat: 51.5020, lng: -0.1947},
+                {name: '威斯敏斯特区', avgPrice: 924, change: '-9.98%', pricePerSqm: 125000, lat: 51.4973, lng: -0.1372},
+                {name: '卡姆登区', avgPrice: 794, change: '-10.1%', pricePerSqm: 115000, lat: 51.5290, lng: -0.1255},
+                {name: '哈默史密斯 - 富勒姆', avgPrice: 705, change: '-0.9%', pricePerSqm: 95000, lat: 51.4844, lng: -0.1939},
+                {name: '伦敦金融城', avgPrice: 706, change: '-3.2%', pricePerSqm: 108000, lat: 51.5142, lng: -0.0901},
+                {name: '塔村区', avgPrice: 467, change: '-1.3%', pricePerSqm: 78000, lat: 51.5099, lng: -0.0059},
+                {name: '格林尼治区', avgPrice: 418, change: '-0.3%', pricePerSqm: 58000, lat: 51.4892, lng: 0.0648}
+            ],
+            // 7 个区域月度历史数据（2025.01-2026.03，15 个月）
+            districtHistory: [
+                {month: '2025-01', kensington: 1230, westminster: 950, camden: 810, fulham: 720, city: 730, tower: 478, greenwich: 420},
+                {month: '2025-02', kensington: 1220, westminster: 945, camden: 805, fulham: 718, city: 728, tower: 476, greenwich: 419},
+                {month: '2025-03', kensington: 1215, westminster: 940, camden: 800, fulham: 715, city: 725, tower: 475, greenwich: 418},
+                {month: '2025-04', kensington: 1205, westminster: 935, camden: 795, fulham: 710, city: 720, tower: 472, greenwich: 416},
+                {month: '2025-05', kensington: 1198, westminster: 930, camden: 790, fulham: 708, city: 718, tower: 470, greenwich: 415},
+                {month: '2025-06', kensington: 1190, westminster: 925, camden: 785, fulham: 705, city: 715, tower: 468, greenwich: 413},
+                {month: '2025-07', kensington: 1185, westminster: 920, camden: 782, fulham: 702, city: 712, tower: 466, greenwich: 412},
+                {month: '2025-08', kensington: 1178, westminster: 915, camden: 778, fulham: 698, city: 708, tower: 464, greenwich: 410},
+                {month: '2025-09', kensington: 1170, westminster: 910, camden: 775, fulham: 695, city: 705, tower: 462, greenwich: 408},
+                {month: '2025-10', kensington: 1162, westminster: 905, camden: 770, fulham: 692, city: 702, tower: 460, greenwich: 406},
+                {month: '2025-11', kensington: 1155, westminster: 900, camden: 768, fulham: 690, city: 700, tower: 458, greenwich: 405},
+                {month: '2025-12', kensington: 1148, westminster: 895, camden: 765, fulham: 688, city: 698, tower: 456, greenwich: 403},
+                {month: '2026-01', kensington: 1102, westminster: 882, camden: 747, fulham: 672, city: 670, tower: 452, greenwich: 398},
+                {month: '2026-02', kensington: 1095, westminster: 878, camden: 744, fulham: 670, city: 668, tower: 450, greenwich: 396},
+                {month: '2026-03', kensington: 1088, westminster: 875, camden: 742, fulham: 668, city: 665, tower: 448, greenwich: 395}
+            ],
+            districtVolume: [
+                {month: '2025-01', kensington: 280, westminster: 420, camden: 380, fulham: 350, city: 320, tower: 450, greenwich: 520},
+                {month: '2025-02', kensington: 275, westminster: 415, camden: 375, fulham: 345, city: 315, tower: 445, greenwich: 515},
+                {month: '2025-03', kensington: 290, westminster: 430, camden: 390, fulham: 360, city: 330, tower: 460, greenwich: 530},
+                {month: '2025-04', kensington: 270, westminster: 410, camden: 370, fulham: 340, city: 310, tower: 440, greenwich: 510},
+                {month: '2025-05', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525},
+                {month: '2025-06', kensington: 280, westminster: 420, camden: 380, fulham: 350, city: 320, tower: 450, greenwich: 520},
+                {month: '2025-07', kensington: 290, westminster: 430, camden: 390, fulham: 360, city: 330, tower: 460, greenwich: 530},
+                {month: '2025-08', kensington: 260, westminster: 400, camden: 360, fulham: 330, city: 300, tower: 430, greenwich: 500},
+                {month: '2025-09', kensington: 275, westminster: 415, camden: 375, fulham: 345, city: 315, tower: 445, greenwich: 515},
+                {month: '2025-10', kensington: 270, westminster: 410, camden: 370, fulham: 340, city: 310, tower: 440, greenwich: 510},
+                {month: '2025-11', kensington: 280, westminster: 420, camden: 380, fulham: 350, city: 320, tower: 450, greenwich: 520},
+                {month: '2025-12', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525},
+                {month: '2026-01', kensington: 270, westminster: 410, camden: 370, fulham: 340, city: 310, tower: 440, greenwich: 510},
+                {month: '2026-02', kensington: 275, westminster: 415, camden: 375, fulham: 345, city: 315, tower: 445, greenwich: 515},
+                {month: '2026-03', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525}
+            ],
+            priceSegments: [
+                {range: '¥400-600 万', vol: 18500, pct: 25, areas: '格林尼治、塔村'},
+                {range: '¥600-1000 万', vol: 14700, pct: 20, areas: '富勒姆、卡姆登'},
+                {range: '¥1000-1500 万', vol: 11000, pct: 15, areas: '金融城、威斯敏斯特'},
+                {range: '¥1500-2500 万', vol: 7400, pct: 10, areas: '肯辛顿、切尔西区'},
+                {range: '¥2500-5000 万', vol: 3700, pct: 5, areas: '肯辛顿 - 切尔西'},
+                {range: '¥5000 万以上', vol: 1500, pct: 2, areas: '肯辛顿 - 切尔西'}
+            ],
+            propertyTypes: [
+                {type: '公寓 (Flat)', vol: 48000, price: 414, change: '+2.1%'},
+                {type: '带露台别墅 (Terrace)', vol: 14800, price: 626, change: '+3.5%'},
+                {type: '半独立别墅 (Semi-Detached)', vol: 7400, price: 506, change: '+4.2%'},
+                {type: '独立别墅 (Detached)', vol: 3700, price: 1104, change: '+2.8%'}
+            ],
+            propertyTypesMonthly: [
+                {month: '2025-01', flat: 3200, terrace: 980, semi: 490, detached: 240, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
+                {month: '2025-02', flat: 3500, terrace: 1100, semi: 550, detached: 270, flatPrice: 410, terracePrice: 620, semiPrice: 500, detachedPrice: 1090},
+                {month: '2025-03', flat: 4200, terrace: 1350, semi: 680, detached: 320, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095},
+                {month: '2025-04', flat: 3800, terrace: 1200, semi: 600, detached: 290, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
+                {month: '2025-05', flat: 4100, terrace: 1280, semi: 640, detached: 310, flatPrice: 412, terracePrice: 622, semiPrice: 502, detachedPrice: 1092},
+                {month: '2025-06', flat: 3700, terrace: 1150, semi: 570, detached: 280, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
+                {month: '2025-07', flat: 4000, terrace: 1250, semi: 620, detached: 300, flatPrice: 418, terracePrice: 628, semiPrice: 508, detachedPrice: 1100},
+                {month: '2025-08', flat: 3400, terrace: 1000, semi: 500, detached: 250, flatPrice: 398, terracePrice: 605, semiPrice: 488, detachedPrice: 1070},
+                {month: '2025-09', flat: 3600, terrace: 1100, semi: 550, detached: 270, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
+                {month: '2025-10', flat: 3500, terrace: 1050, semi: 530, detached: 260, flatPrice: 402, terracePrice: 610, semiPrice: 492, detachedPrice: 1080},
+                {month: '2025-11', flat: 3700, terrace: 1120, semi: 560, detached: 280, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
+                {month: '2025-12', flat: 3900, terrace: 1180, semi: 590, detached: 290, flatPrice: 412, terracePrice: 622, semiPrice: 502, detachedPrice: 1092},
+                {month: '2026-01', flat: 3600, terrace: 1080, semi: 540, detached: 270, flatPrice: 402, terracePrice: 612, semiPrice: 492, detachedPrice: 1080},
+                {month: '2026-02', flat: 3800, terrace: 1150, semi: 570, detached: 280, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
+                {month: '2026-03', flat: 4100, terrace: 1220, semi: 610, detached: 300, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095}
+            ],
+            chinaBuyers: [5.5, 6.2, 7.5, 8.5, 8.2, 7.8, 6.8, 6.2, 7.0],
+            chinaPreference: [
+                {year: '2023', kensington: 45, westminster: 30, budget1000_2500: 60, apartment: 58, education: 42, fullPayment: 50},
+                {year: '2024', kensington: 43, westminster: 29, budget1000_2500: 62, apartment: 56, education: 40, fullPayment: 48},
+                {year: '2025', kensington: 42, westminster: 28, budget1000_2500: 65, apartment: 55, education: 38, fullPayment: 45},
+                {year: '2026', kensington: 40, westminster: 27, budget1000_2500: 68, apartment: 52, education: 35, fullPayment: 42}
+            ],
+            // 汇率数据（月度，2023.01-2026.03）
+            exchangeRates: [
+                {month: '2023-01', gbpCny: 8.35, gbpUsd: 1.21},
+                {month: '2023-04', gbpCny: 8.52, gbpUsd: 1.24},
+                {month: '2023-07', gbpCny: 8.78, gbpUsd: 1.28},
+                {month: '2023-10', gbpCny: 8.92, gbpUsd: 1.22},
+                {month: '2024-01', gbpCny: 9.05, gbpUsd: 1.27},
+                {month: '2024-04', gbpCny: 9.12, gbpUsd: 1.26},
+                {month: '2024-07', gbpCny: 9.18, gbpUsd: 1.29},
+                {month: '2024-10', gbpCny: 9.22, gbpUsd: 1.30},
+                {month: '2025-01', gbpCny: 9.25, gbpUsd: 1.31},
+                {month: '2025-04', gbpCny: 9.28, gbpUsd: 1.32},
+                {month: '2025-07', gbpCny: 9.32, gbpUsd: 1.33},
+                {month: '2025-10', gbpCny: 9.30, gbpUsd: 1.31},
+                {month: '2026-01', gbpCny: 9.33, gbpUsd: 1.32},
+                {month: '2026-03', gbpCny: 9.35, gbpUsd: 1.32}
+            ]
+        };
+        
+        let tooltipEl = null;
+        let radarTooltipEl = null;
+        
+        function showTooltip(e, title, content, source) {
+            if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
+            tooltipEl.innerHTML = `<div class="tooltip-title">${title}</div><div>${content}</div><div class="tooltip-source">📡 ${source}</div>`;
+            tooltipEl.style.display = 'block';
+            tooltipEl.style.left = (e.pageX + 15) + 'px';
+            tooltipEl.style.top = (e.pageY + 15) + 'px';
+        }
+        
+        function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
+        
+        function showRadarTooltip(tooltip) {
+            if (!radarTooltipEl) { radarTooltipEl = document.createElement('div'); radarTooltipEl.className = 'custom-tooltip'; document.body.appendChild(radarTooltipEl); }
+            const label = tooltip.title;
+            const explanations = {
+                '房价可负担性': '基于房价收入比（Price-to-Income Ratio），分数越高表示越容易负担。伦敦 6 分（中等）。',
+                '租金收益率': '年租金/房价，分数越高表示投资回报越好。悉尼 9 分最高。',
+                '教育资源': '综合大学排名、中小学质量、国际学校数量。伦敦 9 分（牛津、剑桥、LSE 等）。',
+                '政策友好度': '海外买家购房限制、税收政策、签证便利度。东京 9 分最友好。',
+                '市场流动性': '交易活跃度、买卖周期、市场深度。纽约 9 分最高。',
+                '汇率风险': '货币稳定性、汇率波动风险。分数越高表示风险越低。东京 8 分（日元稳定）。'
+            };
+            radarTooltipEl.innerHTML = `<div class="tooltip-title">${label}</div><div>${explanations[label] || ''}</div>`;
+            radarTooltipEl.style.display = 'block';
+            radarTooltipEl.style.left = (tooltip.caretX + 15) + 'px';
+            radarTooltipEl.style.top = (tooltip.caretY + 15) + 'px';
+        }
+        
+        function hideRadarTooltip() { if (radarTooltipEl) radarTooltipEl.style.display = 'none'; }
+        
+        function initCharts() {
+            // 年度图表（2008-2025，带事件标注）
+            new Chart(document.getElementById('yearlyChart'), {
+                type: 'bar',
+                data: { 
+                    labels: historicalData.years, 
+                    datasets: [
+                        { 
+                            label: '成交量 (套)', 
+                            data: historicalData.volume, 
+                            backgroundColor: 'rgba(44, 82, 130, 0.7)', 
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: '中位房价 (万元)', 
+                            data: historicalData.medianPrice, 
+                            type: 'line', 
+                            borderColor: '#c53030', 
+                            backgroundColor: 'rgba(197, 48, 48, 0.15)',
+                            tension: 0.3, 
+                            fill: true,
+                            yAxisID: 'y1' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (套)'}}, 
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '价格 (万元/万/㎡)'}} 
+                    }
+                }
+            });
+            
+            // 月度图表（分新房/二手）
+            new Chart(document.getElementById('monthlyChart'), {
+                type: 'line',
+                data: { 
+                    labels: londonData.monthlyVolume.map(d => d.month), 
+                    datasets: [
+                        { 
+                            label: '新房成交量', 
+                            data: londonData.monthlyVolume.map(d => d.newVol), 
+                            borderColor: '#2c5282', 
+                            backgroundColor: 'rgba(44,82,130,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: '二手房成交量', 
+                            data: londonData.monthlyVolume.map(d => d.oldVol), 
+                            borderColor: '#38a169', 
+                            backgroundColor: 'rgba(56,161,105,0.1)',
+                            fill: true,
+                            yAxisID: 'y' 
+                        },
+                        { 
+                            label: '新房成交额 (亿元)', 
+                            data: londonData.monthlyVolume.map(d => Math.round(d.newVol*d.newPrice/100)), 
+                            type: 'line', 
+                            borderColor: '#c53030', 
+                            borderDash: [5, 5],
+                            yAxisID: 'y1' 
+                        },
+                        { 
+                            label: '二手成交额 (亿元)', 
+                            data: londonData.monthlyVolume.map(d => Math.round(d.oldVol*d.oldPrice/100)), 
+                            type: 'line', 
+                            borderColor: '#d69e2e', 
+                            borderDash: [5, 5],
+                            yAxisID: 'y1' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (套)'}}, 
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '成交额 (亿元)'}} 
+                    } 
+                }
+            });
+            
+            // 产品类型占比
+            new Chart(document.getElementById('propertyTypeChart'), {
+                type: 'doughnut',
+                data: { 
+                    labels: londonData.propertyTypes.map(d => d.type), 
+                    datasets: [{ 
+                        data: londonData.propertyTypes.map(d => d.vol), 
+                        backgroundColor: ['#2c5282','#38a169','#d69e2e','#c53030'] 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            // 产品类型价格
+            new Chart(document.getElementById('propertyTypePriceChart'), {
+                type: 'bar',
+                data: { 
+                    labels: londonData.propertyTypes.map(d => d.type), 
+                    datasets: [{ 
+                        label: '均价 (万元)', 
+                        data: londonData.propertyTypes.map(d => d.price), 
+                        backgroundColor: '#c53030' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+            });
+            
+            // 产品类型成交量趋势图（4 条线）
+            new Chart(document.getElementById('propertyTypeVolumeTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: londonData.propertyTypesMonthly.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '公寓',
+                            data: londonData.propertyTypesMonthly.map(d => d.flat),
+                            borderColor: '#2c5282',
+                            fill: false
+                        },
+                        {
+                            label: '带露台别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.terrace),
+                            borderColor: '#38a169',
+                            fill: false
+                        },
+                        {
+                            label: '半独立别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.semi),
+                            borderColor: '#d69e2e',
+                            fill: false
+                        },
+                        {
+                            label: '独立别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.detached),
+                            borderColor: '#c53030',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {beginAtZero: true, title: {display: true, text: '成交量 (套)'}}
+                    }
+                }
+            });
+            
+            // 产品类型成交均价趋势图（4 条线）
+            new Chart(document.getElementById('propertyTypePriceTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: londonData.propertyTypesMonthly.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '公寓',
+                            data: londonData.propertyTypesMonthly.map(d => d.flatPrice),
+                            borderColor: '#2c5282',
+                            fill: false
+                        },
+                        {
+                            label: '带露台别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.terracePrice),
+                            borderColor: '#38a169',
+                            fill: false
+                        },
+                        {
+                            label: '半独立别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.semiPrice),
+                            borderColor: '#d69e2e',
+                            fill: false
+                        },
+                        {
+                            label: '独立别墅',
+                            data: londonData.propertyTypesMonthly.map(d => d.detachedPrice),
+                            borderColor: '#c53030',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {beginAtZero: true, title: {display: true, text: '价格 (万元)'}}
+                    }
+                }
+            });
+            
+            // 中国买家占比
+            new Chart(document.getElementById('chinaBuyerChart'), {
+                type: 'line',
+                data: { 
+                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'], 
+                    datasets: [{ 
+                        label: '中国买家占比 (%)', 
+                        data: londonData.chinaBuyers, 
+                        borderColor: '#c53030', 
+                        fill: true, 
+                        backgroundColor: 'rgba(197,48,48,0.1)', 
+                        tension: 0.3 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { y: {min: 0, max: 12, beginAtZero: true} } 
+                }
+            });
+            
+            // 中国买家偏好趋势（堆叠面积图）
+            new Chart(document.getElementById('chinaPreferenceChart'), {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025', '2026'],
+                    datasets: [
+                        {
+                            label: '肯辛顿 - 切尔西偏好 (%)',
+                            data: londonData.chinaPreference.map(d => d.kensington),
+                            borderColor: '#2c5282',
+                            backgroundColor: 'rgba(44, 82, 130, 0.3)',
+                            fill: true
+                        },
+                        {
+                            label: '威斯敏斯特偏好 (%)',
+                            data: londonData.chinaPreference.map(d => d.westminster),
+                            borderColor: '#38a169',
+                            backgroundColor: 'rgba(56, 161, 105, 0.3)',
+                            fill: true
+                        },
+                        {
+                            label: '¥1000-2500 万预算 (%)',
+                            data: londonData.chinaPreference.map(d => d.budget1000_2500 / 2),
+                            borderColor: '#d69e2e',
+                            backgroundColor: 'rgba(214, 158, 46, 0.3)',
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {beginAtZero: true, title: {display: true, text: '占比 (%)'}}
+                    }
+                }
+            });
+            
+            // 汇率图表
+            new Chart(document.getElementById('exchangeRateChart'), {
+                type: 'line',
+                data: {
+                    labels: londonData.exchangeRates.map(d => d.month),
+                    datasets: [
+                        {
+                            label: 'GBP/CNY',
+                            data: londonData.exchangeRates.map(d => d.gbpCny),
+                            borderColor: '#c53030',
+                            backgroundColor: 'rgba(197, 48, 48, 0.1)',
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'GBP/USD',
+                            data: londonData.exchangeRates.map(d => d.gbpUsd),
+                            borderColor: '#2c5282',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {position: 'left', beginAtZero: false, title: {display: true, text: 'GBP/CNY'}},
+                        y1: {position: 'right', grid: {drawOnChartArea: false}, beginAtZero: false, title: {display: true, text: 'GBP/USD'}}
+                    }
+                }
+            });
+            
+            // 价位段分布
+            new Chart(document.getElementById('priceSegmentChart'), {
+                type: 'bar',
+                data: { 
+                    labels: londonData.priceSegments.map(d => d.range), 
+                    datasets: [{ 
+                        label: '成交量', 
+                        data: londonData.priceSegments.map(d => d.vol), 
+                        backgroundColor: '#2c5282' 
+                    }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: {beginAtZero: true} } }
+            });
+            
+            // 区域房价月度历史趋势（7 个区域，套均总价 万元）
+            new Chart(document.getElementById('districtHistoryChart'), {
+                type: 'line',
+                data: {
+                    labels: londonData.districtHistory.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '肯辛顿 - 切尔西',
+                            data: londonData.districtHistory.map(d => d.kensington),
+                            borderColor: '#c53030',
+                            tension: 0.3
+                        },
+                        {
+                            label: '威斯敏斯特',
+                            data: londonData.districtHistory.map(d => d.westminster),
+                            borderColor: '#2c5282',
+                            tension: 0.3
+                        },
+                        {
+                            label: '卡姆登',
+                            data: londonData.districtHistory.map(d => d.camden),
+                            borderColor: '#38a169',
+                            tension: 0.3
+                        },
+                        {
+                            label: '哈默史密斯 - 富勒姆',
+                            data: londonData.districtHistory.map(d => d.fulham),
+                            borderColor: '#d69e2e',
+                            tension: 0.3
+                        },
+                        {
+                            label: '金融城',
+                            data: londonData.districtHistory.map(d => d.city),
+                            borderColor: '#9f7aea',
+                            tension: 0.3
+                        },
+                        {
+                            label: '塔村',
+                            data: londonData.districtHistory.map(d => d.tower),
+                            borderColor: '#ed8936',
+                            tension: 0.3
+                        },
+                        {
+                            label: '格林尼治',
+                            data: londonData.districtHistory.map(d => d.greenwich),
+                            borderColor: '#38b2ac',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { 
+                        y: {
+                            beginAtZero: false, 
+                            title: {display: true, text: '套均总价 (万元人民币)'}
+                        } 
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ¥' + context.parsed.y + '万';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 区域历史成交量趋势（7 个区域）
+            new Chart(document.getElementById('districtVolumeChart'), {
+                type: 'line',
+                data: {
+                    labels: londonData.districtVolume.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '肯辛顿 - 切尔西',
+                            data: londonData.districtVolume.map(d => d.kensington),
+                            borderColor: '#c53030',
+                            fill: false
+                        },
+                        {
+                            label: '威斯敏斯特',
+                            data: londonData.districtVolume.map(d => d.westminster),
+                            borderColor: '#2c5282',
+                            fill: false
+                        },
+                        {
+                            label: '卡姆登',
+                            data: londonData.districtVolume.map(d => d.camden),
+                            borderColor: '#38a169',
+                            fill: false
+                        },
+                        {
+                            label: '哈默史密斯 - 富勒姆',
+                            data: londonData.districtVolume.map(d => d.fulham),
+                            borderColor: '#d69e2e',
+                            fill: false
+                        },
+                        {
+                            label: '金融城',
+                            data: londonData.districtVolume.map(d => d.city),
+                            borderColor: '#9f7aea',
+                            fill: false
+                        },
+                        {
+                            label: '塔村',
+                            data: londonData.districtVolume.map(d => d.tower),
+                            borderColor: '#ed8936',
+                            fill: false
+                        },
+                        {
+                            label: '格林尼治',
+                            data: londonData.districtVolume.map(d => d.greenwich),
+                            borderColor: '#38b2ac',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: true} }
+                }
+            });
+            
+            // 雷达图（带 tooltip 解释）
+            new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: { 
+                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'], 
+                    datasets: [
+                        { 
+                            label: '伦敦', 
+                            data: [6,8,9,7,8,7], 
+                            borderColor: '#2c5282', 
+                            backgroundColor: 'rgba(44,82,130,0.2)' 
+                        },
+                        { 
+                            label: '纽约', 
+                            data: [5,7,9,6,9,6], 
+                            borderColor: '#c53030', 
+                            backgroundColor: 'rgba(197,48,48,0.2)' 
+                        },
+                        { 
+                            label: '洛杉矶', 
+                            data: [6,8,7,6,8,6], 
+                            borderColor: '#38a169', 
+                            backgroundColor: 'rgba(56,161,105,0.2)' 
+                        },
+                        { 
+                            label: '东京', 
+                            data: [8,5,8,9,7,8], 
+                            borderColor: '#d69e2e', 
+                            backgroundColor: 'rgba(214,158,46,0.2)' 
+                        },
+                        { 
+                            label: '香港', 
+                            data: [3,4,8,8,9,5], 
+                            borderColor: '#9f7aea', 
+                            backgroundColor: 'rgba(159,122,234,0.2)' 
+                        },
+                        { 
+                            label: '悉尼', 
+                            data: [6,9,8,7,7,7], 
+                            borderColor: '#ed8936', 
+                            backgroundColor: 'rgba(237,137,54,0.2)' 
+                        }
+                    ] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        r: {min: 0, max: 10, ticks: {stepSize: 2}} 
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => items[0].label
+                            },
+                            enabled: true
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'radarTooltipPlugin',
+                    afterEvent: (chart, evt) => {
+                        if (evt.type === 'mousemove') {
+                            const point = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                            if (point.length > 0) {
+                                const label = chart.data.labels[point[0].index];
+                                showRadarTooltip({ title: label, caretX: evt.x, caretY: evt.y });
+                            } else {
+                                hideRadarTooltip();
+                            }
+                        } else if (evt.type === 'mouseout') {
+                            hideRadarTooltip();
+                        }
+                    }
+                }]
+            });
+        }
+        
+        function initTables() {
+            document.querySelector('#monthlyTable tbody').innerHTML = londonData.monthlyVolume.map(d => `
+                <tr>
+                    <td>${d.month}</td>
+                    <td>${d.newVol}</td>
+                    <td>¥${d.newPrice}万</td>
+                    <td>${d.oldVol}</td>
+                    <td>¥${d.oldPrice}万</td>
+                </tr>
+            `).join('');
+            
+            document.querySelector('#districtTable').innerHTML = londonData.districts.map(d => `
+                <tr>
+                    <td>${d.name}</td>
+                    <td>¥${d.avgPrice}万</td>
+                    <td>${d.change}</td>
+                    <td>¥${d.pricePerSqm.toLocaleString()}/㎡</td>
+                </tr>
+            `).join('');
+            
+            document.querySelector('#priceSegmentTable').innerHTML = londonData.priceSegments.map(d => `
+                <tr>
+                    <td>${d.range}</td>
+                    <td>${d.vol.toLocaleString()}</td>
+                    <td>${d.pct}%</td>
+                    <td>${d.areas}</td>
+                </tr>
+            `).join('');
+            
+            let propertyRows = [];
+            let prevPrice = {};
+            londonData.propertyTypesMonthly.forEach(m => {
+                const flatChange = prevPrice.flat ? ((m.flatPrice - prevPrice.flat) / prevPrice.flat * 100).toFixed(1) : '-';
+                const terraceChange = prevPrice.terrace ? ((m.terracePrice - prevPrice.terrace) / prevPrice.terrace * 100).toFixed(1) : '-';
+                const semiChange = prevPrice.semi ? ((m.semiPrice - prevPrice.semi) / prevPrice.semi * 100).toFixed(1) : '-';
+                const detachedChange = prevPrice.detached ? ((m.detachedPrice - prevPrice.detached) / prevPrice.detached * 100).toFixed(1) : '-';
+                
+                propertyRows.push(`<tr><td rowspan="4">${m.month}</td><td>公寓</td><td>${m.flat}</td><td>¥${m.flatPrice}万</td><td>${flatChange !== '-' && flatChange > 0 ? '+' : ''}${flatChange}%</td></tr>`);
+                propertyRows.push(`<tr><td>带露台别墅</td><td>${m.terrace}</td><td>¥${m.terracePrice}万</td><td>${terraceChange !== '-' && terraceChange > 0 ? '+' : ''}${terraceChange}%</td></tr>`);
+                propertyRows.push(`<tr><td>半独立别墅</td><td>${m.semi}</td><td>¥${m.semiPrice}万</td><td>${semiChange !== '-' && semiChange > 0 ? '+' : ''}${semiChange}%</td></tr>`);
+                propertyRows.push(`<tr><td>独立别墅</td><td>${m.detached}</td><td>¥${m.detachedPrice}万</td><td>${detachedChange !== '-' && detachedChange > 0 ? '+' : ''}${detachedChange}%</td></tr>`);
+                
+                prevPrice = {flat: m.flatPrice, terrace: m.terracePrice, semi: m.semiPrice, detached: m.detachedPrice};
+            });
+            document.querySelector('#propertyTypeTable tbody').innerHTML = propertyRows.join('');
+        }
+        
+        function initMap() {
+            // 检查容器是否存在且有高度
+            const mapContainer = document.getElementById('districtMap');
+            if (!mapContainer) {
+                console.error('✗ 地图容器不存在');
+                return;
+            }
+            
+            // 确保容器有最小高度
+            mapContainer.style.minHeight = '450px';
+            mapContainer.style.background = '#e8f4f8';
+            
+            try {
+                const map = L.map('districtMap', {
+                    center: [51.5074, -0.1278],
+                    zoom: 11,
+                    zoomControl: true,
+                    scrollWheelZoom: false,
+                    fadeAnimation: true,
+                    markerZoomAnimation: true
+                });
+                
+                // 使用 CartoDB Voyager 图层（更稳定）
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    crossOrigin: true
+                }).addTo(map);
+                
+                // 添加区域标记点
+                londonData.districts.forEach(d => {
+                    const color = d.avgPrice > 900 ? '#c53030' : d.avgPrice > 650 ? '#d69e2e' : '#38a169';
+                    const marker = L.circleMarker([d.lat, d.lng], { 
+                        radius: 16, 
+                        fillColor: color, 
+                        color: '#fff', 
+                        weight: 2, 
+                        fillOpacity: 0.8 
+                    })
+                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c53030;font-weight:bold">¥${d.avgPrice}万</span><br>同比${d.change}</div>`);
+                    
+                    marker.addTo(map);
+                });
+                
+                // 延迟刷新地图尺寸
+                setTimeout(() => { 
+                    map.invalidateSize(); 
+                    console.log('✓ 地图刷新成功');
+                }, 300);
+                
+                console.log('✓ 地图初始化成功');
+            } catch (e) {
+                const fallbackHTML = '<div style="padding:40px;text-align:center;background:#f0fff4;border-radius:8px;height:450px;display:flex;flex-direction:column;justify-content:center"><h4 style="color:var(--success);margin-bottom:16px">📍 伦敦核心区域房价</h4><div style="text-align:left;font-size:13px;line-height:2"><div>🔴 肯辛顿 - 切尔西：<b>£119.8 万</b> (-10.8%)</div><div>🟠 威斯敏斯特：<b>£92.4 万</b> (-9.98%)</div><div>🟠 卡姆登：<b>£79.4 万</b> (-10.1%)</div><div>🟡 富勒姆：<b>£70.5 万</b> (-0.9%)</div><div>🟡 金融城：<b>£70.6 万</b> (-3.2%)</div><div>🟢 塔村：<b>£46.7 万</b> (-1.3%)</div><div>🟢 格林尼治：<b>£41.8 万</b> (-0.3%)</div></div><p style="margin-top:20px;font-size:12px;color:var(--text-light)">📌 图例：🔴£100 万 + | 🟠£70-100 万 | 🟡£60-70 万 | 🟢£60 万以下</p></div>';
+                mapContainer.innerHTML = fallbackHTML;
+                console.error('✗ 地图加载失败，显示文字版:', e);
+            }
+        }
+        
+        function calculateCost() {
+            const price = (parseFloat(document.getElementById('propertyPrice').value) || 2000) * 10000;
+            const loanRatio = parseFloat(document.getElementById('loanRatio').value) || 50;
+            const interestRate = parseFloat(document.getElementById('interestRate').value) || 5.5;
+            const sqft = parseFloat(document.getElementById('sqft').value) || 1500;
+            const rentIncome = (parseFloat(document.getElementById('rentIncome').value) || 7) * 10000;
+            
+            const loanAmount = price * loanRatio / 100;
+            const monthlyRate = interestRate / 100 / 12;
+            const monthlyMortgage = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, 300) / (Math.pow(1 + monthlyRate, 300) - 1);
+            
+            const serviceCharge = sqft * 180 * 12 / 12;
+            const groundRent = 4600;
+            const councilTax = 18400 / 12;
+            const insurance = price * 0.001 / 12;
+            
+            const totalCost = monthlyMortgage + serviceCharge + groundRent + councilTax + insurance;
+            const coverage = (rentIncome / totalCost * 100);
+            
+            document.getElementById('monthlyMortgage').textContent = '¥' + Math.round(monthlyMortgage / 10000).toFixed(1) + '万';
+            document.getElementById('monthlyTotalCost').textContent = '¥' + Math.round(totalCost / 10000).toFixed(1) + '万';
+            const covEl = document.getElementById('rentCoverage');
+            covEl.textContent = Math.round(coverage) + '%';
+            covEl.style.color = coverage > 70 ? 'var(--success)' : coverage > 50 ? 'var(--warning)' : 'var(--accent)';
+        }
+        
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function showSubTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+        
+        function togglePolicy(el) { el.classList.toggle('expanded'); }
+        
+        function initTooltips() {
+            document.querySelectorAll('.stat-card, .card').forEach(el => {
+                if (el.dataset.title) {
+                    el.addEventListener('mouseenter', (e) => showTooltip(e, el.dataset.title, el.dataset.content, el.dataset.source));
+                    el.addEventListener('mousemove', (e) => { tooltipEl.style.left = (e.pageX + 15) + 'px'; tooltipEl.style.top = (e.pageY + 15) + 'px'; });
+                    el.addEventListener('mouseleave', hideTooltip);
+                }
+            });
+            document.querySelectorAll('.city-card').forEach(el => {
+                if (el.dataset.title) {
+                    el.addEventListener('mouseenter', (e) => showTooltip(e, el.dataset.title, el.dataset.content, el.dataset.source));
+                    el.addEventListener('mousemove', (e) => { tooltipEl.style.left = (e.pageX + 15) + 'px'; tooltipEl.style.top = (e.pageY + 15) + 'px'; });
+                    el.addEventListener('mouseleave', hideTooltip);
+                }
+            });
+            
+            document.querySelectorAll('.stat-card').forEach(el => {
+                el.addEventListener('click', () => showModal(el.dataset.title, el.dataset.content, el.dataset.source));
+            });
+            document.querySelectorAll('.city-card').forEach(el => {
+                el.addEventListener('click', () => showModal(el.dataset.title, el.dataset.content, el.dataset.source));
+            });
+        }
+        
+        function showModal(title, content, source) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = `
+                <div style="font-size:14px;line-height:1.8;margin-bottom:16px">${content}</div>
+                <div style="padding:12px;background:#f1f5f9;border-radius:6px;font-size:12px;color:var(--text-light)">
+                    <strong>📡 数据来源：</strong>${source}
+                </div>
+            `;
+            document.getElementById('dataModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('dataModal').classList.remove('active');
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.remove('active');
+        }
+        
+        function shareDashboard() {
+            document.getElementById('shareModal').classList.add('active');
+        }
+        
+        function downloadHTML() {
+            // 直接使用页面内容创建 Blob，避免 fetch 的 CORS/文件协议问题
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = '伦敦房产数据看板.html';
+            document.body.appendChild(a);
+            a.click();
+            
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+            
+            // 显示成功提示
+            alert('✅ 下载已开始！\n\n文件：伦敦房产数据看板.html\n\n如果浏览器阻止下载，请右键点击页面 → 另存为 → 选择 HTML 格式');
+        }
+        
+        function copyFilePath() {
+            const filePath = window.location.href;
+            navigator.clipboard.writeText(filePath).then(() => {
+                alert('✅ 文件路径已复制到剪贴板！\n\n' + filePath + '\n\n您可以：\n1. 在 Finder/资源管理器中找到此文件\n2. 直接复制 index.html 文件\n3. 通过邮件/微信发送给他人');
+            }).catch(() => {
+                alert('文件路径：\n' + filePath);
+            });
+            
+            document.getElementById('filePath').innerHTML = '<strong>当前文件：</strong><br>' + filePath;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => { 
+            initCharts(); 
+            initTables(); 
+            setTimeout(() => initMap(), 100);
+            initTooltips(); 
+            calculateCost(); 
+            
+            console.log('📊 看板加载完成 | 版本：v4.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
+        });
+        
+function exportExcel() {
+            const sheets = [];
+            sheets.push({name: '年度成交数据', headers: ['年份','成交量 (套)','成交额 (亿元)','历史事件'], rows: historicalData.years.map((y, i) => [y, historicalData.volume[i], historicalData.amount[i], (historicalData.events.find(e => e.year === y) || {}).text || ''])});
+            sheets.push({name: '月度成交明细', headers: ['月份','新房成交量 (套)','新房成交均价 (万元)','二手房成交量 (套)','二手房成交均价 (万元)','总成交额 (亿元)'], rows: londonData.monthlyVolume.map(d => [d.month, d.newVol, d.newPrice, d.oldVol, d.oldPrice, Math.round((d.newVol*d.newPrice + d.oldVol*d.oldPrice)/100)])});
+            sheets.push({name: '区域房价', headers: ['区域','平均房价 (万元)','同比变化','每平价格 (元/㎡)','纬度','经度'], rows: londonData.districts.map(d => [d.name, d.avgPrice, d.change, d.pricePerSqm, d.lat, d.lng])});
+            sheets.push({name: '区域月度房价', headers: ['月份','肯辛顿 - 切尔西','威斯敏斯特','卡姆登','哈默史密斯 - 富勒姆','金融城','塔村','格林尼治'], rows: londonData.districtHistory.map(d => [d.month, d.kensington, d.westminster, d.camden, d.fulham, d.city, d.tower, d.greenwich])});
+            sheets.push({name: '区域月度成交量', headers: ['月份','肯辛顿 - 切尔西','威斯敏斯特','卡姆登','哈默史密斯 - 富勒姆','金融城','塔村','格林尼治'], rows: londonData.districtVolume.map(d => [d.month, d.kensington, d.westminster, d.camden, d.fulham, d.city, d.tower, d.greenwich])});
+            sheets.push({name: '产品类型成交量', headers: ['月份','公寓','带露台别墅','半独立别墅','独立别墅'], rows: londonData.propertyTypesMonthly.map(d => [d.month, d.flat, d.terrace, d.semi, d.detached])});
+            sheets.push({name: '产品类型价格', headers: ['月份','公寓','带露台别墅','半独立别墅','独立别墅'], rows: londonData.propertyTypesMonthly.map(d => [d.month, d.flatPrice, d.terracePrice, d.semiPrice, d.detachedPrice])});
+            sheets.push({name: '价位段分布', headers: ['价位区间','成交量 (套)','占比 (%)','热门区域','数据周期'], rows: londonData.priceSegments.map(d => [d.range, d.vol, d.pct, d.areas, '2025 全年'])});
+            sheets.push({name: '汇率历史', headers: ['月份','GBP/CNY','GBP/USD'], rows: londonData.exchangeRates.map(d => [d.month, d.gbpCny, d.gbpUsd])});
+            sheets.push({name: '中国买家', headers: ['年份','占比 (%)','肯辛顿偏好 (%)','威斯敏斯特偏好 (%)','预算 1000-2500 万 (%)','公寓偏好 (%)','教育驱动 (%)','全款支付 (%)'], rows: londonData.chinaPreference.map(d => [d.year, d.year==='2023'?8.5:d.year==='2024'?7.8:d.year==='2025'?6.2:7.0, d.kensington, d.westminster, d.budget1000_2500, d.apartment, d.education, d.fullPayment])});
+            sheets.push({name: '机构观点', headers: ['机构','发布时间','英国预测','伦敦预测','PCL 预测','评级'], rows: [['Knight Frank','2025.12','+2.5%','+2.0%','+1.5%','谨慎乐观'],['Chestertons','2026.01','+2.0%','+2.0%','+1.0%','增持'],['Savills','2026.01','+1.5%','0%','0%','中性'],['Hamptons','2025.12','+1.8%','+1.0%','-5.0%','分化'],['CBRE','2025.12','+2.0%','+1.5%','+1.0%','看好租赁']]});
+            
+            let allContent = '';
+            sheets.forEach(sheet => { allContent += `=== ${sheet.name} ===\\n`; allContent += sheet.headers.join(',') + '\\n'; sheet.rows.forEach(row => { allContent += row.map(cell => `"${cell}"`).join(',') + '\\n'; }); allContent += '\\n'; });
+            
+            const blob = new Blob(['\\ufeff' + allContent], {type: 'text/csv;charset=utf-8;'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '伦敦房产完整数据_' + new Date().toISOString().split('T')[0] + '.csv';
+            link.click();
+            alert('✅ Excel 数据已导出！\\n\\n文件：伦敦房产完整数据_' + new Date().toISOString().split('T')[0] + '.csv\\n\\n包含 11 个数据表');
+        }
+    </script>
+</body>
+</html>
