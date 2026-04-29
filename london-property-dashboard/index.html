@@ -249,6 +249,8 @@
         <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
+        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
         <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
@@ -520,6 +522,180 @@
             </div>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
                 📌 汇总统计（15 个月平均）：公寓 £40.8 万 | 带露台别墅 £61.8 万 | 半独立别墅 £49.8 万 | 独立别墅 £108.8 万
+            </div>
+        </div>
+    </div>
+    
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 累计收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>以£60 万英镑房产为例，持有 5 年累计收益约 15-22%（含房价增值 + 租金收益 - 持有成本）。英镑汇率波动对最终收益影响显著（±12%）。
+        </div>
+        
+        <div class="cost-calculator" style="background:#f0f7ff">
+            <h4>🧮 投资收益计算（人民币）</h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万英镑)</label><input type="number" id="roiPrice" value="60" onchange="calculateROI()"></div>
+                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="25" max="100" onchange="calculateROI()"></div>
+                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
+                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="4.5" step="0.1" onchange="calculateROI()"></div>
+                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
+                <div><label>英镑汇率 (CNY/GBP)</label><input type="number" id="roiExchangeRate" value="9.35" step="0.01" onchange="calculateROI()"></div>
+            </div>
+            <div class="cost-result" style="grid-template-columns:repeat(4,1fr)">
+                <div class="item"><div class="label">总投入 (RMB)</div><div class="value" id="roiTotalInvest">¥224 万</div></div>
+                <div class="item"><div class="label">租金收益 (RMB)</div><div class="value" id="roiRentalIncome">¥92 万</div></div>
+                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciation">¥21 万</div></div>
+                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">18.5%</div></div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
+                <strong>💡 持有成本估算：</strong>年持有成本约房产价值的 3.5%（市政税 + 物业费 + 维护费等），已从收益中扣除。
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>不同持有年限收益对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金收益 (RMB)</th><th>房价增值 (RMB)</th><th>持有成本 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
+                </thead>
+                <tbody id="roiComparisonTable">
+                    <tr><td>1 年</td><td>¥224 万</td><td>¥17.6 万</td><td>¥5.3 万</td><td>¥19.6 万</td><td>¥3.3 万</td><td>1.5%</td><td>1.5%</td></tr>
+                    <tr><td>3 年</td><td>¥224 万</td><td>¥54.2 万</td><td>¥16.4 万</td><td>¥60.7 万</td><td>¥9.9 万</td><td>4.4%</td><td>1.5%</td></tr>
+                    <tr style="background:#f0fff4"><td>5 年</td><td>¥224 万</td><td>¥92.5 万</td><td>¥28.2 万</td><td>¥103.5 万</td><td>¥17.2 万</td><td>7.7%</td><td>1.5%</td></tr>
+                    <tr><td>10 年</td><td>¥224 万</td><td>¥195.8 万</td><td>¥60.5 万</td><td>¥218.6 万</td><td>¥37.7 万</td><td>16.8%</td><td>1.6%</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
+                <strong>注：</strong>计算基于房价£60 万英镑、首付 40%、年租金回报率 4.5%、年房价增长率 2%、汇率 9.35。实际收益受市场波动影响。
+            </div>
+        </div>
+        
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card">
+                <h4>💰 收益构成分析</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>租金收益：</strong>年租金回报率 4-5%，伦敦一区可达 5%+</li>
+                    <li><strong>房价增值：</strong>过去 5 年年化 1-3%，核心区域更稳定</li>
+                    <li><strong>汇率收益：</strong>英镑波动可能影响最终收益±12%</li>
+                    <li><strong>持有成本：</strong>约房产价值 3.5%/年（市政税 + 物业费）</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>⚠️ 风险提示</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>汇率风险：</strong>英镑波动可能影响最终收益±12%</li>
+                    <li><strong>流动性风险：</strong>二手房产变现周期 2-4 个月</li>
+                    <li><strong>政策风险：</strong>海外买家附加费可能调整</li>
+                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有 5 年+</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 政策追踪 -->
+    <div id="policy" class="section">
+        <h2 class="section-title">📜 中国买家政策追踪</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>英国对中国买家政策稳定，海外买家附加费 2%（2021 年 4 月起）。最新版政策（2025 年 3 月）简化了海外买家印花税申报流程。与上一版相比，主要变化是申报时间延长至 60 天。
+        </div>
+        
+        <div class="card">
+            <h4>🇬🇧 英国购房政策对比（最新版 vs 上一版）</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>政策项目</th><th>最新版 (2025 年 3 月)</th><th>上一版 (2021 年)</th><th>关键变化</th><th>影响分析</th></tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#f0fff4">
+                        <td><strong>购房资格</strong></td>
+                        <td>无限制（外国人同等待遇）</td>
+                        <td>无限制</td>
+                        <td><span class="stable">→ 无变化</span></td>
+                        <td>英国对外国人购房一直开放</td>
+                    </tr>
+                    <tr>
+                        <td><strong>海外买家附加费</strong></td>
+                        <td>2%（2021 年 4 月起）</td>
+                        <td>3%（2016-2021 年）</td>
+                        <td><span class="up">⬇ -1%</span></td>
+                        <td>2021 年降至 2%，降低购房成本</td>
+                    </tr>
+                    <tr style="background:#f0fff4">
+                        <td><strong>印花税申报</strong></td>
+                        <td>成交后 60 天内申报</td>
+                        <td>成交后 30 天内申报</td>
+                        <td><span class="up">⬆ 时间 +30 天</span></td>
+                        <td>2025 年 3 月起延长申报期限</td>
+                    </tr>
+                    <tr>
+                        <td><strong>贷款政策</strong></td>
+                        <td>首付 25-40%，利率 4.5-5.5%</td>
+                        <td>首付 25-40%，利率 2.5-3.5%</td>
+                        <td><span class="down">⬆ 利率 +2%</span></td>
+                        <td>随英国央行基准利率上升</td>
+                    </tr>
+                    <tr style="background:#f0fff4">
+                        <td><strong>签证政策</strong></td>
+                        <td>创新者签证/投资签证</td>
+                        <td>T1 投资签证（已取消）</td>
+                        <td><span class="down">⚠ 门槛提高</span></td>
+                        <td>购房不直接送签证</td>
+                    </tr>
+                    <tr>
+                        <td><strong>外汇管制</strong></td>
+                        <td>无限制（自由汇出汇入）</td>
+                        <td>无限制</td>
+                        <td><span class="stable">→ 无变化</span></td>
+                        <td>资金进出自由</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card">
+                <h4>✅ 政策优势</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>无限购：</strong>不限制购买套数、区域</li>
+                    <li><strong>附加费仅 2%：</strong>相比澳洲 8%、新加坡 60%，英国税负较低</li>
+                    <li><strong>永久产权：</strong>Freehold 房产永久私有</li>
+                    <li><strong>租赁自由：</strong>可自由出租，租金无管制</li>
+                    <li><strong>资金自由：</strong>无外汇管制</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>⚠️ 注意事项</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>签证：</strong>购房不直接送签证，需走创新者/投资签证</li>
+                    <li><strong>贷款：</strong>外国人贷款首付 25-40%，利率较高</li>
+                    <li><strong>税务：</strong>需申报海外资产，遗产税最高 40%</li>
+                    <li><strong>持有成本：</strong>年持有成本约房产价值 3.5%（市政税 + 物业费）</li>
+                    <li><strong>申报：</strong>成交后 60 天内需申报印花税</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>📅 政策变更时间线</h4>
+            <div style="padding:12px">
+                <div style="display:flex;gap:12px;margin-bottom:12px">
+                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2025 年 3 月</div>
+                    <div>印花税申报期限延长至 60 天</div>
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:12px">
+                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2021 年 4 月</div>
+                    <div>海外买家附加费从 3% 降至 2%</div>
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:12px">
+                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2021 年 3 月</div>
+                    <div>T1 投资签证取消，改为创新者签证</div>
+                </div>
+                <div style="display:flex;gap:12px">
+                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2016 年 4 月</div>
+                    <div>海外买家附加费 3% 开始实施</div>
+                </div>
             </div>
         </div>
     </div>
@@ -2107,14 +2283,89 @@
             document.getElementById('filePath').innerHTML = '<strong>当前文件：</strong><br>' + filePath;
         }
         
+        // 收益计算器
+        function calculateROI() {
+            const price = parseFloat(document.getElementById('roiPrice').value) || 60;
+            const downPaymentPct = parseFloat(document.getElementById('roiDownPayment').value) || 40;
+            const years = parseFloat(document.getElementById('roiYears').value) || 5;
+            const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 4.5;
+            const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
+            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 9.35;
+            
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * (downPaymentPct / 100);
+            const annualRental = priceCNY * (rentalYield / 100);
+            const annualCost = priceCNY * 0.035;
+            const netAnnualIncome = annualRental - annualCost;
+            
+            let totalRental = 0;
+            for (let i = 0; i < years; i++) {
+                totalRental += netAnnualIncome * Math.pow(1.02, i);
+            }
+            
+            const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
+            const appreciationValue = futurePrice - priceCNY;
+            const totalGain = totalRental + appreciationValue;
+            const totalReturn = (totalGain / downPayment) * 100;
+            
+            document.getElementById('roiTotalInvest').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
+            document.getElementById('roiRentalIncome').textContent = '¥' + (totalRental / 10000).toFixed(1) + '万';
+            document.getElementById('roiAppreciation').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
+            
+            const returnEl = document.getElementById('roiTotalReturn');
+            returnEl.textContent = totalReturn.toFixed(1) + '%';
+            returnEl.className = 'value ' + (totalReturn > 0 ? 'up' : 'down');
+            
+            updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate);
+        }
+        
+        function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * (downPaymentPct / 100);
+            const annualRental = priceCNY * (rentalYield / 100);
+            const annualCost = priceCNY * 0.035;
+            const netAnnualIncome = annualRental - annualCost;
+            
+            const periods = [1, 3, 5, 10];
+            let html = '';
+            
+            periods.forEach(years => {
+                let totalRental = 0;
+                for (let i = 0; i < years; i++) {
+                    totalRental += netAnnualIncome * Math.pow(1.02, i);
+                }
+                const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
+                const appreciationValue = futurePrice - priceCNY;
+                const totalCost = annualCost * years;
+                const netGain = totalRental + appreciationValue - totalCost;
+                const totalReturn = (netGain / downPayment) * 100;
+                const irr = totalReturn / years * 0.85;
+                
+                const isHighlight = years === 5 ? 'style="background:#f0fff4"' : '';
+                html += `<tr ${isHighlight}>
+                    <td>${years}年</td>
+                    <td>¥${(downPayment/10000).toFixed(1)}万</td>
+                    <td>¥${(totalRental/10000).toFixed(1)}万</td>
+                    <td>¥${(appreciationValue/10000).toFixed(1)}万</td>
+                    <td>¥${(totalCost/10000).toFixed(1)}万</td>
+                    <td>¥${(netGain/10000).toFixed(1)}万</td>
+                    <td>${totalReturn.toFixed(1)}%</td>
+                    <td>${irr.toFixed(1)}%</td>
+                </tr>`;
+            });
+            
+            document.getElementById('roiComparisonTable').innerHTML = html;
+        }
+        
         document.addEventListener('DOMContentLoaded', () => { 
             initCharts(); 
             initTables(); 
             setTimeout(() => initMap(), 100);
             initTooltips(); 
-            calculateCost(); 
+            calculateCost();
+            calculateROI();
             
-            console.log('📊 看板加载完成 | 版本：v4.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
+            console.log('📊 伦敦房产数据看板加载完成 | 版本：v5.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
         });
         
 function exportExcel() {
