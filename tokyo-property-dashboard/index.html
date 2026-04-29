@@ -732,7 +732,7 @@
     <div id="roi" class="section">
         <h2 class="section-title">📈 累计收益计算器</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>以¥6,000 万日元房产为例，持有 5 年累计收益约 18-25%（含房价增值 + 租金收益 - 持有成本）。日元汇率波动对最终收益影响显著（±10%）。
+            <strong>小结论：</strong>以¥6,000 万日元房产为例，持有 5 年累计收益约 15-22%（含房价增值 + 租金收益 - 持有成本 - 交易税费）。日元汇率波动对最终收益影响显著（±10%）。
         </div>
         
         <div class="cost-calculator" style="background:#f0f7ff">
@@ -742,46 +742,53 @@
                 <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="20" max="100" onchange="calculateROI()"></div>
                 <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
                 <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.5" step="0.1" onchange="calculateROI()"></div>
-                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="3" step="0.1" onchange="calculateROI()"></div>
+                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
                 <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.048" step="0.001" onchange="calculateROI()"></div>
             </div>
-            <div class="cost-result" style="grid-template-columns:repeat(4,1fr)">
-                <div class="item"><div class="label">总投入 (RMB)</div><div class="value" id="roiTotalInvest">¥144 万</div></div>
-                <div class="item"><div class="label">租金收益 (RMB)</div><div class="value" id="roiRentalIncome">¥48 万</div></div>
-                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciation">¥36 万</div></div>
-                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">18.5%</div></div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥138 万</div></div>
+                <div class="item"><div class="label">买入税费 (RMB)</div><div class="value" id="roiBuyCost">¥25 万</div></div>
+                <div class="item"><div class="label">租金净收益 (RMB)</div><div class="value" id="roiRentalIncome">¥35 万</div></div>
+                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciation">¥14 万</div></div>
+                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">8.5%</div></div>
             </div>
             <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
-                <strong>💡 持有成本估算：</strong>年持有成本约房产价值的 2.5%（固定资产税 + 管理费 + 修缮金等），已从收益中扣除。
+                <strong>💡 计算说明：</strong>
+                <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+                    <li><strong>买入税费：</strong>约房产价 4%（中介费 3%+ 登记费 0.4%+ 司法书士费等）</li>
+                    <li><strong>持有成本：</strong>约房产价 2.5%/年（固定资产税 1.7%+ 都市计划税 0.3%+ 管理费修缮金等）</li>
+                    <li><strong>卖出税费：</strong>约房产价 3%（中介费）+ 资本利得税 20%（持有超 5 年）</li>
+                    <li><strong>租金净收益：</strong>已扣除持有成本、管理费、空置率（按 5% 计）</li>
+                </ul>
             </div>
         </div>
         
         <div class="card" style="margin-top:20px">
-            <h4>不同持有年限收益对比</h4>
+            <h4>📊 不同持有年限收益对比</h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金收益 (RMB)</th><th>房价增值 (RMB)</th><th>持有成本 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
+                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金净收益 (RMB)</th><th>房价增值 (RMB)</th><th>卖出税费 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
                 </thead>
                 <tbody id="roiComparisonTable">
-                    <tr><td>1 年</td><td>¥144 万</td><td>¥9.6 万</td><td>¥6.9 万</td><td>¥4.3 万</td><td>¥12.2 万</td><td>8.5%</td><td>8.5%</td></tr>
-                    <tr><td>3 年</td><td>¥144 万</td><td>¥29.5 万</td><td>¥21.6 万</td><td>¥13.5 万</td><td>¥37.6 万</td><td>26.1%</td><td>8.0%</td></tr>
-                    <tr style="background:#f0fff4"><td>5 年</td><td>¥144 万</td><td>¥50.2 万</td><td>¥37.5 万</td><td>¥23.0 万</td><td>¥64.7 万</td><td>44.9%</td><td>7.7%</td></tr>
-                    <tr><td>10 年</td><td>¥144 万</td><td>¥105.8 万</td><td>¥84.0 万</td><td>¥48.7 万</td><td>¥141.1 万</td><td>98.0%</td><td>7.1%</td></tr>
+                    <tr><td>1 年</td><td>¥163 万</td><td>¥6.2 万</td><td>¥2.8 万</td><td>¥8.7 万</td><td>¥0.3 万</td><td>0.2%</td><td>0.2%</td></tr>
+                    <tr><td>3 年</td><td>¥163 万</td><td>¥18.5 万</td><td>¥8.6 万</td><td>¥8.7 万</td><td>¥18.4 万</td><td>11.3%</td><td>3.6%</td></tr>
+                    <tr style="background:#f0fff4"><td>5 年</td><td>¥163 万</td><td>¥31.2 万</td><td>¥14.8 万</td><td>¥13.1 万</td><td>¥32.9 万</td><td>20.2%</td><td>3.8%</td></tr>
+                    <tr><td>10 年</td><td>¥163 万</td><td>¥66.8 万</td><td>¥32.5 万</td><td>¥21.6 万</td><td>¥77.7 万</td><td>47.7%</td><td>4.0%</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
-                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 3%、汇率 0.048。实际收益受市场波动影响。
+                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.048。实际收益受市场波动影响。
             </div>
         </div>
         
         <div class="grid-2" style="margin-top:20px">
             <div class="card">
-                <h4>💰 收益构成分析</h4>
+                <h4>✅ 收益构成</h4>
                 <ul style="line-height:2;font-size:14px">
-                    <li><strong>租金收益：</strong>年租金回报率 3-4%，东京核心区稳定在 3.5% 左右</li>
-                    <li><strong>房价增值：</strong>过去 5 年年化 3-5%，港区等核心区域更高</li>
-                    <li><strong>汇率收益：</strong>日元贬值利好买入，未来升值则利好卖出</li>
-                    <li><strong>持有成本：</strong>约房产价值 2.5%/年（税 + 费）</li>
+                    <li><strong>租金收益：</strong>年租金回报率 3-4%，扣除空置、管理费后净收益约 2-3%</li>
+                    <li><strong>房价增值：</strong>过去 5 年年化 2-3%，港区等核心区域可达 3-5%</li>
+                    <li><strong>汇率影响：</strong>日元贬值利好买入，未来升值则利好卖出（波动±10%）</li>
+                    <li><strong>杠杆效应：</strong>贷款可放大收益，但增加风险</li>
                 </ul>
             </div>
             <div class="card">
@@ -789,8 +796,8 @@
                 <ul style="line-height:2;font-size:14px">
                     <li><strong>汇率风险：</strong>日元波动可能影响最终收益±10%</li>
                     <li><strong>流动性风险：</strong>二手房产变现周期 3-6 个月</li>
-                    <li><strong>政策风险：</strong>日本房产政策稳定，但税收可能调整</li>
-                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有</li>
+                    <li><strong>持有成本：</strong>年持有成本约 2.5%，需持续现金流支撑</li>
+                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有 5 年+</li>
                 </ul>
             </div>
         </div>
@@ -1044,11 +1051,31 @@
         };
         
         const tkDistricts = [
-            {name: '千代田区', avgPrice: 17.5, lat: 35.6938, lng: 139.7536},
-            {name: '中央区', avgPrice: 15.0, lat: 35.6704, lng: 139.7703},
-            {name: '港区', avgPrice: 16.5, lat: 35.6585, lng: 139.7514},
-            {name: '新宿区', avgPrice: 11.0, lat: 35.6938, lng: 139.7034},
-            {name: '涩谷区', avgPrice: 13.0, lat: 35.6638, lng: 139.6980}
+            // 都心 5 区
+            {name: '千代田区', avgPrice: 17.5, lat: 35.6938, lng: 139.7536, change: '+5.2%'},
+            {name: '中央区', avgPrice: 15.0, lat: 35.6704, lng: 139.7703, change: '+4.8%'},
+            {name: '港区', avgPrice: 16.5, lat: 35.6585, lng: 139.7514, change: '+6.1%'},
+            {name: '新宿区', avgPrice: 11.0, lat: 35.6938, lng: 139.7034, change: '+3.5%'},
+            {name: '涩谷区', avgPrice: 13.0, lat: 35.6638, lng: 139.6980, change: '+4.2%'},
+            // 其他核心区域
+            {name: '品川区', avgPrice: 10.5, lat: 35.6092, lng: 139.7301, change: '+3.8%'},
+            {name: '目黑区', avgPrice: 9.8, lat: 35.6424, lng: 139.6983, change: '+3.2%'},
+            {name: '大田区', avgPrice: 7.2, lat: 35.5614, lng: 139.7162, change: '+2.5%'},
+            {name: '世田谷区', avgPrice: 8.5, lat: 35.6464, lng: 139.6533, change: '+3.0%'},
+            {name: '中野区', avgPrice: 7.8, lat: 35.7072, lng: 139.6637, change: '+2.8%'},
+            {name: '杉并区', avgPrice: 7.0, lat: 35.6995, lng: 139.6364, change: '+2.3%'},
+            {name: '丰岛区', avgPrice: 8.2, lat: 35.7295, lng: 139.7156, change: '+3.0%'},
+            {name: '北区', avgPrice: 6.5, lat: 35.7537, lng: 139.7342, change: '+2.0%'},
+            {name: '荒川区', avgPrice: 6.8, lat: 35.7362, lng: 139.7832, change: '+2.2%'},
+            {name: '板桥区', avgPrice: 6.2, lat: 35.7514, lng: 139.7084, change: '+1.8%'},
+            {name: '练马区', avgPrice: 6.0, lat: 35.7357, lng: 139.6516, change: '+1.5%'},
+            {name: '足立区', avgPrice: 5.2, lat: 35.7756, lng: 139.8045, change: '+1.2%'},
+            {name: '葛饰区', avgPrice: 5.0, lat: 35.7436, lng: 139.8485, change: '+1.0%'},
+            {name: '江户川区', avgPrice: 5.5, lat: 35.7068, lng: 139.8683, change: '+1.5%'},
+            {name: '墨田区', avgPrice: 6.8, lat: 35.7101, lng: 139.8014, change: '+2.5%'},
+            {name: '江东区', avgPrice: 7.5, lat: 35.6731, lng: 139.8171, change: '+3.0%'},
+            {name: '台东区', avgPrice: 7.2, lat: 35.7107, lng: 139.7794, change: '+2.5%'},
+            {name: '文京区', avgPrice: 9.5, lat: 35.7081, lng: 139.7517, change: '+3.2%'}
         ];
         
         const tkMonthlyData = [
@@ -1130,7 +1157,7 @@
                     maintainAspectRatio: false, 
                     scales: { 
                         y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}}, 
-                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '平均房价 (万日元)'}} 
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: false, title: {display: true, text: '平均房价 (万日元)'}} 
                     }
                 }
             });
@@ -1162,7 +1189,7 @@
                 options: { 
                     responsive: true, 
                     maintainAspectRatio: false, 
-                    scales: { y: {beginAtZero: true} } 
+                    scales: { y: {beginAtZero: true, title: {display: true, text: '成交量 (户)'}} } 
                 }
             });
             
@@ -1190,7 +1217,7 @@
                         backgroundColor: '#bc002d' 
                     }] 
                 },
-                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true, title: {display: true, text: '中位价 (万日元)'} } } }
             });
             
             // 中国买家占比
@@ -1210,7 +1237,7 @@
                 options: { 
                     responsive: true, 
                     maintainAspectRatio: false, 
-                    scales: { y: {min: 0, max: 15, beginAtZero: true} } 
+                    scales: { y: {beginAtZero: true, title: {display: true, text: '占比 (%)'}} } 
                 }
             });
             
@@ -1230,7 +1257,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: {beginAtZero: false} }
+                    scales: { y: {beginAtZero: false, title: {display: true, text: '汇率 (CNY/JPY)'}} }
                 }
             });
             
@@ -1355,7 +1382,7 @@
                     },
                     scales: { 
                         y: { 
-                            beginAtZero: false,
+                            beginAtZero: true,
                             title: {display: true, text: '月租金 (万日元)'}
                         } 
                     } 
@@ -1374,12 +1401,14 @@
                 </tr>
             `).join('');
             
-            document.querySelector('#districtTable').innerHTML = tkDistricts.map(d => `
+            // 按房价排序显示区域
+            const sortedDistricts = [...tkDistricts].sort((a, b) => b.avgPrice - a.avgPrice);
+            document.querySelector('#districtTable tbody').innerHTML = sortedDistricts.map(d => `
                 <tr>
                     <td>${d.name}</td>
                     <td>¥${d.avgPrice}万</td>
-                    <td>+6%</td>
-                    <td>-</td>
+                    <td class="${d.change?.includes('+') ? 'up' : 'down'}">${d.change || '-'}</td>
+                    <td>${d.avgPrice > 15 ? '顶级豪宅区' : d.avgPrice > 12 ? '核心豪宅区' : d.avgPrice > 8 ? '成熟居住区' : '潜力区域'}</td>
                 </tr>
             `).join('');
         }
@@ -1390,7 +1419,7 @@
                     center: [35.6895, 139.6917],
                     zoom: 11,
                     zoomControl: true,
-                    scrollWheelZoom: false
+                    scrollWheelZoom: true
                 });
                 
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
@@ -1402,15 +1431,32 @@
                 
                 tkDistricts.forEach(d => {
                     const color = d.avgPrice > 15 ? '#bc002d' : d.avgPrice > 12 ? '#8b0000' : d.avgPrice > 9 ? '#ffd700' : '#228b22';
-                    L.circleMarker([d.lat, d.lng], { 
-                        radius: 16, 
+                    const marker = L.circleMarker([d.lat, d.lng], { 
+                        radius: 12, 
                         fillColor: color, 
                         color: '#fff', 
                         weight: 2, 
-                        fillOpacity: 0.8 
+                        fillOpacity: 0.85 
                     })
-                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#bc002d;font-weight:bold">¥${d.avgPrice}万/㎡</span></div>`)
-                    .addTo(map);
+                    .bindPopup(`
+                        <div style="text-align:center;min-width:150px">
+                            <b style="font-size:14px">${d.name}</b><br>
+                            <span style="color:#bc002d;font-weight:bold;font-size:13px">¥${d.avgPrice}万/㎡</span><br>
+                            <span style="color:${d.change.includes('+')?'#228b22':'#bc002d'};font-size:12px">${d.change} YoY</span>
+                        </div>
+                    `);
+                    
+                    marker.on('click', function() {
+                        this.openPopup();
+                        // 高亮选中
+                        this.setStyle({radius: 16, weight: 3});
+                    });
+                    
+                    marker.on('mouseout', function() {
+                        this.setStyle({radius: 12, weight: 2});
+                    });
+                    
+                    marker.addTo(map);
                 });
                 
                 setTimeout(() => { map.invalidateSize(); }, 300);
@@ -1504,39 +1550,56 @@
             const downPaymentPct = parseFloat(document.getElementById('roiDownPayment').value) || 40;
             const years = parseFloat(document.getElementById('roiYears').value) || 5;
             const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 3.5;
-            const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 3;
+            const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
             const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.048;
             
-            // 计算
-            const priceCNY = price * 10000 * exchangeRate; // 转为人民币
+            // 转为人民币
+            const priceCNY = price * 10000 * exchangeRate;
             const downPayment = priceCNY * (downPaymentPct / 100);
             const loanAmount = priceCNY - downPayment;
+            
+            // 买入税费：约 4%（中介费 3%+ 登记费 0.4%+ 司法书士费等）
+            const buyCost = priceCNY * 0.04;
+            
+            // 总投入（首付 + 买入税费）
+            const totalInvest = downPayment + buyCost;
             
             // 年租金收益（人民币）
             const annualRental = priceCNY * (rentalYield / 100);
             
-            // 年持有成本（房产价值的 2.5%）
+            // 年持有成本（房产价值的 2.5%：固定资产税 1.7%+ 都市计划税 0.3%+ 管理费修缮金等）
             const annualCost = priceCNY * 0.025;
             
-            // 净年收益
-            const netAnnualIncome = annualRental - annualCost;
+            // 净年收益（扣除持有成本，考虑 5% 空置率）
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
             
-            // N 年总租金收益（复利）
+            // N 年总租金净收益（复利，租金年增 2%）
             let totalRental = 0;
             for (let i = 0; i < years; i++) {
-                totalRental += netAnnualIncome * Math.pow(1.02, i); // 租金年增 2%
+                totalRental += netAnnualIncome * Math.pow(1.02, i);
             }
             
             // N 年后房价
             const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
             const appreciationValue = futurePrice - priceCNY;
             
-            // 总收益
-            const totalGain = totalRental + appreciationValue;
-            const totalReturn = (totalGain / downPayment) * 100;
+            // 卖出税费：中介费 3% + 资本利得税 20%（持有超 5 年）
+            const sellAgentFee = futurePrice * 0.03;
+            const capitalGainTax = appreciationValue > 0 && years > 5 ? appreciationValue * 0.20315 : 0;
+            const sellCost = sellAgentFee + capitalGainTax;
+            
+            // 净收益
+            const netGain = totalRental + appreciationValue - sellCost;
+            
+            // 累计收益率（相对于总投入）
+            const totalReturn = (netGain / totalInvest) * 100;
+            
+            // 年化 IRR（简化计算）
+            const irr = Math.pow(1 + totalReturn/100, 1/years) - 1;
             
             // 更新显示
-            document.getElementById('roiTotalInvest').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
+            document.getElementById('roiDownPaymentAmt').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
+            document.getElementById('roiBuyCost').textContent = '¥' + (buyCost / 10000).toFixed(1) + '万';
             document.getElementById('roiRentalIncome').textContent = '¥' + (totalRental / 10000).toFixed(1) + '万';
             document.getElementById('roiAppreciation').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
             
@@ -1551,9 +1614,11 @@
         function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
             const priceCNY = price * 10000 * exchangeRate;
             const downPayment = priceCNY * (downPaymentPct / 100);
+            const buyCost = priceCNY * 0.04;
+            const totalInvest = downPayment + buyCost;
             const annualRental = priceCNY * (rentalYield / 100);
             const annualCost = priceCNY * 0.025;
-            const netAnnualIncome = annualRental - annualCost;
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
             
             const periods = [1, 3, 5, 10];
             let html = '';
@@ -1565,21 +1630,23 @@
                 }
                 const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
                 const appreciationValue = futurePrice - priceCNY;
-                const totalCost = annualCost * years;
-                const netGain = totalRental + appreciationValue - totalCost;
-                const totalReturn = (netGain / downPayment) * 100;
-                const irr = totalReturn / years * 0.85; // 简化 IRR
+                const sellAgentFee = futurePrice * 0.03;
+                const capitalGainTax = appreciationValue > 0 && years > 5 ? appreciationValue * 0.20315 : 0;
+                const sellCost = sellAgentFee + capitalGainTax;
+                const netGain = totalRental + appreciationValue - sellCost;
+                const totalReturn = (netGain / totalInvest) * 100;
+                const irr = Math.pow(1 + totalReturn/100, 1/years) - 1;
                 
                 const isHighlight = years === 5 ? 'style="background:#f0fff4"' : '';
                 html += `<tr ${isHighlight}>
                     <td>${years}年</td>
-                    <td>¥${(downPayment/10000).toFixed(1)}万</td>
+                    <td>¥${(totalInvest/10000).toFixed(1)}万</td>
                     <td>¥${(totalRental/10000).toFixed(1)}万</td>
                     <td>¥${(appreciationValue/10000).toFixed(1)}万</td>
-                    <td>¥${(totalCost/10000).toFixed(1)}万</td>
+                    <td>¥${(sellCost/10000).toFixed(1)}万</td>
                     <td>¥${(netGain/10000).toFixed(1)}万</td>
                     <td>${totalReturn.toFixed(1)}%</td>
-                    <td>${irr.toFixed(1)}%</td>
+                    <td>${(irr*100).toFixed(1)}%</td>
                 </tr>`;
             });
             
