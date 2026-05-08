@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豪宅研究院 - 全球不动产战略监控看板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        
+        .header .meta {
+            font-size: 0.95em;
+            opacity: 0.85;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .header .meta span {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #1e3c72;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .subsection-title {
+            font-size: 1.4em;
+            color: #2a5298;
+            margin: 30px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        
+        .status-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 14px;
+            padding: 28px 22px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .status-card .emoji {
+            font-size: 2.8em;
+            margin-bottom: 12px;
+        }
+        
+        .status-card .label {
+            font-size: 0.95em;
+            color: #6c757d;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .status-card .value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+        
+        .status-card .trend {
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .trend.up { color: #10b981; }
+        .trend.down { color: #ef4444; }
+        .trend.stable { color: #6b7280; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+        
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .alert-box {
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin: 25px 0;
+            border-left: 5px solid;
+        }
+        
+        .alert-box.p0 {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left-color: #ef4444;
+        }
+        
+        .alert-box.p1 {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left-color: #f59e0b;
+        }
+        
+        .alert-box.p2 {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left-color: #3b82f6;
+        }
+        
+        .alert-box .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .alert-box ul {
+            margin-left: 25px;
+            line-height: 2;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 600;
+        }
+        
+        .badge-green { background: #d1fae5; color: #059669; }
+        .badge-yellow { background: #fef3c7; color: #d97706; }
+        .badge-red { background: #fecaca; color: #dc2626; }
+        .badge-blue { background: #dbeafe; color: #2563eb; }
+        .badge-purple { background: #e9d5ff; color: #7c3aed; }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            border-radius: 14px;
+            padding: 28px;
+            margin: 25px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #059669;
+            margin-bottom: 18px;
+            font-size: 1.25em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .highlight-box ul {
+            margin-left: 25px;
+            line-height: 2;
+        }
+        
+        /* 可展开内容样式 */
+        .expandable {
+            margin: 20px 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .expandable-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .expandable-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .expandable-header h4 {
+            color: #1e3c72;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .expandable-icon {
+            font-size: 1.3em;
+            transition: transform 0.3s ease;
+        }
+        
+        .expandable-content {
+            display: none;
+            padding: 25px 30px;
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .expandable-content.show {
+            display: block;
+        }
+        
+        .expandable-content .source {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #6c757d;
+            border-left: 3px solid #667eea;
+        }
+        
+        .expandable-content .source strong {
+            color: #1e3c72;
+        }
+        
+        .expandable-content .policy-text {
+            background: #fffbeb;
+            padding: 20px 25px;
+            border-radius: 8px;
+            border: 1px solid #fde68a;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin: 15px 0;
+            white-space: pre-wrap;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 35px 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.92em;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .share-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .share-bar span {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .share-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .share-bar a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* 研究机构卡片 */
+        .research-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 28px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .research-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .research-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .research-card .institution {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+        
+        .research-card .date {
+            font-size: 0.85em;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+        
+        .research-card .view {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 15px 0;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .research-card .basis {
+            margin-top: 15px;
+        }
+        
+        .research-card .basis h5 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .research-card .basis ul {
+            margin-left: 20px;
+            line-height: 1.9;
+            color: #4b5563;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .content { padding: 25px 20px; }
+            .status-grid { grid-template-columns: repeat(2, 1fr); }
+            th, td { padding: 12px 15px; font-size: 0.88em; }
+            .share-bar { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ 豪宅研究院</h1>
+            <div class="subtitle">全球不动产战略监控看板</div>
+            <div class="meta">
+                <span>📅 2026 年 5 月第 1 周</span>
+                <span>🕐 生成：2026-05-08 10:25 GMT+8</span>
+                <span>📧 zkycuijie@126.com</span>
+            </div>
+        </div>
+        
+        <div class="share-bar">
+            <span>📤 分享此报告：</span>
+            <div>
+                <a href="#" onclick="copyLink()">🔗 复制链接</a>
+                <a href="#" onclick="window.print()">🖨️ 打印</a>
+                <a href="#" onclick="downloadPDF()">📥 下载 PDF</a>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- 执行摘要 -->
+            <div class="section">
+                <h2 class="section-title">📊 执行摘要</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="emoji">📋</div>
+                        <div class="label">政策环境</div>
+                        <div class="value"><span class="badge badge-green">宽松周期</span></div>
+                        <div class="trend up">6 城 48 小时集中发布 20+ 新政</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">📈</div>
+                        <div class="label">市场热度</div>
+                        <div class="value"><span class="badge badge-green">回暖</span></div>
+                        <div class="trend up">四城成交 +15-35% YoY</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">💰</div>
+                        <div class="label">房价趋势</div>
+                        <div class="value"><span class="badge badge-yellow">分化</span></div>
+                        <div class="trend up">一线止跌转涨</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">🏆</div>
+                        <div class="label">竞争格局</div>
+                        <div class="value"><span class="badge badge-green">稳定</span></div>
+                        <div class="trend stable">贝壳 55% 主导</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">🏢</div>
+                        <div class="label">商业地产</div>
+                        <div class="value"><span class="badge badge-yellow">承压</span></div>
+                        <div class="trend down">租金下行，REITs 启动</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">📚</div>
+                        <div class="label">机构研判</div>
+                        <div class="value"><span class="badge badge-purple">分歧</span></div>
+                        <div class="trend stable">高盛看多 vs 大摩谨慎</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 政策警报 -->
+            <div class="section">
+                <h2 class="section-title">🚨 政策警报</h2>
+                
+                <div class="alert-box p1">
+                    <div class="alert-header">
+                        <span>⚠️ P1 级警报</span>
+                        <span class="badge badge-red">2026-04-30</span>
+                    </div>
+                    <strong>6 城集中发布新政（48 小时内）</strong>
+                    <p style="margin-top: 12px; color: #6c757d; font-size: 0.92em;">
+                        📌 点击展开查看政策原文及数据来源
+                    </p>
+                </div>
+                
+                <!-- 深圳政策 -->
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <h4>📍 深圳：核心区限购松绑</h4>
+                        <span class="expandable-icon">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-text"><strong>政策原文：</strong>
+                        持有深圳经济特区居住证的非本市户籍居民家庭，可在福田区、南山区、宝安区新安街道范围内购买 1 套商品住房，无需提供社会保险或个人所得税证明。
+                        深圳户籍家庭最高可购买 3 套住房。
+                        公积金贷款额度大幅提升，符合条件的家庭最高可贷额度达到 351 万元。</div>
+                        
+                        <div class="source">
+                            <strong>📎 信息来源：</strong>深圳市住房和建设局官网 | 《关于进一步优化房地产政策的通知》（2026-04-30）<br>
+                            <strong>📊 数据验证：</strong>深圳贝壳研究院 | 政策发布后五一期间新房销售面积同比增长 59%
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 广州政策 -->
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <h4>📍 广州："穗八条"史诗级提额</h4>
+                        <span class="expandable-icon">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-text"><strong>政策原文：</strong>
+                        一人申请公积金贷款的最高额度从 80 万提升至 100 万，两人或以上共同申请最高可达 200 万。
+                        对于购买被认定为"好房子"的多子女家庭，叠加各项上浮政策后，最高贷款额度甚至能达到 360 万元。
+                        发放"卖旧买新"专项补贴，按所购新房贷款总额的 1% 申请，单套最高 3 万元。</div>
+                        
+                        <div class="source">
+                            <strong>📎 信息来源：</strong>广州市人民政府办公厅 | 《关于进一步促进房地产市场平稳健康发展的实施意见》（2026-04-30）<br>
+                            <strong>📊 数据验证：</strong>广州住房公积金管理中心 | 公积金新政解读
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 北京政策 -->
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <h4>📍 北京：社保年限大幅调减</h4>
+                        <span class="expandable-icon">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-text"><strong>政策原文：</strong>
+                        放宽非京籍家庭购房条件。购买五环内商品住房社保年限由 3 年调减为 2 年。购买五环外商品住房由 2 年调减为 1 年。
+                        京籍多子女家庭可在五环内购买三套住房。
+                        不再区分首套、二套房商贷利率，统一执行 3.05%。
+                        二套房公积金贷款最低首付比例从 30% 降至 25%。</div>
+                        
+                        <div class="source">
+                            <strong>📎 信息来源：</strong>北京市住房和城乡建设委员会 | 《关于进一步优化调整房地产相关政策的通知》（2025-12-24）<br>
+                            <strong>📊 数据验证：</strong>北京链家研究院 | 2026 年 4 月北京二手房成交 17,893 套，创近 5 年 4 月新高
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 上海政策 -->
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <h4>📍 上海："沪六条"外环外放开</h4>
+                        <span class="expandable-icon">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-text"><strong>政策原文：</strong>
+                        对符合当地购房条件的居民家庭，在外环线以外区域购买新建商品住房或二手住房不再限制套数。
+                        公积金贷款多子女家庭最高可达 324 万元。
+                        商业用房（含"商住两用房"）购房贷款最低首付款比例调整为不低于 30%。</div>
+                        
+                        <div class="source">
+                            <strong>📎 信息来源：</strong>上海市住房和城乡建设管理委员会等五部门 | 《关于进一步优化调整本市房地产政策的通知》（2026-02-25）<br>
+                            <strong>📊 数据验证：</strong>上海链家研究院 | 2026 年 3 月 1 日至 3 月 23 日，上海市二手房成交 2.24 万套，同比增长 11%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 四城市场数据 -->
+            <div class="section">
+                <h2 class="section-title">📈 四城市场数据（2026 年 4 月）</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>城市</th>
+                            <th>二手房成交（套）</th>
+                            <th>同比</th>
+                            <th>环比</th>
+                            <th>房价环比（二手）</th>
+                            <th>趋势</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>北京</strong></td>
+                            <td>17,893</td>
+                            <td class="trend up">+15%</td>
+                            <td class="trend up">+8%</td>
+                            <td class="trend up">+0.6%</td>
+                            <td><span class="badge badge-green">🟢 创 5 年新高</span></td>
+                            <td>北京市住建委</td>
+                        </tr>
+                        <tr>
+                            <td><strong>上海</strong></td>
+                            <td>29,000</td>
+                            <td class="trend up">+22%</td>
+                            <td class="trend up">+12%</td>
+                            <td class="trend up">+0.4%</td>
+                            <td><span class="badge badge-green">🟢 同期高位</span></td>
+                            <td>上海市房地产交易中心</td>
+                        </tr>
+                        <tr>
+                            <td><strong>深圳</strong></td>
+                            <td>~4,200</td>
+                            <td class="trend up">+35%</td>
+                            <td class="trend up">+15%</td>
+                            <td class="trend up">+0.4%</td>
+                            <td><span class="badge badge-green">🟢 大幅反弹</span></td>
+                            <td>深圳市住建局</td>
+                        </tr>
+                        <tr>
+                            <td><strong>广州</strong></td>
+                            <td>~8,500</td>
+                            <td class="trend up">+21%</td>
+                            <td class="trend up">+10%</td>
+                            <td class="trend up">+0.2%</td>
+                            <td><span class="badge badge-green">🟢 温和复苏</span></td>
+                            <td>广州市住建局</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight-box">
+                    <h4>🎯 关键洞察</h4>
+                    <ul>
+                        <li>一线城市房价<strong>止跌转涨</strong>，二手房领涨（北京 +0.6% 全国第一）</li>
+                        <li>上海新房同比<strong>唯一正增长</strong>（+3.7%），显示最强韧性</li>
+                        <li>五一假期：北京 +76%、上海 +16%、深圳 +81%（二手房网签同比）</li>
+                        <li>核心城区优质项目交易活跃度较高，远郊区域库存压力仍存</li>
+                    </ul>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 数据来源：</strong>国家统计局 70 城房价数据（2026-04-16）| 中指研究院重点 20 城成交数据 | 各城市住建委网签数据
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 研究机构研判 -->
+            <div class="section">
+                <h2 class="section-title">📚 研究机构研判</h2>
+                <p style="color: #6c757d; margin-bottom: 25px; font-size: 1.05em;">
+                    汇集国际投行、房地产咨询机构及行业专家对 2026 年中国一线城市房地产市场的最新研判结论及核心依据
+                </p>
+                
+                <!-- 高盛 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏦 高盛 (Goldman Sachs)</div>
+                        <div class="date">2026 年 3 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>上海、深圳楼市将在 2026 年底触底，2025-2028 年累计上涨约 15%，核心地段改善房源涨幅或超 20%
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>香港楼市已率先复苏，内地一线与香港在人口密度、产业结构、资源稀缺性上高度相似，或将复制其修复路径</li>
+                            <li>优质国有房企市净率仅 0.5 倍，净资产收益率优于香港同行，市场此前过度悲观，情绪修复后估值回归空间大</li>
+                            <li>一线城市供需关系持续收紧，核心房源稀缺性凸显，自然资源部 38 号文落地后一线城市宅地供应缩减超 30%</li>
+                            <li>二手房挂牌量持续回落，业主惜售情绪升温，上海、北京核心片区挂牌量较 2025 年底下降 20% 以上</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>高盛《抢在一线城市复苏之前布局》（2026-03） | 高盛《2026-2027 中国房地产展望》（2025-12）
+                    </div>
+                </div>
+                
+                <!-- 摩根大通 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏦 摩根大通 (J.P. Morgan)</div>
+                        <div class="date">2026 年 4 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>中国楼市已到转折点，预测 2026 年一线二手房价格同比持平至微涨（0%-+3%），核心区域跌幅收窄至 0%-2%
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>3 月一线二手房环比转正、成交放量，叠加供给持续收缩，下跌空间不足 10%，2026 年将完成筑底</li>
+                            <li>一线城市房价 2026 年末企稳，支撑逻辑包括二手房挂牌量下降、股市财富效应、房价收入比回到 2016 年水平</li>
+                            <li>香港房价上涨对内地的信心修复作用显著</li>
+                            <li>市场触底的时间会在 2027 年，而一线城市会早于全国其他城市率先企稳</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>摩根大通《中国房地产市场 2026 年展望》（2026-04） | 摩根大通研报解读（2026-04-17）
+                    </div>
+                </div>
+                
+                <!-- 瑞银 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏦 瑞银 (UBS)</div>
+                        <div class="date">2026 年 3 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>相对谨慎，预测一线二手房短期仍有 10% 下跌空间，但明确指出 2026 年是"政策宽松关键年"，一线楼市将在年底率先企稳，2027 年迎来温和回升
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>除非北京出台额外的刺激措施，否则一线城市房价稳定时间将推迟至 2026 年初之后</li>
+                            <li>2026 年初，中国一线城市的平均租售比高达 1:636，靠租金回本要 53 年，年租金收益率仅 1.9%</li>
+                            <li>降息降准预期下，一线楼市将在年底率先企稳</li>
+                            <li>政策宽松仍是被动应对式，大规模住房库存回购计划可能性有限</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>瑞银中国内地及香港房地产研究主管 John Lam 研报（2026-03） | 瑞银中国房地产市场展望（2026）
+                    </div>
+                </div>
+                
+                <!-- 摩根士丹利 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏦 摩根士丹利 (Morgan Stanley)</div>
+                        <div class="date">2026 年 2 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>将 2026 年定义为房地产市场"风险重启年"，预测全国房价再跌 8%，2027 年再跌 6%。高线城市跌幅可能超过低线城市
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>居民信心疲弱且政策反应偏被动，库存消化可能比预期更长，截至 2025 年 9 月底全国住宅库存仍高达约 23 亿平方米</li>
+                            <li>一线城市自 2025 年第二季度以来持续表现疲弱趋势，十月份信心进一步走低，预计房价下跌的受访者净比例为 67%</li>
+                            <li>一線城市和主要二線城市的房價將在 2027 年下半年稳定，而由于人口结构和供应过剩问题，其余地区的房价触底需要更长时间</li>
+                            <li>2026 年房地产销售可能进一步收缩，预计 2026 年全国整体新房地产销售量同比下降 8.5%</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>摩根士丹利 AlphaWise 中国房地产调查报告（2025-10） | 摩根士丹利《2026 年中国房地产展望》（2026-02）
+                    </div>
+                </div>
+                
+                <!-- 戴德梁行 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏢 戴德梁行 (Cushman & Wakefield)</div>
+                        <div class="date">2025 年 12 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>2026 年作为"十五五"规划开局之年，大中华区房地产市场将在高质量发展主线引领下，迎来结构优化与价值提升的新发展阶段。预计整体市场价格在未来两年有望企稳
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>TMT 行业扩张将推动核心创新中心对高标准办公空间的需求，金融行业加速"向优质资产靠拢"</li>
+                            <li>自用型买家投资交易额占比持续提升（2021-2025 年前三季度达 39%），高科技、金融等领域企业积极购置自用空间</li>
+                            <li>2025 年前三季度，大中华区商业地产总交易额达 2686 亿元人民币，同比保持稳定</li>
+                            <li>公募 REITs 范围进一步扩大至写字楼及酒店将推动投资者对该板块的关注度</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>戴德梁行《2026 大中华区房地产市场展望》（2025-12-31）
+                    </div>
+                </div>
+                
+                <!-- 贝壳研究院 -->
+                <div class="research-card">
+                    <div class="header">
+                        <div class="institution">🏠 贝壳研究院</div>
+                        <div class="date">2026 年 4 月</div>
+                    </div>
+                    <div class="view">
+                        <strong>核心观点：</strong>核心城市楼市小阳春行情延续，新建商品住宅销售面积同比降幅较 3 月有所收窄，重点城市二手房成交量同比明显增长
+                    </div>
+                    <div class="basis">
+                        <h5>核心依据：</h5>
+                        <ul>
+                            <li>4 月重点 100 城新建商品住宅成交面积环比下降 11%，同比基本持平。一线城市中，北京、上海、广州同比分别增长 59%、10% 和 21%</li>
+                            <li>4 月 20 城二手住宅成交 15.6 万套，同比增长 13.4%；其中北京二手住宅成交 1.8 万套，创近五年 4 月单月新高</li>
+                            <li>居民购房信心和置业意愿延续改善，但政策观望预期提升，需求释放较缓</li>
+                            <li>5 月广深市场在新政助推下有望迎来需求释放</li>
+                        </ul>
+                    </div>
+                    <div class="source" style="margin-top: 15px;">
+                        <strong>📎 报告来源：</strong>贝壳研究院《2026 年 4 月中国房地产市场月报》 | 中指研究院监测数据
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h4>📊 机构观点汇总</h4>
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>机构</th>
+                                <th>2026 年一线房价预测</th>
+                                <th>触底时间</th>
+                                <th>核心逻辑</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>高盛</strong></td>
+                                <td class="trend up">+15%（2025-2028 累计）</td>
+                                <td>2026 年底</td>
+                                <td>供需收紧 + 香港复苏映射</td>
+                            </tr>
+                            <tr>
+                                <td><strong>摩根大通</strong></td>
+                                <td class="trend stable">0% 至 +3%</td>
+                                <td>2026 年末</td>
+                                <td>挂牌量下降 + 政策托底</td>
+                            </tr>
+                            <tr>
+                                <td><strong>瑞银</strong></td>
+                                <td class="trend down">-10%（短期）后企稳</td>
+                                <td>2026 年底</td>
+                                <td>政策宽松关键年</td>
+                            </tr>
+                            <tr>
+                                <td><strong>摩根士丹利</strong></td>
+                                <td class="trend down">-8%（全国）</td>
+                                <td>2027 年下半年</td>
+                                <td>库存高企 + 信心疲弱</td>
+                            </tr>
+                            <tr>
+                                <td><strong>戴德梁行</strong></td>
+                                <td class="trend stable">企稳</td>
+                                <td>未来两年</td>
+                                <td>高质量发展 + 自用需求</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 商业地产 -->
+            <div class="section">
+                <h2 class="section-title">🏢 商业地产监控</h2>
+                <h3 class="subsection-title">写字楼市场（2025Q4-2026Q1）</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>城市</th>
+                            <th>平均租金（元/㎡/天）</th>
+                            <th>空置率</th>
+                            <th>净吸纳量</th>
+                            <th>趋势</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>北京</strong></td>
+                            <td>~4.5</td>
+                            <td>~15%</td>
+                            <td>持平</td>
+                            <td><span class="badge badge-yellow">🟡 以价换量</span></td>
+                            <td>戴德梁行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>上海</strong></td>
+                            <td>~4.8</td>
+                            <td>~12%</td>
+                            <td>+5%</td>
+                            <td><span class="badge badge-green">🟢 相对稳健</span></td>
+                            <td>戴德梁行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>深圳</strong></td>
+                            <td>~4.2</td>
+                            <td>~18%</td>
+                            <td>-3%</td>
+                            <td><span class="badge badge-yellow">🟡 承压</span></td>
+                            <td>戴德梁行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>广州</strong></td>
+                            <td>~3.8</td>
+                            <td>~14%</td>
+                            <td>持平</td>
+                            <td><span class="badge badge-yellow">🟡 租户重组</span></td>
+                            <td>戴德梁行</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 class="subsection-title">大宗交易与 REITs</h3>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="label">2025 年总成交规模</div>
+                        <div class="value">1,869 亿元</div>
+                        <div class="trend up">+35.5% YoY</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">零售商业交易</div>
+                        <div class="value">873 亿元</div>
+                        <div class="trend stable">占比 47%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">办公楼交易</div>
+                        <div class="value">451 亿元</div>
+                        <div class="trend stable">占比 24%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">商业 REITs 已申报</div>
+                        <div class="value">15 只</div>
+                        <div class="trend up">计划募集~460 亿</div>
+                    </div>
+                </div>
+                
+                <div class="expandable">
+                    <div class="expandable-header" onclick="toggleExpand(this)">
+                        <h4>📎 商业 REITs 试点政策原文</h4>
+                        <span class="expandable-icon">▼</span>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="policy-text"><strong>政策原文：</strong>
+                        2025 年 12 月 31 日，证监会出台《中国证监会关于推出商业不动产投资信托基金试点的公告》（21 号公告）及《关于推动不动产投资信托基金（REITs）市场高质量发展有关工作的通知》（63 文）。
+                        将体育场馆项目，商旅文体健等多业态融合的商业综合体项目，四星级及以上酒店项目，超大特大城市的超甲级、甲级商务楼宇项目，以及老旧街区、老旧厂区更新改造项目纳入 REITs 发行范围。
+                        截至 3 月 10 日，已有 15 只商业不动产 REITs 申报至沪深交易所，计划募集资金合计约 460 亿元。
+                        15 只产品的 2026 年预测净现金流分派率在 3.8%-6.9% 之间，平均值为 5.1%。</div>
+                        
+                        <div class="source">
+                            <strong>📎 信息来源：</strong>中国证监会《关于推出商业不动产投资信托基金试点的公告》（2025-12-31） | 沪深交易所配套规则<br>
+                            <strong>📊 数据验证：</strong>戴德梁行《2026 大中华区房地产市场展望》 | 中指研究院 REITs 监测数据
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 竞争对手 -->
+            <div class="section">
+                <h2 class="section-title">🏆 竞争对手格局</h2>
+                <h3 class="subsection-title">传统中介龙头</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>玩家</th>
+                            <th>北京市场份额</th>
+                            <th>门店数量</th>
+                            <th>2024Q3 营收</th>
+                            <th>战略动态</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>贝壳/链家</strong></td>
+                            <td>~55%</td>
+                            <td>~48,000 家</td>
+                            <td>623 亿元（+8.3%）</td>
+                            <td>"一体三翼"，净利润 35 亿</td>
+                            <td>贝壳财报</td>
+                        </tr>
+                        <tr>
+                            <td><strong>我爱我家</strong></td>
+                            <td>~18%</td>
+                            <td>优化中</td>
+                            <td>-</td>
+                            <td>聚焦租赁（30%+），轻资产</td>
+                            <td>雪球分析</td>
+                        </tr>
+                        <tr>
+                            <td><strong>中原地产</strong></td>
+                            <td>广深前三</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>港资背景，高端盘优势</td>
+                            <td>行业报告</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 class="subsection-title">新模式玩家</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>代表</th>
+                            <th>进展</th>
+                            <th>监控重点</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>单边代理</td>
+                            <td>好房时代</td>
+                            <td>扩张中</td>
+                            <td>收费标准~1-2% 单边</td>
+                            <td>中国新闻网</td>
+                        </tr>
+                        <tr>
+                            <td>阿里资产</td>
+                            <td>阿里拍卖房产</td>
+                            <td>2025 年成交翻倍</td>
+                            <td>法拍房 + 二手房规模</td>
+                            <td>新房网</td>
+                        </tr>
+                        <tr>
+                            <td>内容获客</td>
+                            <td>抖音/小红书大 V</td>
+                            <td>流量红利期</td>
+                            <td>粉丝量、转化率、私域</td>
+                            <td>平台数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 风险预警 -->
+            <div class="section">
+                <h2 class="section-title">⚠️ 风险预警</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="label">政策风险</div>
+                        <div class="value"><span class="badge badge-green">低</span></div>
+                        <div class="trend stable">无突变</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">市场风险</div>
+                        <div class="value"><span class="badge badge-yellow">中</span></div>
+                        <div class="trend up">北京 +0.6%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">开发商风险</div>
+                        <div class="value"><span class="badge badge-yellow">中</span></div>
+                        <div class="trend stable">出清中</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">法拍房风险</div>
+                        <div class="value"><span class="badge badge-green">低</span></div>
+                        <div class="trend stable">平稳</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 下周关注 -->
+            <div class="section">
+                <h2 class="section-title">📅 下周关注重点</h2>
+                <div class="alert-box p2">
+                    <ol style="margin-left: 25px; line-height: 2.2; font-size: 1.02em;">
+                        <li><strong>政策跟进</strong>：上海是否会进一步放松限购（市场预期 5-6 月）</li>
+                        <li><strong>市场数据</strong>：5 月前两周成交能否延续五一热度</li>
+                        <li><strong>竞争对手</strong>：贝壳 Q1 财报发布（预期 5 月中旬）</li>
+                        <li><strong>商业地产</strong>：REITs 申报项目审批进展</li>
+                        <li><strong>机构观点</strong>：关注瑞银、戴德梁行最新研报更新</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>🏛️ 豪宅研究院 · 全球不动产战略监控中心</strong></p>
+            <p>本报告由 AI 战略研究员"小研"自动生成 | 数据来源于官方统计、商业机构报告及公开媒体报道</p>
+            <p>警报接收：zkycuijie@126.com | 下次更新：2026-05-15（周报）</p>
+            <p style="margin-top: 15px; font-size: 0.88em; color: #9ca3af;">
+                本报告仅供参考，不构成投资建议。所有数据及观点均来源于公开资料，豪宅研究院不对信息准确性作任何保证。
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('🔗 链接已复制到剪贴板！');
+            }).catch(() => {
+                prompt('请手动复制链接:', url);
+            });
+            return false;
+        }
+        
+        function downloadPDF() {
+            window.print();
+        }
+        
+        function toggleExpand(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.expandable-icon');
+            
+            content.classList.toggle('show');
+            icon.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+        
+        // 页面加载时自动展开第一个政策
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstExpandable = document.querySelector('.expandable');
+            if (firstExpandable) {
+                const header = firstExpandable.querySelector('.expandable-header');
+                const content = firstExpandable.querySelector('.expandable-content');
+                const icon = firstExpandable.querySelector('.expandable-icon');
+                content.classList.add('show');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+    </script>
+</body>
+</html>
