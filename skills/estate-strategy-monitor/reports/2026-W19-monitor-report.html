@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豪宅研究院 - 全球不动产战略监控看板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .header .meta {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .status-card .emoji {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .status-card .label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .status-card .value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+        
+        .status-card .trend {
+            font-size: 0.85em;
+            margin-top: 8px;
+        }
+        
+        .trend.up { color: #10b981; }
+        .trend.down { color: #ef4444; }
+        .trend.stable { color: #6b7280; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .alert-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .alert-box.p0 {
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            border-left-color: #ef4444;
+        }
+        
+        .alert-box.p1 {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left-color: #f59e0b;
+        }
+        
+        .alert-box.p2 {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left-color: #3b82f6;
+        }
+        
+        .alert-box .alert-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .badge-green { background: #d1fae5; color: #059669; }
+        .badge-yellow { background: #fef3c7; color: #d97706; }
+        .badge-red { background: #fecaca; color: #dc2626; }
+        .badge-blue { background: #dbeafe; color: #2563eb; }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #059669;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .footer {
+            background: #f9fafb;
+            padding: 30px 40px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9em;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .share-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .share-bar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+        
+        .share-bar a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+            .status-grid { grid-template-columns: repeat(2, 1fr); }
+            th, td { padding: 10px 12px; font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ 豪宅研究院</h1>
+            <div class="subtitle">全球不动产战略监控看板</div>
+            <div class="meta">
+                报告周期：2026 年 5 月第 1 周（5 月 1 日 -5 月 8 日） | 
+                生成时间：2026-05-08 10:05 GMT+8
+            </div>
+        </div>
+        
+        <div class="share-bar">
+            <span>📤 分享此报告：</span>
+            <a href="#" onclick="copyLink()">🔗 复制链接</a>
+            <a href="#" onclick="window.print()">🖨️ 打印</a>
+            <a href="#" onclick="downloadPDF()">📥 下载 PDF</a>
+        </div>
+        
+        <div class="content">
+            <!-- 执行摘要 -->
+            <div class="section">
+                <h2 class="section-title">📊 执行摘要</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="emoji">📋</div>
+                        <div class="label">政策环境</div>
+                        <div class="value"><span class="badge badge-green">宽松周期</span></div>
+                        <div class="trend up">持续放松</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">📈</div>
+                        <div class="label">市场热度</div>
+                        <div class="value"><span class="badge badge-green">回暖</span></div>
+                        <div class="trend up">成交量 +15-35%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">💰</div>
+                        <div class="label">房价趋势</div>
+                        <div class="value"><span class="badge badge-yellow">分化</span></div>
+                        <div class="trend up">一线止跌转涨</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">🏆</div>
+                        <div class="label">竞争对手</div>
+                        <div class="value"><span class="badge badge-green">稳定</span></div>
+                        <div class="trend stable">贝壳主导</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="emoji">🏢</div>
+                        <div class="label">商业地产</div>
+                        <div class="value"><span class="badge badge-yellow">承压</span></div>
+                        <div class="trend down">租金下行</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 政策警报 -->
+            <div class="section">
+                <h2 class="section-title">🚨 政策警报</h2>
+                <div class="alert-box p1">
+                    <div class="alert-title">
+                        <span>⚠️ P1 级警报</span>
+                        <span class="badge badge-red">2026-04-30</span>
+                    </div>
+                    <strong>6 城集中发布新政（48 小时内）</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>深圳</strong>：持居住证非深户可在福田/南山/宝安新安街道购买 1 套，无需社保</li>
+                        <li><strong>广州</strong>："穗八条"公积金一人最高 100 万，两人最高 200 万，多子女家庭买"好房子"最高 360 万</li>
+                        <li><strong>武汉</strong>："汉七条"跨区购房算首套，5-6 月新城区购房享 1-1.5% 财政补贴</li>
+                        <li><strong>天津</strong>：全面取消限购和二手房限售，首套首付最低 15%</li>
+                        <li><strong>北京</strong>：五环内社保 3 年→2 年，五环外 2 年→1 年；多子女家庭五环内可购 3 套（2025-12-24）</li>
+                        <li><strong>上海</strong>：外环外不限套数；公积金贷款多子女家庭最高 324 万（2026-02-25）</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 市场数据 -->
+            <div class="section">
+                <h2 class="section-title">📈 四城市场数据（2026 年 4 月）</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>城市</th>
+                            <th>二手房成交（套）</th>
+                            <th>同比</th>
+                            <th>环比</th>
+                            <th>房价环比（二手）</th>
+                            <th>趋势</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>北京</strong></td>
+                            <td>17,893</td>
+                            <td class="trend up">+15%</td>
+                            <td class="trend up">+8%</td>
+                            <td class="trend up">+0.6%</td>
+                            <td><span class="badge badge-green">🟢 创 5 年新高</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>上海</strong></td>
+                            <td>29,000</td>
+                            <td class="trend up">+22%</td>
+                            <td class="trend up">+12%</td>
+                            <td class="trend up">+0.4%</td>
+                            <td><span class="badge badge-green">🟢 同期高位</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>深圳</strong></td>
+                            <td>~4,200</td>
+                            <td class="trend up">+35%</td>
+                            <td class="trend up">+15%</td>
+                            <td class="trend up">+0.4%</td>
+                            <td><span class="badge badge-green">🟢 大幅反弹</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>广州</strong></td>
+                            <td>~8,500</td>
+                            <td class="trend up">+21%</td>
+                            <td class="trend up">+10%</td>
+                            <td class="trend up">+0.2%</td>
+                            <td><span class="badge badge-green">🟢 温和复苏</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight-box">
+                    <h4>🎯 关键洞察</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>一线城市房价<strong>止跌转涨</strong>，二手房领涨（北京 +0.6% 全国第一）</li>
+                        <li>上海新房同比<strong>唯一正增长</strong>（+3.7%），显示最强韧性</li>
+                        <li>五一假期：北京 +76%、上海 +16%、深圳 +81%（二手房网签同比）</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 商业地产 -->
+            <div class="section">
+                <h2 class="section-title">🏢 商业地产监控</h2>
+                <h3 style="margin: 20px 0 15px; color: #1e3c72;">写字楼市场（2025Q4-2026Q1）</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>城市</th>
+                            <th>平均租金（元/㎡/天）</th>
+                            <th>空置率</th>
+                            <th>净吸纳量</th>
+                            <th>趋势</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>北京</strong></td>
+                            <td>~4.5</td>
+                            <td>~15%</td>
+                            <td>持平</td>
+                            <td><span class="badge badge-yellow">🟡 以价换量</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>上海</strong></td>
+                            <td>~4.8</td>
+                            <td>~12%</td>
+                            <td>+5%</td>
+                            <td><span class="badge badge-green">🟢 相对稳健</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>深圳</strong></td>
+                            <td>~4.2</td>
+                            <td>~18%</td>
+                            <td>-3%</td>
+                            <td><span class="badge badge-yellow">🟡 承压</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>广州</strong></td>
+                            <td>~3.8</td>
+                            <td>~14%</td>
+                            <td>持平</td>
+                            <td><span class="badge badge-yellow">🟡 租户重组</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 style="margin: 20px 0 15px; color: #1e3c72;">大宗交易与 REITs</h3>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="label">2025 年总成交规模</div>
+                        <div class="value">1,869 亿元</div>
+                        <div class="trend up">+35.5% YoY</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">零售商业交易</div>
+                        <div class="value">873 亿元</div>
+                        <div class="trend stable">占比 47%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">办公楼交易</div>
+                        <div class="value">451 亿元</div>
+                        <div class="trend stable">占比 24%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">商业 REITs 已申报</div>
+                        <div class="value">15 只</div>
+                        <div class="trend up">计划募集~460 亿</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 竞争对手 -->
+            <div class="section">
+                <h2 class="section-title">🏆 竞争对手格局</h2>
+                <h3 style="margin: 20px 0 15px; color: #1e3c72;">传统中介龙头</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>玩家</th>
+                            <th>北京市场份额</th>
+                            <th>门店数量</th>
+                            <th>2024Q3 营收</th>
+                            <th>战略动态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>贝壳/链家</strong></td>
+                            <td>~55%</td>
+                            <td>~48,000 家</td>
+                            <td>623 亿元（+8.3%）</td>
+                            <td>"一体三翼"，净利润 35 亿</td>
+                        </tr>
+                        <tr>
+                            <td><strong>我爱我家</strong></td>
+                            <td>~18%</td>
+                            <td>优化中</td>
+                            <td>-</td>
+                            <td>聚焦租赁（30%+），轻资产</td>
+                        </tr>
+                        <tr>
+                            <td><strong>中原地产</strong></td>
+                            <td>广深前三</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>港资背景，高端盘优势</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 style="margin: 20px 0 15px; color: #1e3c72;">新模式玩家</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>代表</th>
+                            <th>进展</th>
+                            <th>监控重点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>单边代理</td>
+                            <td>好房时代</td>
+                            <td>扩张中</td>
+                            <td>收费标准~1-2% 单边</td>
+                        </tr>
+                        <tr>
+                            <td>阿里资产</td>
+                            <td>阿里拍卖房产</td>
+                            <td>2025 年成交翻倍</td>
+                            <td>法拍房 + 二手房规模</td>
+                        </tr>
+                        <tr>
+                            <td>内容获客</td>
+                            <td>抖音/小红书大 V</td>
+                            <td>流量红利期</td>
+                            <td>粉丝量、转化率、私域</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 不动产咨询 -->
+            <div class="section">
+                <h2 class="section-title">💼 不动产咨询市场</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>业务类型</th>
+                            <th>市场规模（2025）</th>
+                            <th>增长率</th>
+                            <th>主要玩家</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>商业地产咨询</td>
+                            <td>50-80 亿元</td>
+                            <td class="trend up">+5%</td>
+                            <td>五大行主导</td>
+                        </tr>
+                        <tr>
+                            <td>住宅豪宅咨询</td>
+                            <td>20-30 亿元</td>
+                            <td class="trend up">+10%</td>
+                            <td>分散，新兴崛起</td>
+                        </tr>
+                        <tr>
+                            <td>资产评估</td>
+                            <td>30-50 亿元</td>
+                            <td class="trend stable">+3%</td>
+                            <td>持牌机构</td>
+                        </tr>
+                        <tr>
+                            <td>家庭资产配置</td>
+                            <td>5-10 亿元</td>
+                            <td class="trend up">+20%</td>
+                            <td>新兴蓝海</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="highlight-box">
+                    <h4>💰 客户付费意愿</h4>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>高净值家庭（1 亿+）</strong>：50-200 万/年（资产配置、税务筹划、传承）</li>
+                        <li><strong>企业主</strong>：100-500 万/项目（办公选址、商业地产配置）</li>
+                        <li><strong>中产家庭（3000 万 -1 亿）</strong>：5-20 万/单（换房咨询、学区规划）</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 风险预警 -->
+            <div class="section">
+                <h2 class="section-title">⚠️ 风险预警</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="label">政策风险</div>
+                        <div class="value"><span class="badge badge-green">低</span></div>
+                        <div class="trend stable">无突变</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">市场风险</div>
+                        <div class="value"><span class="badge badge-yellow">中</span></div>
+                        <div class="trend up">北京 +0.6%</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">开发商风险</div>
+                        <div class="value"><span class="badge badge-yellow">中</span></div>
+                        <div class="trend stable">出清中</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="label">法拍房风险</div>
+                        <div class="value"><span class="badge badge-green">低</span></div>
+                        <div class="trend stable">平稳</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 下周关注 -->
+            <div class="section">
+                <h2 class="section-title">📅 下周关注重点</h2>
+                <div class="alert-box p2">
+                    <ol style="margin-left: 20px; line-height: 2;">
+                        <li><strong>政策跟进</strong>：上海是否会进一步放松限购（市场预期 5-6 月）</li>
+                        <li><strong>市场数据</strong>：5 月前两周成交能否延续五一热度</li>
+                        <li><strong>竞争对手</strong>：贝壳 Q1 财报发布（预期 5 月中旬）</li>
+                        <li><strong>商业地产</strong>：REITs 申报项目审批进展</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>🏛️ 豪宅研究院 · 全球不动产战略监控中心</strong></p>
+            <p>本报告由 AI 战略研究员"小研"自动生成 | 数据来源于官方统计、商业机构报告及公开媒体报道</p>
+            <p>警报接收：zkycuijie@126.com | 下次更新：2026-05-15（周报）</p>
+            <p style="margin-top: 15px; font-size: 0.85em; color: #9ca3af;">仅供参考，不构成投资建议</p>
+        </div>
+    </div>
+    
+    <script>
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('链接已复制到剪贴板！');
+            }).catch(() => {
+                prompt('请手动复制链接:', url);
+            });
+            return false;
+        }
+        
+        function downloadPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
