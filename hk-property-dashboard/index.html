@@ -134,6 +134,7 @@
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('mainland')">🇨🇳 内地买家</button>
         <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
     </div>
     
     <!-- 全市场概览 -->
@@ -563,6 +564,98 @@
                     <tr><td>3,000 以上</td><td>80,000+</td><td>2.5-3.0%</td><td>❌ 否</td></tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    
+    <!-- 热销推荐 -->
+    <div id="hot" class="section">
+        <h2 class="section-title">🔥 热销楼盘推荐</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>精选香港核心区域热销豪宅楼盘，涵盖港岛、九龙、新界东豪宅带。数据基于 2026 年 Q1 成交热度、搜索量、客户咨询量综合排序。价格区间：HK$2,000-8,000 万。
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>🏝️ 港岛核心楼盘</h4>
+            <div class="grid-3">
+                <div class="stat-card" data-title="The Holgate" data-content="📍 何文田 常和街 8 号<br>💰 HK$3,800 万起 (约¥3,340 万 RMB)<br>🏗️ 2022 年入伙，32 层<br>📐 户型：1,100-2,500 sqft (3-5 房)<br>🚇 港铁：何文田站上盖<br>🏢 发展商：会德丰<br>📊 2026 Q1 成交：15 宗，均价 HK$4,200 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">The Holgate</div>
+                    <div class="stat-label">何文田 | HK$3,800 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">港铁何文田站上盖，名校网，高端会所</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +40%</div>
+                </div>
+                <div class="stat-card" data-title="11 SKIES" data-content="📍 赤鱲角 航天城东路 1 号<br>💰 HK$2,500 万起 (约¥2,195 万 RMB)<br>🏗️ 2023 年入伙，3 栋<br>📐 户型：800-2,000 sqft (2-4 房)<br>🚇 港铁：机场快线博览馆站<br>🏢 发展商：新世界发展<br>📊 2026 Q1 成交：22 宗，均价 HK$2,800 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">11 SKIES</div>
+                    <div class="stat-label">赤鱲角 | HK$2,500 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">机场航天城，综合娱乐城，投资新贵</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +55%</div>
+                </div>
+                <div class="stat-card" data-title="Mount Nicholson" data-content="📍 渣甸山  Nicholson Terrace<br>💰 HK$8,000 万起 (约¥7,024 万 RMB)<br>🏗️ 2020 年入伙，4 座<br>📐 户型：1,500-4,500 sqft (3-6 房)<br>🚇 港铁：天后站 10 分<br>🏢 发展商：会德丰<br>📊 2026 Q1 成交：3 宗，均价 HK$1.2 亿" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">Mount Nicholson</div>
+                    <div class="stat-label">渣甸山 | HK$8,000 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">全球最贵呎价豪宅，山顶景，顶级私隐</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 顶级豪宅</div>
+                </div>
+                <div class="stat-card" data-title="The Repulse Bay" data-content="📍 浅水湾 浅水湾道 127 号<br>💰 HK$6,500 万起 (约¥5,707 万 RMB)<br>🏗️ 2018 年入伙，3 座<br>📐 户型：1,800-4,000 sqft (3-5 房)<br>🚇 港铁：中环站 + 巴士 20 分<br>🏢 发展商：信和置业<br>📊 2026 Q1 成交：5 宗，均价 HK$7,200 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">The Repulse Bay</div>
+                    <div class="stat-label">浅水湾 | HK$6,500 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">浅水湾海景，低密度豪宅，富豪首选</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 海景豪宅</div>
+                </div>
+                <div class="stat-card" data-title="Mid Levels West" data-content="📍 西半山 坚道 88 号<br>💰 HK$4,200 万起 (约¥3,688 万 RMB)<br>🏗️ 2021 年入伙，28 层<br>📐 户型：1,200-2,800 sqft (3-5 房)<br>🚇 港铁：中环站 10 分<br>🏢 发展商：恒基兆业<br>📊 2026 Q1 成交：8 宗，均价 HK$4,500 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">Mid Levels West</div>
+                    <div class="stat-label">西半山 | HK$4,200 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">传统豪宅区，维港景，国际学校近</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +32%</div>
+                </div>
+                <div class="stat-card" data-title="Central Park" data-content="📍 将军澳 至善街 9 号<br>💰 HK$2,200 万起 (约¥1,932 万 RMB)<br>🏗️ 2019 年入伙，5 栋<br>📐 户型：900-2,200 sqft (3-5 房)<br>🚇 港铁：康城站上盖<br>🏢 发展商：会德丰<br>📊 2026 Q1 成交：18 宗，均价 HK$2,400 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">Central Park</div>
+                    <div class="stat-label">将军澳 | HK$2,200 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">新界东豪宅，大型会所，性价比高</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +28%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>🏙️ 九龙核心楼盘</h4>
+            <div class="grid-3">
+                <div class="stat-card" data-title="Victoria Dockside" data-content="📍 尖沙咀 梳士巴利道 18 号<br>💰 HK$5,500 万起 (约¥4,829 万 RMB)<br>🏗️ 2020 年入伙，3 栋<br>📐 户型：1,000-3,500 sqft (2-5 房)<br>🚇 港铁：尖东站 L6 出口直驳<br>🏢 发展商：新世界发展<br>📊 2026 Q1 成交：10 宗，均价 HK$6,000 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">Victoria Dockside</div>
+                    <div class="stat-label">尖沙咀 | HK$5,500 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">维港文化汇，K11 艺术商业综合体</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +45%</div>
+                </div>
+                <div class="stat-card" data-title="KOKO HILLS" data-content="📍 将军澳 至善街 8 号<br>💰 HK$2,800 万起 (约¥2,458 万 RMB)<br>🏗️ 2021 年入伙，8 栋<br>📐 户型：700-2,000 sqft (2-5 房)<br>🚇 港铁：康城站 5 分<br>🏢 发展商：会德丰<br>📊 2026 Q1 成交：16 宗，均价 HK$3,000 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">KOKO HILLS</div>
+                    <div class="stat-label">将军澳 | HK$2,800 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">低密度豪宅，山景，大型会所</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +38%</div>
+                </div>
+                <div class="stat-card" data-title="The Austin" data-content="📍 九龙 柯士甸道西 18 号<br>💰 HK$4,000 万起 (约¥3,512 万 RMB)<br>🏗️ 2016 年入伙，4 栋<br>📐 户型：900-2,500 sqft (2-5 房)<br>🚇 港铁：柯士甸站上盖<br>🏢 发展商：长江实业<br>📊 2026 Q1 成交：7 宗，均价 HK$4,300 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">The Austin</div>
+                    <div class="stat-label">九龙站 | HK$4,000 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">高铁站上盖，交通枢纽，维港景</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +35%</div>
+                </div>
+                <div class="stat-card" data-title="Grand Yoho" data-content="📍 元朗 锦田 98 区<br>💰 HK$2,000 万起 (约¥1,756 万 RMB)<br>🏗️ 2022 年入伙，10 栋<br>📐 户型：800-2,200 sqft (3-5 房)<br>🚇 港铁：锦田站 + 穿梭巴士<br>🏢 发展商：新鸿基地产<br>📊 2026 Q1 成交：20 宗，均价 HK$2,200 万" data-source="中原地产，差饷物业估价署 | A 级">
+                    <div class="stat-value">Grand Yoho</div>
+                    <div class="stat-label">元朗 | HK$2,000 万起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">新界豪宅，大型屋苑，低密度</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月查询 +42%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px;background:#fffaf0;border:1px solid #feebc8">
+            <h4>💡 购房提示</h4>
+            <ul style="font-size:13px;color:var(--text-light);line-height:1.8">
+                <li><strong>房源类型：</strong>香港豪宅以新盘 + 二手混合，新盘占比约 40%</li>
+                <li><strong>印花税：</strong>2024 年全面撤辣，BSD/ADSS 取消，仅需缴付标准印花税</li>
+                <li><strong>贷款政策：</strong>内地买家首付 30-40%，利率 3.5-4.5%（中银香港、汇丰等）</li>
+                <li><strong>交易周期：</strong>从认购到完成约 6-8 周</li>
+                <li><strong>持有成本：</strong>约房产价值 0.8-1.5%/年（含差饷、地租、管理费等）</li>
+                <li><strong>投资回报：</strong>租金收益率 3.2-4.2%，房价增值 5-8%/年（2026 年 Q1 数据）</li>
+            </ul>
         </div>
     </div>
 

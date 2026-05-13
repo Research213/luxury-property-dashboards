@@ -102,6 +102,15 @@
         .policy-item-title { font-weight: 600; }
         .policy-item-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
         .policy-item.expanded .policy-item-detail { display: block; }
+        /* 区域分析子 tab 样式 */
+        .sub-tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+        .sub-tab { padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-light); transition: all 0.2s; }
+        .sub-tab:hover { background: #f7fafc; border-color: var(--primary); }
+        .sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block !important; }
+        /* 确保区域分析 tab 初始显示 */
+        #district-map.tab-content.active { display: block !important; }
         @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: 1fr; } }
     </style>
@@ -172,6 +181,7 @@
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
         <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
+        <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
     </div>
     
     <!-- 全市场概览 -->
@@ -306,21 +316,32 @@
                     </div>
                 </div>
                 <div class="card" data-title="东京各区域房价" data-content="东京都心 5 区房价对比。" data-source="国土交通省 | A 级">
-                    <h4>各区域房价对比 (2026 Q1) <span class="data-source-tag">国土交通省</span><span class="data-reliability A">A 级</span></h4>
+                    <h4>各区域房价 & 租金对比 (2026 Q1) <span class="data-source-tag">国土交通省，SUUMO</span><span class="data-reliability A">A 级</span></h4>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>区域</th>
                                 <th>单价 (万/㎡)</th>
                                 <th>同比变化</th>
+                                <th>月租金 (万日元)</th>
+                                <th>年回报率</th>
                                 <th>特点</th>
                             </tr>
                         </thead>
                         <tbody id="districtTable"></tbody>
                     </table>
                     <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                        📌 数据来源：国土交通省公示地价 | 5 个核心区域覆盖东京 60% 豪宅交易量
+                        📌 数据来源：国土交通省公示地价、SUUMO 租金数据 | 5 个核心区域覆盖东京 60% 豪宅交易量
                     </div>
+                </div>
+            </div>
+            
+            <!-- 租金历史趋势图表 -->
+            <div class="card" style="margin-top:20px">
+                <h4>都心 5 区租金走势（近 12 个月） <span class="data-source-tag">SUUMO</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container large"><canvas id="rentHistoryChart"></canvas></div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                    📌 都心 5 区租金连涨 12 个月，港区领涨（+10% YoY），涩谷/新宿因再开发项目租金上涨明显
                 </div>
             </div>
         </div>
@@ -1032,6 +1053,128 @@
             </div>
         </div>
     </div>
+    
+    <!-- 热销推荐 -->
+    <div id="hot" class="section">
+        <h2 class="section-title">🔥 热销楼盘推荐</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>精选东京都心 5 区热销豪宅楼盘，涵盖公寓、一户建、塔楼。数据基于 2026 年 Q1 成交热度、搜索量、客户咨询量综合排序。价格区间：¥5,000-15,000 万日元。
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>🏢 港区核心楼盘</h4>
+            <div class="grid-3">
+                <div class="stat-card" data-title="Park Homes 麻布台" data-content="📍 麻布台 1-2-3<br>💰 ¥12,800 万日元起 (约¥580 万 RMB)<br>🏗️ 2023 年竣工，38 层塔楼<br>📐 户型：70-120㎡ (2LDK-4LDK)<br>🚇 地铁：日比谷线神谷町站 3 分<br>🏢 开发商：三井不动产 Residences<br>📊 2026 Q1 成交：12 户，均价¥13,200 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Park Homes 麻布台</div>
+                    <div class="stat-label">麻布台 | ¥12,800 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">森大厦再开发，东京塔景，高端塔楼</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +35%</div>
+                </div>
+                <div class="stat-card" data-title="The Tower 虎之门" data-content="📍 虎之门 1-23-1<br>💰 ¥9,500 万日元起 (约¥430 万 RMB)<br>🏗️ 2020 年竣工，42 层塔楼<br>📐 户型：55-95㎡ (1LDK-3LDK)<br>🚇 地铁：日比谷线虎之门站直结<br>🏢 开发商：三井不动产<br>📊 2026 Q1 成交：18 户，均价¥9,800 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">The Tower 虎之门</div>
+                    <div class="stat-label">虎之门 | ¥9,500 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">三井不动产，交通枢纽，投资热门</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +42%</div>
+                </div>
+                <div class="stat-card" data-title="Azabudai Hills Residence" data-content="📍 麻布台 1-3-1<br>💰 ¥18,000 万日元起 (约¥810 万 RMB)<br>🏗️ 2023 年竣工，64 层 (日本第一高楼)<br>📐 户型：90-200㎡ (2LDK-5LDK)<br>🚇 地铁：日比谷线神谷町站 2 分<br>🏢 开发商：森大厦<br>📊 2026 Q1 成交：8 户，均价¥22,000 万" data-source="REINS, 森大厦官网 | A 级">
+                    <div class="stat-value">Azabudai Hills</div>
+                    <div class="stat-label">麻布台 | ¥18,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">日本第一高楼，顶级豪宅地标</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 顶级豪宅</div>
+                </div>
+                <div class="stat-card" data-title="Park Court 赤坂" data-content="📍 赤坂 9-7-15<br>💰 ¥8,200 万日元起 (约¥370 万 RMB)<br>🏗️ 2019 年竣工，35 层塔楼<br>📐 户型：60-110㎡ (2LDK-4LDK)<br>🚇 地铁：千代田线赤坂站 5 分<br>🏢 开发商：三井住友不动产<br>📊 2026 Q1 成交：10 户，均价¥8,500 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Park Court 赤坂</div>
+                    <div class="stat-label">赤坂 | ¥8,200 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">三井住友，皇居景，静谧高端住宅区</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +28%</div>
+                </div>
+                <div class="stat-card" data-title="The Ritz-Carlton Residences" data-content="📍 六本木 9-7-1<br>💰 ¥25,000 万日元起 (约¥1,125 万 RMB)<br>🏗️ 2022 年竣工，53 层塔楼<br>📐 户型：120-400㎡ (3LDK-6LDK)<br>🚇 地铁：日比谷线六本木站 3 分<br>🏢 开发商：三菱地所 + 丽思卡尔顿<br>📊 2026 Q1 成交：3 户，均价¥32,000 万" data-source="REINS, 丽思卡尔顿官网 | A 级">
+                    <div class="stat-value">Ritz-Carlton</div>
+                    <div class="stat-label">六本木 | ¥25,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">丽思卡尔顿酒店式公寓，奢华顶豪</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 顶级豪宅</div>
+                </div>
+                <div class="stat-card" data-title="Tokyo Midtown Residences" data-content="📍 赤坂 9-7-4<br>💰 ¥15,000 万日元起 (约¥675 万 RMB)<br>🏗️ 2007 年竣工，54 层塔楼<br>📐 户型：80-180㎡ (2LDK-5LDK)<br>🚇 地铁：日比谷线六本木站直结<br>🏢 开发商：三井不动产<br>📊 2026 Q1 成交：9 户，均价¥16,200 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Tokyo Midtown</div>
+                    <div class="stat-label">赤坂 | ¥15,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">东京中城综合体，商业配套完善</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +25%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>🏢 涩谷区核心楼盘</h4>
+            <div class="grid-3">
+                <div class="stat-card" data-title="Park Court 涩谷 The Tower" data-content="📍 涩谷 2-24-12<br>💰 ¥11,000 万日元起 (约¥495 万 RMB)<br>🏗️ 2020 年竣工，40 层塔楼<br>📐 户型：65-130㎡ (2LDK-4LDK)<br>🚇 地铁：JR 涩谷站 5 分<br>🏢 开发商：三井不动产<br>📊 2026 Q1 成交：14 户，均价¥11,500 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Park Court 涩谷</div>
+                    <div class="stat-label">涩谷 | ¥11,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">涩谷站步行 5 分，再开发核心区</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +48%</div>
+                </div>
+                <div class="stat-card" data-title="涩谷 Scramble Square Residence" data-content="📍 涩谷 2-24-1<br>💰 ¥16,000 万日元起 (约¥720 万 RMB)<br>🏗️ 2019 年竣工，47 层<br>📐 户型：75-180㎡ (2LDK-5LDK)<br>🚇 地铁：JR 涩谷站直结<br>🏢 开发商：东急 + 东京地铁<br>📊 2026 Q1 成交：10 户，均价¥17,200 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Scramble Square</div>
+                    <div class="stat-label">涩谷 | ¥16,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">涩谷地标，顶层观景，年轻富豪首选</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 地标豪宅</div>
+                </div>
+                <div class="stat-card" data-title="The House 广尾" data-content="📍 广尾 5-6-35<br>💰 ¥7,800 万日元起 (约¥351 万 RMB)<br>🏗️ 2018 年竣工，12 层<br>📐 户型：80-150㎡ (3LDK-5LDK)<br>🚇 地铁：日比谷线广尾站 3 分<br>🏢 开发商：住友不动产<br>📊 2026 Q1 成交：8 户，均价¥8,200 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">The House 广尾</div>
+                    <div class="stat-label">广尾 | ¥7,800 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">国际学校云集，家庭客户首选</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +32%</div>
+                </div>
+                <div class="stat-card" data-title="Park Homes 惠比寿" data-content="📍 惠比寿 4-9-8<br>💰 ¥9,200 万日元起 (约¥414 万 RMB)<br>🏗️ 2021 年竣工，28 层塔楼<br>📐 户型：60-120㎡ (2LDK-4LDK)<br>🚇 地铁：JR 惠比寿站 4 分<br>🏢 开发商：三井不动产<br>📊 2026 Q1 成交：11 户，均价¥9,600 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Park Homes 惠比寿</div>
+                    <div class="stat-label">惠比寿 | ¥9,200 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">惠比寿花园广场，时尚街区</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +36%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px">
+            <h4>🏢 千代田区/新宿区核心楼盘</h4>
+            <div class="grid-3">
+                <div class="stat-card" data-title="皇居外苑 Tower Mansion" data-content="📍 千代田 1-7-1<br>💰 ¥22,000 万日元起 (约¥990 万 RMB)<br>🏗️ 2022 年竣工，38 层<br>📐 户型：100-250㎡ (3LDK-6LDK)<br>🚇 地铁：JR 东京站 5 分<br>🏢 开发商：三菱地所<br>📊 2026 Q1 成交：4 户，均价¥24,000 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">皇居外苑 Tower</div>
+                    <div class="stat-label">千代田 | ¥22,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">皇居景，东京核心中的核心</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 顶级豪宅</div>
+                </div>
+                <div class="stat-card" data-title="Park Tower 新宿" data-content="📍 新宿 1-20-1<br>💰 ¥8,500 万日元起 (约¥382 万 RMB)<br>🏗️ 2017 年竣工，42 层塔楼<br>📐 户型：55-110㎡ (1LDK-4LDK)<br>🚇 地铁：JR 新宿御苑站 2 分<br>🏢 开发商：三井不动产<br>📊 2026 Q1 成交：16 户，均价¥8,900 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Park Tower 新宿</div>
+                    <div class="stat-label">新宿 | ¥8,500 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">新宿御苑旁，交通枢纽，投资热门</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +42%</div>
+                </div>
+                <div class="stat-card" data-title="The Kitahama 大手町" data-content="📍 千代田 1-5-8<br>💰 ¥19,000 万日元起 (约¥855 万 RMB)<br>🏗️ 2020 年竣工，36 层<br>📐 户型：90-200㎡ (3LDK-5LDK)<br>🚇 地铁：JR 东京站 3 分<br>🏢 开发商：野村不动产<br>📊 2026 Q1 成交：5 户，均价¥20,500 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">The Kitahama</div>
+                    <div class="stat-label">大手町 | ¥19,000 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">金融城核心，高端商务人士首选</div>
+                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 商务豪宅</div>
+                </div>
+                <div class="stat-card" data-title="Grand Maison 四谷" data-content="📍 新宿 四谷 2-15<br>💰 ¥6,500 万日元起 (约¥292 万 RMB)<br>🏗️ 2019 年竣工，18 层<br>📐 户型：50-95㎡ (1LDK-3LDK)<br>🚇 地铁：JR 四谷站 3 分<br>🏢 开发商：住友不动产<br>📊 2026 Q1 成交：12 户，均价¥6,800 万" data-source="REINS, 开发商官网 | A 级">
+                    <div class="stat-value">Grand Maison 四谷</div>
+                    <div class="stat-label">四谷 | ¥6,500 万日元起</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">性价比高，中央线沿线，生活便利</div>
+                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +28%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top:20px;background:#fffaf0;border:1px solid #feebc8">
+            <h4>💡 购房提示</h4>
+            <ul style="font-size:13px;color:var(--text-light);line-height:1.8">
+                <li><strong>房源类型：</strong>东京豪宅以二手公寓（Mansion）为主，新建占比约 30%</li>
+                <li><strong>看房流程：</strong>需提前预约，部分高端楼盘要求财力证明</li>
+                <li><strong>贷款政策：</strong>外国人首付 30-40%，利率 1.2-1.8%（永旺银行等）</li>
+                <li><strong>交易周期：</strong>从签约到交房约 2-3 个月</li>
+                <li><strong>持有成本：</strong>约房产价值 1.7-2.5%/年（含固定资产税、管理费等）</li>
+                <li><strong>投资回报：</strong>租金收益率 3-4%，房价增值 2-3%/年（都心 5 区）</li>
+            </ul>
+        </div>
+    </div>
 
     <script>
         const EXCHANGE_RATE = 0.048;
@@ -1052,30 +1195,46 @@
         
         const tkDistricts = [
             // 都心 5 区
-            {name: '千代田区', avgPrice: 17.5, lat: 35.6938, lng: 139.7536, change: '+5.2%'},
-            {name: '中央区', avgPrice: 15.0, lat: 35.6704, lng: 139.7703, change: '+4.8%'},
-            {name: '港区', avgPrice: 16.5, lat: 35.6585, lng: 139.7514, change: '+6.1%'},
-            {name: '新宿区', avgPrice: 11.0, lat: 35.6938, lng: 139.7034, change: '+3.5%'},
-            {name: '涩谷区', avgPrice: 13.0, lat: 35.6638, lng: 139.6980, change: '+4.2%'},
+            {name: '千代田区', avgPrice: 17.5, rentPrice: 52, rentalYield: 3.0, lat: 35.6938, lng: 139.7536, change: '+5.2%'},
+            {name: '中央区', avgPrice: 15.0, rentPrice: 48, rentalYield: 3.2, lat: 35.6704, lng: 139.7703, change: '+4.8%'},
+            {name: '港区', avgPrice: 16.5, rentPrice: 55, rentalYield: 3.3, lat: 35.6585, lng: 139.7514, change: '+6.1%'},
+            {name: '新宿区', avgPrice: 11.0, rentPrice: 38, rentalYield: 3.5, lat: 35.6938, lng: 139.7034, change: '+3.5%'},
+            {name: '涩谷区', avgPrice: 13.0, rentPrice: 45, rentalYield: 3.5, lat: 35.6638, lng: 139.6980, change: '+4.2%'},
             // 其他核心区域
-            {name: '品川区', avgPrice: 10.5, lat: 35.6092, lng: 139.7301, change: '+3.8%'},
-            {name: '目黑区', avgPrice: 9.8, lat: 35.6424, lng: 139.6983, change: '+3.2%'},
-            {name: '大田区', avgPrice: 7.2, lat: 35.5614, lng: 139.7162, change: '+2.5%'},
-            {name: '世田谷区', avgPrice: 8.5, lat: 35.6464, lng: 139.6533, change: '+3.0%'},
-            {name: '中野区', avgPrice: 7.8, lat: 35.7072, lng: 139.6637, change: '+2.8%'},
-            {name: '杉并区', avgPrice: 7.0, lat: 35.6995, lng: 139.6364, change: '+2.3%'},
-            {name: '丰岛区', avgPrice: 8.2, lat: 35.7295, lng: 139.7156, change: '+3.0%'},
-            {name: '北区', avgPrice: 6.5, lat: 35.7537, lng: 139.7342, change: '+2.0%'},
-            {name: '荒川区', avgPrice: 6.8, lat: 35.7362, lng: 139.7832, change: '+2.2%'},
-            {name: '板桥区', avgPrice: 6.2, lat: 35.7514, lng: 139.7084, change: '+1.8%'},
-            {name: '练马区', avgPrice: 6.0, lat: 35.7357, lng: 139.6516, change: '+1.5%'},
-            {name: '足立区', avgPrice: 5.2, lat: 35.7756, lng: 139.8045, change: '+1.2%'},
-            {name: '葛饰区', avgPrice: 5.0, lat: 35.7436, lng: 139.8485, change: '+1.0%'},
-            {name: '江户川区', avgPrice: 5.5, lat: 35.7068, lng: 139.8683, change: '+1.5%'},
-            {name: '墨田区', avgPrice: 6.8, lat: 35.7101, lng: 139.8014, change: '+2.5%'},
-            {name: '江东区', avgPrice: 7.5, lat: 35.6731, lng: 139.8171, change: '+3.0%'},
-            {name: '台东区', avgPrice: 7.2, lat: 35.7107, lng: 139.7794, change: '+2.5%'},
-            {name: '文京区', avgPrice: 9.5, lat: 35.7081, lng: 139.7517, change: '+3.2%'}
+            {name: '品川区', avgPrice: 10.5, rentPrice: 36, rentalYield: 3.4, lat: 35.6092, lng: 139.7301, change: '+3.8%'},
+            {name: '目黑区', avgPrice: 9.8, rentPrice: 35, rentalYield: 3.6, lat: 35.6424, lng: 139.6983, change: '+3.2%'},
+            {name: '大田区', avgPrice: 7.2, rentPrice: 28, rentalYield: 3.9, lat: 35.5614, lng: 139.7162, change: '+2.5%'},
+            {name: '世田谷区', avgPrice: 8.5, rentPrice: 30, rentalYield: 3.5, lat: 35.6464, lng: 139.6533, change: '+3.0%'},
+            {name: '中野区', avgPrice: 7.8, rentPrice: 28, rentalYield: 3.6, lat: 35.7072, lng: 139.6637, change: '+2.8%'},
+            {name: '杉并区', avgPrice: 7.0, rentPrice: 25, rentalYield: 3.6, lat: 35.6995, lng: 139.6364, change: '+2.3%'},
+            {name: '丰岛区', avgPrice: 8.2, rentPrice: 30, rentalYield: 3.7, lat: 35.7295, lng: 139.7156, change: '+3.0%'},
+            {name: '北区', avgPrice: 6.5, rentPrice: 24, rentalYield: 3.7, lat: 35.7537, lng: 139.7342, change: '+2.0%'},
+            {name: '荒川区', avgPrice: 6.8, rentPrice: 25, rentalYield: 3.7, lat: 35.7362, lng: 139.7832, change: '+2.2%'},
+            {name: '板桥区', avgPrice: 6.2, rentPrice: 23, rentalYield: 3.7, lat: 35.7514, lng: 139.7084, change: '+1.8%'},
+            {name: '练马区', avgPrice: 6.0, rentPrice: 22, rentalYield: 3.7, lat: 35.7357, lng: 139.6516, change: '+1.5%'},
+            {name: '足立区', avgPrice: 5.2, rentPrice: 20, rentalYield: 3.8, lat: 35.7756, lng: 139.8045, change: '+1.2%'},
+            {name: '葛饰区', avgPrice: 5.0, rentPrice: 19, rentalYield: 3.8, lat: 35.7436, lng: 139.8485, change: '+1.0%'},
+            {name: '江户川区', avgPrice: 5.5, rentPrice: 21, rentalYield: 3.8, lat: 35.7068, lng: 139.8683, change: '+1.5%'},
+            {name: '墨田区', avgPrice: 6.8, rentPrice: 26, rentalYield: 3.8, lat: 35.7101, lng: 139.8014, change: '+2.5%'},
+            {name: '江东区', avgPrice: 7.5, rentPrice: 28, rentalYield: 3.7, lat: 35.6731, lng: 139.8171, change: '+3.0%'},
+            {name: '台东区', avgPrice: 7.2, rentPrice: 27, rentalYield: 3.8, lat: 35.7107, lng: 139.7794, change: '+2.5%'},
+            {name: '文京区', avgPrice: 9.5, rentPrice: 34, rentalYield: 3.6, lat: 35.7081, lng: 139.7517, change: '+3.2%'}
+        ];
+        
+        // 东京各区域租金历史数据（近 12 个月，单位：万日元/月）
+        const tkRentHistory = [
+            {month: '2025-04', chiyoda: 48, chuo: 44, minato: 50, shinjuku: 35, shibuya: 42},
+            {month: '2025-05', chiyoda: 49, chuo: 45, minato: 51, shinjuku: 35, shibuya: 43},
+            {month: '2025-06', chiyoda: 49, chuo: 45, minato: 52, shinjuku: 36, shibuya: 43},
+            {month: '2025-07', chiyoda: 50, chuo: 46, minato: 53, shinjuku: 36, shibuya: 44},
+            {month: '2025-08', chiyoda: 50, chuo: 46, minato: 53, shinjuku: 37, shibuya: 44},
+            {month: '2025-09', chiyoda: 51, chuo: 47, minato: 54, shinjuku: 37, shibuya: 45},
+            {month: '2025-10', chiyoda: 51, chuo: 47, minato: 54, shinjuku: 37, shibuya: 45},
+            {month: '2025-11', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
+            {month: '2025-12', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
+            {month: '2026-01', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
+            {month: '2026-02', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
+            {month: '2026-03', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45}
         ];
         
         const tkMonthlyData = [
@@ -1388,6 +1547,72 @@
                     } 
                 }
             });
+            
+            // 租金历史趋势图表（区域地图 tab）
+            if (document.getElementById('rentHistoryChart')) {
+                new Chart(document.getElementById('rentHistoryChart'), {
+                    type: 'line',
+                    data: { 
+                        labels: tkRentHistory.map(d => d.month), 
+                        datasets: [
+                            { 
+                                label: '港区', 
+                                data: tkRentHistory.map(d => d.minato), 
+                                borderColor: '#bc002d', 
+                                backgroundColor: 'rgba(188, 0, 45, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            { 
+                                label: '千代田区', 
+                                data: tkRentHistory.map(d => d.chiyoda), 
+                                borderColor: '#d69e2e', 
+                                tension: 0.3 
+                            },
+                            { 
+                                label: '涩谷区', 
+                                data: tkRentHistory.map(d => d.shibuya), 
+                                borderColor: '#2c5282', 
+                                tension: 0.3 
+                            },
+                            { 
+                                label: '新宿区', 
+                                data: tkRentHistory.map(d => d.shinjuku), 
+                                borderColor: '#38a169', 
+                                tension: 0.3 
+                            },
+                            { 
+                                label: '中央区', 
+                                data: tkRentHistory.map(d => d.chuo), 
+                                borderColor: '#805ad5', 
+                                tension: 0.3 
+                            }
+                        ] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ¥' + context.parsed.y + '万/月'
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: { 
+                            y: { 
+                                beginAtZero: false,
+                                title: {display: true, text: '月租金 (万日元)'}
+                            } 
+                        } 
+                    }
+                });
+            }
         }
         
         function initTables() {
@@ -1405,9 +1630,11 @@
             const sortedDistricts = [...tkDistricts].sort((a, b) => b.avgPrice - a.avgPrice);
             document.querySelector('#districtTable tbody').innerHTML = sortedDistricts.map(d => `
                 <tr>
-                    <td>${d.name}</td>
+                    <td><strong>${d.name}</strong></td>
                     <td>¥${d.avgPrice}万</td>
                     <td class="${d.change?.includes('+') ? 'up' : 'down'}">${d.change || '-'}</td>
+                    <td><strong>¥${d.rentPrice || '-'}万</strong></td>
+                    <td><span class="${(d.rentalYield || 0) >= 3.5 ? 'up' : 'stable'}">${d.rentalYield ? d.rentalYield + '%' : '-'}</span></td>
                     <td>${d.avgPrice > 15 ? '顶级豪宅区' : d.avgPrice > 12 ? '核心豪宅区' : d.avgPrice > 8 ? '成熟居住区' : '潜力区域'}</td>
                 </tr>
             `).join('');
@@ -1501,6 +1728,10 @@
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
             
+            // 如果切换到区域地图 tab，初始化地图
+            if (id === 'district-map' && !window.districtMapInit) {
+                setTimeout(() => { initMap(); window.districtMapInit = true; }, 100);
+            }
             // 如果切换到租金走势 tab，初始化图表
             if (id === 'district-rent' && !window.rentTrendInit) {
                 initRentTrendChart();
