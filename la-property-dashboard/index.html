@@ -710,8 +710,8 @@
             {month: '2026-01', sfrVol: 3050, sfrPrice: 95, condoVol: 1650, condoPrice: 66},
             {month: '2026-02', sfrVol: 3150, sfrPrice: 96, condoVol: 1700, condoPrice: 67},
             {month: '2026-03', sfrVol: 3250, sfrPrice: 96, condoVol: 1750, condoPrice: 67},
-                {month: '2026-04', sfrVol: 3300, sfrPrice: 98, condoVol: 1780, condoPrice: 68},
-                {month: '2026-05', sfrVol: 3350, sfrPrice: 100, condoVol: 1800, condoPrice: 69},
+            {month: '2026-04', sfrVol: 3300, sfrPrice: 98, condoVol: 1780, condoPrice: 68},
+            {month: '2026-05', sfrVol: 3350, sfrPrice: 100, condoVol: 1800, condoPrice: 69}
         ];
         
         const exchangeRates = [
@@ -733,6 +733,13 @@
             {month: '2026-04', usdCny: 7.25},
             {month: '2026-05', usdCny: 7.25}
         ];
+        
+        const laData = {
+            years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+            volume: [5.2, 5.4, 4.8, 6.5, 6.2, 5.8, 6.2, 6.85],
+            medianPrice: [62, 65, 68, 78, 85, 88, 92, 96],
+            pricePerSqm: [5.8, 6.0, 6.2, 7.0, 7.5, 7.8, 8.2, 8.5]
+        };
         
         let tooltipEl = null;
         function showTooltip(e, title, content, source) {
