@@ -219,8 +219,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 豪宅市场领涨，Condo 供不应求</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2026 年 Q1 成交 2,850 套（+18% YoY），成交额$48 亿。" data-source="StreetEasy | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.03) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.05)" data-content="2026 年 Q1 成交 2,850 套（+18% YoY），成交额$48 亿。" data-source="StreetEasy | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.05) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -242,7 +242,7 @@
         </div>
         
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分 Condo/Co-op）" data-content="纽约月度 Condo 和 Co-op 成交量、成交价。Condo 占 60%，Co-op 占 40%。" data-source="REBNY | A 级">
-            <h4>月度成交明细 (2025.01-2026.03) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
@@ -796,7 +796,9 @@
             {month: '2025-12', condoVol: 570, condoPrice: 169, coopVol: 410, coopPrice: 78},
             {month: '2026-01', condoVol: 560, condoPrice: 168, coopVol: 400, coopPrice: 78},
             {month: '2026-02', condoVol: 580, condoPrice: 170, coopVol: 415, coopPrice: 79},
-            {month: '2026-03','2026-04','2026-05', condoVol: 610, condoPrice: 172, coopVol: 435, coopPrice: 80}
+            {month: '2026-03', condoVol: 610, condoPrice: 172, coopVol: 435, coopPrice: 80},
+                {month: '2026-04', condoVol: 630, condoPrice: 175, coopVol: 445, coopPrice: 82},
+                {month: '2026-05', condoVol: 650, condoPrice: 178, coopVol: 455, coopPrice: 84},
         ];
         
         const exchangeRates = [
@@ -814,7 +816,9 @@
             {month: '2025-09', usdCny: 7.15},
             {month: '2025-12', usdCny: 7.25},
             {month: '2026-01', usdCny: 7.28},
-            {month: '2026-03','2026-04','2026-05', usdCny: 7.25},
+            {month: '2026-03', usdCny: 7.25},
+                {month: '2026-04', usdCny: 7.25},
+                {month: '2026-05', usdCny: 7.25},
             {month: '2026-04', usdCny: 7.25}
         ];
         
