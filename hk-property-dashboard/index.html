@@ -263,15 +263,37 @@
             <strong>小结论：</strong>港岛区房价天花板，中环半山实用单价 30-50 万港元/㎡（人民币 28-47 万/㎡），铜锣湾湾仔 20-35 万港元/㎡。九龙区尖沙咀九龙站 25-40 万港元/㎡，观塘深水埗 12-20 万港元/㎡。港岛指数 149.8 点，九龙指数 150.2 点。
         </div>
         
-        <div class="grid-2">
+        <div class="sub-tabs" style="margin-bottom:20px">
+            <button class="sub-tab active" onclick="showSubTab('district-map', this)">📍 房价地图</button>
+            <button class="sub-tab" onclick="showSubTab('district-rent', this)">💷 租金地图</button>
+            <button class="sub-tab" onclick="showSubTab('district-yield', this)">📊 回报率地图</button>
+        </div>
+        
+        <div id="district-map" class="tab-content active">
+            <div class="grid-2">
             <div class="card">
                 <h4>港岛与九龙核心区域房价地图 <span class="data-source-tag">美联物业</span><span class="data-reliability A">A 级</span></h4>
                 <div class="map-container" id="districtMap"></div>
                 <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
-                    🔴 红色：35 万+/㎡ | 🟠 橙色：25-35 万/㎡ | 🟡 黄色：18-25 万/㎡ | 🟢 绿色：18 万以下/㎡<br>
-                    📌 覆盖 18 个核心区域：港岛 10 区（中环、半山、山顶、铜锣湾、湾仔、北角、鲗鱼涌、西半山、黄竹坑、深水湾/浅水湾）+ 九龙 8 区（尖沙咀、九龙站、西九龙、启德、红磡、何文田、九龙塘、观塘、深水埗）
+                    🔴 红色：35 万+/㎡ | 🟠 橙色：25-35 万/㎡ | 🟡 黄色：18-25 万/㎡ | 🟢 绿色：18 万以下/㎡
                 </div>
             </div>
+            <div class="card">
+                <h4>港岛与九龙核心区域租金地图 <span class="data-source-tag">中原地产</span><span class="data-reliability A">A 级</span></h4>
+                <div class="map-container" id="rentMap"></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+                    🔴 红色：HK$13,000+/㎡ | 🟠 橙色：9,500-13,000/㎡ | 🟢 绿色：9,500 以下/㎡
+                </div>
+            </div>
+            </div>
+            <div class="card" style="margin-top:20px">
+                <h4>港岛与九龙核心区域回报率地图 <span class="data-source-tag">差饷物业估价署</span><span class="data-reliability A">A 级</span></h4>
+                <div class="map-container" id="yieldMap" style="height:450px"></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+                    🟢 绿色：3.0%+ | 🟡 黄色：2.7-3.0% | 🔴 红色：2.7% 以下
+                </div>
+            </div>
+        </div>
             <div class="card" data-title="香港各区域房价" data-content="港岛、九龙、新界三大区域房价对比。" data-source="美联物业 | A 级">
                 <h4>各区域房价指数 (2026 年 4 月) <span class="data-source-tag">美联物业</span><span class="data-reliability A">A 级</span></h4>
                 <table class="data-table">
@@ -682,26 +704,26 @@
         
         const hkDistricts = [
             // 港岛区 (10 个)
-            {name: '中环', avgPrice: 42, lat: 22.2819, lng: 114.1578},
-            {name: '半山', avgPrice: 38, lat: 22.2750, lng: 114.1550},
-            {name: '山顶', avgPrice: 55, lat: 22.2700, lng: 114.1500},
-            {name: '铜锣湾', avgPrice: 28, lat: 22.2800, lng: 114.1850},
-            {name: '湾仔', avgPrice: 26, lat: 22.2783, lng: 114.1747},
-            {name: '北角', avgPrice: 22, lat: 22.2900, lng: 114.2000},
-            {name: '鲗鱼涌', avgPrice: 24, lat: 22.2850, lng: 114.2100},
-            {name: '西半山', avgPrice: 35, lat: 22.2750, lng: 114.1450},
-            {name: '黄竹坑', avgPrice: 25, lat: 22.2469, lng: 114.1694},
-            {name: '深水湾/浅水湾', avgPrice: 45, lat: 22.2400, lng: 114.1900},
+            {name: '中环', avgPrice: 42, rent: 15000, yield: 2.6, lat: 22.2819, lng: 114.1578},
+            {name: '半山', avgPrice: 38, rent: 13500, yield: 2.6, lat: 22.2750, lng: 114.1550},
+            {name: '山顶', avgPrice: 55, rent: 18000, yield: 2.4, lat: 22.2700, lng: 114.1500},
+            {name: '铜锣湾', avgPrice: 28, rent: 11000, yield: 2.8, lat: 22.2800, lng: 114.1850},
+            {name: '湾仔', avgPrice: 26, rent: 10000, yield: 2.8, lat: 22.2783, lng: 114.1747},
+            {name: '北角', avgPrice: 22, rent: 8500, yield: 2.9, lat: 22.2900, lng: 114.2000},
+            {name: '鲗鱼涌', avgPrice: 24, rent: 9000, yield: 2.8, lat: 22.2850, lng: 114.2100},
+            {name: '西半山', avgPrice: 35, rent: 12500, yield: 2.6, lat: 22.2750, lng: 114.1450},
+            {name: '黄竹坑', avgPrice: 25, rent: 9000, yield: 2.7, lat: 22.2469, lng: 114.1694},
+            {name: '深水湾/浅水湾', avgPrice: 45, rent: 15000, yield: 2.4, lat: 22.2400, lng: 114.1900},
             // 九龙区 (8 个)
-            {name: '尖沙咀', avgPrice: 33, lat: 22.2972, lng: 114.1722},
-            {name: '九龙站', avgPrice: 35, lat: 22.3047, lng: 114.1619},
-            {name: '西九龙', avgPrice: 30, lat: 22.3050, lng: 114.1600},
-            {name: '启德', avgPrice: 23, lat: 22.3306, lng: 114.1953},
-            {name: '红磡', avgPrice: 24, lat: 22.3050, lng: 114.1850},
-            {name: '何文田', avgPrice: 26, lat: 22.3150, lng: 114.1780},
-            {name: '九龙塘', avgPrice: 32, lat: 22.3350, lng: 114.1750},
-            {name: '观塘', avgPrice: 18, lat: 22.3150, lng: 114.2250},
-            {name: '深水埗', avgPrice: 16, lat: 22.3300, lng: 114.1650}
+            {name: '尖沙咀', avgPrice: 33, rent: 12000, yield: 2.7, lat: 22.2972, lng: 114.1722},
+            {name: '九龙站', avgPrice: 35, rent: 13000, yield: 2.7, lat: 22.3047, lng: 114.1619},
+            {name: '西九龙', avgPrice: 30, rent: 11000, yield: 2.8, lat: 22.3050, lng: 114.1600},
+            {name: '启德', avgPrice: 23, rent: 8800, yield: 2.9, lat: 22.3306, lng: 114.1953},
+            {name: '红磡', avgPrice: 24, rent: 9000, yield: 2.8, lat: 22.3050, lng: 114.1850},
+            {name: '何文田', avgPrice: 26, rent: 9500, yield: 2.8, lat: 22.3150, lng: 114.1780},
+            {name: '九龙塘', avgPrice: 32, rent: 11500, yield: 2.7, lat: 22.3350, lng: 114.1750},
+            {name: '观塘', avgPrice: 18, rent: 7200, yield: 3.1, lat: 22.3150, lng: 114.2250},
+            {name: '深水埗', avgPrice: 16, rent: 6500, yield: 3.2, lat: 22.3300, lng: 114.1650}
         ];
         
         let tooltipEl = null;
@@ -852,38 +874,58 @@
         }
         
         function initMap() {
+            initPriceMap();
+            initRentMap();
+            initYieldMap();
+        }
+        
+        function initPriceMap() {
             try {
-                const map = L.map('districtMap', {
-                    center: [22.3193, 114.1694],
-                    zoom: 11,
-                    zoomControl: true,
-                    scrollWheelZoom: false
-                });
-                
+                const map = L.map('districtMap', { center: [22.3193, 114.1694], zoom: 11, zoomControl: true, scrollWheelZoom: false });
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '© OpenStreetMap © CartoDB',
-                    subdomains: 'abcd',
-                    maxZoom: 19,
-                    crossOrigin: true
+                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
                 }).addTo(map);
-                
                 hkDistricts.forEach(d => {
                     const color = d.avgPrice > 35 ? '#8b0000' : d.avgPrice > 25 ? '#c41e3a' : d.avgPrice > 18 ? '#d4af37' : '#228b22';
-                    L.circleMarker([d.lat, d.lng], { 
-                        radius: 16, 
-                        fillColor: color, 
-                        color: '#fff', 
-                        weight: 2, 
-                        fillOpacity: 0.8 
-                    })
-                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c41e3a;font-weight:bold">¥${d.avgPrice}万/㎡</span></div>`)
-                    .addTo(map);
+                    L.circleMarker([d.lat, d.lng], { radius: 16, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.8 })
+                        .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c41e3a;font-weight:bold">¥${d.avgPrice}万/㎡</span></div>`).addTo(map);
                 });
-                
-                setTimeout(() => { map.invalidateSize(); }, 300);
-            } catch (e) {
-                console.error('地图加载失败:', e);
-            }
+                setTimeout(() => { map.invalidateSize(); console.log('✓ 香港房价地图初始化成功'); }, 300);
+            } catch (e) { console.error('✗ 房价地图加载失败:', e); }
+        }
+        
+        function initRentMap() {
+            const mapContainer = document.getElementById('rentMap');
+            if (!mapContainer) return;
+            try {
+                const map = L.map('rentMap', { center: [22.3193, 114.1694], zoom: 11, zoomControl: true, scrollWheelZoom: false });
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
+                }).addTo(map);
+                hkDistricts.forEach(d => {
+                    const color = d.rent > 13000 ? '#8b0000' : d.rent > 9500 ? '#c41e3a' : '#228b22';
+                    L.circleMarker([d.lat, d.lng], { radius: 16, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.8 })
+                        .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c41e3a;font-weight:bold">HK$${d.rent.toLocaleString()}/㎡</span><br>回报率${d.yield}%</div>`).addTo(map);
+                });
+                setTimeout(() => { map.invalidateSize(); console.log('✓ 香港租金地图初始化成功'); }, 300);
+            } catch (e) { console.error('✗ 租金地图加载失败:', e); }
+        }
+        
+        function initYieldMap() {
+            const mapContainer = document.getElementById('yieldMap');
+            if (!mapContainer) return;
+            try {
+                const map = L.map('yieldMap', { center: [22.3193, 114.1694], zoom: 11, zoomControl: true, scrollWheelZoom: false });
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
+                }).addTo(map);
+                hkDistricts.forEach(d => {
+                    const color = d.yield > 3.0 ? '#228b22' : d.yield > 2.7 ? '#d4af37' : '#8b0000';
+                    L.circleMarker([d.lat, d.lng], { radius: 16, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.8 })
+                        .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:${color};font-weight:bold;font-size:16px">${d.yield}%</span><br>房价¥${d.avgPrice}万/㎡ | 租金 HK$${d.rent.toLocaleString()}/㎡</div>`).addTo(map);
+                });
+                setTimeout(() => { map.invalidateSize(); console.log('✓ 香港回报率地图初始化成功'); }, 300);
+            } catch (e) { console.error('✗ 回报率地图加载失败:', e); }
         }
         
         function showSection(id) {
