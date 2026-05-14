@@ -120,8 +120,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗼 东京房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.048 CNY | 数据更新至 2026 年 4 月</div>
-                <div class="data-version">版本：v2.0 | 最后更新：2026-04-18 | 数据来源：国土交通省，REINS，东日本不动产流通机构</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.048 CNY | 数据更新至 2026 年 5 月</div>
+                <div class="data-version">版本：v2.1 | 最后更新：2026-05-14 | 数据来源：国土交通省，REINS，东日本不动产流通机构，日本经济新闻</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -132,8 +132,8 @@
     </div>
     
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal green">✅</span> 总体结论：日元贬值利好海外买家，都心 5 区需求旺盛，公寓价格连涨 5 年 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2025 年东京 23 区公寓成交 35,728 户（+12% YoY），都心 5 区（千代田、中央、港、新宿、涩谷）挂牌均价¥14.5 万/㎡，实际成交¥11 万/㎡。外国人购房无限购、无税费，租金收益率 3.5%。2026 年公示地价东京领涨全国。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：都心 6 区 37 个月来首次下跌，市场进入高位盘整期，供应萎缩支撑价格 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2026 年 3 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），成本端刚性约束下市场呈紧平衡。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -143,18 +143,18 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">🏠 供需关系</div>
-                    <div class="value">库存周期 5.2 个月</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">核心区供不应求，新建公寓热销</div>
+                    <div class="value">2026 供应 -12% 至 2.3 万户</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">建材成本上涨，开发商收缩项目</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💰 投资价值</div>
-                    <div class="value">租金收益率 3.5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">租赁需求稳定，空置率低</div>
+                    <div class="value">租金收益率 2-3.5%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">都心高端公寓回报率降至约 2%</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
-                    <div class="value">2026 预测 +2~4%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">地价连涨 5 年，核心区领涨</div>
+                    <div class="value">都心 6 区 -0.2% (37 月首跌)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">3 月环比下滑，市场进入高位盘整</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
@@ -163,8 +163,8 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
-                    <div class="value">低风险</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">政策友好，地震风险需考虑</div>
+                    <div class="value">中低风险</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">政策收紧投机，地震风险需考虑</div>
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 东京房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2025 年东京 23 区公寓成交 35,728 户（+12% YoY），首都圈新建公寓均价¥8,101 万日元（人民币约¥389 万）。2026 年 1 月都心 5 区公寓挂牌均价¥334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约¥255 万日元/㎡（人民币约¥11 万/㎡）。数据来源：国土交通省、REINS（A 级）。
+            <strong>小结论：</strong>2026 年 3 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），市场进入高位盘整期。数据来源：国土交通省、REINS、日本经济新闻（A 级）。
         </div>
         
         <div class="metric-grid">
@@ -202,37 +202,37 @@
                 <div class="stat-label">成交额</div>
                 <div class="stat-change up">↑ 同比 +15%</div>
             </div>
-            <div class="card stat-card" data-title="东京平均房价" data-content="2026 年 1 月首都圈新建公寓均价¥8,101 万日元（人民币约¥389 万），东京 23 区约¥6,500 万日元。" data-source="国土交通省 | A 级">
-                <div class="stat-value">¥389 万</div>
+            <div class="card stat-card" data-title="东京平均房价" data-content="2025 年首都圈新建公寓均价 9,418 万日元（人民币约¥452 万），东京 23 区约 1.138 亿日元（+27% YoY）。" data-source="国土交通省 | A 级">
+                <div class="stat-value">¥452 万</div>
                 <div class="stat-label">平均房价</div>
-                <div class="stat-change up">↑ 同比 +8%</div>
+                <div class="stat-change up">↑ 同比 +20.4%</div>
             </div>
-            <div class="card stat-card" data-title="租金收益率" data-content="东京租金收益率约 3.5%，首都圈租赁公寓成交 35,728 户，空置率 2.8%。" data-source="REINS | A 级">
-                <div class="stat-value">3.5%</div>
+            <div class="card stat-card" data-title="租金收益率" data-content="东京租金收益率 2-3.5%，都心高端公寓回报率降至约 2%，租赁需求稳定。" data-source="LIFULL | A 级">
+                <div class="stat-value">2-3.5%</div>
                 <div class="stat-label">租金收益率</div>
-                <div class="stat-change up">↑ 同比 +0.2%</div>
+                <div class="stat-change down">↓ 高端降至 2%</div>
             </div>
         </div>
         <div class="metric-grid" style="margin-top:16px">
-            <div class="card stat-card" data-title="万/平方米单价" data-content="东京都心 5 区公寓均价¥334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约¥255 万日元/㎡（人民币约¥11 万/㎡）。" data-source="东日本不动产流通机构 | A 级">
+            <div class="card stat-card" data-title="万/平方米单价" data-content="东京都心 6 区公寓挂牌均价 334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约 255 万日元/㎡。" data-source="东日本不动产流通机构 | A 级">
                 <div class="stat-value">¥14.5 万</div>
                 <div class="stat-label">万/平方米</div>
-                <div class="stat-change up">↑ 同比 +6%</div>
+                <div class="stat-change down">↓ 3 月环比 -0.2%</div>
             </div>
-            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，东京 23 区套均总价约¥6,500 万日元（人民币约¥312 万）。" data-source="REINS, 计算 | A 级">
-                <div class="stat-value">¥312 万</div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，东京 23 区套均总价约 1.138 亿日元（人民币约¥546 万）。" data-source="REINS, 计算 | A 级">
+                <div class="stat-value">¥546 万</div>
                 <div class="stat-label">套均总价</div>
-                <div class="stat-change up">↑ 同比 +5%</div>
+                <div class="stat-change up">↑ 同比 +27%</div>
             </div>
-            <div class="card stat-card" data-title="房价收入比" data-content="东京房价收入比约 10.5 倍，高于日本平均 7.8 倍，购房压力中等。" data-source="总务省 | B 级">
-                <div class="stat-value">10.5x</div>
+            <div class="card stat-card" data-title="房价收入比" data-content="东京房价收入比约 20 倍，为当地平均年收入的近 20 倍，合理购房价格应为 5-7 倍。" data-source="钻石周刊 | B 级">
+                <div class="stat-value">20x</div>
                 <div class="stat-label">房价收入比</div>
-                <div class="stat-change down">↓ 同比 -0.3x</div>
+                <div class="stat-change down">↓ 刚需承接力下降</div>
             </div>
-            <div class="card stat-card" data-title="库存周期" data-content="当前库存去化周期约 5.2 个月，低于 5 年平均 6.0 个月，供应偏紧。" data-source="REINS | B 级">
-                <div class="stat-value">5.2 月</div>
-                <div class="stat-label">库存周期</div>
-                <div class="stat-change down">↓ 同比 -0.8 月</div>
+            <div class="card stat-card" data-title="库存周期" data-content="2026 年供应量预计降至 2.3 万户（-12%），都心 6 区库存 4,472 套（环比 +5%）。" data-source="不动产经济研究所 | B 级">
+                <div class="stat-value">2.3 万</div>
+                <div class="stat-label">2026 供应（户）</div>
+                <div class="stat-change down">↓ 同比 -12%</div>
             </div>
         </div>
         
