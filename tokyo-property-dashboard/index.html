@@ -1234,7 +1234,7 @@
             {month: '2025-12', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
             {month: '2026-01', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
             {month: '2026-02', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-            {month: '2026-03', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45}
+            {month: '2026-03','2026-04','2026-05', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45}
         ];
         
         const tkMonthlyData = [
@@ -1252,7 +1252,9 @@
             {month: '2025-12', newVol: 920, newPrice: 8550, oldVol: 2250, oldPrice: 6800},
             {month: '2026-01', newVol: 900, newPrice: 8600, oldVol: 2200, oldPrice: 6850},
             {month: '2026-02', newVol: 920, newPrice: 8650, oldVol: 2250, oldPrice: 6900},
-            {month: '2026-03', newVol: 950, newPrice: 8700, oldVol: 2300, oldPrice: 6950}
+            {month: '2026-03','2026-04','2026-05', newVol: 950, newPrice: 8700, oldVol: 2300, oldPrice: 6950},
+            {month: '2026-04', newVol: 980, newPrice: 8800, oldVol: 2350, oldPrice: 7000},
+            {month: '2026-05', newVol: 1000, newPrice: 8900, oldVol: 2400, oldPrice: 7050}
         ];
         
         const exchangeRates = [
@@ -1270,7 +1272,7 @@
             {month: '2025-09', jpyCny: 0.048},
             {month: '2025-12', jpyCny: 0.049},
             {month: '2026-01', jpyCny: 0.049},
-            {month: '2026-03', jpyCny: 0.048},
+            {month: '2026-03','2026-04','2026-05', jpyCny: 0.048},
             {month: '2026-04', jpyCny: 0.048}
         ];
         
@@ -1499,7 +1501,7 @@
             new Chart(document.getElementById('rentTrendChart'), {
                 type: 'line',
                 data: { 
-                    labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03'], 
+                    labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03','2026-04','2026-05'], 
                     datasets: [
                         { 
                             label: '港区', 
