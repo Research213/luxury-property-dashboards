@@ -130,7 +130,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🌍 阅世界，置未来——全球豪宅数据看板</h1>
-                <div class="subtitle">覆盖 6 大国际都市 | 数据实时更新至 2026 年 4 月</div>
+                <div class="subtitle">覆盖 6 大国际都市 | 数据实时更新至 2026 年 5 月</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -150,7 +150,7 @@
     
     <div class="strategic-conclusion">
         <h2>🎯 全球豪宅配置战略结论</h2>
-        <div class="conclusion-meta">数据截止：2026 年 4 月 | 下次更新：2026 年 5 月</div>
+        <div class="conclusion-meta">数据截止：2026 年 5 月 14 日 | 下次更新：2026 年 6 月</div>
         
         <div class="conclusion-section">
             <h3>📊 市场周期定位</h3>
@@ -323,65 +323,65 @@
     </div>
 
     <div class="last-updated">
-        数据更新时间：2026 年 4 月 18 日 | 数据来源：各城市官方统计 + 权威机构 | 汇率基准：2026 年 4 月 18 日
+        数据更新时间：2026 年 5 月 14 日 | 数据来源：各城市官方统计 + 权威机构 | 汇率基准：2026 年 5 月 14 日
     </div>
 
     <script>
         const GLOBAL_DATA = {
             hk: {
                 name: '香港', flag: '🇭🇰', lat: 22.3193, lng: 114.1694, zoom: 11,
-                conclusion: '撤辣后量价齐升，Q1 一手 +44% 二手 18 季度新高，内地买家主导豪宅',
+                conclusion: '量价齐升创 5 年同期最佳，楼价连升 10 月破 2 年纪录，Q1 一手 +44%',
                 metrics: {
                     volume: '6.0 万套', volumeChange: '+20%',
                     amount: '¥6,324 亿', amountChange: '+25%',
-                    avgPrice: '¥1,280 万', avgPriceChange: '+9 连升',
+                    avgPrice: '¥1,280 万', avgPriceChange: '+10 连升',
                     pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '+8%',
-                    rentalYield: '3.38%', rentalYieldChange: '+0.4%',
+                    rentalYield: '3.32%', rentalYieldChange: '-0.06%',
                     policy: '全面撤辣', policyChange: '★★★★★',
                     chineseInvestor: '24%', chineseChange: '+9%'
                 },
-                forecast: '+10~15%', exchangeRate: '1 HKD ≈ 0.93 CNY',
+                forecast: '+10~15%', exchangeRate: '1 HKD ≈ 0.878 CNY',
                 url: '../hk-property-dashboard/index.html'
             },
             london: {
                 name: '伦敦', flag: '🇬🇧', lat: 51.5074, lng: -0.1278, zoom: 11,
-                conclusion: '市场筑底期，长线配置窗口开启，租金收益率达 5 年高点',
+                conclusion: '2026 预测 +2~4%，伦敦持平 0.0% 抗跌性强，利率回落降低不确定性',
                 metrics: {
                     volume: '7.4 万套', volumeChange: '-20%',
                     amount: '¥3,700 亿', amountChange: '-15%',
-                    avgPrice: '¥518 万', avgPriceChange: '-1.7%',
-                    pricePerSqm: '¥6.2 万/㎡', pricePerSqmChange: '-2.1%',
-                    rentalYield: '5.0%', rentalYieldChange: '+0.3%',
-                    policy: '海外买家 +2%', policyChange: '★★★☆☆',
+                    avgPrice: '¥518 万', avgPriceChange: '0.0%',
+                    pricePerSqm: '¥6.2 万/㎡', pricePerSqmChange: '0.0%',
+                    rentalYield: '4.5-5.5%', rentalYieldChange: '+0.5%',
+                    policy: '2028 豪宅税', policyChange: '★★★☆☆',
                     chineseInvestor: '5%', chineseChange: '+8%'
                 },
-                forecast: '+1~2%', exchangeRate: '1 GBP ≈ 9.35 CNY',
+                forecast: '+2~4%', exchangeRate: '1 GBP ≈ 9.35 CNY',
                 url: '../london-property-dashboard/index.html'
             },
             newyork: {
                 name: '纽约', flag: '🇺🇸', lat: 40.7128, lng: -74.0060, zoom: 11,
-                conclusion: '曼哈顿豪宅市场强劲，Q1 成交 +18%，Condo 市场领涨',
+                conclusion: '买方市场，租金回报 3.5-4.8%，库存 -15%，优质房源紧俏',
                 metrics: {
-                    volume: '1.12 万套', volumeChange: '+12%',
+                    volume: '398 万套', volumeChange: '-3.6%',
                     amount: '¥1,341 亿', amountChange: '+15%',
-                    avgPrice: '¥906 万', avgPriceChange: '+5.2%',
-                    pricePerSqm: '¥13.4 万/㎡', pricePerSqmChange: '+4.8%',
-                    rentalYield: '4.0%', rentalYieldChange: '+0.3%',
+                    avgPrice: '¥906 万', avgPriceChange: '+1.4%',
+                    pricePerSqm: '¥13.4 万/㎡', pricePerSqmChange: '+1.4%',
+                    rentalYield: '3.5-4.8%', rentalYieldChange: '+0.3%',
                     policy: '无限购', policyChange: '★★★★☆',
                     chineseInvestor: '2.5%', chineseChange: '+15%'
                 },
-                forecast: '+3~5%', exchangeRate: '1 USD ≈ 7.25 CNY',
+                forecast: '+4%', exchangeRate: '1 USD ≈ 7.25 CNY',
                 url: '../new-york-property-dashboard/index.html'
             },
             la: {
                 name: '洛杉矶', flag: '🇺🇸', lat: 34.0522, lng: -118.2437, zoom: 10,
-                conclusion: '西洛杉矶和尔湾领涨，Q1 成交 +10%，华人买家偏好稳定',
+                conclusion: '市场分化，成交 39 天，加州销售 -2.5%，尔湾 +30% 领涨',
                 metrics: {
-                    volume: '6.85 万', volumeChange: '+10%',
+                    volume: '26.53 万套', volumeChange: '-3.5%',
                     amount: '¥4,219 亿', amountChange: '+12%',
                     avgPrice: '¥616 万', avgPriceChange: '+6%',
                     pricePerSqm: '¥6.8 万/㎡', pricePerSqmChange: '+5%',
-                    rentalYield: '4.5%', rentalYieldChange: '+0.3%',
+                    rentalYield: '5.1-5.4%', rentalYieldChange: '+0.3%',
                     policy: '无限购', policyChange: '★★★★☆',
                     chineseInvestor: '2.8%', chineseChange: '+15%'
                 },
@@ -390,32 +390,32 @@
             },
             sf: {
                 name: '旧金山湾区', flag: '🇺🇸', lat: 37.7749, lng: -122.4194, zoom: 10,
-                conclusion: '科技行业复苏，Q1 成交 +8%，AI 热潮推动豪宅需求',
+                conclusion: 'AI 热潮推动房价创新高，中位价$215 万 (+18%)，市场二元分化',
                 metrics: {
                     volume: '5.2 万', volumeChange: '+8%',
                     amount: '¥5,454 亿', amountChange: '+10%',
-                    avgPrice: '¥1,051 万', avgPriceChange: '+4%',
-                    pricePerSqm: '¥8.5 万/㎡', pricePerSqmChange: '+3%',
-                    rentalYield: '3.8%', rentalYieldChange: '+0.2%',
+                    avgPrice: '¥1,559 万', avgPriceChange: '+18%',
+                    pricePerSqm: '¥11.5 万/㎡', pricePerSqmChange: '+18%',
+                    rentalYield: '2.1-2.8%', rentalYieldChange: '-0.5%',
                     policy: '无限购', policyChange: '★★★★☆',
                     chineseInvestor: '2.3%', chineseChange: '+10%'
                 },
-                forecast: '+2~4%', exchangeRate: '1 USD ≈ 7.25 CNY',
+                forecast: '+5~10%', exchangeRate: '1 USD ≈ 7.25 CNY',
                 url: '../sf-bay-property-dashboard/index.html'
             },
             tokyo: {
                 name: '东京', flag: '🇯🇵', lat: 35.6762, lng: 139.6503, zoom: 11,
-                conclusion: '日元贬值利好海外买家，Q1 成交 +12%，公寓价格连涨 5 年',
+                conclusion: '都心 6 区 37 月首跌 -0.2%，23 区新公寓 1.138 亿日元 (+27%)，供应 -12%',
                 metrics: {
                     volume: '3.57 万', volumeChange: '+12%',
                     amount: '¥1,344 亿', amountChange: '+15%',
-                    avgPrice: '¥389 万', avgPriceChange: '+8%',
-                    pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '+6%',
-                    rentalYield: '3.5%', rentalYieldChange: '+0.2%',
-                    policy: '无限购无税费', policyChange: '★★★★★',
+                    avgPrice: '¥452 万', avgPriceChange: '+20.4%',
+                    pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '-0.2%',
+                    rentalYield: '2-3.5%', rentalYieldChange: '-0.5%',
+                    policy: '投机收紧', policyChange: '★★★★☆',
                     chineseInvestor: '0.7%', chineseChange: '+5%'
                 },
-                forecast: '+2~4%', exchangeRate: '1 JPY ≈ 0.048 CNY',
+                forecast: '+0~2%', exchangeRate: '1 JPY ≈ 0.048 CNY',
                 url: '../tokyo-property-dashboard/index.html'
             }
         };
