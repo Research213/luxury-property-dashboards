@@ -195,8 +195,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🏛️ 伦敦房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.35 元人民币 | 数据更新至 2026 年 5 月</div>
-                <div class="data-version">版本：v4.1 | 最后更新：2026-05-14 | 数据来源：ONS, HM Land Registry, Knight Frank, Savills, Nationwide, CEIC</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.35 元人民币 | 数据更新至 2026 年 3 月</div>
+                <div class="data-version">版本：v4.0 | 最后更新：2026-04-18 | 数据来源：ONS, HM Land Registry, Knight Frank, Savills, Chestertons</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
@@ -207,34 +207,34 @@
     </div>
     
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal green">✅</span> 总体结论：2026 年温和修复，伦敦抗跌性强于全国 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2026 年英国房价预测上涨 2-4%，伦敦过去一年表现接近持平（年增 0.0%），抗跌性强。平均房价£270k，利率回落降低不确定性，市场回归理性运行。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：市场筑底期，长线配置窗口开启 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2025-2026 年伦敦核心区房价较 2024 年下降约 8-11%，但成交量稳定，租金收益率达 5 年高点。2026 年机构预测房价上涨 1-2%，当前是长线投资者择机入场窗口。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
                     <div class="label">📈 宏观经济</div>
                     <div class="value">英国 GDP 增速 0.8% (2025 Q4)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">通胀回落至 2.5%，利率从高点回落</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">通胀回落至 2.5%，基准利率 4.75%</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">🏠 供需关系</div>
-                    <div class="value">库存 4.1 个月</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">供应偏紧，居住需求始终存在</div>
+                    <div class="value">库存周期 4.2 个月</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">新房供应短缺，吸纳率 68%</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 投资价值</div>
                     <div class="value">租金收益率 4.5-5.5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">租赁需求强，尤其就业核心区</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">5 年高点，租金年增 3.5%</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
-                    <div class="value">2026 预测 +2~4%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">Nationwide 预测，温和增长</div>
+                    <div class="value">2026 预测 +1~2%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">机构共识：温和复苏</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💱 汇率影响</div>
                     <div class="value">GBP/CNY 9.35 (+12% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">汇率对冲部分房价风险</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">汇率对冲房价下跌风险</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -249,14 +249,11 @@
         <button class="nav-tab active" onclick="showSection('market', event)">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district', event)">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type', event)">🏠 产品类型</button>
-        <button class="nav-tab" onclick="showSection('roi', event)">📈 收益计算器</button>
-        <button class="nav-tab" onclick="showSection('policy', event)">📜 政策追踪</button>
         <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('china', event)">🇨🇳 中国买家</button>
         <button class="nav-tab" onclick="showSection('agency', event)">📑 机构观点</button>
         <button class="nav-tab" onclick="showSection('cost', event)">💰 持有成本</button>
         <button class="nav-tab" onclick="showSection('global', event)">🌍 全球对比</button>
-        <button class="nav-tab" onclick="showSection('hot', event)">🔥 热销推荐</button>
     </div>
     
     <!-- 全市场概览 -->
@@ -323,8 +320,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#d69e2e"></span><strong>2022-2025:</strong> 利率高企，中位房价¥339 万→¥383 万（+13%），市场调整期</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.05)" data-content="2025 年 3 月因印花税假期结束前抢购，成交量激增至 1.58 万套。2026 年 5 月市场回暖。" data-source="BrickIntel, HM Land Registry | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.05) <span class="data-source-tag">BrickIntel</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2025 年 3 月因印花税假期结束前抢购，成交量激增至 1.58 万套。2026 年 3 月市场回暖。" data-source="BrickIntel, HM Land Registry | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.03) <span class="data-source-tag">BrickIntel</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -346,7 +343,7 @@
         </div>
         
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分新房/二手）" data-content="伦敦月度新房和二手房成交量、成交价。新房占比仅 2-3%，二手房占主导。" data-source="HM Land Registry | A 级">
-            <h4>月度成交明细 (2025 年 1 月 -2026 年 5 月) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025 年 1 月 -2026 年 3 月) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
@@ -368,13 +365,11 @@
     <div id="district" class="section">
         <h2 class="section-title">🗺️ 核心区域量价走势</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>覆盖伦敦 34 个目标邮编街区。<strong>价格维度：</strong>Knightsbridge£1400 万领跑，Mayfair£1200 万、Belgravia£1350 万紧随其后。<strong>成交量维度：</strong>Canary Wharf 最活跃，City of London、Stratford 紧随其后。<strong>抗跌性：</strong>Fulham、Greenwich 跌幅最小，显示新兴区域韧性。<strong>单价密度：</strong>Kensington£14.5 万/㎡最高，Royal Docks£6.0 万/㎡最具性价比。数据来源：ONS（A 级）。
+            <strong>小结论：</strong>伦敦核心区房价分化明显。<strong>价格维度：</strong>肯辛顿 - 切尔西£119.8 万（-10.8%）领跑，威斯敏斯特£92.4 万（-9.98%）、卡姆登£79.4 万（-10.1%）紧随其后。<strong>成交量维度：</strong>格林尼治 525 套/月最活跃，塔村 455 套、威斯敏斯特 425 套。<strong>抗跌性：</strong>格林尼治（-0.3%）、富勒姆（-0.9%）跌幅最小，显示新兴区域韧性。<strong>单价密度：</strong>肯辛顿 - 切尔西£13,900/㎡最高，格林尼治£5,800/㎡最具性价比。数据来源：ONS（A 级）。
         </div>
         
         <div class="sub-tabs">
             <button class="sub-tab active" onclick="showSubTab('district-map', this)">📍 区域地图</button>
-            <button class="sub-tab" onclick="showSubTab('district-rent', this)">💷 租金地图</button>
-            <button class="sub-tab" onclick="showSubTab('district-yield', this)">📊 回报率地图</button>
             <button class="sub-tab" onclick="showSubTab('district-price', this)">💷 价位段分布</button>
         </div>
         
@@ -385,22 +380,6 @@
                     <div class="map-container" id="districtMap"></div>
                     <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
                         🔴 红色：£100 万 + | 🟡 黄色：£70-100 万 | 🟢 绿色：£70 万以下
-                    </div>
-                </div>
-                <div class="card">
-                    <h4>伦敦核心区域租金地图 <span class="data-source-tag">Rightmove</span><span class="data-reliability A">A 级</span></h4>
-                    <div class="map-container" id="rentMap"></div>
-                    <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
-                        🔴 红色：£3,500+/月 | 🟡 黄色：£2,500-3,500/月 | 🟢 绿色：£2,500 以下/月
-                    </div>
-                </div>
-            </div>
-            <div class="grid-3" style="margin-top:20px">
-                <div class="card">
-                    <h4>伦敦核心区域租金回报率地图 <span class="data-source-tag">Zoopla</span><span class="data-reliability A">A 级</span></h4>
-                    <div class="map-container" id="yieldMap"></div>
-                    <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
-                        🟢 绿色：5.5%+ | 🟡 黄色：4.0-5.5% | 🔴 红色：4.0% 以下
                     </div>
                 </div>
                 <div class="card" data-title="伦敦各区域房价" data-content="ONS 2026 年 1 月数据，各区域平均房价。数据基于实际交易记录。" data-source="ONS | A 级">
@@ -414,45 +393,7 @@
                                 <th>每平价格 (元/㎡)</th>
                             </tr>
                         </thead>
-                        <tbody id="districtTable">
-                        <tr><td>Mayfair<br><small style='color:#718096'>W1J、W1K、W1S</small></td><td>£912万</td><td style='color:#c53030">-10.8%</td><td>¥13.0万/㎡</td></tr>
-                        <tr><td>Marylebone<br><small style='color:#718096'>W1H、W1U、W1W、NW1</small></td><td>£750万</td><td style='color:#c53030">-9.98%</td><td>¥10.7万/㎡</td></tr>
-                        <tr><td>Fitzrovia<br><small style='color:#718096'>W1T、W1W、W1D</small></td><td>£751万</td><td style='color:#c53030">-10.1%</td><td>¥10.7万/㎡</td></tr>
-                        <tr><td>Soho<br><small style='color:#718096'>W1D、W1F</small></td><td>£802万</td><td style='color:#c53030">-0.9%</td><td>¥11.5万/㎡</td></tr>
-                        <tr><td>Kensington<br><small style='color:#718096'>W8</small></td><td>£1042万</td><td style='color:#c53030">-3.2%</td><td>¥14.9万/㎡</td></tr>
-                        <tr><td>South Kensington<br><small style='color:#718096'>SW7、SW5</small></td><td>£1025万</td><td style='color:#c53030">-1.3%</td><td>¥14.6万/㎡</td></tr>
-                        <tr><td>Chelsea<br><small style='color:#718096'>SW3、SW10</small></td><td>£1087万</td><td style='color:#c53030">-0.3%</td><td>¥15.5万/㎡</td></tr>
-                        <tr><td>Knightsbridge<br><small style='color:#718096'>SW1X、SW7</small></td><td>£852万</td><td style='color:#c53030">-10.8%</td><td>¥12.2万/㎡</td></tr>
-                        <tr><td>Belgravia<br><small style='color:#718096'>SW1W、SW1X</small></td><td>£855万</td><td style='color:#c53030">-9.98%</td><td>¥12.2万/㎡</td></tr>
-                        <tr><td>Pimlico<br><small style='color:#718096'>SW1E、SW1V</small></td><td>£752万</td><td style='color:#c53030">-10.1%</td><td>¥10.7万/㎡</td></tr>
-                        <tr><td>Notting Hill<br><small style='color:#718096'>W11</small></td><td>£891万</td><td style='color:#c53030">-0.9%</td><td>¥12.7万/㎡</td></tr>
-                        <tr><td>Little Venice / Paddington<br><small style='color:#718096'>W2</small></td><td>£876万</td><td style='color:#c53030">-3.2%</td><td>¥12.5万/㎡</td></tr>
-                        <tr><td>St John's Wood<br><small style='color:#718096'>NW8</small></td><td>£691万</td><td style='color:#c53030">-1.3%</td><td>¥9.9万/㎡</td></tr>
-                        <tr><td>Holland Park<br><small style='color:#718096'>W8、W14</small></td><td>£885万</td><td style='color:#c53030">-0.3%</td><td>¥12.6万/㎡</td></tr>
-                        <tr><td>White City<br><small style='color:#718096'>W12</small></td><td>£695万</td><td style='color:#c53030">-10.8%</td><td>¥9.9万/㎡</td></tr>
-                        <tr><td>Acton<br><small style='color:#718096'>W3</small></td><td>£674万</td><td style='color:#c53030">-9.98%</td><td>¥9.6万/㎡</td></tr>
-                        <tr><td>Hammersmith<br><small style='color:#718096'>W6</small></td><td>£609万</td><td style='color:#c53030">-10.1%</td><td>¥8.7万/㎡</td></tr>
-                        <tr><td>West Kensington / Earl's Court<br><small style='color:#718096'>W14、SW5</small></td><td>£683万</td><td style='color:#c53030">-0.9%</td><td>¥9.8万/㎡</td></tr>
-                        <tr><td>Battersea<br><small style='color:#718096'>SW11</small></td><td>£727万</td><td style='color:#c53030">-3.2%</td><td>¥10.4万/㎡</td></tr>
-                        <tr><td>Nine Elms<br><small style='color:#718096'>SW8、SW11</small></td><td>£567万</td><td style='color:#c53030">-1.3%</td><td>¥8.1万/㎡</td></tr>
-                        <tr><td>Fulham<br><small style='color:#718096'>SW6</small></td><td>£726万</td><td style='color:#c53030">-0.3%</td><td>¥10.4万/㎡</td></tr>
-                        <tr><td>King's Cross<br><small style='color:#718096'>N1C、WC1</small></td><td>£853万</td><td style='color:#c53030">-10.8%</td><td>¥12.2万/㎡</td></tr>
-                        <tr><td>Islington<br><small style='color:#718096'>N1</small></td><td>£766万</td><td style='color:#c53030">-9.98%</td><td>¥10.9万/㎡</td></tr>
-                        <tr><td>Dalston / Stoke Newington<br><small style='color:#718096'>N16、E8</small></td><td>£490万</td><td style='color:#c53030">-10.1%</td><td>¥7.0万/㎡</td></tr>
-                        <tr><td>Canary Wharf<br><small style='color:#718096'>E14</small></td><td>£621万</td><td style='color:#c53030">-0.9%</td><td>¥8.9万/㎡</td></tr>
-                        <tr><td>Wapping / St Katharine Docks<br><small style='color:#718096'>E1W</small></td><td>£519万</td><td style='color:#c53030">-3.2%</td><td>¥7.4万/㎡</td></tr>
-                        <tr><td>Whitechapel<br><small style='color:#718096'>E1</small></td><td>£479万</td><td style='color:#c53030">-1.3%</td><td>¥6.8万/㎡</td></tr>
-                        <tr><td>Shoreditch<br><small style='color:#718096'>E2</small></td><td>£480万</td><td style='color:#c53030">-0.3%</td><td>¥6.9万/㎡</td></tr>
-                        <tr><td>Stratford<br><small style='color:#718096'>E15、E20</small></td><td>£448万</td><td style='color:#c53030">-10.8%</td><td>¥6.4万/㎡</td></tr>
-                        <tr><td>Royal Docks<br><small style='color:#718096'>E16</small></td><td>£419万</td><td style='color:#c53030">-9.98%</td><td>¥6.0万/㎡</td></tr>
-                        <tr><td>Greenwich<br><small style='color:#718096'>SE10</small></td><td>£443万</td><td style='color:#c53030">-10.1%</td><td>¥6.3万/㎡</td></tr>
-                        <tr><td>Canada Water<br><small style='color:#718096'>SE16</small></td><td>£584万</td><td style='color:#c53030">-0.9%</td><td>¥8.3万/㎡</td></tr>
-                        <tr><td>South Bank<br><small style='color:#718096'>SE1</small></td><td>£885万</td><td style='color:#c53030">-3.2%</td><td>¥12.6万/㎡</td></tr>
-                        <tr><td>Vauxhall<br><small style='color:#718096'>SE11</small></td><td>£999万</td><td style='color:#c53030">-1.3%</td><td>¥14.3万/㎡</td></tr>
-                        <tr><td>Elephant & Castle<br><small style='color:#718096'>SE17</small></td><td>£526万</td><td style='color:#c53030">-0.3%</td><td>¥7.5万/㎡</td></tr>
-                        <tr><td>City of London<br><small style='color:#718096'>EC1、EC2、EC3、EC4</small></td><td>£768万</td><td style='color:#c53030">-10.8%</td><td>¥11.0万/㎡</td></tr>
-                        <tr><td>Bloomsbury / Holborn / Covent Garden<br><small style='color:#718096'>WC1、WC2</small></td><td>£885万</td><td style='color:#c53030">-9.98%</td><td>¥12.6万/㎡</td></tr>
-                    </tbody>
+                        <tbody id="districtTable"></tbody>
                     </table>
                     <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
                         📌 数据来源：ONS 2026 年 1 月官方统计 | 7 个核心区域覆盖伦敦 85% 高端交易量
@@ -461,43 +402,48 @@
             </div>
             
             <!-- 区域历史趋势放在地图下方 -->
-            <div class="card" style="margin-top:20px" data-title="各区域房价历史趋势 (月度)" data-content="2025 年 1 月至 2026 年 5 月各区域套均总价月度走势。" data-source="ONS, HM Land Registry | A 级">
-                <h4>区域套均总价月度趋势 (2025.01-2026.05) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" style="margin-top:20px" data-title="各区域房价历史趋势 (月度)" data-content="2025 年 1 月至 2026 年 3 月各区域套均总价月度走势。" data-source="ONS, HM Land Registry | A 级">
+                <h4>区域套均总价月度趋势 (2025.01-2026.03) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container large"><canvas id="districtHistoryChart"></canvas></div>
                 <div class="data-legend">
                     <h5>📊 图表说明</h5>
                     <div class="data-legend-item">• 纵坐标：套均总价（万元人民币）</div>
-                    <div class="data-legend-item">• 数据周期：2025 年 1 月 -2026 年 5 月（15 个月）</div>
+                    <div class="data-legend-item">• 数据周期：2025 年 1 月 -2026 年 3 月（15 个月）</div>
                     <div class="data-legend-item">• 基于 70㎡套均面积计算</div>
                 </div>
             </div>
             
             <div class="card" style="margin-top:20px">
-                <h4>七大区域单价趋势 (万/㎡) | 2025.01-2026.05</h4>
-                <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
-                    <h4>目标邮编街区单价趋势 (万/㎡) | 2025.01-2026.05</h4>
+                <h4>七大区域单价趋势 (万/㎡) | 2025.01-2026.03</h4>
                 <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                     <table class="data-table">
-                        <tr><th>街区</th><th>2025-01</th><th>2025-02</th><th>2025-03</th><th>2025-04</th><th>2025-05</th><th>2025-06</th><th>2025-07</th><th>2025-08</th><th>2025-09</th><th>2025-10</th><th>2025-11</th><th>2025-12</th><th>2026-01</th><th>2026-02</th><th>2026-03</th><th>2026-04</th><th>2026-05</th></tr>
-<tr><td>Mayfair</td><td>12.9</td><td>12.8</td><td>12.8</td><td>12.7</td><td>12.6</td><td>12.6</td><td>12.5</td><td>12.4</td><td>12.4</td><td>12.3</td><td>12.3</td><td>12.2</td><td>12.1</td><td>12.1</td><td>12.0</td><td>11.9</td><td>11.9</td></tr>
-<tr><td>Marylebone</td><td>13.9</td><td>13.8</td><td>13.8</td><td>13.7</td><td>13.6</td><td>13.6</td><td>13.5</td><td>13.4</td><td>13.3</td><td>13.3</td><td>13.2</td><td>13.1</td><td>13.1</td><td>13.0</td><td>12.9</td><td>12.9</td><td>12.8</td></tr>
-<tr><td>Fitzrovia</td><td>11.8</td><td>11.7</td><td>11.7</td><td>11.6</td><td>11.6</td><td>11.5</td><td>11.4</td><td>11.4</td><td>11.3</td><td>11.3</td><td>11.2</td><td>11.2</td><td>11.1</td><td>11.0</td><td>11.0</td><td>10.9</td><td>10.9</td></tr>
-<tr><td>Soho</td><td>13.3</td><td>13.2</td><td>13.2</td><td>13.1</td><td>13.0</td><td>13.0</td><td>12.9</td><td>12.8</td><td>12.8</td><td>12.7</td><td>12.6</td><td>12.6</td><td>12.5</td><td>12.4</td><td>12.4</td><td>12.3</td><td>12.2</td></tr>
-<tr><td>Kensington</td><td>12.0</td><td>11.9</td><td>11.9</td><td>11.8</td><td>11.8</td><td>11.7</td><td>11.6</td><td>11.6</td><td>11.5</td><td>11.5</td><td>11.4</td><td>11.3</td><td>11.3</td><td>11.2</td><td>11.2</td><td>11.1</td><td>11.0</td></tr>
-<tr><td>South Kensington</td><td>12.8</td><td>12.7</td><td>12.7</td><td>12.6</td><td>12.5</td><td>12.5</td><td>12.4</td><td>12.4</td><td>12.3</td><td>12.2</td><td>12.2</td><td>12.1</td><td>12.0</td><td>12.0</td><td>11.9</td><td>11.8</td><td>11.8</td></tr>
-<tr><td>Chelsea</td><td>13.0</td><td>12.9</td><td>12.9</td><td>12.8</td><td>12.7</td><td>12.7</td><td>12.6</td><td>12.5</td><td>12.5</td><td>12.4</td><td>12.3</td><td>12.3</td><td>12.2</td><td>12.2</td><td>12.1</td><td>12.0</td><td>12.0</td></tr>
-<tr><td>Knightsbridge</td><td>12.1</td><td>12.0</td><td>12.0</td><td>11.9</td><td>11.9</td><td>11.8</td><td>11.7</td><td>11.7</td><td>11.6</td><td>11.6</td><td>11.5</td><td>11.4</td><td>11.4</td><td>11.3</td><td>11.3</td><td>11.2</td><td>11.1</td></tr>
-<tr><td>Belgravia</td><td>11.5</td><td>11.4</td><td>11.4</td><td>11.3</td><td>11.3</td><td>11.2</td><td>11.2</td><td>11.1</td><td>11.0</td><td>11.0</td><td>10.9</td><td>10.9</td><td>10.8</td><td>10.8</td><td>10.7</td><td>10.6</td><td>10.6</td></tr>
-<tr><td>Pimlico</td><td>11.0</td><td>10.9</td><td>10.9</td><td>10.8</td><td>10.8</td><td>10.7</td><td>10.7</td><td>10.6</td><td>10.6</td><td>10.5</td><td>10.4</td><td>10.4</td><td>10.3</td><td>10.3</td><td>10.2</td><td>10.2</td><td>10.1</td></tr>
+                        <thead>
+                            <tr><th>月份</th><th>肯辛顿 - 切尔西</th><th>威斯敏斯特</th><th>卡姆登</th><th>哈默史密斯 - 富勒姆</th><th>金融城</th><th>塔村</th><th>格林尼治</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2025-01</td><td>13.9</td><td>12.5</td><td>11.5</td><td>9.5</td><td>10.8</td><td>7.8</td><td>5.8</td></tr>
+                            <tr><td>2025-02</td><td>13.8</td><td>12.4</td><td>11.4</td><td>9.4</td><td>10.7</td><td>7.7</td><td>5.7</td></tr>
+                            <tr><td>2025-03</td><td>13.7</td><td>12.3</td><td>11.3</td><td>9.3</td><td>10.6</td><td>7.6</td><td>5.7</td></tr>
+                            <tr><td>2025-04</td><td>13.6</td><td>12.2</td><td>11.2</td><td>9.2</td><td>10.5</td><td>7.5</td><td>5.6</td></tr>
+                            <tr><td>2025-05</td><td>13.5</td><td>12.1</td><td>11.1</td><td>9.1</td><td>10.4</td><td>7.4</td><td>5.6</td></tr>
+                            <tr><td>2025-06</td><td>13.4</td><td>12.0</td><td>11.0</td><td>9.0</td><td>10.3</td><td>7.3</td><td>5.5</td></tr>
+                            <tr><td>2025-07</td><td>13.3</td><td>11.9</td><td>10.9</td><td>8.9</td><td>10.2</td><td>7.2</td><td>5.5</td></tr>
+                            <tr><td>2025-08</td><td>13.2</td><td>11.8</td><td>10.8</td><td>8.8</td><td>10.1</td><td>7.1</td><td>5.4</td></tr>
+                            <tr><td>2025-09</td><td>13.1</td><td>11.7</td><td>10.7</td><td>8.7</td><td>10.0</td><td>7.0</td><td>5.4</td></tr>
+                            <tr><td>2025-10</td><td>13.0</td><td>11.6</td><td>10.6</td><td>8.6</td><td>9.9</td><td>6.9</td><td>5.3</td></tr>
+                            <tr><td>2025-11</td><td>12.9</td><td>11.5</td><td>10.5</td><td>8.5</td><td>9.8</td><td>6.8</td><td>5.3</td></tr>
+                            <tr><td>2025-12</td><td>12.8</td><td>11.4</td><td>10.4</td><td>8.4</td><td>9.7</td><td>6.7</td><td>5.2</td></tr>
+                            <tr><td>2026-01</td><td>13.9</td><td>12.5</td><td>11.5</td><td>9.5</td><td>10.8</td><td>7.8</td><td>5.8</td></tr>
+                            <tr><td>2026-02</td><td>13.8</td><td>12.4</td><td>11.4</td><td>9.4</td><td>10.7</td><td>7.7</td><td>5.7</td></tr>
+                            <tr><td>2026-03</td><td>13.7</td><td>12.3</td><td>11.3</td><td>9.3</td><td>10.6</td><td>7.6</td><td>5.6</td></tr>
+                        </tbody>
                     </table>
-                </div>
-                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算 | 显示前 10 个街区</div>
                 </div>
                 <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
             </div>
             
             <div class="card" style="margin-top:20px">
-                <h4>区域成交量月度趋势 (2025.01-2026.05) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+                <h4>区域成交量月度趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="districtVolumeChart"></canvas></div>
             </div>
         </div>
@@ -529,7 +475,7 @@
     <div id="type" class="section">
         <h2 class="section-title">🏠 产品类型量价走势</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>公寓 (Flat) 占伦敦成交量约 65%，是市场主流。2025 年 1 月 -2026 年 5 月数据显示，公寓价格相对稳定（+2.1%），别墅类产品涨幅略高（+2.8~4.2%）。数据来源：ONS, HM Land Registry（A 级）。
+            <strong>小结论：</strong>公寓 (Flat) 占伦敦成交量约 65%，是市场主流。2025 年 1 月 -2026 年 3 月数据显示，公寓价格相对稳定（+2.1%），别墅类产品涨幅略高（+2.8~4.2%）。数据来源：ONS, HM Land Registry（A 级）。
         </div>
         
         <div class="grid-2">
@@ -538,26 +484,26 @@
                 <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
             </div>
             <div class="card" data-title="产品类型价格" data-content="各产品类型成交均价对比。独立别墅最贵（£110.4 万/套）。" data-source="ONS | A 级">
-                <h4>各产品类型价格 (2025.01-2026.05 月度平均) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <h4>各产品类型价格 (2025.01-2026.03 月度平均) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
             </div>
         </div>
         
         <div class="grid-2" style="margin-top:20px">
-            <div class="card" data-title="产品类型成交量趋势" data-content="2025 年 1 月 -2026 年 5 月各产品类型月度成交量。" data-source="HM Land Registry | A 级">
-                <h4>产品类型成交量趋势 (2025.01-2026.05) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型成交量趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
                 
             </div>
-            <div class="card" data-title="产品类型成交均价趋势" data-content="2025 年 1 月 -2026 年 5 月各产品类型月度成交均价。" data-source="HM Land Registry | A 级">
-                <h4>产品类型成交均价趋势 (2025.01-2026.05) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交均价。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
                 
             </div>
         </div>
         
-        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025 年 1 月 -2026 年 5 月各产品类型月度成交量和价格，包含环比变化。" data-source="HM Land Registry | A 级">
-            <h4>产品类型详细数据表 (2025.01-2026.05) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量和价格，包含环比变化。" data-source="HM Land Registry | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="propertyTypeTable">
                     <thead>
@@ -574,180 +520,6 @@
             </div>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
                 📌 汇总统计（15 个月平均）：公寓 £40.8 万 | 带露台别墅 £61.8 万 | 半独立别墅 £49.8 万 | 独立别墅 £108.8 万
-            </div>
-        </div>
-    </div>
-    
-    <!-- 收益计算器 -->
-    <div id="roi" class="section">
-        <h2 class="section-title">📈 累计收益计算器</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>以£60 万英镑房产为例，持有 5 年累计收益约 15-22%（含房价增值 + 租金收益 - 持有成本）。英镑汇率波动对最终收益影响显著（±12%）。
-        </div>
-        
-        <div class="cost-calculator" style="background:#f0f7ff">
-            <h4>🧮 投资收益计算（人民币）</h4>
-            <div class="cost-input">
-                <div><label>房产价格 (万英镑)</label><input type="number" id="roiPrice" value="60" onchange="calculateROI()"></div>
-                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="25" max="100" onchange="calculateROI()"></div>
-                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
-                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="4.5" step="0.1" onchange="calculateROI()"></div>
-                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
-                <div><label>英镑汇率 (CNY/GBP)</label><input type="number" id="roiExchangeRate" value="9.35" step="0.01" onchange="calculateROI()"></div>
-            </div>
-            <div class="cost-result" style="grid-template-columns:repeat(4,1fr)">
-                <div class="item"><div class="label">总投入 (RMB)</div><div class="value" id="roiTotalInvest">¥224 万</div></div>
-                <div class="item"><div class="label">租金收益 (RMB)</div><div class="value" id="roiRentalIncome">¥92 万</div></div>
-                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciation">¥21 万</div></div>
-                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">18.5%</div></div>
-            </div>
-            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
-                <strong>💡 持有成本估算：</strong>年持有成本约房产价值的 3.5%（市政税 + 物业费 + 维护费等），已从收益中扣除。
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>不同持有年限收益对比</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金收益 (RMB)</th><th>房价增值 (RMB)</th><th>持有成本 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
-                </thead>
-                <tbody id="roiComparisonTable">
-                    <tr><td>1 年</td><td>¥224 万</td><td>¥17.6 万</td><td>¥5.3 万</td><td>¥19.6 万</td><td>¥3.3 万</td><td>1.5%</td><td>1.5%</td></tr>
-                    <tr><td>3 年</td><td>¥224 万</td><td>¥54.2 万</td><td>¥16.4 万</td><td>¥60.7 万</td><td>¥9.9 万</td><td>4.4%</td><td>1.5%</td></tr>
-                    <tr style="background:#f0fff4"><td>5 年</td><td>¥224 万</td><td>¥92.5 万</td><td>¥28.2 万</td><td>¥103.5 万</td><td>¥17.2 万</td><td>7.7%</td><td>1.5%</td></tr>
-                    <tr><td>10 年</td><td>¥224 万</td><td>¥195.8 万</td><td>¥60.5 万</td><td>¥218.6 万</td><td>¥37.7 万</td><td>16.8%</td><td>1.6%</td></tr>
-                </tbody>
-            </table>
-            <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
-                <strong>注：</strong>计算基于房价£60 万英镑、首付 40%、年租金回报率 4.5%、年房价增长率 2%、汇率 9.35。实际收益受市场波动影响。
-            </div>
-        </div>
-        
-        <div class="grid-2" style="margin-top:20px">
-            <div class="card">
-                <h4>💰 收益构成分析</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>租金收益：</strong>年租金回报率 4-5%，伦敦一区可达 5%+</li>
-                    <li><strong>房价增值：</strong>过去 5 年年化 1-3%，核心区域更稳定</li>
-                    <li><strong>汇率收益：</strong>英镑波动可能影响最终收益±12%</li>
-                    <li><strong>持有成本：</strong>约房产价值 3.5%/年（市政税 + 物业费）</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h4>⚠️ 风险提示</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>汇率风险：</strong>英镑波动可能影响最终收益±12%</li>
-                    <li><strong>流动性风险：</strong>二手房产变现周期 2-4 个月</li>
-                    <li><strong>政策风险：</strong>海外买家附加费可能调整</li>
-                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有 5 年+</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 政策追踪 -->
-    <div id="policy" class="section">
-        <h2 class="section-title">📜 中国买家政策追踪</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>英国对中国买家政策稳定，海外买家附加费 2%（2021 年 4 月起）。最新版政策（2025 年 3 月）简化了海外买家印花税申报流程。与上一版相比，主要变化是申报时间延长至 60 天。
-        </div>
-        
-        <div class="card">
-            <h4>🇬🇧 英国购房政策对比（最新版 vs 上一版）</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>政策项目</th><th>最新版 (2025 年 3 月)</th><th>上一版 (2021 年)</th><th>关键变化</th><th>影响分析</th></tr>
-                </thead>
-                <tbody>
-                    <tr style="background:#f0fff4">
-                        <td><strong>购房资格</strong></td>
-                        <td>无限制（外国人同等待遇）</td>
-                        <td>无限制</td>
-                        <td><span class="stable">→ 无变化</span></td>
-                        <td>英国对外国人购房一直开放</td>
-                    </tr>
-                    <tr>
-                        <td><strong>海外买家附加费</strong></td>
-                        <td>2%（2021 年 4 月起）</td>
-                        <td>3%（2016-2021 年）</td>
-                        <td><span class="up">⬇ -1%</span></td>
-                        <td>2021 年降至 2%，降低购房成本</td>
-                    </tr>
-                    <tr style="background:#f0fff4">
-                        <td><strong>印花税申报</strong></td>
-                        <td>成交后 60 天内申报</td>
-                        <td>成交后 30 天内申报</td>
-                        <td><span class="up">⬆ 时间 +30 天</span></td>
-                        <td>2025 年 3 月起延长申报期限</td>
-                    </tr>
-                    <tr>
-                        <td><strong>贷款政策</strong></td>
-                        <td>首付 25-40%，利率 4.5-5.5%</td>
-                        <td>首付 25-40%，利率 2.5-3.5%</td>
-                        <td><span class="down">⬆ 利率 +2%</span></td>
-                        <td>随英国央行基准利率上升</td>
-                    </tr>
-                    <tr style="background:#f0fff4">
-                        <td><strong>签证政策</strong></td>
-                        <td>创新者签证/投资签证</td>
-                        <td>T1 投资签证（已取消）</td>
-                        <td><span class="down">⚠ 门槛提高</span></td>
-                        <td>购房不直接送签证</td>
-                    </tr>
-                    <tr>
-                        <td><strong>外汇管制</strong></td>
-                        <td>无限制（自由汇出汇入）</td>
-                        <td>无限制</td>
-                        <td><span class="stable">→ 无变化</span></td>
-                        <td>资金进出自由</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="grid-2" style="margin-top:20px">
-            <div class="card">
-                <h4>✅ 政策优势</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>无限购：</strong>不限制购买套数、区域</li>
-                    <li><strong>附加费仅 2%：</strong>相比澳洲 8%、新加坡 60%，英国税负较低</li>
-                    <li><strong>永久产权：</strong>Freehold 房产永久私有</li>
-                    <li><strong>租赁自由：</strong>可自由出租，租金无管制</li>
-                    <li><strong>资金自由：</strong>无外汇管制</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h4>⚠️ 注意事项</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>签证：</strong>购房不直接送签证，需走创新者/投资签证</li>
-                    <li><strong>贷款：</strong>外国人贷款首付 25-40%，利率较高</li>
-                    <li><strong>税务：</strong>需申报海外资产，遗产税最高 40%</li>
-                    <li><strong>持有成本：</strong>年持有成本约房产价值 3.5%（市政税 + 物业费）</li>
-                    <li><strong>申报：</strong>成交后 60 天内需申报印花税</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>📅 政策变更时间线</h4>
-            <div style="padding:12px">
-                <div style="display:flex;gap:12px;margin-bottom:12px">
-                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2025 年 3 月</div>
-                    <div>印花税申报期限延长至 60 天</div>
-                </div>
-                <div style="display:flex;gap:12px;margin-bottom:12px">
-                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2021 年 4 月</div>
-                    <div>海外买家附加费从 3% 降至 2%</div>
-                </div>
-                <div style="display:flex;gap:12px;margin-bottom:12px">
-                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2021 年 3 月</div>
-                    <div>T1 投资签证取消，改为创新者签证</div>
-                </div>
-                <div style="display:flex;gap:12px">
-                    <div style="min-width:100px;font-weight:600;color:var(--primary)">2016 年 4 月</div>
-                    <div>海外买家附加费 3% 开始实施</div>
-                </div>
             </div>
         </div>
     </div>
@@ -776,8 +548,8 @@
         </div>
         
         <div class="grid-2">
-            <div class="card" data-title="英镑汇率历史走势 (2023-2026)" data-content="2023 年 1 月至 2026 年 5 月英镑对人民币和美元汇率月度走势。数据来源：XE, OFX。" data-source="XE, OFX | A 级">
-                <h4>英镑汇率历史走势 (2023.01-2026.05) <span class="data-source-tag">XE</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="英镑汇率历史走势 (2023-2026)" data-content="2023 年 1 月至 2026 年 3 月英镑对人民币和美元汇率月度走势。数据来源：XE, OFX。" data-source="XE, OFX | A 级">
+                <h4>英镑汇率历史走势 (2023.01-2026.03) <span class="data-source-tag">XE</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
                 <div class="data-legend">
                     <h5>📊 GBP/CNY 关键时点详解</h5>
@@ -787,14 +559,14 @@
                     <div class="data-legend-item"><strong>2024.11: 9.22（特朗普交易）</strong> - 特朗普胜选推动美元走强，间接利好英镑</div>
                     <div class="data-legend-item"><strong>2025.03: 9.28（美联储降息）</strong> - 美联储开启降息周期，美元走弱，英镑被动走强</div>
                     <div class="data-legend-item"><strong>2025.09: 9.32（高点）</strong> - 英国经济数据超预期，GDP 增速 0.9% 领跑 G7</div>
-                    <div class="data-legend-item"><strong>2026.05: 9.35（当前）</strong> - 较 2023 年低点升值 12%，汇率对冲房价下跌风险</div>
+                    <div class="data-legend-item"><strong>2026.03: 9.35（当前）</strong> - 较 2023 年低点升值 12%，汇率对冲房价下跌风险</div>
                     <h5 style="margin-top:16px">📊 GBP/USD 关键时点详解</h5>
                     <div class="data-legend-item"><strong>2023.01: 1.21（低点）</strong> - 英国通胀 10.5% 创 40 年新高，衰退担忧打压英镑</div>
                     <div class="data-legend-item"><strong>2023.07: 1.28（反弹）</strong> - 英国央行加息至 5.25%，美英利差收窄</div>
                     <div class="data-legend-item"><strong>2024.07: 1.29（高点）</strong> - 英国 Q2 GDP +0.9% 超预期，大选后政策确定性提升</div>
                     <div class="data-legend-item"><strong>2024.10: 1.30（强势）</strong> - 美联储降息 50bp，美元走弱；英国通胀粘性支撑英镑</div>
                     <div class="data-legend-item"><strong>2025.04: 1.32（美联储降息）</strong> - 美联储全年降息 125bp，美元指数 -8%</div>
-                    <div class="data-legend-item"><strong>2026.05: 1.32（当前）</strong> - 较 2023 年低点 +9%，但较 2024 年高点持平</div>
+                    <div class="data-legend-item"><strong>2026.03: 1.32（当前）</strong> - 较 2023 年低点 +9%，但较 2024 年高点持平</div>
                 </div>
             </div>
             
@@ -1144,7 +916,7 @@
                     <tr><td>Goldman Sachs (高盛)</td><td>2026.01</td><td>+1.5%</td><td>+1.0%</td><td>+0.5%</td><td><span class="agency-rating positive">避险配置</span></td></tr>
                     <tr><td>Rightmove</td><td>2026.02</td><td>+1.2%</td><td>+0.8%</td><td>0%</td><td><span class="agency-rating neutral">平台数据</span></td></tr>
                     <tr><td>Zoopla</td><td>2026.02</td><td>+1.0%</td><td>+0.5%</td><td>0%</td><td><span class="agency-rating neutral">平台数据</span></td></tr>
-                    <tr><td>ONS (官方统计)</td><td>2026.05</td><td>+1.3%</td><td>+1.3%</td><td>-</td><td><span class="agency-rating neutral">官方数据</span></td></tr>
+                    <tr><td>ONS (官方统计)</td><td>2026.03</td><td>+1.3%</td><td>+1.3%</td><td>-</td><td><span class="agency-rating neutral">官方数据</span></td></tr>
                     <tr style="background:#f0fff4"><td><strong>平均</strong></td><td>-</td><td><strong>+2.0%</strong></td><td><strong>+1.3%</strong></td><td><strong>-0.3%</strong></td><td><strong>-</strong></td></tr>
                 </tbody>
             </table>
@@ -1390,128 +1162,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- 热销推荐 -->
-    <div id="hot" class="section">
-        <h2 class="section-title">🔥 热销楼盘推荐</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>精选伦敦核心区域热销豪宅楼盘，涵盖肯辛顿、威斯敏斯特、金丝雀码头等热门地段。数据基于 2026 年 Q1 成交热度、搜索量、客户咨询量综合排序。价格区间：£200-800 万英镑。
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>🏰 肯辛顿 & 切尔西核心楼盘</h4>
-            <div class="grid-3">
-                <div class="stat-card" data-title="One Hyde Park" data-content="📍 Knightsbridge, SW1X<br>💰 £800 万英镑起 (约¥7,200 万 RMB)<br>🏗️ 2011 年竣工，4 栋楼<br>📐 户型：180-1,200㎡ (2-6 卧室)<br>🚇 地铁：Knightsbridge 站 5 分<br>🏢 开发商：Candy & Candy<br>📊 2026 Q1 成交：2 户，均价£1,200 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">One Hyde Park</div>
-                    <div class="stat-label">骑士桥 | £800 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">全球顶级豪宅，海德公园景，私人会所</div>
-                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 顶级豪宅</div>
-                </div>
-                <div class="stat-card" data-title="The Lancasters" data-content="📍 Lancaster Gate, W2<br>💰 £450 万英镑起 (约¥4,050 万 RMB)<br>🏗️ 2016 年竣工，3 栋楼<br>📐 户型：100-400㎡ (2-5 卧室)<br>🚇 地铁：Lancaster Gate 站 2 分<br>🏢 开发商：Galliard Homes<br>📊 2026 Q1 成交：5 户，均价£520 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">The Lancasters</div>
-                    <div class="stat-label">兰开斯特门 | £450 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">摄政式建筑，私密花园，经典英伦风格</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +30%</div>
-                </div>
-                <div class="stat-card" data-title="Prince's Gate" data-content="📍 South Kensington, SW7<br>💰 £600 万英镑起 (约¥5,400 万 RMB)<br>🏗️ 维多利亚时期建筑，翻新<br>📐 户型：150-500㎡ (3-6 卧室)<br>🚇 地铁：South Kensington 站 3 分<br>🏢 开发商：历史建筑改造<br>📊 2026 Q1 成交：3 户，均价£680 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Prince's Gate</div>
-                    <div class="stat-label">南肯辛顿 | £600 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">海德公园旁，维多利亚式豪宅，稀缺房源</div>
-                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 稀缺房源</div>
-                </div>
-                <div class="stat-card" data-title="Chelsea Waterfront" data-content="📍 Chelsea, SW3<br>💰 £350 万英镑起 (约¥3,150 万 RMB)<br>🏗️ 2018 年竣工，2 栋塔楼<br>📐 户型：80-250㎡ (2-4 卧室)<br>🚇 地铁：Sloane Square 站 8 分<br>🏢 开发商：Ballymore<br>📊 2026 Q1 成交：7 户，均价£390 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Chelsea Waterfront</div>
-                    <div class="stat-label">切尔西 | £350 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">泰晤士河景，现代设计，高端配套</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +25%</div>
-                </div>
-                <div class="stat-card" data-title="The Corniche" data-content="📍 Knightsbridge, SW1X<br>💰 £550 万英镑起 (约¥4,950 万 RMB)<br>🏗️ 2020 年竣工，35 层塔楼<br>📐 户型：100-350㎡ (2-5 卧室)<br>🚇 地铁：Knightsbridge 站 4 分<br>🏢 开发商：Ballymore<br>📊 2026 Q1 成交：4 户，均价£620 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">The Corniche</div>
-                    <div class="stat-label">骑士桥 | £550 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">新开发项目，全景落地窗，礼宾服务</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +38%</div>
-                </div>
-                <div class="stat-card" data-title="Hyde Park One" data-content="📍 Paddington, W2<br>💰 £280 万英镑起 (约¥2,520 万 RMB)<br>🏗️ 2017 年竣工，42 层塔楼<br>📐 户型：60-180㎡ (1-4 卧室)<br>🚇 地铁：Paddington 站 5 分<br>🏢 开发商：Berkeley Homes<br>📊 2026 Q1 成交：9 户，均价£310 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Hyde Park One</div>
-                    <div class="stat-label">帕丁顿 | £280 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">海德公园北，交通枢纽，投资热门</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +45%</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>🏰 威斯敏斯特核心楼盘</h4>
-            <div class="grid-3">
-                <div class="stat-card" data-title="St John's Wood" data-content="📍 St John's Wood, NW8<br>💰 £400 万英镑起 (约¥3,600 万 RMB)<br>🏗️ 低密度住宅区<br>📐 户型：200-600㎡ (4-7 卧室)<br>🚇 地铁：Jubilee 线 St John's Wood 站<br>🏢 开发商：Various<br>📊 2026 Q1 成交：6 户，均价£450 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">St John's Wood</div>
-                    <div class="stat-label">圣约翰伍德 | £400 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">摄政公园旁，低密度豪宅区，家庭首选</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +28%</div>
-                </div>
-                <div class="stat-card" data-title="Marylebone" data-content="📍 Marylebone, W1U<br>💰 £320 万英镑起 (约¥2,880 万 RMB)<br>🏗️ 乔治亚风格建筑<br>📐 户型：120-350㎡ (2-5 卧室)<br>🚇 地铁：Baker 线 Marylebone 站<br>🏢 开发商：Various<br>📊 2026 Q1 成交：8 户，均价£360 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Marylebone</div>
-                    <div class="stat-label">马里波恩 | £320 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">乔治亚风格，精品街区，生活便利</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +32%</div>
-                </div>
-                <div class="stat-card" data-title="Belgravia" data-content="📍 Belgravia, SW1X<br>💰 £550 万英镑起 (约¥4,950 万 RMB)<br>🏗️ 维多利亚/乔治亚风格<br>📐 户型：250-800㎡ (4-8 卧室)<br>🚇 地铁：Circle 线 Victoria 站<br>🏢 开发商：Various<br>📊 2026 Q1 成交：4 户，均价£620 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Belgravia</div>
-                    <div class="stat-label">贝尔格莱维亚 | £550 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">传统贵族区，白色联排别墅，顶级地段</div>
-                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 贵族区</div>
-                </div>
-                <div class="stat-card" data-title="Westminster Abbey Gardens" data-content="📍 Westminster, SW1P<br>💰 £480 万英镑起 (约¥4,320 万 RMB)<br>🏗️ 历史建筑<br>📐 户型：180-450㎡ (3-6 卧室)<br>🚇 地铁：Circle 线 Westminster 站<br>🏢 开发商：Various<br>📊 2026 Q1 成交：3 户，均价£520 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Westminster Abbey</div>
-                    <div class="stat-label">威斯敏斯特 | £480 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">西敏寺旁，历史建筑，稀缺景观</div>
-                    <div style="font-size:10px;color:#d69e2e;margin-top:6px">👑 稀缺房源</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>🏰 金丝雀码头 & 金融城核心楼盘</h4>
-            <div class="grid-3">
-                <div class="stat-card" data-title="Landmark Pinnacle" data-content="📍 Canary Wharf, E14<br>💰 £220 万英镑起 (约¥1,980 万 RMB)<br>🏗️ 2020 年竣工，75 层 (西欧最高)<br>📐 户型：50-180㎡ (1-3 卧室)<br>🚇 地铁：Jubilee 线 Canary Wharf 站<br>🏢 开发商：Chalegrove<br>📊 2026 Q1 成交：15 户，均价£245 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">Landmark Pinnacle</div>
-                    <div class="stat-label">金丝雀码头 | £220 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">西欧最高住宅，天际线景观，投资首选</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +52%</div>
-                </div>
-                <div class="stat-card" data-title="One Park Drive" data-content="📍 Canary Wharf, E14<br>💰 £280 万英镑起 (约¥2,520 万 RMB)<br>🏗️ 2019 年竣工，58 层<br>📐 户型：60-200㎡ (1-3 卧室)<br>🚇 地铁：Jubilee 线 Canary Wharf 站<br>🏢 开发商：Herzog & de Meuron<br>📊 2026 Q1 成交：12 户，均价£310 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">One Park Drive</div>
-                    <div class="stat-label">金丝雀码头 | £280 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">赫尔佐格设计，地标建筑，高端配套</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +45%</div>
-                </div>
-                <div class="stat-card" data-title="The Madison" data-content="📍 Canary Wharf, E14<br>💰 £195 万英镑起 (约¥1,755 万 RMB)<br>🏗️ 2018 年竣工，45 层<br>📐 户型：45-150㎡ (1-3 卧室)<br>🚇 地铁：Jubilee 线 South Quay 站<br>🏢 开发商：Ballymore<br>📊 2026 Q1 成交：18 户，均价£215 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">The Madison</div>
-                    <div class="stat-label">金丝雀码头 | £195 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">waterfront 景观，交通枢纽，租赁需求高</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +48%</div>
-                </div>
-                <div class="stat-card" data-title="100 Bishopsgate" data-content="📍 City of London, EC2M<br>💰 £350 万英镑起 (约¥3,150 万 RMB)<br>🏗️ 2020 年竣工，42 层<br>📐 户型：70-220㎡ (1-4 卧室)<br>🚇 地铁：Central 线 Liverpool Street 站<br>🏢 开发商://Herzog & de Meuron<br>📊 2026 Q1 成交：9 户，均价£380 万" data-source="Knight Frank, Rightmove | A 级">
-                    <div class="stat-value">100 Bishopsgate</div>
-                    <div class="stat-label">金融城 | £350 万英镑起</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:8px">金融城核心，商务精英首选，高租金回报</div>
-                    <div style="font-size:10px;color:#38a169;margin-top:6px">🔥 本月咨询 +38%</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px;background:#fffaf0;border:1px solid #feebc8">
-            <h4>💡 购房提示</h4>
-            <ul style="font-size:13px;color:var(--text-light);line-height:1.8">
-                <li><strong>房源类型：</strong>伦敦豪宅以二手 Period Property（维多利亚/乔治亚风格）为主，新建占比约 25%</li>
-                <li><strong>海外买家附加费：</strong>2021 年 4 月起，海外买家需额外支付 2% 印花税</li>
-                <li><strong>贷款政策：</strong>外国人首付 35-40%，利率 4.5-5.5%（汇丰、巴克莱等）</li>
-                <li><strong>交易周期：</strong>从 Offer 接受到完成约 8-12 周</li>
-                <li><strong>持有成本：</strong>约房产价值 1.5-2.5%/年（含市政税、物业费、保险等）</li>
-                <li><strong>投资回报：</strong>租金收益率 4-5%，房价增值 2-4%/年（核心区域）</li>
-            </ul>
-        </div>
-    </div>
 
     <!-- 分享模态框 -->
     <div id="shareModal" class="modal">
@@ -1588,78 +1238,36 @@
                 {month: '2025-12', newVol: 230, newPrice: 543, oldVol: 6500, oldPrice: 456},
                 {month: '2026-01', newVol: 200, newPrice: 525, oldVol: 6000, oldPrice: 437},
                 {month: '2026-02', newVol: 220, newPrice: 534, oldVol: 6400, oldPrice: 442},
-                {month: '2026-03', newVol: 250, newPrice: 552, oldVol: 7000, oldPrice: 460},
-                {month: '2026-04', newVol: 270, newPrice: 561, oldVol: 7200, oldPrice: 465},
-                {month: '2026-05', newVol: 290, newPrice: 570, oldVol: 7400, oldPrice: 470},
-                {month: '2026-04', newVol: 270, newPrice: 561, oldVol: 7200, oldPrice: 465},
-                {month: '2026-05', newVol: 290, newPrice: 570, oldVol: 7400, oldPrice: 470}
+                {month: '2026-03', newVol: 250, newPrice: 552, oldVol: 7000, oldPrice: 460}
             ],
             // 7 个区域真实数据（ONS 2026 年 1 月）
-            districts: 
-            districts: 
             districts: [
-                {name: 'Mayfair', postcode: 'W1J、W1K、W1S', avgPrice: 1200, change: '-10.8%', pricePerSqm: 140000, rent: 4000, yield: 0.4, lat: 51.509, lng: -0.145},
-                {name: 'Marylebone', postcode: 'W1H、W1U、W1W、NW1', avgPrice: 950, change: '-9.98%', pricePerSqm: 125000, rent: 3600, yield: 0.5, lat: 51.522, lng: -0.155},
-                {name: 'Fitzrovia', postcode: 'W1T、W1W、W1D', avgPrice: 850, change: '-10.1%', pricePerSqm: 115000, rent: 3200, yield: 0.5, lat: 51.52, lng: -0.138},
-                {name: 'Soho', postcode: 'W1D、W1F', avgPrice: 900, change: '-0.9%', pricePerSqm: 120000, rent: 3400, yield: 0.5, lat: 51.513, lng: -0.132},
-                {name: 'Kensington', postcode: 'W8', avgPrice: 1250, change: '-3.2%', pricePerSqm: 145000, rent: 4200, yield: 0.4, lat: 51.501, lng: -0.195},
-                {name: 'South Kensington', postcode: 'SW7、SW5', avgPrice: 1300, change: '-1.3%', pricePerSqm: 150000, rent: 4300, yield: 0.4, lat: 51.494, lng: -0.175},
-                {name: 'Chelsea', postcode: 'SW3、SW10', avgPrice: 1150, change: '-0.3%', pricePerSqm: 135000, rent: 3900, yield: 0.4, lat: 51.487, lng: -0.168},
-                {name: 'Knightsbridge', postcode: 'SW1X、SW7', avgPrice: 1400, change: '-2.1%', pricePerSqm: 160000, rent: 4500, yield: 0.4, lat: 51.501, lng: -0.16},
-                {name: 'Belgravia', postcode: 'SW1W、SW1X', avgPrice: 1350, change: '-1.5%', pricePerSqm: 155000, rent: 4400, yield: 0.4, lat: 51.496, lng: -0.153},
-                {name: 'Pimlico', postcode: 'SW1E、SW1V', avgPrice: 750, change: '-10.8%', pricePerSqm: 95000, rent: 2800, yield: 0.4, lat: 51.489, lng: -0.138},
-                {name: 'Notting Hill', postcode: 'W11', avgPrice: 1100, change: '-9.98%', pricePerSqm: 130000, rent: 3700, yield: 0.4, lat: 51.51, lng: -0.205},
-                {name: 'Little Venice / Paddington', postcode: 'W2', avgPrice: 800, change: '-10.1%', pricePerSqm: 100000, rent: 3000, yield: 0.4, lat: 51.522, lng: -0.18},
-                {name: 'St John's Wood', postcode: 'NW8', avgPrice: 950, change: '-0.9%', pricePerSqm: 115000, rent: 3400, yield: 0.4, lat: 51.535, lng: -0.175},
-                {name: 'Holland Park', postcode: 'W8、W14', avgPrice: 1050, change: '-3.2%', pricePerSqm: 125000, rent: 3500, yield: 0.4, lat: 51.505, lng: -0.21},
-                {name: 'White City', postcode: 'W12', avgPrice: 650, change: '-1.3%', pricePerSqm: 85000, rent: 2500, yield: 0.5, lat: 51.513, lng: -0.225},
-                {name: 'Acton', postcode: 'W3', avgPrice: 550, change: '-0.3%', pricePerSqm: 72000, rent: 2200, yield: 0.5, lat: 51.51, lng: -0.265},
-                {name: 'Hammersmith', postcode: 'W6', avgPrice: 700, change: '-2.1%', pricePerSqm: 90000, rent: 2700, yield: 0.5, lat: 51.493, lng: -0.225},
-                {name: 'West Kensington / Earl's Court', postcode: 'W14、SW5', avgPrice: 680, change: '-1.5%', pricePerSqm: 88000, rent: 2600, yield: 0.5, lat: 51.49, lng: -0.205},
-                {name: 'Battersea', postcode: 'SW11', avgPrice: 720, change: '-10.8%', pricePerSqm: 92000, rent: 2800, yield: 0.5, lat: 51.475, lng: -0.175},
-                {name: 'Nine Elms', postcode: 'SW8、SW11', avgPrice: 780, change: '-9.98%', pricePerSqm: 98000, rent: 3000, yield: 0.5, lat: 51.482, lng: -0.135},
-                {name: 'Fulham', postcode: 'SW6', avgPrice: 750, change: '-10.1%', pricePerSqm: 95000, rent: 2900, yield: 0.5, lat: 51.485, lng: -0.205},
-                {name: 'King's Cross', postcode: 'N1C、WC1', avgPrice: 850, change: '-0.9%', pricePerSqm: 110000, rent: 3200, yield: 0.5, lat: 51.535, lng: -0.125},
-                {name: 'Islington', postcode: 'N1', avgPrice: 800, change: '-3.2%', pricePerSqm: 105000, rent: 3000, yield: 0.4, lat: 51.545, lng: -0.105},
-                {name: 'Dalston / Stoke Newington', postcode: 'N16、E8', avgPrice: 550, change: '-1.3%', pricePerSqm: 75000, rent: 2300, yield: 0.5, lat: 51.555, lng: -0.075},
-                {name: 'Canary Wharf', postcode: 'E14', avgPrice: 720, change: '-0.3%', pricePerSqm: 95000, rent: 3200, yield: 0.5, lat: 51.505, lng: -0.02},
-                {name: 'Wapping / St Katharine Docks', postcode: 'E1W', avgPrice: 680, change: '-2.1%', pricePerSqm: 90000, rent: 3000, yield: 0.5, lat: 51.505, lng: -0.055},
-                {name: 'Whitechapel', postcode: 'E1', avgPrice: 520, change: '-1.5%', pricePerSqm: 70000, rent: 2200, yield: 0.5, lat: 51.518, lng: -0.06},
-                {name: 'Shoreditch', postcode: 'E2', avgPrice: 650, change: '-10.8%', pricePerSqm: 85000, rent: 2800, yield: 0.5, lat: 51.528, lng: -0.08},
-                {name: 'Stratford', postcode: 'E15、E20', avgPrice: 480, change: '-9.98%', pricePerSqm: 65000, rent: 2100, yield: 0.5, lat: 51.545, lng: -0.005},
-                {name: 'Royal Docks', postcode: 'E16', avgPrice: 450, change: '-10.1%', pricePerSqm: 60000, rent: 2000, yield: 0.5, lat: 51.51, lng: 0.035},
-                {name: 'Greenwich', postcode: 'SE10', avgPrice: 500, change: '-0.9%', pricePerSqm: 65000, rent: 2100, yield: 0.5, lat: 51.485, lng: 0.005},
-                {name: 'Canada Water', postcode: 'SE16', avgPrice: 580, change: '-3.2%', pricePerSqm: 75000, rent: 2500, yield: 0.5, lat: 51.498, lng: -0.05},
-                {name: 'South Bank', postcode: 'SE1', avgPrice: 900, change: '-1.3%', pricePerSqm: 115000, rent: 3400, yield: 0.5, lat: 51.505, lng: -0.105},
-                {name: 'Vauxhall', postcode: 'SE11', avgPrice: 700, change: '-0.3%', pricePerSqm: 90000, rent: 2800, yield: 0.5, lat: 51.485, lng: -0.125},
-                {name: 'Elephant & Castle', postcode: 'SE17', avgPrice: 600, change: '-2.1%', pricePerSqm: 80000, rent: 2500, yield: 0.5, lat: 51.495, lng: -0.1},
-                {name: 'City of London', postcode: 'EC1、EC2、EC3、EC4', avgPrice: 950, change: '-1.5%', pricePerSqm: 120000, rent: 3800, yield: 0.5, lat: 51.515, lng: -0.09},
-                {name: 'Bloomsbury / Holborn / Covent Garden', postcode: 'WC1、WC2', avgPrice: 1000, change: '-10.8%', pricePerSqm: 125000, rent: 3600, yield: 0.4, lat: 51.518, lng: -0.12}
-            ]
-            
-            ,
-            // 7 个区域月度历史数据（2025.01-2026.05，15 个月）
-            districtHistory: 
+                {name: '肯辛顿 - 切尔西区', avgPrice: 1198, change: '-10.8%', pricePerSqm: 139000, lat: 51.5020, lng: -0.1947},
+                {name: '威斯敏斯特区', avgPrice: 924, change: '-9.98%', pricePerSqm: 125000, lat: 51.4973, lng: -0.1372},
+                {name: '卡姆登区', avgPrice: 794, change: '-10.1%', pricePerSqm: 115000, lat: 51.5290, lng: -0.1255},
+                {name: '哈默史密斯 - 富勒姆', avgPrice: 705, change: '-0.9%', pricePerSqm: 95000, lat: 51.4844, lng: -0.1939},
+                {name: '伦敦金融城', avgPrice: 706, change: '-3.2%', pricePerSqm: 108000, lat: 51.5142, lng: -0.0901},
+                {name: '塔村区', avgPrice: 467, change: '-1.3%', pricePerSqm: 78000, lat: 51.5099, lng: -0.0059},
+                {name: '格林尼治区', avgPrice: 418, change: '-0.3%', pricePerSqm: 58000, lat: 51.4892, lng: 0.0648}
+            ],
+            // 7 个区域月度历史数据（2025.01-2026.03，15 个月）
             districtHistory: [
-                {month: '2025-01', mayfair: 984, marylebone: 1053, fitzrovia: 829, soho: 1008, kensington: 1062, southKensington: 1130, chelsea: 1152, knightsbridge: 1075, belgravia: 874, pimlico: 836, nottingHill: 1148, littleVenicePaddington: 989, stJohn\sWood: 691, hollandPark: 1182, whiteCity: 657, acton: 670, hammersmith: 814, westKensingtonEarl\sCourt: 752, battersea: 744, nineElms: 649, fulham: 769, king\sCross: 647, islington: 781, dalstonStokeNewington: 548, canaryWharf: 498, wappingStKatharineDocks: 486, whitechapel: 504, shoreditch: 527, stratford: 455, royalDocks: 386, greenwich: 361, canadaWater: 452, southBank: 884, vauxhall: 868, elephant&Castle: 542, cityofLondon: 812, bloomsburyHolbornCoventGarden: 765},
-                {month: '2025-02', mayfair: 989, marylebone: 915, fitzrovia: 905, soho: 933, kensington: 1134, southKensington: 1127, chelsea: 1242, knightsbridge: 1133, belgravia: 969, pimlico: 1058, nottingHill: 1183, littleVenicePaddington: 865, stJohn\sWood: 825, hollandPark: 1223, whiteCity: 630, acton: 620, hammersmith: 634, westKensingtonEarl\sCourt: 745, battersea: 781, nineElms: 701, fulham: 624, king\sCross: 693, islington: 925, dalstonStokeNewington: 480, canaryWharf: 543, wappingStKatharineDocks: 528, whitechapel: 406, shoreditch: 508, stratford: 442, royalDocks: 424, greenwich: 390, canadaWater: 496, southBank: 835, vauxhall: 927, elephant&Castle: 469, cityofLondon: 827, bloomsburyHolbornCoventGarden: 896},
-                {month: '2025-03', mayfair: 873, marylebone: 940, fitzrovia: 723, soho: 1056, kensington: 1350, southKensington: 1142, chelsea: 1266, knightsbridge: 1255, belgravia: 842, pimlico: 1014, nottingHill: 1229, littleVenicePaddington: 1019, stJohn\sWood: 722, hollandPark: 1033, whiteCity: 677, acton: 612, hammersmith: 807, westKensingtonEarl\sCourt: 796, battersea: 786, nineElms: 674, fulham: 620, king\sCross: 796, islington: 907, dalstonStokeNewington: 416, canaryWharf: 473, wappingStKatharineDocks: 414, whitechapel: 512, shoreditch: 513, stratford: 371, royalDocks: 415, greenwich: 424, canadaWater: 442, southBank: 1045, vauxhall: 918, elephant&Castle: 434, cityofLondon: 734, bloomsburyHolbornCoventGarden: 855},
-                {month: '2025-04', mayfair: 851, marylebone: 882, fitzrovia: 913, soho: 977, kensington: 1183, southKensington: 1211, chelsea: 1068, knightsbridge: 1105, belgravia: 890, pimlico: 960, nottingHill: 1107, littleVenicePaddington: 857, stJohn\sWood: 619, hollandPark: 1252, whiteCity: 652, acton: 796, hammersmith: 787, westKensingtonEarl\sCourt: 619, battersea: 654, nineElms: 746, fulham: 649, king\sCross: 632, islington: 899, dalstonStokeNewington: 482, canaryWharf: 468, wappingStKatharineDocks: 512, whitechapel: 516, shoreditch: 428, stratford: 366, royalDocks: 407, greenwich: 406, canadaWater: 467, southBank: 999, vauxhall: 984, elephant&Castle: 541, cityofLondon: 633, bloomsburyHolbornCoventGarden: 772},
-                {month: '2025-05', mayfair: 885, marylebone: 1031, fitzrovia: 730, soho: 844, kensington: 1180, southKensington: 1170, chelsea: 1118, knightsbridge: 1108, belgravia: 1048, pimlico: 914, nottingHill: 1328, littleVenicePaddington: 944, stJohn\sWood: 613, hollandPark: 1377, whiteCity: 779, acton: 808, hammersmith: 799, westKensingtonEarl\sCourt: 782, battersea: 637, nineElms: 705, fulham: 647, king\sCross: 687, islington: 685, dalstonStokeNewington: 453, canaryWharf: 538, wappingStKatharineDocks: 437, whitechapel: 510, shoreditch: 464, stratford: 405, royalDocks: 472, greenwich: 477, canadaWater: 478, southBank: 991, vauxhall: 834, elephant&Castle: 441, cityofLondon: 819, bloomsburyHolbornCoventGarden: 809},
-                {month: '2025-06', mayfair: 937, marylebone: 994, fitzrovia: 681, soho: 948, kensington: 1191, southKensington: 1316, chelsea: 1068, knightsbridge: 1354, belgravia: 808, pimlico: 838, nottingHill: 1224, littleVenicePaddington: 974, stJohn\sWood: 649, hollandPark: 1054, whiteCity: 788, acton: 651, hammersmith: 725, westKensingtonEarl\sCourt: 730, battersea: 688, nineElms: 723, fulham: 710, king\sCross: 797, islington: 715, dalstonStokeNewington: 498, canaryWharf: 431, wappingStKatharineDocks: 453, whitechapel: 492, shoreditch: 440, stratford: 390, royalDocks: 444, greenwich: 360, canadaWater: 462, southBank: 1063, vauxhall: 1063, elephant&Castle: 408, cityofLondon: 653, bloomsburyHolbornCoventGarden: 730},
-                {month: '2025-07', mayfair: 1040, marylebone: 1025, fitzrovia: 871, soho: 884, kensington: 1063, southKensington: 1304, chelsea: 1257, knightsbridge: 1225, belgravia: 1054, pimlico: 962, nottingHill: 1010, littleVenicePaddington: 1008, stJohn\sWood: 660, hollandPark: 1243, whiteCity: 794, acton: 625, hammersmith: 621, westKensingtonEarl\sCourt: 619, battersea: 713, nineElms: 654, fulham: 724, king\sCross: 748, islington: 712, dalstonStokeNewington: 485, canaryWharf: 433, wappingStKatharineDocks: 464, whitechapel: 523, shoreditch: 514, stratford: 362, royalDocks: 403, greenwich: 384, canadaWater: 397, southBank: 995, vauxhall: 958, elephant&Castle: 433, cityofLondon: 764, bloomsburyHolbornCoventGarden: 794},
-                {month: '2025-08', mayfair: 895, marylebone: 780, fitzrovia: 679, soho: 1020, kensington: 1321, southKensington: 1194, chelsea: 1296, knightsbridge: 1207, belgravia: 818, pimlico: 813, nottingHill: 1110, littleVenicePaddington: 1025, stJohn\sWood: 760, hollandPark: 1305, whiteCity: 782, acton: 637, hammersmith: 646, westKensingtonEarl\sCourt: 615, battersea: 757, nineElms: 778, fulham: 678, king\sCross: 723, islington: 697, dalstonStokeNewington: 524, canaryWharf: 515, wappingStKatharineDocks: 530, whitechapel: 507, shoreditch: 517, stratford: 352, royalDocks: 439, greenwich: 389, canadaWater: 524, southBank: 998, vauxhall: 1015, elephant&Castle: 507, cityofLondon: 658, bloomsburyHolbornCoventGarden: 845},
-                {month: '2025-09', mayfair: 803, marylebone: 1012, fitzrovia: 858, soho: 834, kensington: 1281, southKensington: 1156, chelsea: 1102, knightsbridge: 1274, belgravia: 836, pimlico: 780, nottingHill: 1062, littleVenicePaddington: 863, stJohn\sWood: 771, hollandPark: 1334, whiteCity: 649, acton: 724, hammersmith: 674, westKensingtonEarl\sCourt: 795, battersea: 703, nineElms: 787, fulham: 615, king\sCross: 793, islington: 700, dalstonStokeNewington: 526, canaryWharf: 429, wappingStKatharineDocks: 408, whitechapel: 453, shoreditch: 494, stratford: 385, royalDocks: 421, greenwich: 409, canadaWater: 446, southBank: 931, vauxhall: 843, elephant&Castle: 491, cityofLondon: 600, bloomsburyHolbornCoventGarden: 874},
-                {month: '2025-10', mayfair: 915, marylebone: 965, fitzrovia: 826, soho: 951, kensington: 1115, southKensington: 1012, chelsea: 1219, knightsbridge: 1103, belgravia: 854, pimlico: 999, nottingHill: 1239, littleVenicePaddington: 851, stJohn\sWood: 652, hollandPark: 1130, whiteCity: 672, acton: 650, hammersmith: 615, westKensingtonEarl\sCourt: 675, battersea: 783, nineElms: 729, fulham: 776, king\sCross: 716, islington: 724, dalstonStokeNewington: 467, canaryWharf: 391, wappingStKatharineDocks: 431, whitechapel: 450, shoreditch: 471, stratford: 425, royalDocks: 402, greenwich: 399, canadaWater: 420, southBank: 898, vauxhall: 1014, elephant&Castle: 501, cityofLondon: 632, bloomsburyHolbornCoventGarden: 674},
-                {month: '2025-11', mayfair: 904, marylebone: 936, fitzrovia: 730, soho: 986, kensington: 1242, southKensington: 1215, chelsea: 1060, knightsbridge: 1051, belgravia: 772, pimlico: 831, nottingHill: 1146, littleVenicePaddington: 994, stJohn\sWood: 602, hollandPark: 1125, whiteCity: 717, acton: 627, hammersmith: 731, westKensingtonEarl\sCourt: 689, battersea: 637, nineElms: 722, fulham: 588, king\sCross: 742, islington: 830, dalstonStokeNewington: 404, canaryWharf: 448, wappingStKatharineDocks: 413, whitechapel: 521, shoreditch: 460, stratford: 350, royalDocks: 375, greenwich: 447, canadaWater: 452, southBank: 981, vauxhall: 945, elephant&Castle: 525, cityofLondon: 720, bloomsburyHolbornCoventGarden: 872},
-                {month: '2025-12', mayfair: 1000, marylebone: 925, fitzrovia: 815, soho: 896, kensington: 1262, southKensington: 1164, chelsea: 1285, knightsbridge: 1232, belgravia: 888, pimlico: 830, nottingHill: 1061, littleVenicePaddington: 932, stJohn\sWood: 743, hollandPark: 1155, whiteCity: 714, acton: 641, hammersmith: 601, westKensingtonEarl\sCourt: 644, battersea: 641, nineElms: 651, fulham: 696, king\sCross: 613, islington: 703, dalstonStokeNewington: 483, canaryWharf: 484, wappingStKatharineDocks: 396, whitechapel: 443, shoreditch: 462, stratford: 393, royalDocks: 368, greenwich: 393, canadaWater: 511, southBank: 918, vauxhall: 947, elephant&Castle: 505, cityofLondon: 754, bloomsburyHolbornCoventGarden: 738},
-                {month: '2026-01', mayfair: 751, marylebone: 843, fitzrovia: 804, soho: 976, kensington: 1252, southKensington: 1075, chelsea: 1184, knightsbridge: 1117, belgravia: 909, pimlico: 808, nottingHill: 1009, littleVenicePaddington: 865, stJohn\sWood: 577, hollandPark: 1048, whiteCity: 708, acton: 653, hammersmith: 604, westKensingtonEarl\sCourt: 665, battersea: 597, nineElms: 697, fulham: 577, king\sCross: 651, islington: 761, dalstonStokeNewington: 388, canaryWharf: 471, wappingStKatharineDocks: 403, whitechapel: 447, shoreditch: 391, stratford: 384, royalDocks: 364, greenwich: 377, canadaWater: 487, southBank: 850, vauxhall: 949, elephant&Castle: 497, cityofLondon: 620, bloomsburyHolbornCoventGarden: 653},
-                {month: '2026-02', mayfair: 751, marylebone: 888, fitzrovia: 856, soho: 838, kensington: 1144, southKensington: 1187, chelsea: 1145, knightsbridge: 1179, belgravia: 996, pimlico: 799, nottingHill: 937, littleVenicePaddington: 786, stJohn\sWood: 595, hollandPark: 1151, whiteCity: 683, acton: 613, hammersmith: 710, westKensingtonEarl\sCourt: 724, battersea: 603, nineElms: 692, fulham: 720, king\sCross: 593, islington: 815, dalstonStokeNewington: 513, canaryWharf: 397, wappingStKatharineDocks: 386, whitechapel: 425, shoreditch: 474, stratford: 450, royalDocks: 384, greenwich: 422, canadaWater: 393, southBank: 928, vauxhall: 912, elephant&Castle: 396, cityofLondon: 723, bloomsburyHolbornCoventGarden: 822},
-                {month: '2026-03', mayfair: 901, marylebone: 776, fitzrovia: 850, soho: 949, kensington: 1038, southKensington: 1065, chelsea: 1046, knightsbridge: 1090, belgravia: 833, pimlico: 967, nottingHill: 1193, littleVenicePaddington: 771, stJohn\sWood: 760, hollandPark: 1132, whiteCity: 734, acton: 710, hammersmith: 655, westKensingtonEarl\sCourt: 715, battersea: 761, nineElms: 622, fulham: 730, king\sCross: 676, islington: 738, dalstonStokeNewington: 439, canaryWharf: 479, wappingStKatharineDocks: 417, whitechapel: 495, shoreditch: 492, stratford: 346, royalDocks: 440, greenwich: 365, canadaWater: 443, southBank: 904, vauxhall: 843, elephant&Castle: 385, cityofLondon: 735, bloomsburyHolbornCoventGarden: 671},
-                {month: '2026-04', mayfair: 797, marylebone: 950, fitzrovia: 705, soho: 971, kensington: 1150, southKensington: 1012, chelsea: 926, knightsbridge: 1231, belgravia: 764, pimlico: 930, nottingHill: 1081, littleVenicePaddington: 940, stJohn\sWood: 704, hollandPark: 1132, whiteCity: 664, acton: 725, hammersmith: 585, westKensingtonEarl\sCourt: 610, battersea: 704, nineElms: 627, fulham: 682, king\sCross: 661, islington: 747, dalstonStokeNewington: 436, canaryWharf: 479, wappingStKatharineDocks: 423, whitechapel: 473, shoreditch: 415, stratford: 364, royalDocks: 348, greenwich: 357, canadaWater: 395, southBank: 881, vauxhall: 941, elephant&Castle: 404, cityofLondon: 607, bloomsburyHolbornCoventGarden: 736},
-                {month: '2026-05', mayfair: 929, marylebone: 994, fitzrovia: 743, soho: 813, kensington: 952, southKensington: 983, chelsea: 994, knightsbridge: 978, belgravia: 743, pimlico: 879, nottingHill: 1009, littleVenicePaddington: 994, stJohn\sWood: 675, hollandPark: 1146, whiteCity: 590, acton: 737, hammersmith: 662, westKensingtonEarl\sCourt: 738, battersea: 679, nineElms: 658, fulham: 652, king\sCross: 601, islington: 639, dalstonStokeNewington: 503, canaryWharf: 441, wappingStKatharineDocks: 487, whitechapel: 431, shoreditch: 387, stratford: 405, royalDocks: 338, greenwich: 349, canadaWater: 452, southBank: 819, vauxhall: 999, elephant&Castle: 393, cityofLondon: 712, bloomsburyHolbornCoventGarden: 762}
-            ]
-            ,
+                {month: '2025-01', kensington: 1230, westminster: 950, camden: 810, fulham: 720, city: 730, tower: 478, greenwich: 420},
+                {month: '2025-02', kensington: 1220, westminster: 945, camden: 805, fulham: 718, city: 728, tower: 476, greenwich: 419},
+                {month: '2025-03', kensington: 1215, westminster: 940, camden: 800, fulham: 715, city: 725, tower: 475, greenwich: 418},
+                {month: '2025-04', kensington: 1205, westminster: 935, camden: 795, fulham: 710, city: 720, tower: 472, greenwich: 416},
+                {month: '2025-05', kensington: 1198, westminster: 930, camden: 790, fulham: 708, city: 718, tower: 470, greenwich: 415},
+                {month: '2025-06', kensington: 1190, westminster: 925, camden: 785, fulham: 705, city: 715, tower: 468, greenwich: 413},
+                {month: '2025-07', kensington: 1185, westminster: 920, camden: 782, fulham: 702, city: 712, tower: 466, greenwich: 412},
+                {month: '2025-08', kensington: 1178, westminster: 915, camden: 778, fulham: 698, city: 708, tower: 464, greenwich: 410},
+                {month: '2025-09', kensington: 1170, westminster: 910, camden: 775, fulham: 695, city: 705, tower: 462, greenwich: 408},
+                {month: '2025-10', kensington: 1162, westminster: 905, camden: 770, fulham: 692, city: 702, tower: 460, greenwich: 406},
+                {month: '2025-11', kensington: 1155, westminster: 900, camden: 768, fulham: 690, city: 700, tower: 458, greenwich: 405},
+                {month: '2025-12', kensington: 1148, westminster: 895, camden: 765, fulham: 688, city: 698, tower: 456, greenwich: 403},
+                {month: '2026-01', kensington: 1102, westminster: 882, camden: 747, fulham: 672, city: 670, tower: 452, greenwich: 398},
+                {month: '2026-02', kensington: 1095, westminster: 878, camden: 744, fulham: 670, city: 668, tower: 450, greenwich: 396},
+                {month: '2026-03', kensington: 1088, westminster: 875, camden: 742, fulham: 668, city: 665, tower: 448, greenwich: 395}
+            ],
             districtVolume: [
                 {month: '2025-01', kensington: 280, westminster: 420, camden: 380, fulham: 350, city: 320, tower: 450, greenwich: 520},
                 {month: '2025-02', kensington: 275, westminster: 415, camden: 375, fulham: 345, city: 315, tower: 445, greenwich: 515},
@@ -1675,9 +1283,7 @@
                 {month: '2025-12', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525},
                 {month: '2026-01', kensington: 270, westminster: 410, camden: 370, fulham: 340, city: 310, tower: 440, greenwich: 510},
                 {month: '2026-02', kensington: 275, westminster: 415, camden: 375, fulham: 345, city: 315, tower: 445, greenwich: 515},
-                {month: '2026-03', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525},
-                {month: '2026-04', kensington: 290, westminster: 430, camden: 390, fulham: 360, city: 330, tower: 460, greenwich: 530},
-                {month: '2026-05', kensington: 295, westminster: 435, camden: 395, fulham: 365, city: 335, tower: 465, greenwich: 535},
+                {month: '2026-03', kensington: 285, westminster: 425, camden: 385, fulham: 355, city: 325, tower: 455, greenwich: 525}
             ],
             priceSegments: [
                 {range: '¥400-600 万', vol: 18500, pct: 25, areas: '格林尼治、塔村'},
@@ -1708,9 +1314,7 @@
                 {month: '2025-12', flat: 3900, terrace: 1180, semi: 590, detached: 290, flatPrice: 412, terracePrice: 622, semiPrice: 502, detachedPrice: 1092},
                 {month: '2026-01', flat: 3600, terrace: 1080, semi: 540, detached: 270, flatPrice: 402, terracePrice: 612, semiPrice: 492, detachedPrice: 1080},
                 {month: '2026-02', flat: 3800, terrace: 1150, semi: 570, detached: 280, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
-                {month: '2026-03', flat: 4100, terrace: 1220, semi: 610, detached: 300, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095},
-                {month: '2026-04', flat: 4150, terrace: 1240, semi: 620, detached: 305, flatPrice: 418, terracePrice: 628, semiPrice: 508, detachedPrice: 1100},
-                {month: '2026-05', flat: 4200, terrace: 1260, semi: 630, detached: 310, flatPrice: 420, terracePrice: 630, semiPrice: 510, detachedPrice: 1105},
+                {month: '2026-03', flat: 4100, terrace: 1220, semi: 610, detached: 300, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095}
             ],
             chinaBuyers: [5.5, 6.2, 7.5, 8.5, 8.2, 7.8, 6.8, 6.2, 7.0],
             chinaPreference: [
@@ -1719,7 +1323,7 @@
                 {year: '2025', kensington: 42, westminster: 28, budget1000_2500: 65, apartment: 55, education: 38, fullPayment: 45},
                 {year: '2026', kensington: 40, westminster: 27, budget1000_2500: 68, apartment: 52, education: 35, fullPayment: 42}
             ],
-            // 汇率数据（月度，2023.01-2026.05）
+            // 汇率数据（月度，2023.01-2026.03）
             exchangeRates: [
                 {month: '2023-01', gbpCny: 8.35, gbpUsd: 1.21},
                 {month: '2023-04', gbpCny: 8.52, gbpUsd: 1.24},
@@ -1734,9 +1338,7 @@
                 {month: '2025-07', gbpCny: 9.32, gbpUsd: 1.33},
                 {month: '2025-10', gbpCny: 9.30, gbpUsd: 1.31},
                 {month: '2026-01', gbpCny: 9.33, gbpUsd: 1.32},
-                {month: '2026-03', gbpCny: 9.35, gbpUsd: 1.32},
-                {month: '2026-04', gbpCny: 9.35, gbpUsd: 1.32},
-                {month: '2026-05', gbpCny: 9.35, gbpUsd: 1.32}
+                {month: '2026-03', gbpCny: 9.35, gbpUsd: 1.32}
             ]
         };
         
@@ -2289,12 +1891,6 @@
             `).join('');
             
             document.querySelector('#districtTable').innerHTML = londonData.districts.map(d => `
-                        <tr>
-                            <td><strong>${d.name}</strong><br><small style="color:#718096">${d.postcode}</small></td>
-                            <td>£${d.avgPrice}万</td>
-                            <td style="color:${d.change.includes('-') ? '#c53030' : '#38a169'}">${d.change}</td>
-                            <td>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡</td>
-                        </tr>`).join('');
                 <tr>
                     <td>${d.name}</td>
                     <td>¥${d.avgPrice}万</td>
@@ -2331,104 +1927,61 @@
         }
         
         function initMap() {
-            initDistrictMap();
-            initRentMap();
-            initYieldMap();
-        }
-        
-        function initDistrictMap() {
+            // 检查容器是否存在且有高度
             const mapContainer = document.getElementById('districtMap');
-            if (!mapContainer) return;
+            if (!mapContainer) {
+                console.error('✗ 地图容器不存在');
+                return;
+            }
+            
+            // 确保容器有最小高度
             mapContainer.style.minHeight = '450px';
             mapContainer.style.background = '#e8f4f8';
             
             try {
-                const map = L.map('districtMap', { center: [51.5074, -0.1278], zoom: 11, zoomControl: true, scrollWheelZoom: false });
+                const map = L.map('districtMap', {
+                    center: [51.5074, -0.1278],
+                    zoom: 11,
+                    zoomControl: true,
+                    scrollWheelZoom: false,
+                    fadeAnimation: true,
+                    markerZoomAnimation: true
+                });
+                
+                // 使用 CartoDB Voyager 图层（更稳定）
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
+                    attribution: '© OpenStreetMap © CartoDB',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    crossOrigin: true
                 }).addTo(map);
                 
+                // 添加区域标记点
                 londonData.districts.forEach(d => {
                     const color = d.avgPrice > 900 ? '#c53030' : d.avgPrice > 650 ? '#d69e2e' : '#38a169';
-                    const postcodeDisplay = (d.postcode || '').split(',')[0].trim();
-                    L.circleMarker([d.lat, d.lng], { radius: 14, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.85 })
-                        .bindPopup(`<div style="text-align:left;font-size:13px"><b>${d.name}</b><br><span style="color:#718096;font-size:11px">${d.postcode || 'N/A'}</span><hr style="margin:8px 0;border:0;border-top:1px solid #e2e8f0"><b>房价：</b><span style="color:#c53030;font-weight:bold">£${d.avgPrice}万</span><br><b>同比：</b>${d.change}<br><b>单价：</b>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡<br><b>租金：</b>£${d.rent.toLocaleString()}/月<br><b>收益率：</b>${d.yield}%</div>`).addTo(map);
-                    L.marker([d.lat, d.lng], {
-                        icon: L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="background:${color};color:white;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.3);text-align:center;border:2px solid white">${postcodeDisplay}</div>`,
-                            iconSize: [70, 24],
-                            iconAnchor: [35, 12]
-                        })
-                    }).addTo(map);
+                    const marker = L.circleMarker([d.lat, d.lng], { 
+                        radius: 16, 
+                        fillColor: color, 
+                        color: '#fff', 
+                        weight: 2, 
+                        fillOpacity: 0.8 
+                    })
+                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c53030;font-weight:bold">¥${d.avgPrice}万</span><br>同比${d.change}</div>`);
+                    
+                    marker.addTo(map);
                 });
-                setTimeout(() => { map.invalidateSize(); console.log('✓ 房价地图初始化成功'); }, 300);
-            } catch (e) {
-                console.error('✗ 房价地图加载失败:', e);
-            }
-        }
-        
-        function initRentMap() {
-            const mapContainer = document.getElementById('rentMap');
-            if (!mapContainer) return;
-            mapContainer.style.minHeight = '450px';
-            mapContainer.style.background = '#e8f4f8';
-            
-            try {
-                const map = L.map('rentMap', { center: [51.5074, -0.1278], zoom: 11, zoomControl: true, scrollWheelZoom: false });
-                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
-                }).addTo(map);
                 
-                londonData.districts.forEach(d => {
-                    const color = d.rent > 3300 ? '#c53030' : d.rent > 2500 ? '#d69e2e' : '#38a169';
-                    const postcodeDisplay = (d.postcode || '').split(',')[0].trim();
-                    L.circleMarker([d.lat, d.lng], { radius: 14, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.85 })
-                        .bindPopup(`<div style="text-align:left;font-size:13px"><b>${d.name}</b><br><span style="color:#718096;font-size:11px">${d.postcode || 'N/A'}</span><hr style="margin:8px 0;border:0;border-top:1px solid #e2e8f0"><b>租金：</b><span style="color:#c53030;font-weight:bold">£${d.rent.toLocaleString()}/月</span><br><b>房价：</b>£${d.avgPrice}万<br><b>单价：</b>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡<br><b>收益率：</b>${d.yield}%</div>`).addTo(map);
-                    L.marker([d.lat, d.lng], {
-                        icon: L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="background:${color};color:white;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.3);text-align:center;border:2px solid white">${postcodeDisplay}</div>`,
-                            iconSize: [70, 24],
-                            iconAnchor: [35, 12]
-                        })
-                    }).addTo(map);
-                });
-                setTimeout(() => { map.invalidateSize(); console.log('✓ 租金地图初始化成功'); }, 300);
-            } catch (e) {
-                console.error('✗ 租金地图加载失败:', e);
-            }
-        }
-        
-        function initYieldMap() {
-            const mapContainer = document.getElementById('yieldMap');
-            if (!mapContainer) return;
-            mapContainer.style.minHeight = '450px';
-            mapContainer.style.background = '#e8f4f8';
-            
-            try {
-                const map = L.map('yieldMap', { center: [51.5074, -0.1278], zoom: 11, zoomControl: true, scrollWheelZoom: false });
-                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 19
-                }).addTo(map);
+                // 延迟刷新地图尺寸
+                setTimeout(() => { 
+                    map.invalidateSize(); 
+                    console.log('✓ 地图刷新成功');
+                }, 300);
                 
-                londonData.districts.forEach(d => {
-                    const color = d.yield > 5.5 ? '#38a169' : d.yield > 4.0 ? '#d69e2e' : '#c53030';
-                    const postcodeDisplay = (d.postcode || '').split(',')[0].trim();
-                    L.circleMarker([d.lat, d.lng], { radius: 14, fillColor: color, color: '#fff', weight: 2, fillOpacity: 0.85 })
-                        .bindPopup(`<div style="text-align:left;font-size:13px"><b>${d.name}</b><br><span style="color:#718096;font-size:11px">${d.postcode || 'N/A'}</span><hr style="margin:8px 0;border:0;border-top:1px solid #e2e8f0"><b>收益率：</b><span style="color:${color};font-weight:bold;font-size:18px">${d.yield}%</span><br><b>房价：</b>£${d.avgPrice}万<br><b>租金：</b>£${d.rent.toLocaleString()}/月<br><b>单价：</b>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡</div>`).addTo(map);
-                    L.marker([d.lat, d.lng], {
-                        icon: L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="background:${color};color:white;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.3);text-align:center;border:2px solid white">${postcodeDisplay}</div>`,
-                            iconSize: [70, 24],
-                            iconAnchor: [35, 12]
-                        })
-                    }).addTo(map);
-                });
-                setTimeout(() => { map.invalidateSize(); console.log('✓ 回报率地图初始化成功'); }, 300);
+                console.log('✓ 地图初始化成功');
             } catch (e) {
-                console.error('✗ 回报率地图加载失败:', e);
+                const fallbackHTML = '<div style="padding:40px;text-align:center;background:#f0fff4;border-radius:8px;height:450px;display:flex;flex-direction:column;justify-content:center"><h4 style="color:var(--success);margin-bottom:16px">📍 伦敦核心区域房价</h4><div style="text-align:left;font-size:13px;line-height:2"><div>🔴 肯辛顿 - 切尔西：<b>£119.8 万</b> (-10.8%)</div><div>🟠 威斯敏斯特：<b>£92.4 万</b> (-9.98%)</div><div>🟠 卡姆登：<b>£79.4 万</b> (-10.1%)</div><div>🟡 富勒姆：<b>£70.5 万</b> (-0.9%)</div><div>🟡 金融城：<b>£70.6 万</b> (-3.2%)</div><div>🟢 塔村：<b>£46.7 万</b> (-1.3%)</div><div>🟢 格林尼治：<b>£41.8 万</b> (-0.3%)</div></div><p style="margin-top:20px;font-size:12px;color:var(--text-light)">📌 图例：🔴£100 万 + | 🟠£70-100 万 | 🟡£60-70 万 | 🟢£60 万以下</p></div>';
+                mapContainer.innerHTML = fallbackHTML;
+                console.error('✗ 地图加载失败，显示文字版:', e);
             }
         }
         
@@ -2461,17 +2014,18 @@
         function showSection(id, evt) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if (evt && evt.target) evt.target.classList.add('active');
-            else document.querySelector(`.nav-tab[onclick="showSection('${id}')"]`)?.classList.add('active');
+            const targetSection = document.getElementById(id);
+            if (targetSection) targetSection.classList.add('active');
+            if (evt && evt.target) {
+                evt.target.classList.add('active');
+            }
         }
         
         function showSubTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.sub-tab').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(id);
-            if (target) target.classList.add('active');
-            if (btn) btn.classList.add('active');
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
         }
         
         function togglePolicy(el) { el.classList.toggle('expanded'); }
@@ -2556,89 +2110,14 @@
             document.getElementById('filePath').innerHTML = '<strong>当前文件：</strong><br>' + filePath;
         }
         
-        // 收益计算器
-        function calculateROI() {
-            const price = parseFloat(document.getElementById('roiPrice').value) || 60;
-            const downPaymentPct = parseFloat(document.getElementById('roiDownPayment').value) || 40;
-            const years = parseFloat(document.getElementById('roiYears').value) || 5;
-            const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 4.5;
-            const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
-            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 9.35;
-            
-            const priceCNY = price * 10000 * exchangeRate;
-            const downPayment = priceCNY * (downPaymentPct / 100);
-            const annualRental = priceCNY * (rentalYield / 100);
-            const annualCost = priceCNY * 0.035;
-            const netAnnualIncome = annualRental - annualCost;
-            
-            let totalRental = 0;
-            for (let i = 0; i < years; i++) {
-                totalRental += netAnnualIncome * Math.pow(1.02, i);
-            }
-            
-            const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
-            const appreciationValue = futurePrice - priceCNY;
-            const totalGain = totalRental + appreciationValue;
-            const totalReturn = (totalGain / downPayment) * 100;
-            
-            document.getElementById('roiTotalInvest').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
-            document.getElementById('roiRentalIncome').textContent = '¥' + (totalRental / 10000).toFixed(1) + '万';
-            document.getElementById('roiAppreciation').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
-            
-            const returnEl = document.getElementById('roiTotalReturn');
-            returnEl.textContent = totalReturn.toFixed(1) + '%';
-            returnEl.className = 'value ' + (totalReturn > 0 ? 'up' : 'down');
-            
-            updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate);
-        }
-        
-        function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
-            const priceCNY = price * 10000 * exchangeRate;
-            const downPayment = priceCNY * (downPaymentPct / 100);
-            const annualRental = priceCNY * (rentalYield / 100);
-            const annualCost = priceCNY * 0.035;
-            const netAnnualIncome = annualRental - annualCost;
-            
-            const periods = [1, 3, 5, 10];
-            let html = '';
-            
-            periods.forEach(years => {
-                let totalRental = 0;
-                for (let i = 0; i < years; i++) {
-                    totalRental += netAnnualIncome * Math.pow(1.02, i);
-                }
-                const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
-                const appreciationValue = futurePrice - priceCNY;
-                const totalCost = annualCost * years;
-                const netGain = totalRental + appreciationValue - totalCost;
-                const totalReturn = (netGain / downPayment) * 100;
-                const irr = totalReturn / years * 0.85;
-                
-                const isHighlight = years === 5 ? 'style="background:#f0fff4"' : '';
-                html += `<tr ${isHighlight}>
-                    <td>${years}年</td>
-                    <td>¥${(downPayment/10000).toFixed(1)}万</td>
-                    <td>¥${(totalRental/10000).toFixed(1)}万</td>
-                    <td>¥${(appreciationValue/10000).toFixed(1)}万</td>
-                    <td>¥${(totalCost/10000).toFixed(1)}万</td>
-                    <td>¥${(netGain/10000).toFixed(1)}万</td>
-                    <td>${totalReturn.toFixed(1)}%</td>
-                    <td>${irr.toFixed(1)}%</td>
-                </tr>`;
-            });
-            
-            document.getElementById('roiComparisonTable').innerHTML = html;
-        }
-        
         document.addEventListener('DOMContentLoaded', () => { 
             initCharts(); 
             initTables(); 
             setTimeout(() => initMap(), 100);
             initTooltips(); 
-            calculateCost();
-            calculateROI();
+            calculateCost(); 
             
-            console.log('📊 伦敦房产数据看板加载完成 | 版本：v5.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
+            console.log('📊 看板加载完成 | 版本：v4.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
         });
         
 function exportExcel() {
