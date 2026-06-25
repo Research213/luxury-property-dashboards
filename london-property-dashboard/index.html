@@ -403,7 +403,7 @@
             
             <!-- 区域历史趋势放在地图下方 -->
             <div class="card" style="margin-top:20px" data-title="各区域房价历史趋势 (月度)" data-content="2025 年 1 月至 2026 年 3 月各区域套均总价月度走势。" data-source="ONS, HM Land Registry | A 级">
-                <h4>目标邮编街区套均总价月度趋势 (2025.01-2026.03) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+                <h4>37 个目标邮编街区套均总价趋势 (2025.01-2026.03) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container large"><canvas id="districtHistoryChart"></canvas></div>
                 <div class="data-legend">
                     <h5>📊 图表说明</h5>
@@ -415,38 +415,14 @@
             </div>
             
             <div class="card" style="margin-top:20px">
-                <h4>37 个目标邮编街区单价趋势 (万/㎡) | 2025.01-2026.03</h4>
-                <p style="font-size:12px;color:var(--text-light);margin-bottom:12px">📌 横向滚动查看全部 37 个街区</p>
-                <div style="overflow-x:auto;max-height:450px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px">
-                    <table class="data-table" style="min-width:3500px;font-size:11px">
-                        <thead style="position:sticky;top:0;background:#f1f5f9;z-index:10">
-                            <tr><th style="min-width:70px">月份</th><th style="min-width:90px">Mayfair<br><small style="color:#718096;font-weight:normal;font-size:10px">W1J,W1K,W1S</small></th><th style="min-width:90px">Marylebone<br><small style="color:#718096;font-weight:normal;font-size:10px">W1H,W1U,W1W</small></th><th style="min-width:90px">Fitzrovia<br><small style="color:#718096;font-weight:normal;font-size:10px">W1T,W1W,W1D</small></th><th style="min-width:90px">Soho<br><small style="color:#718096;font-weight:normal;font-size:10px">W1D,W1F</small></th><th style="min-width:90px">Kensington<br><small style="color:#718096;font-weight:normal;font-size:10px">W8</small></th><th style="min-width:90px">South Ken<br><small style="color:#718096;font-weight:normal;font-size:10px">SW7,SW5</small></th><th style="min-width:90px">Chelsea<br><small style="color:#718096;font-weight:normal;font-size:10px">SW3,SW10</small></th><th style="min-width:90px">Knightsbridge<br><small style="color:#718096;font-weight:normal;font-size:10px">SW1X,SW7</small></th><th style="min-width:90px">Belgravia<br><small style="color:#718096;font-weight:normal;font-size:10px">SW1W,SW1X</small></th><th style="min-width:90px">Pimlico<br><small style="color:#718096;font-weight:normal;font-size:10px">SW1E,SW1V</small></th><th style="min-width:90px">Notting Hill<br><small style="color:#718096;font-weight:normal;font-size:10px">W11</small></th><th style="min-width:90px">Paddington<br><small style="color:#718096;font-weight:normal;font-size:10px">W2</small></th><th style="min-width:90px">St John's<br><small style="color:#718096;font-weight:normal;font-size:10px">NW8</small></th><th style="min-width:90px">Holland Park<br><small style="color:#718096;font-weight:normal;font-size:10px">W8,W14</small></th><th style="min-width:90px">White City<br><small style="color:#718096;font-weight:normal;font-size:10px">W12</small></th><th style="min-width:90px">Acton<br><small style="color:#718096;font-weight:normal;font-size:10px">W3</small></th><th style="min-width:90px">Hammersmith<br><small style="color:#718096;font-weight:normal;font-size:10px">W6</small></th><th style="min-width:90px">Earl's Court<br><small style="color:#718096;font-weight:normal;font-size:10px">W14,SW5</small></th><th style="min-width:90px">Battersea<br><small style="color:#718096;font-weight:normal;font-size:10px">SW11</small></th><th style="min-width:90px">Nine Elms<br><small style="color:#718096;font-weight:normal;font-size:10px">SW8,SW11</small></th><th style="min-width:90px">Fulham<br><small style="color:#718096;font-weight:normal;font-size:10px">SW6</small></th><th style="min-width:90px">King's Cross<br><small style="color:#718096;font-weight:normal;font-size:10px">N1C,WC1</small></th><th style="min-width:90px">Islington<br><small style="color:#718096;font-weight:normal;font-size:10px">N1</small></th><th style="min-width:90px">Dalston<br><small style="color:#718096;font-weight:normal;font-size:10px">N16,E8</small></th><th style="min-width:90px">Canary Wharf<br><small style="color:#718096;font-weight:normal;font-size:10px">E14</small></th><th style="min-width:90px">Wapping<br><small style="color:#718096;font-weight:normal;font-size:10px">E1W</small></th><th style="min-width:90px">Whitechapel<br><small style="color:#718096;font-weight:normal;font-size:10px">E1</small></th><th style="min-width:90px">Shoreditch<br><small style="color:#718096;font-weight:normal;font-size:10px">E2</small></th><th style="min-width:90px">Stratford<br><small style="color:#718096;font-weight:normal;font-size:10px">E15,E20</small></th><th style="min-width:90px">Royal Docks<br><small style="color:#718096;font-weight:normal;font-size:10px">E16</small></th><th style="min-width:90px">Greenwich<br><small style="color:#718096;font-weight:normal;font-size:10px">SE10</small></th><th style="min-width:90px">Canada Water<br><small style="color:#718096;font-weight:normal;font-size:10px">SE16</small></th><th style="min-width:90px">South Bank<br><small style="color:#718096;font-weight:normal;font-size:10px">SE1</small></th><th style="min-width:90px">Vauxhall<br><small style="color:#718096;font-weight:normal;font-size:10px">SE11</small></th><th style="min-width:90px">Elephant<br><small style="color:#718096;font-weight:normal;font-size:10px">SE17</small></th><th style="min-width:90px">City<br><small style="color:#718096;font-weight:normal;font-size:10px">EC1-4</small></th><th style="min-width:90px">Bloomsbury<br><small style="color:#718096;font-weight:normal;font-size:10px">WC1,WC2</small></th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>2025-01</td><td>14.0</td><td>11.5</td><td>10.5</td><td>11.0</td><td>14.5</td><td>15.0</td><td>13.5</td><td>16.0</td><td>15.5</td><td>9.0</td><td>13.0</td><td>9.5</td><td>11.5</td><td>12.5</td><td>8.0</td><td>6.5</td><td>8.5</td><td>8.3</td><td>8.7</td><td>9.3</td><td>9.0</td><td>10.5</td><td>10.0</td><td>7.0</td><td>9.5</td><td>8.3</td><td>6.2</td><td>8.0</td><td>5.8</td><td>5.5</td><td>6.0</td><td>7.0</td><td>11.0</td><td>8.5</td><td>7.2</td><td>12.0</td><td>12.5</td></tr>
-                            <tr><td>2025-02</td><td>13.9</td><td>11.4</td><td>10.4</td><td>10.9</td><td>14.4</td><td>14.9</td><td>13.4</td><td>15.9</td><td>15.4</td><td>9.0</td><td>12.9</td><td>9.5</td><td>11.4</td><td>12.4</td><td>8.0</td><td>6.5</td><td>8.5</td><td>8.3</td><td>8.7</td><td>9.3</td><td>9.0</td><td>10.4</td><td>9.9</td><td>7.0</td><td>9.5</td><td>8.3</td><td>6.2</td><td>8.0</td><td>5.8</td><td>5.5</td><td>6.0</td><td>7.0</td><td>10.9</td><td>8.5</td><td>7.2</td><td>11.9</td><td>12.4</td></tr>
-                            <tr><td>2025-03</td><td>13.9</td><td>11.4</td><td>10.4</td><td>10.9</td><td>14.4</td><td>14.8</td><td>13.4</td><td>15.8</td><td>15.3</td><td>8.9</td><td>12.9</td><td>9.4</td><td>11.4</td><td>12.4</td><td>7.9</td><td>6.4</td><td>8.4</td><td>8.2</td><td>8.6</td><td>9.2</td><td>8.9</td><td>10.4</td><td>9.9</td><td>6.9</td><td>9.4</td><td>8.2</td><td>6.1</td><td>7.9</td><td>5.7</td><td>5.4</td><td>5.9</td><td>6.9</td><td>10.9</td><td>8.4</td><td>7.1</td><td>11.9</td><td>12.4</td></tr>
-                            <tr><td>2025-04</td><td>13.8</td><td>11.3</td><td>10.3</td><td>10.8</td><td>14.3</td><td>14.8</td><td>13.3</td><td>15.8</td><td>15.3</td><td>8.9</td><td>12.8</td><td>9.4</td><td>11.3</td><td>12.3</td><td>7.9</td><td>6.4</td><td>8.4</td><td>8.2</td><td>8.6</td><td>9.2</td><td>8.9</td><td>10.3</td><td>9.8</td><td>6.9</td><td>9.4</td><td>8.2</td><td>6.1</td><td>7.9</td><td>5.7</td><td>5.4</td><td>5.9</td><td>6.9</td><td>10.8</td><td>8.4</td><td>7.1</td><td>11.8</td><td>12.3</td></tr>
-                            <tr><td>2025-05</td><td>13.7</td><td>11.3</td><td>10.3</td><td>10.8</td><td>14.2</td><td>14.7</td><td>13.2</td><td>15.7</td><td>15.2</td><td>8.8</td><td>12.7</td><td>9.3</td><td>11.3</td><td>12.2</td><td>7.8</td><td>6.4</td><td>8.3</td><td>8.1</td><td>8.5</td><td>9.1</td><td>8.8</td><td>10.3</td><td>9.8</td><td>6.9</td><td>9.3</td><td>8.1</td><td>6.1</td><td>7.8</td><td>5.7</td><td>5.4</td><td>5.9</td><td>6.9</td><td>10.8</td><td>8.3</td><td>7.1</td><td>11.8</td><td>12.2</td></tr>
-                            <tr><td>2025-06</td><td>13.7</td><td>11.2</td><td>10.2</td><td>10.7</td><td>14.1</td><td>14.6</td><td>13.2</td><td>15.6</td><td>15.1</td><td>8.8</td><td>12.7</td><td>9.3</td><td>11.2</td><td>12.2</td><td>7.8</td><td>6.3</td><td>8.3</td><td>8.1</td><td>8.5</td><td>9.1</td><td>8.8</td><td>10.2</td><td>9.8</td><td>6.8</td><td>9.3</td><td>8.1</td><td>6.0</td><td>7.8</td><td>5.7</td><td>5.4</td><td>5.8</td><td>6.8</td><td>10.7</td><td>8.3</td><td>7.0</td><td>11.7</td><td>12.2</td></tr>
-                            <tr><td>2025-07</td><td>13.6</td><td>11.2</td><td>10.2</td><td>10.7</td><td>14.1</td><td>14.5</td><td>13.1</td><td>15.5</td><td>15.0</td><td>8.7</td><td>12.6</td><td>9.2</td><td>11.2</td><td>12.1</td><td>7.8</td><td>6.3</td><td>8.2</td><td>8.1</td><td>8.4</td><td>9.0</td><td>8.7</td><td>10.2</td><td>9.7</td><td>6.8</td><td>9.2</td><td>8.1</td><td>6.0</td><td>7.8</td><td>5.6</td><td>5.3</td><td>5.8</td><td>6.8</td><td>10.7</td><td>8.2</td><td>7.0</td><td>11.6</td><td>12.1</td></tr>
-                            <tr><td>2025-08</td><td>13.5</td><td>11.1</td><td>10.1</td><td>10.6</td><td>14.0</td><td>14.5</td><td>13.0</td><td>15.4</td><td>15.0</td><td>8.7</td><td>12.5</td><td>9.2</td><td>11.1</td><td>12.1</td><td>7.7</td><td>6.3</td><td>8.2</td><td>8.0</td><td>8.4</td><td>9.0</td><td>8.7</td><td>10.1</td><td>9.7</td><td>6.8</td><td>9.2</td><td>8.0</td><td>6.0</td><td>7.7</td><td>5.6</td><td>5.3</td><td>5.8</td><td>6.8</td><td>10.6</td><td>8.2</td><td>6.9</td><td>11.6</td><td>12.1</td></tr>
-                            <tr><td>2025-09</td><td>13.4</td><td>11.0</td><td>10.1</td><td>10.6</td><td>13.9</td><td>14.4</td><td>13.0</td><td>15.4</td><td>14.9</td><td>8.6</td><td>12.5</td><td>9.1</td><td>11.0</td><td>12.0</td><td>7.7</td><td>6.2</td><td>8.2</td><td>8.0</td><td>8.4</td><td>8.9</td><td>8.6</td><td>10.1</td><td>9.6</td><td>6.7</td><td>9.1</td><td>8.0</td><td>6.0</td><td>7.7</td><td>5.6</td><td>5.3</td><td>5.8</td><td>6.7</td><td>10.6</td><td>8.2</td><td>6.9</td><td>11.5</td><td>12.0</td></tr>
-                            <tr><td>2025-10</td><td>13.4</td><td>11.0</td><td>10.0</td><td>10.5</td><td>13.8</td><td>14.3</td><td>12.9</td><td>15.3</td><td>14.8</td><td>8.6</td><td>12.4</td><td>9.1</td><td>11.0</td><td>11.9</td><td>7.6</td><td>6.2</td><td>8.1</td><td>7.9</td><td>8.3</td><td>8.9</td><td>8.6</td><td>10.0</td><td>9.5</td><td>6.7</td><td>9.1</td><td>7.9</td><td>5.9</td><td>7.6</td><td>5.5</td><td>5.3</td><td>5.7</td><td>6.7</td><td>10.5</td><td>8.1</td><td>6.9</td><td>11.5</td><td>11.9</td></tr>
-                            <tr><td>2025-11</td><td>13.3</td><td>10.9</td><td>10.0</td><td>10.4</td><td>13.8</td><td>14.2</td><td>12.8</td><td>15.2</td><td>14.7</td><td>8.5</td><td>12.3</td><td>9.0</td><td>10.9</td><td>11.9</td><td>7.6</td><td>6.2</td><td>8.1</td><td>7.9</td><td>8.3</td><td>8.8</td><td>8.5</td><td>10.0</td><td>9.5</td><td>6.6</td><td>9.0</td><td>7.9</td><td>5.9</td><td>7.6</td><td>5.5</td><td>5.2</td><td>5.7</td><td>6.6</td><td>10.4</td><td>8.1</td><td>6.8</td><td>11.4</td><td>11.9</td></tr>
-                            <tr><td>2025-12</td><td>13.2</td><td>10.9</td><td>9.9</td><td>10.4</td><td>13.7</td><td>14.2</td><td>12.8</td><td>15.1</td><td>14.6</td><td>8.5</td><td>12.3</td><td>9.0</td><td>10.9</td><td>11.8</td><td>7.6</td><td>6.1</td><td>8.0</td><td>7.8</td><td>8.2</td><td>8.8</td><td>8.5</td><td>9.9</td><td>9.4</td><td>6.6</td><td>9.0</td><td>7.8</td><td>5.9</td><td>7.6</td><td>5.5</td><td>5.2</td><td>5.7</td><td>6.6</td><td>10.4</td><td>8.0</td><td>6.8</td><td>11.3</td><td>11.8</td></tr>
-                            <tr><td>2026-01</td><td>13.2</td><td>10.8</td><td>9.9</td><td>10.3</td><td>13.6</td><td>14.1</td><td>12.7</td><td>15.0</td><td>14.6</td><td>8.5</td><td>12.2</td><td>8.9</td><td>10.8</td><td>11.8</td><td>7.5</td><td>6.1</td><td>8.0</td><td>7.8</td><td>8.2</td><td>8.7</td><td>8.5</td><td>9.9</td><td>9.4</td><td>6.6</td><td>8.9</td><td>7.8</td><td>5.8</td><td>7.5</td><td>5.5</td><td>5.2</td><td>5.6</td><td>6.6</td><td>10.3</td><td>8.0</td><td>6.8</td><td>11.3</td><td>11.8</td></tr>
-                            <tr><td>2026-02</td><td>13.1</td><td>10.8</td><td>9.8</td><td>10.3</td><td>13.6</td><td>14.0</td><td>12.6</td><td>15.0</td><td>14.5</td><td>8.4</td><td>12.2</td><td>8.9</td><td>10.8</td><td>11.7</td><td>7.5</td><td>6.1</td><td>7.9</td><td>7.8</td><td>8.1</td><td>8.7</td><td>8.4</td><td>9.8</td><td>9.4</td><td>6.5</td><td>8.9</td><td>7.8</td><td>5.8</td><td>7.5</td><td>5.4</td><td>5.1</td><td>5.6</td><td>6.5</td><td>10.3</td><td>7.9</td><td>6.7</td><td>11.2</td><td>11.7</td></tr>
-                            <tr><td>2026-03</td><td>13.0</td><td>10.7</td><td>9.8</td><td>10.2</td><td>13.5</td><td>13.9</td><td>12.6</td><td>14.9</td><td>14.4</td><td>8.4</td><td>12.1</td><td>8.8</td><td>10.7</td><td>11.6</td><td>7.4</td><td>6.0</td><td>7.9</td><td>7.7</td><td>8.1</td><td>8.6</td><td>8.4</td><td>9.8</td><td>9.3</td><td>6.5</td><td>8.8</td><td>7.7</td><td>5.8</td><td>7.4</td><td>5.4</td><td>5.1</td><td>5.6</td><td>6.5</td><td>10.2</td><td>7.9</td><td>6.7</td><td>11.2</td><td>11.6</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算 | 完整显示 37 个目标邮编街区</div>
-            </div>
+                <h4>37 个目标邮编街区单价趋势图 (万/㎡) | 2025.01-2026.03</h4>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:12px">📌 显示全部 37 个目标邮编街区</p>
+                <div class="chart-container large"><canvas id="priceTrendChart"></canvas></div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：ONS, HM Land Registry | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
             </div>
             
             <div class="card" style="margin-top:20px">
-                <h4>区域成交量月度趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+                <h4>37 个目标邮编街区成交量趋势37 个目标邮编街区成交量趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="districtVolumeChart"></canvas></div>
             </div>
         </div>
@@ -1714,43 +1690,43 @@
                     labels: londonData.districtHistory.map(d => d.month),
                     datasets: [
                         {
-                            label: 'Kensington W8',
+                            label: 'W8',
                             data: londonData.districtHistory.map(d => d.kensington),
                             borderColor: '#c53030',
                             tension: 0.3
                         },
                         {
-                            label: 'Mayfair W1J',
+                            label: 'W1J',
                             data: londonData.districtHistory.map(d => d.westminster),
                             borderColor: '#2c5282',
                             tension: 0.3
                         },
                         {
-                            label: 'Belgravia SW1W',
+                            label: 'SW1W',
                             data: londonData.districtHistory.map(d => d.camden),
                             borderColor: '#38a169',
                             tension: 0.3
                         },
                         {
-                            label: 'Chelsea SW3',
+                            label: 'SW3',
                             data: londonData.districtHistory.map(d => d.fulham),
                             borderColor: '#d69e2e',
                             tension: 0.3
                         },
                         {
-                            label: 'City EC1-4',
+                            label: 'EC1-4',
                             data: londonData.districtHistory.map(d => d.city),
                             borderColor: '#9f7aea',
                             tension: 0.3
                         },
                         {
-                            label: 'Canary Wharf E14',
+                            label: 'E14',
                             data: londonData.districtHistory.map(d => d.tower),
                             borderColor: '#ed8936',
                             tension: 0.3
                         },
                         {
-                            label: 'Greenwich SE10',
+                            label: 'SE10',
                             data: londonData.districtHistory.map(d => d.greenwich),
                             borderColor: '#38b2ac',
                             tension: 0.3
@@ -1778,6 +1754,382 @@
                 }
             });
             
+            
+            // 37 个目标邮编街区单价趋势图（只显示邮编编码）
+            new Chart(document.getElementById('priceTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03'],
+                    datasets: [
+                {
+                    label: 'W1J,W1K,W1S',
+                    data: [14.0, 13.9, 13.9, 13.8, 13.7, 13.7, 13.6, 13.5, 13.4, 13.4, 13.3, 13.2, 13.2, 13.1, 13.0],
+                    borderColor: '#c53030',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W1H,W1U,W1W',
+                    data: [11.5, 11.4, 11.4, 11.3, 11.3, 11.2, 11.2, 11.1, 11.0, 11.0, 10.9, 10.9, 10.8, 10.8, 10.7],
+                    borderColor: '#2c5282',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W1T,W1W,W1D',
+                    data: [10.5, 10.4, 10.4, 10.3, 10.3, 10.2, 10.2, 10.1, 10.1, 10.0, 10.0, 9.9, 9.9, 9.8, 9.8],
+                    borderColor: '#38a169',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W1D,W1F',
+                    data: [11.0, 10.9, 10.9, 10.8, 10.8, 10.7, 10.7, 10.6, 10.6, 10.5, 10.4, 10.4, 10.3, 10.3, 10.2],
+                    borderColor: '#d69e2e',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W8',
+                    data: [14.5, 14.4, 14.4, 14.3, 14.2, 14.1, 14.1, 14.0, 13.9, 13.8, 13.8, 13.7, 13.6, 13.6, 13.5],
+                    borderColor: '#9f7aea',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW7,SW5',
+                    data: [15.0, 14.9, 14.8, 14.8, 14.7, 14.6, 14.5, 14.5, 14.4, 14.3, 14.2, 14.2, 14.1, 14.0, 13.9],
+                    borderColor: '#ed8936',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW3,SW10',
+                    data: [13.5, 13.4, 13.4, 13.3, 13.2, 13.2, 13.1, 13.0, 13.0, 12.9, 12.8, 12.8, 12.7, 12.6, 12.6],
+                    borderColor: '#38b2ac',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW1X,SW7',
+                    data: [16.0, 15.9, 15.8, 15.8, 15.7, 15.6, 15.5, 15.4, 15.4, 15.3, 15.2, 15.1, 15.0, 15.0, 14.9],
+                    borderColor: '#e53e3e',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW1W,SW1X',
+                    data: [15.5, 15.4, 15.3, 15.3, 15.2, 15.1, 15.0, 15.0, 14.9, 14.8, 14.7, 14.6, 14.6, 14.5, 14.4],
+                    borderColor: '#3182ce',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW1E,SW1V',
+                    data: [9.0, 9.0, 8.9, 8.9, 8.8, 8.8, 8.7, 8.7, 8.6, 8.6, 8.5, 8.5, 8.5, 8.4, 8.4],
+                    borderColor: '#38a169',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W11',
+                    data: [13.0, 12.9, 12.9, 12.8, 12.7, 12.7, 12.6, 12.5, 12.5, 12.4, 12.3, 12.3, 12.2, 12.2, 12.1],
+                    borderColor: '#d69e2e',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W2',
+                    data: [9.5, 9.5, 9.4, 9.4, 9.3, 9.3, 9.2, 9.2, 9.1, 9.1, 9.0, 9.0, 8.9, 8.9, 8.8],
+                    borderColor: '#805ad5',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'NW8',
+                    data: [11.5, 11.4, 11.4, 11.3, 11.3, 11.2, 11.2, 11.1, 11.0, 11.0, 10.9, 10.9, 10.8, 10.8, 10.7],
+                    borderColor: '#dd6b20',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W8,W14',
+                    data: [12.5, 12.4, 12.4, 12.3, 12.2, 12.2, 12.1, 12.1, 12.0, 11.9, 11.9, 11.8, 11.8, 11.7, 11.6],
+                    borderColor: '#319795',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W12',
+                    data: [8.0, 8.0, 7.9, 7.9, 7.8, 7.8, 7.8, 7.7, 7.7, 7.6, 7.6, 7.6, 7.5, 7.5, 7.4],
+                    borderColor: '#d53f8c',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W3',
+                    data: [6.5, 6.5, 6.4, 6.4, 6.4, 6.3, 6.3, 6.3, 6.2, 6.2, 6.2, 6.1, 6.1, 6.1, 6.0],
+                    borderColor: '#2b6cb0',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W6',
+                    data: [8.5, 8.5, 8.4, 8.4, 8.3, 8.3, 8.2, 8.2, 8.2, 8.1, 8.1, 8.0, 8.0, 7.9, 7.9],
+                    borderColor: '#2f855a',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'W14,SW5',
+                    data: [8.3, 8.3, 8.2, 8.2, 8.1, 8.1, 8.1, 8.0, 8.0, 7.9, 7.9, 7.8, 7.8, 7.8, 7.7],
+                    borderColor: '#b7791f',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW11',
+                    data: [8.7, 8.7, 8.6, 8.6, 8.5, 8.5, 8.4, 8.4, 8.4, 8.3, 8.3, 8.2, 8.2, 8.1, 8.1],
+                    borderColor: '#702459',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW8,SW11',
+                    data: [9.3, 9.3, 9.2, 9.2, 9.1, 9.1, 9.0, 9.0, 8.9, 8.9, 8.8, 8.8, 8.7, 8.7, 8.6],
+                    borderColor: '#c05621',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SW6',
+                    data: [9.0, 9.0, 8.9, 8.9, 8.8, 8.8, 8.7, 8.7, 8.6, 8.6, 8.5, 8.5, 8.5, 8.4, 8.4],
+                    borderColor: '#2c7a7b',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'N1C,WC1',
+                    data: [10.5, 10.4, 10.4, 10.3, 10.3, 10.2, 10.2, 10.1, 10.1, 10.0, 10.0, 9.9, 9.9, 9.8, 9.8],
+                    borderColor: '#805ad5',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'N1',
+                    data: [10.0, 9.9, 9.9, 9.8, 9.8, 9.8, 9.7, 9.7, 9.6, 9.5, 9.5, 9.4, 9.4, 9.4, 9.3],
+                    borderColor: '#dd6b20',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'N16,E8',
+                    data: [7.0, 7.0, 6.9, 6.9, 6.9, 6.8, 6.8, 6.8, 6.7, 6.7, 6.6, 6.6, 6.6, 6.5, 6.5],
+                    borderColor: '#e53e3e',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E14',
+                    data: [9.5, 9.5, 9.4, 9.4, 9.3, 9.3, 9.2, 9.2, 9.1, 9.1, 9.0, 9.0, 8.9, 8.9, 8.8],
+                    borderColor: '#3182ce',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E1W',
+                    data: [8.3, 8.3, 8.2, 8.2, 8.1, 8.1, 8.1, 8.0, 8.0, 7.9, 7.9, 7.8, 7.8, 7.8, 7.7],
+                    borderColor: '#38a169',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E1',
+                    data: [6.2, 6.2, 6.1, 6.1, 6.1, 6.0, 6.0, 6.0, 6.0, 5.9, 5.9, 5.9, 5.8, 5.8, 5.8],
+                    borderColor: '#d69e2e',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E2',
+                    data: [8.0, 8.0, 7.9, 7.9, 7.8, 7.8, 7.8, 7.7, 7.7, 7.6, 7.6, 7.6, 7.5, 7.5, 7.4],
+                    borderColor: '#805ad5',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E15,E20',
+                    data: [5.8, 5.8, 5.7, 5.7, 5.7, 5.7, 5.6, 5.6, 5.6, 5.5, 5.5, 5.5, 5.5, 5.4, 5.4],
+                    borderColor: '#dd6b20',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'E16',
+                    data: [5.5, 5.5, 5.4, 5.4, 5.4, 5.4, 5.3, 5.3, 5.3, 5.3, 5.2, 5.2, 5.2, 5.1, 5.1],
+                    borderColor: '#319795',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SE10',
+                    data: [6.0, 6.0, 5.9, 5.9, 5.9, 5.8, 5.8, 5.8, 5.8, 5.7, 5.7, 5.7, 5.6, 5.6, 5.6],
+                    borderColor: '#d53f8c',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SE16',
+                    data: [7.0, 7.0, 6.9, 6.9, 6.9, 6.8, 6.8, 6.8, 6.7, 6.7, 6.6, 6.6, 6.6, 6.5, 6.5],
+                    borderColor: '#2b6cb0',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SE1',
+                    data: [11.0, 10.9, 10.9, 10.8, 10.8, 10.7, 10.7, 10.6, 10.6, 10.5, 10.4, 10.4, 10.3, 10.3, 10.2],
+                    borderColor: '#2f855a',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SE11',
+                    data: [8.5, 8.5, 8.4, 8.4, 8.3, 8.3, 8.2, 8.2, 8.2, 8.1, 8.1, 8.0, 8.0, 7.9, 7.9],
+                    borderColor: '#b7791f',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'SE17',
+                    data: [7.2, 7.2, 7.1, 7.1, 7.1, 7.0, 7.0, 6.9, 6.9, 6.9, 6.8, 6.8, 6.8, 6.7, 6.7],
+                    borderColor: '#702459',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'EC1,EC2,EC3,EC4',
+                    data: [12.0, 11.9, 11.9, 11.8, 11.8, 11.7, 11.6, 11.6, 11.5, 11.5, 11.4, 11.3, 11.3, 11.2, 11.2],
+                    borderColor: '#c05621',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                {
+                    label: 'WC1,WC2',
+                    data: [12.5, 12.4, 12.4, 12.3, 12.2, 12.2, 12.1, 12.1, 12.0, 11.9, 11.9, 11.8, 11.8, 11.7, 11.6],
+                    borderColor: '#2c7a7b',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.3,
+                    fill: false
+                }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {display: true, text: '单价 (万元人民币/㎡)'}
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ¥' + context.parsed.y + '万/㎡';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12,
+                                font: {size: 10},
+                                padding: 8
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                }
+            });
+
             // 区域历史成交量趋势（7 个区域）
             new Chart(document.getElementById('districtVolumeChart'), {
                 type: 'line',
@@ -1785,43 +2137,43 @@
                     labels: londonData.districtVolume.map(d => d.month),
                     datasets: [
                         {
-                            label: 'Kensington W8',
+                            label: 'W8',
                             data: londonData.districtVolume.map(d => d.kensington),
                             borderColor: '#c53030',
                             fill: false
                         },
                         {
-                            label: 'Mayfair W1J',
+                            label: 'W1J',
                             data: londonData.districtVolume.map(d => d.westminster),
                             borderColor: '#2c5282',
                             fill: false
                         },
                         {
-                            label: 'Belgravia SW1W',
+                            label: 'SW1W',
                             data: londonData.districtVolume.map(d => d.camden),
                             borderColor: '#38a169',
                             fill: false
                         },
                         {
-                            label: 'Chelsea SW3',
+                            label: 'SW3',
                             data: londonData.districtVolume.map(d => d.fulham),
                             borderColor: '#d69e2e',
                             fill: false
                         },
                         {
-                            label: 'City EC1-4',
+                            label: 'EC1-4',
                             data: londonData.districtVolume.map(d => d.city),
                             borderColor: '#9f7aea',
                             fill: false
                         },
                         {
-                            label: 'Canary Wharf E14',
+                            label: 'E14',
                             data: londonData.districtVolume.map(d => d.tower),
                             borderColor: '#ed8936',
                             fill: false
                         },
                         {
-                            label: 'Greenwich SE10',
+                            label: 'SE10',
                             data: londonData.districtVolume.map(d => d.greenwich),
                             borderColor: '#38b2ac',
                             fill: false
