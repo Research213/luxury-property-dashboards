@@ -246,14 +246,14 @@
     </div>
     
     <div class="nav-tabs">
-        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
-        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
-        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
-        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
-        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
-        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
-        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
-        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
+        <button class="nav-tab active" onclick="showSection('market', event)">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district', event)">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type', event)">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('china', event)">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('agency', event)">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('cost', event)">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global', event)">🌍 全球对比</button>
     </div>
     
     <!-- 全市场概览 -->
@@ -2050,11 +2050,14 @@
             covEl.style.color = coverage > 70 ? 'var(--success)' : coverage > 50 ? 'var(--warning)' : 'var(--accent)';
         }
         
-        function showSection(id) {
+        function showSection(id, evt) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            if (evt && evt.target) {
+                evt.target.classList.add('active');
+            }
         }
         
         function showSubTab(id, btn) {
