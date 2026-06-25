@@ -365,7 +365,7 @@
     <div id="district" class="section">
         <h2 class="section-title">🗺️ 核心区域量价走势</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>覆盖伦敦 37 个目标邮编街区。<strong>价格维度：</strong>Knightsbridge£1400 万领跑，Mayfair£1200 万、Belgravia£1350 万紧随其后。<strong>数据来源：</strong>ONS（A 级）。，威斯敏斯特£92.4 万（-9.98%）、卡姆登£79.4 万（-10.1%）紧随其后。<strong>成交量维度：</strong>格林尼治 525 套/月最活跃，塔村 455 套、威斯敏斯特 425 套。<strong>抗跌性：</strong>格林尼治（-0.3%）、富勒姆（-0.9%）跌幅最小，显示新兴区域韧性。<strong>单价密度：</strong>肯辛顿 - 切尔西£13,900/㎡最高，格林尼治£5,800/㎡最具性价比。数据来源：ONS（A 级）。
+            <strong>小结论：</strong>伦敦核心区房价分化明显。<strong>价格维度：</strong>肯辛顿 - 切尔西£119.8 万（-10.8%）领跑，威斯敏斯特£92.4 万（-9.98%）、卡姆登£79.4 万（-10.1%）紧随其后。<strong>成交量维度：</strong>格林尼治 525 套/月最活跃，塔村 455 套、威斯敏斯特 425 套。<strong>抗跌性：</strong>格林尼治（-0.3%）、富勒姆（-0.9%）跌幅最小，显示新兴区域韧性。<strong>单价密度：</strong>肯辛顿 - 切尔西£13,900/㎡最高，格林尼治£5,800/㎡最具性价比。数据来源：ONS（A 级）。
         </div>
         
         <div class="sub-tabs">
@@ -1281,6 +1281,16 @@
                 {name: 'Bloomsbury / Holborn / Covent Garden', postcode: 'WC1,WC2', avgPrice: 1000, change: '-10.8%', pricePerSqm: 125000, rent: 3600, yield: 4.3, lat: 51.5180, lng: -0.1200}
             ],
 
+            // 7 个区域月度历史数据（2025.01-2026.03，15 个月）
+            districtHistory: [
+                {month: '2025-01', kensington: 1230, westminster: 950, camden: 810, fulham: 720, city: 730, tower: 478, greenwich: 420},
+                {month: '2025-02', kensington: 1220, westminster: 945, camden: 805, fulham: 718, city: 728, tower: 476, greenwich: 419},
+                {month: '2025-03', kensington: 1215, westminster: 940, camden: 800, fulham: 715, city: 725, tower: 475, greenwich: 418},
+                {month: '2025-04', kensington: 1205, westminster: 935, camden: 795, fulham: 710, city: 720, tower: 472, greenwich: 416},
+                {month: '2025-05', kensington: 1198, westminster: 930, camden: 790, fulham: 708, city: 718, tower: 470, greenwich: 415},
+                {month: '2025-06', kensington: 1190, westminster: 925, camden: 785, fulham: 705, city: 715, tower: 468, greenwich: 413},
+                {month: '2025-07', kensington: 1185, westminster: 920, camden: 782, fulham: 702, city: 712, tower: 466, greenwich: 412},
+                {month: '2025-08', kensington: 1178, westminster: 915, camden: 778, fulham: 698, city: 708, tower: 464, greenwich: 410},
                 {month: '2025-09', kensington: 1170, westminster: 910, camden: 775, fulham: 695, city: 705, tower: 462, greenwich: 408},
                 {month: '2025-10', kensington: 1162, westminster: 905, camden: 770, fulham: 692, city: 702, tower: 460, greenwich: 406},
                 {month: '2025-11', kensington: 1155, westminster: 900, camden: 768, fulham: 690, city: 700, tower: 458, greenwich: 405},
@@ -1912,12 +1922,6 @@
             `).join('');
             
             document.querySelector('#districtTable').innerHTML = londonData.districts.map(d => `
-                        <tr>
-                            <td><strong>${d.name}</strong><br><small style="color:#718096">${d.postcode || 'N/A'}</small></td>
-                            <td>£${d.avgPrice}万</td>
-                            <td style="color:${d.change.includes('-') ? '#c53030' : '#38a169'}">${d.change}</td>
-                            <td>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡</td>
-                        </tr>`).join('');
                 <tr>
                     <td>${d.name}</td>
                     <td>¥${d.avgPrice}万</td>
@@ -1986,28 +1990,16 @@
                 // 添加区域标记点
                 londonData.districts.forEach(d => {
                     const color = d.avgPrice > 900 ? '#c53030' : d.avgPrice > 650 ? '#d69e2e' : '#38a169';
-                    const postcodeDisplay = (d.postcode || '').split(',')[0].trim();
-                    
-                    // 添加带邮编标签的标记
-                    L.circleMarker([d.lat, d.lng], { 
-                        radius: 14, 
+                    const marker = L.circleMarker([d.lat, d.lng], { 
+                        radius: 16, 
                         fillColor: color, 
                         color: '#fff', 
                         weight: 2, 
-                        fillOpacity: 0.85 
+                        fillOpacity: 0.8 
                     })
-                    .bindPopup(`<div style="text-align:left;font-size:13px"><b>${d.name}</b><br><span style="color:#718096;font-size:11px">${d.postcode || 'N/A'}</span><hr style="margin:8px 0;border:0;border-top:1px solid #e2e8f0"><b>房价：</b><span style="color:#c53030;font-weight:bold">£${d.avgPrice}万</span><br><b>同比：</b>${d.change}<br><b>单价：</b>¥${(d.pricePerSqm/10000).toFixed(1)}万/㎡<br><b>租金：</b>£${d.rent.toLocaleString()}/月<br><b>收益率：</b>${d.yield}%</div>`)
-                    .addTo(map);
+                    .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#c53030;font-weight:bold">¥${d.avgPrice}万</span><br>同比${d.change}</div>`);
                     
-                    // 添加邮编标签
-                    L.marker([d.lat, d.lng], {
-                        icon: L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="background:${color};color:white;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.3);text-align:center;border:2px solid white">${postcodeDisplay}</div>`,
-                            iconSize: [70, 24],
-                            iconAnchor: [35, 12]
-                        })
-                    }).addTo(map);
+                    marker.addTo(map);
                 });
                 
                 // 延迟刷新地图尺寸
@@ -2055,9 +2047,7 @@
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             const target = document.getElementById(id);
             if (target) target.classList.add('active');
-            if (evt && evt.target) {
-                evt.target.classList.add('active');
-            }
+            if (evt && evt.target) evt.target.classList.add('active');
         }
         
         function showSubTab(id, btn) {
