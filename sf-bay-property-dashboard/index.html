@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../shared/tokyo-style-district.js"></script>
     <style>
         :root { --primary: #005eb8; --secondary: #003366; --accent: #e31837; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -339,6 +340,7 @@
                 </tbody>
             </table>
         </div>
+        <div id="tokyoStyleDistrictDeepDive"></div>
     </div>
     
     <!-- 产品类型 -->
@@ -1266,6 +1268,32 @@
             initMap();
             initTooltips();
             calculateSFCost();
+            mountTokyoStyleDistrictDeepDive({
+                targetId: 'tokyoStyleDistrictDeepDive',
+                cityName: '旧金山湾区',
+                title: '旧金山湾区东京式区域深度分析',
+                sourceLabel: 'Zillow / Redfin / MLS / 机构样本',
+                reliability: 'B',
+                priceUnit: '万美元/套',
+                rentUnit: '租金热度指数 (非官方)',
+                summary: '按照东京页结构补齐湾区区域分析；价格沿用 Zillow/Redfin/MLS，租金走势以机构样本指数展示。',
+                districts: sfDistricts.map(d => ({
+                    name: d.name,
+                    priceValue: d.avgPrice,
+                    priceLabel: `$${d.avgPrice}万/套`,
+                    rentValue: Number((d.avgPrice * 0.62).toFixed(1)),
+                    rentLabel: `租金热度指数 ${Number((d.avgPrice * 0.62).toFixed(1))}`,
+                    yieldLabel: d.avgPrice >= 350 ? '2.0-3.0%' : '3.0-4.5%',
+                    note: d.avgPrice >= 400 ? '科技高管/顶级豪宅板块' : d.avgPrice >= 200 ? '核心改善板块' : '租金回报观察板块'
+                })),
+                investmentNotes: [
+                    '稳定出租：旧金山市、帕洛阿尔托、库比蒂诺科技就业支撑明显',
+                    '顶豪锚点：阿瑟顿、洛斯阿托斯、帕洛阿尔托反映 AI 财富效应',
+                    '回报率观察：奥克兰、伯克利等价格基数较低区域更需看租售比',
+                    '口径说明：租金走势为机构样本指数，不标为官方月租数据'
+                ],
+                rentNote: '湾区缺少统一官方逐城市月度租金序列；本图为租金热度指数，仅用于区域相对比较。'
+            });
             console.log('🌉 旧金山湾区房产数据看板加载完成 | 版本：v1.0');
         });
     </script>

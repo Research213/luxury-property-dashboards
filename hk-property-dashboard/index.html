@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../shared/tokyo-style-district.js"></script>
     <style>
         :root { --primary: #8b0000; --secondary: #c41e3a; --accent: #d4af37; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -375,6 +376,7 @@
                 📌 数据来源：美联物业 143 屋苑指数 | 单位：万元人民币/㎡
             </div>
         </div>
+        <div id="tokyoStyleDistrictDeepDive"></div>
     </div>
     
     <!-- 产品类型 -->
@@ -1007,6 +1009,32 @@
             initCharts();
             initMap();
             initTooltips();
+            mountTokyoStyleDistrictDeepDive({
+                targetId: 'tokyoStyleDistrictDeepDive',
+                cityName: '香港',
+                title: '香港东京式区域深度分析',
+                sourceLabel: '美联物业 / 中原地产',
+                reliability: 'A',
+                priceUnit: '万/㎡',
+                rentUnit: '平均月租 (HK$/月)',
+                summary: '按照东京页的四段结构补齐香港区域分析：核心区域、价位段、商圈详情、租金走势与回报率。',
+                districts: hkDistricts.map(d => ({
+                    name: d.name,
+                    priceValue: d.avgPrice,
+                    priceLabel: `¥${d.avgPrice}万/㎡`,
+                    rentValue: d.rent,
+                    rentLabel: `HK$${d.rent.toLocaleString()}/月`,
+                    yieldLabel: `${d.yield}%`,
+                    note: d.avgPrice >= 35 ? '顶级豪宅/金融核心' : d.avgPrice >= 24 ? '核心改善板块' : '租金回报观察板块'
+                })),
+                investmentNotes: [
+                    '稳定出租：中环、半山、九龙站租赁承接力较强',
+                    '高回报率：观塘、深水埗等旧改区回报率相对更高',
+                    '升值潜力：启德、黄竹坑等新增供应和基建驱动区域',
+                    '口径说明：租金和回报率沿用页面已有机构样本口径'
+                ],
+                rentNote: '香港租金走势使用页面已有区域月租样本生成相对趋势，数据来源标注为中原地产/机构样本口径。'
+            });
             console.log('🇭🇰 香港房产数据看板加载完成 | 版本：v1.0');
         });
     </script>

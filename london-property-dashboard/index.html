@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../shared/tokyo-style-district.js"></script>
     <style>
         :root { --primary: #1a365d; --secondary: #2c5282; --accent: #c53030; --success: #38a169; --warning: #d69e2e; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -541,6 +542,7 @@
                 </table>
             </div>
         </div>
+        <div id="tokyoStyleDistrictDeepDive"></div>
     </div>
     
     <!-- 产品类型 -->
@@ -2391,6 +2393,38 @@
             setTimeout(() => { initMap(); initRentMap(); }, 100);
             initTooltips(); 
             calculateCost(); 
+            mountTokyoStyleDistrictDeepDive({
+                targetId: 'tokyoStyleDistrictDeepDive',
+                cityName: '伦敦',
+                title: '伦敦东京式区域深度分析',
+                sourceLabel: 'HM Land Registry / ONS / Savills',
+                reliability: 'B',
+                priceUnit: '万元/套',
+                rentUnit: '平均月租 (£/月)',
+                summary: '按照东京页结构补齐伦敦区域分析；成交价量使用 HMLR，平均月租和单价为机构样本/估算口径。',
+                districts: londonData.districts.map(d => ({
+                    name: d.name,
+                    priceValue: d.avgPrice,
+                    priceLabel: `¥${d.avgPrice}万/套`,
+                    rentValue: d.rent,
+                    rentLabel: `£${d.rent.toLocaleString()}/月`,
+                    yieldLabel: `${calculateRentalYield(d)}%`,
+                    note: `${d.postcode} · ${d.change}`
+                })),
+                priceRanges: londonData.priceSegments.map(d => ({
+                    range: d.range,
+                    share: d.pct,
+                    areas: d.areas,
+                    profile: d.vol >= 10000 ? '主流成交' : d.vol >= 3000 ? '改善/高净值' : '顶豪配置'
+                })),
+                investmentNotes: [
+                    '稳定出租：South Kensington、Canary Wharf、Marylebone 租赁承接力较强',
+                    '顶豪锚点：Mayfair、Knightsbridge、Belgravia 观察高端价格修复',
+                    '高回报观察：东伦敦与河岸区域更适合租售比比较',
+                    '口径说明：HMLR 不含租金和面积字段，租金/单价继续标为机构样本或估算'
+                ],
+                rentNote: '伦敦成交价量为 HMLR A 级；租金走势图沿用平均月租样本口径，不等同官方邮编级月度租金。'
+            });
             
             console.log('📊 看板加载完成 | 版本：v4.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
         });

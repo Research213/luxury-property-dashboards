@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../shared/tokyo-style-district.js"></script>
     <style>
         :root { --primary: #005eb8; --secondary: #003366; --accent: #e31837; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -311,6 +312,7 @@
                 </tbody>
             </table>
         </div>
+        <div id="tokyoStyleDistrictDeepDive"></div>
     </div>
     
     <!-- 产品类型 -->
@@ -734,13 +736,6 @@
             {month: '2026-05', usdCny: 7.25}
         ];
         
-        const laData = {
-            years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
-            volume: [5.2, 5.4, 4.8, 6.5, 6.2, 5.8, 6.2, 6.85],
-            medianPrice: [62, 65, 68, 78, 85, 88, 92, 96],
-            pricePerSqm: [5.8, 6.0, 6.2, 7.0, 7.5, 7.8, 8.2, 8.5]
-        };
-        
         let tooltipEl = null;
         function showTooltip(e, title, content, source) {
             if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
@@ -1011,6 +1006,32 @@
             initMap();
             initTooltips();
             calculateLACost();
+            mountTokyoStyleDistrictDeepDive({
+                targetId: 'tokyoStyleDistrictDeepDive',
+                cityName: '洛杉矶',
+                title: '洛杉矶东京式区域深度分析',
+                sourceLabel: 'Zillow / Redfin / 机构样本',
+                reliability: 'B',
+                priceUnit: '万美元/套',
+                rentUnit: '租金热度指数 (非官方)',
+                summary: '按照东京页结构补齐洛杉矶区域分析；价格沿用 Zillow/Redfin，租金走势以机构样本指数展示。',
+                districts: laDistricts.map(d => ({
+                    name: d.name,
+                    priceValue: d.avgPrice,
+                    priceLabel: `$${d.avgPrice}万/套`,
+                    rentValue: Number((d.avgPrice * 0.85).toFixed(1)),
+                    rentLabel: `租金热度指数 ${Number((d.avgPrice * 0.85).toFixed(1))}`,
+                    yieldLabel: d.avgPrice >= 220 ? '3.0-4.0%' : '4.0-5.4%',
+                    note: d.avgPrice >= 250 ? '顶级豪宅/海景板块' : d.avgPrice >= 150 ? '学区与改善板块' : '性价比板块'
+                })),
+                investmentNotes: [
+                    '稳定出租：西洛杉矶、圣莫尼卡、尔湾租赁需求更稳',
+                    '学区驱动：尔湾、圣马力诺、亚凯迪亚更适合家庭型买家',
+                    '性价比观察：核桃市、钻石吧、托伦斯看租金回报和流动性',
+                    '口径说明：租金走势为机构样本指数，不标为官方月租数据'
+                ],
+                rentNote: '洛杉矶缺少统一官方逐区域月度租金序列；本图为租金热度指数，仅用于区域相对比较。'
+            });
             console.log('🌴 洛杉矶房产数据看板加载完成 | 版本：v1.0');
         });
     </script>

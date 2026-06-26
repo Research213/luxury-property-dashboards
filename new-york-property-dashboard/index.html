@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../shared/tokyo-style-district.js"></script>
     <style>
         :root { --primary: #002868; --secondary: #0047AB; --accent: #BF0A30; --success: #228b22; --warning: #ff8c00; --bg: #f7fafc; --card-bg: #ffffff; --text: #2d3748; --text-light: #718096; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -338,6 +339,7 @@
                 </table>
             </div>
         </div>
+        <div id="tokyoStyleDistrictDeepDive"></div>
     </div>
     
     <!-- 产品类型 -->
@@ -1170,6 +1172,32 @@
             initMap();
             initTooltips();
             calculateNYCost();
+            mountTokyoStyleDistrictDeepDive({
+                targetId: 'tokyoStyleDistrictDeepDive',
+                cityName: '纽约',
+                title: '纽约东京式区域深度分析',
+                sourceLabel: 'StreetEasy / REBNY / 机构样本',
+                reliability: 'B',
+                priceUnit: '万/㎡',
+                rentUnit: '租金热度指数 (非官方)',
+                summary: '按照东京页结构补齐纽约区域分析；成交和价格沿用 StreetEasy/REBNY，租金走势以机构样本指数展示，不作为官方月租序列。',
+                districts: nyDistricts.map(d => ({
+                    name: d.name,
+                    priceValue: d.avgPrice,
+                    priceLabel: `¥${d.avgPrice}万/㎡`,
+                    rentValue: Number((d.avgPrice * 3.2).toFixed(1)),
+                    rentLabel: `租金热度指数 ${Number((d.avgPrice * 3.2).toFixed(1))}`,
+                    yieldLabel: d.avgPrice >= 20 ? '3.0-3.8%' : '3.8-4.8%',
+                    note: d.avgPrice >= 24 ? '顶级豪宅区' : d.avgPrice >= 16 ? '成熟核心区' : '性价比/新兴区'
+                })),
+                investmentNotes: [
+                    '稳定出租：上东区、上西区、Chelsea、FiDi 租赁需求稳定',
+                    '高端锚点：Tribeca、SoHo、Greenwich Village 支撑顶豪价格',
+                    '流动性观察：Condo 与 Co-op 价格和成交速度需分开看',
+                    '口径说明：租金走势为机构样本指数，等待官方/平台租赁样本接入'
+                ],
+                rentNote: '纽约缺少可直接嵌入的官方逐区域月度租金序列；本图为租金热度指数，仅用于相对方向观察。'
+            });
             console.log('🗽 纽约房产数据看板加载完成 | 版本：v1.0');
         });
     </script>
