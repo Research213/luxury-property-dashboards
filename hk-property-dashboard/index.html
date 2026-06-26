@@ -132,9 +132,13 @@
         <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
+        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
+        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
-        <button class="nav-tab" onclick="showSection('mainland')">🇨🇳 内地买家</button>
         <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
         <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
     </div>
     
@@ -474,7 +478,7 @@
     </div>
     
     <!-- 内地买家 -->
-    <div id="mainland" class="section">
+    <div id="china" class="section">
         <h2 class="section-title">🇨🇳 内地买家分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>2025 年内地买家超 13,500 宗（连续 2 年破万），2026 年 2 月单月 1,365 宗（金额 155.8 亿港元）。5,000 万以上豪宅内地买家占比 69.7%，600 万以下刚需占比 56.6%。大手客 265 宗创 2008 年以来新高。
@@ -537,6 +541,74 @@
             </div>
         </div>
     </div>
+
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>香港收益测算核心看租金回报率、印花税、管理费、差饷与港币汇率。撤辣后交易税费明显下降，但高总价豪宅仍以资产配置和流动性为主，租金回报通常低于中小户型。
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <h4>不同持有期收益情景 <span class="data-source-tag">测算</span><span class="data-reliability B">B 级</span></h4>
+                <table class="data-table">
+                    <thead><tr><th>情景</th><th>买入价</th><th>年租金回报</th><th>年升值假设</th><th>5 年总回报</th></tr></thead>
+                    <tbody>
+                        <tr><td>保守</td><td>HK$1,000 万</td><td>2.8%</td><td>0%</td><td>约 8-10%</td></tr>
+                        <tr><td>基准</td><td>HK$1,000 万</td><td>3.3%</td><td>2%</td><td>约 20-24%</td></tr>
+                        <tr><td>复苏</td><td>HK$1,000 万</td><td>3.5%</td><td>4%</td><td>约 35-40%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h4>测算口径</h4>
+                <div class="data-legend">
+                    <div class="data-legend-item">租金回报 = 年租金 ÷ 买入价。</div>
+                    <div class="data-legend-item">买入税费按撤辣后从价印花税口径估算，不含按揭利息。</div>
+                    <div class="data-legend-item">港币兑人民币按页面当前汇率口径换算。</div>
+                    <div class="data-legend-item">该模块用于情景比较，不构成投资建议。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 政策追踪 -->
+    <div id="policy" class="section">
+        <h2 class="section-title">📜 政策追踪</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>香港住宅政策的核心变化是 2024 年全面撤辣，外来买家税负显著下降；后续重点观察按揭成数、人才/资本流入政策、住宅供应和利率路径。
+        </div>
+        <div class="card">
+            <h4>关键政策时间线 <span class="data-source-tag">香港政府</span><span class="data-reliability A">A 级</span></h4>
+            <table class="data-table">
+                <thead><tr><th>时间</th><th>政策</th><th>影响</th></tr></thead>
+                <tbody>
+                    <tr><td>2024-02</td><td>全面撤辣</td><td>取消额外印花税、买家印花税和新住宅印花税，降低非本地买家进入门槛。</td></tr>
+                    <tr><td>2024-2026</td><td>高才通/资本流入</td><td>增强中高端租赁与购房需求。</td></tr>
+                    <tr><td>持续观察</td><td>按揭与利率</td><td>影响换楼链、成交量和投资回报。</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 机构观点 -->
+    <div id="agency" class="section">
+        <h2 class="section-title">📑 机构观点</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>机构普遍认为撤辣与利率下行改善成交，但豪宅复苏节奏仍取决于内地资金、租金承接和库存去化。
+        </div>
+        <div class="card">
+            <h4>主要机构观点摘要</h4>
+            <table class="data-table">
+                <thead><tr><th>机构</th><th>判断</th><th>关注指标</th></tr></thead>
+                <tbody>
+                    <tr><td>中原地产</td><td>成交量回暖，租赁需求稳定。</td><td>CCL、成交宗数、租金指数</td></tr>
+                    <tr><td>美联物业</td><td>核心屋苑指数企稳，撤辣后买家回流。</td><td>屋苑指数、内地买家占比</td></tr>
+                    <tr><td>CBRE</td><td>高端住宅仍看资金流与利率。</td><td>豪宅成交、资本流入</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     
     <!-- 持有成本 -->
     <div id="cost" class="section">
@@ -588,6 +660,26 @@
                     <tr><td>800-1,500</td><td>28,000-45,000</td><td>3.2-3.5%</td><td>✅ 是 (66.4%)</td></tr>
                     <tr><td>1,500-3,000</td><td>45,000-80,000</td><td>3.0-3.3%</td><td>⚠️ 部分</td></tr>
                     <tr><td>3,000 以上</td><td>80,000+</td><td>2.5-3.0%</td><td>❌ 否</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 全球对比 -->
+    <div id="global" class="section">
+        <h2 class="section-title">🌍 全球对比</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>香港相对东京、伦敦和纽约，总价门槛仍高，但税费政策更友好、流动性强；租金回报率处于中位，适合作为亚洲核心资产配置比较项。
+        </div>
+        <div class="card">
+            <h4>全球核心城市配置对比</h4>
+            <table class="data-table">
+                <thead><tr><th>城市</th><th>价格门槛</th><th>租金回报</th><th>政策友好度</th><th>主要优势</th></tr></thead>
+                <tbody>
+                    <tr><td>香港</td><td>高</td><td>约 3.0-3.5%</td><td>高</td><td>撤辣、流动性、人民币资金便利</td></tr>
+                    <tr><td>东京</td><td>中</td><td>约 2.5-4.0%</td><td>高</td><td>日元窗口、政策开放</td></tr>
+                    <tr><td>伦敦</td><td>中高</td><td>约 3.5-4.5%</td><td>中</td><td>教育与全球资产属性</td></tr>
+                    <tr><td>纽约</td><td>高</td><td>约 3.0-4.5%</td><td>中</td><td>美元资产、流动性</td></tr>
                 </tbody>
             </table>
         </div>

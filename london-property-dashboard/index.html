@@ -272,11 +272,14 @@
         <button class="nav-tab active" onclick="showSection('market', event)">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district', event)">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type', event)">🏠 产品类型</button>
-        <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('roi', event)">📈 收益计算器</button>
         <button class="nav-tab" onclick="showSection('china', event)">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy', event)">📜 政策追踪</button>
         <button class="nav-tab" onclick="showSection('agency', event)">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('cost', event)">💰 持有成本</button>
         <button class="nav-tab" onclick="showSection('global', event)">🌍 全球对比</button>
+        <button class="nav-tab" onclick="showSection('hot', event)">🔥 热销推荐</button>
     </div>
     
     <!-- 全市场概览 -->
@@ -862,6 +865,55 @@
             
         </div>
     </div>
+
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>伦敦收益测算应分开看 HMLR 真实成交总价、机构样本租金、SDLT 税费和英镑汇率。当前核心区租金回报率约 3.5-5.0%，东伦敦/河岸区域通常高于传统顶豪区。
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <h4>5 年持有收益情景 <span class="data-source-tag">HMLR / 租金样本</span><span class="data-reliability B">B 级</span></h4>
+                <table class="data-table">
+                    <thead><tr><th>情景</th><th>买入价</th><th>年租金回报</th><th>年升值假设</th><th>5 年总回报</th></tr></thead>
+                    <tbody>
+                        <tr><td>保守</td><td>£100 万</td><td>3.5%</td><td>0%</td><td>约 5-8%</td></tr>
+                        <tr><td>基准</td><td>£100 万</td><td>4.2%</td><td>2%</td><td>约 18-22%</td></tr>
+                        <tr><td>复苏</td><td>£100 万</td><td>4.5%</td><td>4%</td><td>约 32-38%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h4>测算口径</h4>
+                <div class="data-legend">
+                    <div class="data-legend-item">租金回报 = 平均月租 × 12 ÷ 买入总价。</div>
+                    <div class="data-legend-item">买入总价以 HMLR/区域均价为参考，租金为机构样本口径。</div>
+                    <div class="data-legend-item">不含贷款利息、空置期和未来税制变化。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 政策追踪 -->
+    <div id="policy" class="section">
+        <h2 class="section-title">📜 政策追踪</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>伦敦政策重点是海外买家 SDLT 附加税、非居民资本利得税、遗产税规则和潜在高端住宅税制变化。政策成本会直接影响核心区高总价房源的净回报。
+        </div>
+        <div class="card">
+            <h4>英国住宅政策要点 <span class="data-source-tag">UK Gov</span><span class="data-reliability A">A 级</span></h4>
+            <table class="data-table">
+                <thead><tr><th>政策</th><th>当前口径</th><th>影响</th></tr></thead>
+                <tbody>
+                    <tr><td>海外买家 SDLT 附加税</td><td>海外买家额外 2%</td><td>抬高买入成本，影响短持回报。</td></tr>
+                    <tr><td>非居民 CGT</td><td>出售英国住宅需申报资本利得</td><td>影响退出净收益。</td></tr>
+                    <tr><td>遗产税 IHT</td><td>英国住宅资产纳入规划范围</td><td>高净值家庭需提前做持有结构规划。</td></tr>
+                    <tr><td>租赁监管</td><td>租客保护增强趋势</td><td>影响出租灵活性和管理成本。</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     
     <!-- 机构观点 -->
     <div id="agency" class="section">
@@ -1232,6 +1284,35 @@
                             • 优势：税负低，华人社会，但政治风险需考虑
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 热销推荐 -->
+    <div id="hot" class="section">
+        <h2 class="section-title">🔥 热销推荐</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>伦敦热销推荐按“顶豪核心、教育改善、租金回报、再开发潜力”四类观察，不把单个项目包装成确定收益。
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <h4>核心豪宅观察</h4>
+                <table class="data-table">
+                    <thead><tr><th>区域</th><th>适合客群</th><th>关注点</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mayfair / Knightsbridge</td><td>顶级资产配置</td><td>稀缺性、品牌公寓、长期保值。</td></tr>
+                        <tr><td>Kensington / Chelsea</td><td>教育与改善</td><td>学校、社区、二手流动性。</td></tr>
+                        <tr><td>Canary Wharf / Royal Docks</td><td>租金回报</td><td>租赁需求、空置率、交通改善。</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h4>筛选规则</h4>
+                <div class="data-legend">
+                    <div class="data-legend-item">优先看 HMLR 成交样本是否足够。</div>
+                    <div class="data-legend-item">租金回报需用平均月租和套均总价统一公式比较。</div>
+                    <div class="data-legend-item">高端新盘需单独核查服务费、地租和物业管理条款。</div>
                 </div>
             </div>
         </div>

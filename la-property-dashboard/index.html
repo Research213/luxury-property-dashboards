@@ -140,9 +140,13 @@
         <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
         <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
+        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
         <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
     </div>
     
@@ -470,6 +474,104 @@
         </div>
     </div>
     
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 洛杉矶收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>洛杉矶租金回报率约 3.5-4.8%，高现金流区域集中在 Koreatown、Downtown LA 和 Valley，保值型区域集中在 Beverly Hills、Santa Monica、Irvine。回报率按年租金收入 ÷ 房产总价估算，未扣除房产税、HOA、保险及空置成本。
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>核心区域租金回报测算 <span class="data-source-tag">Zillow/Redfin</span><span class="data-reliability B">B 级</span></h4>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>区域</th><th>典型总价</th><th>平均月租</th><th>毛回报率</th><th>投资逻辑</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Downtown LA</td><td>$75-120 万</td><td>$3,500-5,500</td><td>4.2-5.0%</td><td>公寓出租流动性高</td></tr>
+                        <tr><td>Koreatown</td><td>$60-100 万</td><td>$3,000-4,800</td><td>4.5-5.2%</td><td>租客基础深，现金流较好</td></tr>
+                        <tr><td>Santa Monica</td><td>$180-350 万</td><td>$7,000-12,000</td><td>3.5-4.2%</td><td>海滨稀缺，保值优先</td></tr>
+                        <tr><td>Irvine</td><td>$120-220 万</td><td>$5,000-8,500</td><td>3.8-4.6%</td><td>学区与华人需求支撑</td></tr>
+                        <tr><td>Beverly Hills</td><td>$350 万+</td><td>$12,000+</td><td>3.0-3.8%</td><td>豪宅资产属性更强</td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">回报率公式：平均月租 × 12 ÷ 房产总价 × 100%。此处为毛租金回报率，不含税费与空置。</div>
+            </div>
+            <div class="card">
+                <h4>投资情景对比</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>策略</th><th>目标区域</th><th>预算</th><th>预期表现</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>现金流型</td><td>Downtown / Koreatown</td><td>$60-120 万</td><td>租金回报较高，价格弹性较大</td></tr>
+                        <tr><td>教育自住型</td><td>Irvine / Arcadia / San Marino</td><td>$120-300 万</td><td>学区需求强，流动性稳定</td></tr>
+                        <tr><td>豪宅保值型</td><td>Beverly Hills / Bel Air</td><td>$350 万+</td><td>稀缺性强，交易周期更长</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 政策追踪 -->
+    <div id="policy" class="section">
+        <h2 class="section-title">📜 洛杉矶政策追踪</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>洛杉矶投资需重点关注加州 Proposition 13 房产税上限、洛杉矶市 ULA 转让税、FIRPTA 外国卖家预扣税以及出租管制。政策对豪宅交易成本和出租净收益影响显著。
+        </div>
+
+        <div class="card">
+            <h4>关键政策影响</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>政策</th><th>适用范围</th><th>主要影响</th><th>投资提示</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Proposition 13</td><td>加州</td><td>房产税评估值年涨幅通常受限</td><td>长期持有税负更可控</td></tr>
+                    <tr><td>Measure ULA</td><td>洛杉矶市</td><td>高价物业转让税显著增加</td><td>豪宅交易需预留退出成本</td></tr>
+                    <tr><td>FIRPTA</td><td>美国联邦</td><td>外国卖家出售时通常需预扣税款</td><td>退出前做税务结构规划</td></tr>
+                    <tr><td>租金管制</td><td>部分城市/物业</td><td>限制续租涨幅与驱逐条件</td><td>出租前确认物业是否受限</td></tr>
+                    <tr><td>地震/火险成本</td><td>加州</td><td>保险费用和可得性影响净收益</td><td>山火风险区需单独核保</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 机构观点 -->
+    <div id="agency" class="section">
+        <h2 class="section-title">📑 洛杉矶机构观点</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>机构观点总体偏谨慎乐观：利率下行有利成交恢复，但保险、税费和可负担性压制普通买家。西洛杉矶、尔湾和核心学区房更具抗跌性。
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>机构判断摘要</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>机构</th><th>关注点</th><th>对洛杉矶判断</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Zillow</td><td>价格与库存</td><td>库存改善，核心区价格韧性较强</td></tr>
+                        <tr><td>Redfin</td><td>成交与议价</td><td>高利率下买家更挑剔，优质房源成交快</td></tr>
+                        <tr><td>CAR</td><td>加州交易</td><td>降息预期有助于释放改善需求</td></tr>
+                        <tr><td>NAR</td><td>海外买家</td><td>加州仍是国际买家重点目的地</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h4>2026 重点观察</h4>
+                <div class="data-legend">
+                    <div class="data-legend-item"><strong>利率：</strong>贷款利率回落将优先改善中高端成交量。</div>
+                    <div class="data-legend-item"><strong>保险：</strong>山火风险区保险成本可能侵蚀净回报。</div>
+                    <div class="data-legend-item"><strong>税费：</strong>ULA 对洛杉矶市内豪宅流动性影响仍需观察。</div>
+                    <div class="data-legend-item"><strong>需求：</strong>学区、自住改善和海外资产配置支撑核心区。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 汇率分析 -->
     <div id="exchange" class="section">
         <h2 class="section-title">💷 美元汇率分析</h2>
@@ -568,6 +670,41 @@
         </div>
     </div>
     
+    <!-- 全球对比 -->
+    <div id="global" class="section">
+        <h2 class="section-title">🌍 全球热门城市对比</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>洛杉矶在全球豪宅城市中以生活方式、气候和华人社区见长，租金回报率高于香港、东京和湾区，但持有税费和保险成本也更高。
+        </div>
+
+        <div class="city-comparison">
+            <div class="city-card">
+                <div class="city-name">🇺🇸 洛杉矶</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
+            </div>
+            <div class="city-card">
+                <div class="city-name">🇬🇧 伦敦</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">5.0%</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+            <div class="city-card">
+                <div class="city-name">🇭🇰 香港</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.4%</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
+            </div>
+            <div class="city-card">
+                <div class="city-name">🇯🇵 东京</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">9.0</div></div>
+            </div>
+        </div>
+    </div>
+
     <!-- 热销推荐 -->
     <div id="hot" class="section">
         <h2 class="section-title">🔥 热销楼盘推荐</h2>

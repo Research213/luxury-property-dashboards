@@ -166,7 +166,9 @@
         <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
         <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
         <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
         <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
         <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
         <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
         <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
@@ -498,6 +500,70 @@
         </div>
     </div>
     
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 湾区收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>湾区整体租金回报率约 2.8-4.2%，南湾和半岛更偏资产保值，旧金山市和东湾部分板块现金流更好。回报率按年租金收入 ÷ 房产总价估算，未扣除房产税、HOA、保险和空置成本。
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>核心区域租金回报测算 <span class="data-source-tag">Zillow/Redfin</span><span class="data-reliability B">B 级</span></h4>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>区域</th><th>典型总价</th><th>平均月租</th><th>毛回报率</th><th>投资逻辑</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>San Francisco Condo</td><td>$90-160 万</td><td>$4,000-7,000</td><td>3.5-4.5%</td><td>城市租赁流动性强</td></tr>
+                        <tr><td>Oakland / Berkeley</td><td>$90-150 万</td><td>$4,000-6,500</td><td>3.8-4.8%</td><td>性价比和通勤需求支撑</td></tr>
+                        <tr><td>Cupertino</td><td>$250-380 万</td><td>$7,500-11,000</td><td>2.8-3.6%</td><td>学区与科技就业保值</td></tr>
+                        <tr><td>Palo Alto</td><td>$350-600 万</td><td>$10,000-16,000</td><td>2.7-3.5%</td><td>斯坦福和 AI 财富驱动</td></tr>
+                        <tr><td>Atherton</td><td>$700 万+</td><td>$18,000+</td><td>2.5-3.2%</td><td>顶级豪宅，出租不是主逻辑</td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">回报率公式：平均月租 × 12 ÷ 房产总价 × 100%。此处为毛租金回报率，不含税费与空置。</div>
+            </div>
+            <div class="card">
+                <h4>投资情景对比</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>策略</th><th>目标区域</th><th>预算</th><th>预期表现</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>现金流型</td><td>Oakland / Berkeley / SF Condo</td><td>$90-180 万</td><td>租金回报较高，波动也更明显</td></tr>
+                        <tr><td>科技就业型</td><td>Cupertino / Sunnyvale / Mountain View</td><td>$200-400 万</td><td>租客质量高，租金韧性强</td></tr>
+                        <tr><td>资产保值型</td><td>Palo Alto / Los Altos / Atherton</td><td>$350 万+</td><td>稀缺土地和学区支撑长期价值</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 政策追踪 -->
+    <div id="policy" class="section">
+        <h2 class="section-title">📜 湾区政策追踪</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>湾区投资需重点关注加州 Proposition 13、城市级转让税、旧金山租赁管制、保险与地震风险。不同城市税费差异明显，不能只用湾区平均值估算净收益。
+        </div>
+
+        <div class="card">
+            <h4>关键政策影响</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>政策</th><th>适用范围</th><th>主要影响</th><th>投资提示</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Proposition 13</td><td>加州</td><td>房产税评估值年涨幅通常受限</td><td>长期持有税负更可控</td></tr>
+                    <tr><td>城市转让税</td><td>旧金山等城市</td><td>高价物业出售成本可能更高</td><td>豪宅退出时单独测算</td></tr>
+                    <tr><td>租赁管制</td><td>旧金山/伯克利等</td><td>影响租金调整和收回物业</td><td>出租前确认物业年份和规则</td></tr>
+                    <tr><td>保险与地震险</td><td>湾区</td><td>地震险和火险影响持有成本</td><td>山地和林火风险区需额外核保</td></tr>
+                    <tr><td>FIRPTA</td><td>美国联邦</td><td>外国卖家出售时通常需预扣税款</td><td>退出前做税务结构规划</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- 机构观点 -->
     <div id="agency" class="section">
         <h2 class="section-title">📑 专业机构观点</h2>
