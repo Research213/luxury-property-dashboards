@@ -251,12 +251,12 @@
             <h3>💰 资金流向信号</h3>
             <div class="flow-signals">
                 <div class="flow-item">
-                    <span class="flow-label">中国投资全球占比：</span>
-                    <span class="flow-data">香港 24%<span class="trend up">↑</span> &nbsp;|&nbsp; 伦敦 5%<span class="trend stable">→</span> &nbsp;|&nbsp; 东京 0.7%<span class="trend up">↑</span> &nbsp;|&nbsp; 纽约 2.5%<span class="trend up">↑</span> &nbsp;|&nbsp; 洛杉矶 2.8%<span class="trend up">↑</span> &nbsp;|&nbsp; 旧金山 2.3%<span class="trend up">↑</span></span>
+                    <span class="flow-label">中国投资配置占比：</span>
+                    <span class="flow-data">香港 24.4%<span class="trend up">↑</span> &nbsp;|&nbsp; 伦敦 5%<span class="trend stable">→</span> &nbsp;|&nbsp; 东京 0.7%<span class="trend up">↑</span> &nbsp;|&nbsp; 纽约 2.5%<span class="trend up">↑</span> &nbsp;|&nbsp; 洛杉矶 2.8%<span class="trend up">↑</span> &nbsp;|&nbsp; 旧金山 2.3%<span class="trend up">↑</span></span>
                 </div>
                 <div class="flow-item">
-                    <span class="flow-label">中国占外国买家比：</span>
-                    <span class="flow-data">香港 约70%<span class="trend up">↑</span> &nbsp;|&nbsp; 伦敦 7.0%<span class="trend up">↑</span> &nbsp;|&nbsp; 东京 10%<span class="trend up">↑</span> &nbsp;|&nbsp; 纽约 11.2%<span class="trend up">↑</span> &nbsp;|&nbsp; 洛杉矶 18%<span class="trend up">↑</span> &nbsp;|&nbsp; 旧金山 15%<span class="trend up">↑</span></span>
+                    <span class="flow-label">中国买家整体成交占比：</span>
+                    <span class="flow-data">香港 约24.4%<span class="trend up">↑</span> &nbsp;|&nbsp; 伦敦 7.0%<span class="trend up">↑</span> &nbsp;|&nbsp; 东京 10%<span class="trend up">↑</span> &nbsp;|&nbsp; 纽约 11.2%<span class="trend up">↑</span> &nbsp;|&nbsp; 洛杉矶 18%<span class="trend up">↑</span> &nbsp;|&nbsp; 旧金山 15%<span class="trend up">↑</span></span>
                 </div>
                 <div class="flow-item">
                     <span class="flow-label">国际资本流向：</span>
@@ -342,8 +342,8 @@
                     pricePerSqm: '¥14.5 万/㎡', pricePerSqmChange: '+8%',
                     rentalYield: '3.32%', rentalYieldChange: '-0.06%',
                     policy: '全面撤辣', policyChange: '★★★★★',
-                    chineseInvestor: '24%', chineseChange: '+9%',
-                    chineseBuyer: '约70%', chineseBuyerChange: '非本地买家估算'
+                    chineseInvestor: '24.4%', chineseChange: '+9%',
+                    chineseBuyer: '约24.4%', chineseBuyerChange: '整体私宅口径'
                 },
                 forecast: '+10~15%', exchangeRate: '1 HKD ≈ 0.878 CNY',
                 url: '../hk-property-dashboard/index.html'
@@ -466,8 +466,8 @@
                                 <div class="metric"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
                                 <div class="metric"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
                                 <div class="metric"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
-                                <div class="metric"><div class="label">中国投资全球占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
-                                <div class="metric"><div class="label">中国占外国买家比</div><div class="value">${city.metrics.chineseBuyer}</div><div class="change stable">${city.metrics.chineseBuyerChange}</div></div>
+                                <div class="metric"><div class="label">中国投资配置占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                                <div class="metric"><div class="label">中国买家整体成交占比</div><div class="value">${city.metrics.chineseBuyer}</div><div class="change stable">${city.metrics.chineseBuyerChange}</div></div>
                             </div>
                         </div>
                         <div class="popup-footer"><a href="${city.url}" class="view-btn" target="_blank">📊 查看详细看板</a></div>
@@ -493,8 +493,8 @@
                             <div class="metric-item"><div class="label">万/㎡</div><div class="value">${city.metrics.pricePerSqm}</div><div class="change ${city.metrics.pricePerSqmChange.includes('+')?'up':'down'}">${city.metrics.pricePerSqmChange}</div></div>
                             <div class="metric-item"><div class="label">租金收益率</div><div class="value">${city.metrics.rentalYield}</div><div class="change ${city.metrics.rentalYieldChange.includes('+')?'up':'down'}">${city.metrics.rentalYieldChange}</div></div>
                             <div class="metric-item"><div class="label">政策友好度</div><div class="value">${city.metrics.policy}</div><div class="change">${city.metrics.policyChange}</div></div>
-                            <div class="metric-item"><div class="label">中国投资全球占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
-                            <div class="metric-item"><div class="label">中国占外国买家比</div><div class="value">${city.metrics.chineseBuyer}</div><div class="change stable">${city.metrics.chineseBuyerChange}</div></div>
+                            <div class="metric-item"><div class="label">中国投资配置占比</div><div class="value">${city.metrics.chineseInvestor}</div><div class="change ${city.metrics.chineseChange?.includes('+')?'up':'down'}">${city.metrics.chineseChange}</div></div>
+                            <div class="metric-item"><div class="label">中国买家整体成交占比</div><div class="value">${city.metrics.chineseBuyer}</div><div class="change stable">${city.metrics.chineseBuyerChange}</div></div>
                         </div>
                     </div>`;
             });

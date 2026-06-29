@@ -446,14 +446,14 @@
                 </div>
             </div>
 
-            <div class="card" data-title="内地买家购房占比趋势" data-content="2023-2026 年内地买家在香港私人住宅买卖中的占比趋势。2025 年按中原披露 13,958 宗普通话拼音买家 / 逾 5.66 万宗私宅买卖推算，约 24.7%。" data-source="中原地产, 美联物业 | B 级">
+            <div class="card" data-title="内地买家购房占比趋势" data-content="2023-2026 年内地买家在香港私人住宅买卖中的占比趋势。2025 年按中原披露 13,958 宗普通话拼音买家，占整体私宅成交约 24.4%。" data-source="中原地产, 美联物业 | B 级">
                 <h4>内地买家购房占比 (2023-2026) <span class="data-source-tag">中原/美联</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container"><canvas id="mainlandBuyerChart"></canvas></div>
                 <div class="data-legend">
                     <h5>📌 趋势解读</h5>
                     <div class="data-legend-item">2023-2024: 撤辣前后，普通话拼音买家宗数由低位回升</div>
-                    <div class="data-legend-item">2025: 中原披露 13,958 宗、全港逾 5.66 万宗私宅买卖，推算占比约 24.7%</div>
-                    <div class="data-legend-item">2026 Q1: 以内页已披露 3,900 宗作阶段性估算，未年化，不与全年直接比较</div>
+                    <div class="data-legend-item">2025: 中原披露 13,958 宗普通话拼音买家，占整体私宅成交约 24.4%</div>
+                    <div class="data-legend-item">2026 Q1: 暂无可核验全市场占比，不用阶段性估算点连线</div>
                     <div class="data-legend-item">口径：普通话拼音/内地买家识别口径，占香港私人住宅买卖整体，不等同于“占外国买家”口径</div>
                 </div>
             </div>
@@ -971,7 +971,7 @@
                     labels: ['2023', '2024', '2025', '2026 Q1'],
                     datasets: [{
                         label: '内地买家占比 (%)',
-                        data: [15.0, 21.0, 24.7, 25.0],
+                        data: [15.0, 21.0, 24.4, null],
                         borderColor: '#c41e3a',
                         backgroundColor: 'rgba(196,30,58,0.10)',
                         borderWidth: 3,
@@ -994,7 +994,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: context => `内地买家占比: ${context.parsed.y}%`
+                                label: context => context.parsed.y === null ? '2026 Q1: 暂无可核验全市场占比' : `内地买家占比: ${context.parsed.y}%`
                             }
                         }
                     }
