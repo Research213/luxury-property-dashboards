@@ -92,7 +92,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗽 纽约房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 7.25 CNY | 数据更新至 2026 年 5 月</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 6.83 CNY | 数据更新至 2026 年 5 月</div>
                 <div class="data-version">版本：v1.1 | 最后更新：2026-05-14 | 数据来源：StreetEasy, REBNY, Zillow, NAR, Freddie Mac</div>
             </div>
             <div style="display:flex;gap:8px">
@@ -130,7 +130,7 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">USD/CNY 7.25 (+8% vs 2023)</div>
+                    <div class="value">USD/CNY 6.83 (+1.2% vs 2023)</div>
                     <div style="font-size:11px;color:var(--text-light);margin-top:4px">美元走强利好海外买家</div>
                 </div>
                 <div class="conclusion-item">
@@ -545,22 +545,22 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 美元汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 7.25。美元 2023-2026 年升值约 8%，利好海外买家。美联储降息预期下，汇率或小幅回落。
+            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 6.83。美元 2023-2026 年小幅升值约 1.2%，对中国买家的成本影响较温和。美联储降息预期下，汇率或继续波动。
         </div>
         
-        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="XE, Federal Reserve | A 级">
-            <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Federal Reserve</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+            <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">
                 <h5>📊 USD/CNY 关键时点详解</h5>
-                <div class="data-legend-item"><strong>2023.01:</strong> 6.70 - 年初低点，人民币走强</div>
+                <div class="data-legend-item"><strong>2023.01:</strong> 6.75 - 年初低位，人民币相对偏强</div>
                 <div class="data-legend-item"><strong>2023.09:</strong> 7.30（高点） - 美联储加息，美元走强</div>
                 <div class="data-legend-item"><strong>2024.03:</strong> 7.22 - 高位震荡，中美利差</div>
-                <div class="data-legend-item"><strong>2024.09:</strong> 7.08 - 美联储降息预期，美元回落</div>
-                <div class="data-legend-item"><strong>2025.03:</strong> 7.18 - 降息周期开启，波动加剧</div>
-                <div class="data-legend-item"><strong>2025.09:</strong> 7.15 - 经济数据向好，美元稳定</div>
-                <div class="data-legend-item"><strong>2026.01:</strong> 7.28 - 年初波动，资金回流</div>
-                <div class="data-legend-item"><strong>2026.04:</strong> 7.25（当前） - 较 2023 年升值约 8%</div>
+                <div class="data-legend-item"><strong>2024.09:</strong> 7.02 - 美联储降息预期，美元回落</div>
+                <div class="data-legend-item"><strong>2025.03:</strong> 7.26 - 降息预期反复，美元阶段偏强</div>
+                <div class="data-legend-item"><strong>2025.09:</strong> 7.12 - 美元逐步回落</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 6.95 - 年初人民币走强</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 6.83（当前） - 较 2023 年 1 月小幅升值约 1.2%</div>
             </div>
         </div>
         
@@ -568,16 +568,16 @@
             <h4>汇率对购房成本影响测算</h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>房产总价</th><th>2023 年汇率 (6.70)</th><th>当前汇率 (7.25)</th><th>增加成本</th></tr>
+                    <tr><th>房产总价</th><th>2023 年汇率 (6.75)</th><th>当前汇率 (6.83)</th><th>增加成本</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>$100 万</td><td>¥670 万</td><td>¥725 万</td><td style="color:var(--accent)">¥55 万</td></tr>
-                    <tr><td>$300 万</td><td>¥2,010 万</td><td>¥2,175 万</td><td style="color:var(--accent)">¥165 万</td></tr>
-                    <tr><td>$1,000 万</td><td>¥6,700 万</td><td>¥7,250 万</td><td style="color:var(--accent)">¥550 万</td></tr>
+                    <tr><td>$100 万</td><td>¥675 万</td><td>¥683 万</td><td style="color:var(--accent)">¥8 万</td></tr>
+                    <tr><td>$300 万</td><td>¥2,025 万</td><td>¥2,049 万</td><td style="color:var(--accent)">¥24 万</td></tr>
+                    <tr><td>$1,000 万</td><td>¥6,750 万</td><td>¥6,830 万</td><td style="color:var(--accent)">¥80 万</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:16px;padding:12px;background:#fff5f5;border-radius:8px;font-size:13px">
-                <strong>💡 关键洞察：</strong> 2023-2026 年美元升值约 8%，中国买家购房成本增加。但相比伦敦（英镑 +12%）、香港（港币 -6%），美元仍属中等波动。建议分批购汇，平滑汇率风险。
+                <strong>💡 关键洞察：</strong> 2023-2026 年美元兑人民币仅小幅升值约 1.2%，中国买家的汇率成本相对可控。但美元仍会随利率预期和风险偏好波动，建议分批购汇，平滑汇率风险。
             </div>
         </div>
     </div>
@@ -844,7 +844,7 @@
         </div>
     </div>
     <script>
-        const EXCHANGE_RATE = 7.25;
+        const EXCHANGE_RATE = 6.83;
         
         // 纽约历史数据
         const nyData = {
@@ -910,24 +910,22 @@
         ];
         
         const exchangeRates = [
-            {month: '2023-01', usdCny: 6.70},
-            {month: '2023-04', usdCny: 6.88},
-            {month: '2023-07', usdCny: 7.15},
+            {month: '2023-01', usdCny: 6.75},
+            {month: '2023-04', usdCny: 6.91},
+            {month: '2023-07', usdCny: 7.10},
             {month: '2023-09', usdCny: 7.30},
-            {month: '2024-01', usdCny: 7.18},
+            {month: '2024-01', usdCny: 7.09},
             {month: '2024-03', usdCny: 7.22},
-            {month: '2024-06', usdCny: 7.26},
-            {month: '2024-09', usdCny: 7.08},
-            {month: '2025-01', usdCny: 7.20},
-            {month: '2025-03', usdCny: 7.18},
-            {month: '2025-06', usdCny: 7.22},
-            {month: '2025-09', usdCny: 7.15},
-            {month: '2025-12', usdCny: 7.25},
-            {month: '2026-01', usdCny: 7.28},
-            {month: '2026-03', usdCny: 7.25},
-                {month: '2026-04', usdCny: 7.25},
-                {month: '2026-05', usdCny: 7.25},
-            {month: '2026-04', usdCny: 7.25}
+            {month: '2024-06', usdCny: 7.27},
+            {month: '2024-09', usdCny: 7.02},
+            {month: '2025-01', usdCny: 7.18},
+            {month: '2025-03', usdCny: 7.26},
+            {month: '2025-06', usdCny: 7.16},
+            {month: '2025-09', usdCny: 7.12},
+            {month: '2025-12', usdCny: 7.00},
+            {month: '2026-01', usdCny: 6.95},
+            {month: '2026-03', usdCny: 6.89},
+            {month: '2026-04', usdCny: 6.83}
         ];
         
         let tooltipEl = null;
@@ -1171,7 +1169,7 @@
             document.querySelector('#districtTable').innerHTML = nyDistricts.map(d => `
                 <tr>
                     <td>${d.name}</td>
-                    <td>$${(d.avgPrice * 0.7 * 7.25).toFixed(0)}万</td>
+                    <td>$${(d.avgPrice * 0.7 * 6.83).toFixed(0)}万</td>
                     <td>¥${d.avgPrice}万</td>
                     <td>-</td>
                     <td>-</td>

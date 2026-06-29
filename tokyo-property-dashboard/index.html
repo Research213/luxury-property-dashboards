@@ -120,7 +120,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗼 东京房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.048 CNY | 数据更新至 2026 年 5 月</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0435 CNY | 数据更新至 2026 年 5 月</div>
                 <div class="data-version">版本：v2.1 | 最后更新：2026-05-14 | 数据来源：国土交通省，REINS，东日本不动产流通机构，日本经济新闻</div>
             </div>
             <div style="display:flex;gap:8px">
@@ -158,7 +158,7 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">JPY/CNY 0.048 (-15% vs 2023)</div>
+                    <div class="value">JPY/CNY 0.0435 (-16% vs 2023)</div>
                     <div style="font-size:11px;color:var(--text-light);margin-top:4px">日元贬值 15%，利好海外买家</div>
                 </div>
                 <div class="conclusion-item">
@@ -712,22 +712,22 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 日元汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.045-0.055 区间波动，当前 0.048。日元 2023-2026 年贬值约 15%，利好海外买家。央行维持低利率，汇率或持续低位。
+            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.043-0.052 区间波动，当前 0.0435。日元 2023-2026 年贬值约 16%，利好海外买家。央行维持低利率，汇率或持续低位。
         </div>
         
-        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 JPY/CNY 汇率走势。" data-source="XE, 日本银行 | A 级">
-            <h4>JPY/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">日本银行</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 JPY/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+            <h4>JPY/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">
                 <h5>📊 JPY/CNY 关键时点详解</h5>
-                <div class="data-legend-item"><strong>2023.01:</strong> 0.055 - 年初高点，日元相对强势</div>
-                <div class="data-legend-item"><strong>2023.10:</strong> 0.048 - 央行维持 YCC，日元走弱</div>
-                <div class="data-legend-item"><strong>2024.03:</strong> 0.047 - 结束负利率，日元小幅回升</div>
-                <div class="data-legend-item"><strong>2024.09:</strong> 0.046 - 美联储降息，日元波动</div>
-                <div class="data-legend-item"><strong>2025.03:</strong> 0.047 - 央行加息至 0.5%，日元企稳</div>
-                <div class="data-legend-item"><strong>2025.09:</strong> 0.048 - 经济数据向好，日元稳定</div>
-                <div class="data-legend-item"><strong>2026.01:</strong> 0.049 - 年初波动，资金回流</div>
-                <div class="data-legend-item"><strong>2026.04:</strong> 0.048（当前） - 较 2023 年贬值约 15%</div>
+                <div class="data-legend-item"><strong>2023.01:</strong> 0.0516 - 年初高位，日元相对强势</div>
+                <div class="data-legend-item"><strong>2023.09:</strong> 0.0480 - 央行维持宽松，日元走弱</div>
+                <div class="data-legend-item"><strong>2024.03:</strong> 0.0466 - 结束负利率后仍低位震荡</div>
+                <div class="data-legend-item"><strong>2024.09:</strong> 0.0488 - 日元阶段反弹</div>
+                <div class="data-legend-item"><strong>2025.03:</strong> 0.0484 - 日元阶段企稳</div>
+                <div class="data-legend-item"><strong>2025.09:</strong> 0.0481 - 区间震荡</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 0.0454 - 年初回落</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 0.0435（当前） - 较 2023 年 1 月贬值约 16%</div>
             </div>
         </div>
         
@@ -735,16 +735,16 @@
             <h4>汇率对购房成本影响测算</h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>房产总价</th><th>2023 年汇率 (0.055)</th><th>当前汇率 (0.048)</th><th>节省成本</th></tr>
+                    <tr><th>房产总价</th><th>2023 年汇率 (0.052)</th><th>当前汇率 (0.0435)</th><th>节省成本</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>¥3,000 万日元</td><td>¥165 万</td><td>¥144 万</td><td style="color:var(--success)">¥21 万</td></tr>
-                    <tr><td>¥6,000 万日元</td><td>¥330 万</td><td>¥288 万</td><td style="color:var(--success)">¥42 万</td></tr>
-                    <tr><td>¥1 亿日元</td><td>¥550 万</td><td>¥480 万</td><td style="color:var(--success)">¥70 万</td></tr>
+                    <tr><td>¥3,000 万日元</td><td>¥156 万</td><td>¥131 万</td><td style="color:var(--success)">¥25 万</td></tr>
+                    <tr><td>¥6,000 万日元</td><td>¥312 万</td><td>¥261 万</td><td style="color:var(--success)">¥51 万</td></tr>
+                    <tr><td>¥1 亿日元</td><td>¥520 万</td><td>¥435 万</td><td style="color:var(--success)">¥85 万</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:16px;padding:12px;background:#f0fff4;border-radius:8px;font-size:13px">
-                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 15%，中国买家购房成本降低。相比伦敦（英镑 +12%）、香港（港币 -6%），日元贬值幅度最大。建议把握低汇率窗口期。
+                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 16%，中国买家购房成本降低。相比伦敦（英镑 +12%）、香港（港币 -6%），日元贬值幅度最大。建议把握低汇率窗口期。
             </div>
         </div>
     </div>
@@ -764,7 +764,7 @@
                 <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
                 <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.5" step="0.1" onchange="calculateROI()"></div>
                 <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
-                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.048" step="0.001" onchange="calculateROI()"></div>
+                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.0435" step="0.0001" onchange="calculateROI()"></div>
             </div>
             <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
                 <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥138 万</div></div>
@@ -798,7 +798,7 @@
                 </tbody>
             </table>
             <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
-                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.048。实际收益受市场波动影响。
+                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.0435。实际收益受市场波动影响。
             </div>
         </div>
         
@@ -1177,7 +1177,7 @@
     </div>
 
     <script>
-        const EXCHANGE_RATE = 0.048;
+        const EXCHANGE_RATE = 0.0435;
         
         // 东京历史数据
         const tkData = {
@@ -1262,24 +1262,22 @@
         ];
         
         const exchangeRates = [
-            {month: '2023-01', jpyCny: 0.055},
-            {month: '2023-04', jpyCny: 0.052},
-            {month: '2023-07', jpyCny: 0.050},
-            {month: '2023-10', jpyCny: 0.048},
-            {month: '2024-01', jpyCny: 0.047},
-            {month: '2024-03', jpyCny: 0.047},
-            {month: '2024-06', jpyCny: 0.046},
-            {month: '2024-09', jpyCny: 0.046},
-            {month: '2025-01', jpyCny: 0.047},
-            {month: '2025-03', jpyCny: 0.047},
-            {month: '2025-06', jpyCny: 0.048},
-            {month: '2025-09', jpyCny: 0.048},
-            {month: '2025-12', jpyCny: 0.049},
-            {month: '2026-01', jpyCny: 0.049},
-            {month: '2026-03', jpyCny: 0.048},
-                {month: '2026-04', jpyCny: 0.048},
-                {month: '2026-05', jpyCny: 0.048},
-            {month: '2026-04', jpyCny: 0.048}
+            {month: '2023-01', jpyCny: 0.0516},
+            {month: '2023-04', jpyCny: 0.0498},
+            {month: '2023-07', jpyCny: 0.0499},
+            {month: '2023-09', jpyCny: 0.0480},
+            {month: '2024-01', jpyCny: 0.0481},
+            {month: '2024-03', jpyCny: 0.0466},
+            {month: '2024-06', jpyCny: 0.0452},
+            {month: '2024-09', jpyCny: 0.0488},
+            {month: '2025-01', jpyCny: 0.0466},
+            {month: '2025-03', jpyCny: 0.0484},
+            {month: '2025-06', jpyCny: 0.0498},
+            {month: '2025-09', jpyCny: 0.0481},
+            {month: '2025-12', jpyCny: 0.0447},
+            {month: '2026-01', jpyCny: 0.0454},
+            {month: '2026-03', jpyCny: 0.0435},
+            {month: '2026-04', jpyCny: 0.0435}
         ];
         
         let tooltipEl = null;
@@ -1790,7 +1788,7 @@
             const years = parseFloat(document.getElementById('roiYears').value) || 5;
             const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 3.5;
             const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
-            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.048;
+            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.0435;
             
             // 转为人民币
             const priceCNY = price * 10000 * exchangeRate;

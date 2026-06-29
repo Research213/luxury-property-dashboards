@@ -78,7 +78,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🇭🇰 香港房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 HKD ≈ 0.878 CNY (CFETS 5 月) | 数据更新至 2026 年 5 月</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 HKD ≈ 0.872 CNY (2026 年 4 月末) | 数据更新至 2026 年 5 月</div>
                 <div class="data-version">版本：v1.1 | 最后更新：2026-05-14 | 数据来源：差饷物业估价署、美联物业、中原地产、土地注册处、CBRE</div>
             </div>
             <div style="display:flex;gap:8px">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">HKD/CNY 0.878 (-11% vs 2023)</div>
+                    <div class="value">HKD/CNY 0.872 (-12% vs 2023)</div>
                     <div style="font-size:11px;color:var(--text-light);margin-top:4px">港币贬值利好内地买家</div>
                 </div>
                 <div class="conclusion-item">
@@ -390,19 +390,19 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 港币汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>港币采用联系汇率制（7.75-7.85 HKD/USD），汇率稳定。2025-2026 年 HKD/CNY 在 0.87-0.95 区间波动，当前 0.878（CFETS 月末中间价）。港币贬值利好内地买家，购房成本降低约 11% vs 2023 年。
+            <strong>小结论：</strong>港币采用联系汇率制（7.75-7.85 HKD/USD），汇率稳定。2025-2026 年 HKD/CNY 在 0.87-0.95 区间波动，当前 0.872（2026 年 4 月末收盘）。港币贬值利好内地买家，购房成本降低约 12% vs 2023 年。
         </div>
 
-        <div class="card" data-title="港币汇率历史走势" data-content="2025 年 1 月至 2026 年 4 月 HKD/CNY 汇率走势。" data-source="CFETS 中国外汇交易中心 | A 级">
-            <h4>HKD/CNY 汇率走势 (2025.01-2026.04) <span class="data-source-tag">CFETS</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" data-title="港币汇率历史走势" data-content="2025 年 1 月至 2026 年 4 月 HKD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+            <h4>HKD/CNY 汇率走势 (2025.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">
                 <h5>📊 关键时点</h5>
-                <div class="data-legend-item"><strong>2025.04:</strong> 0.9470（高点，人民币短期走弱）</div>
-                <div class="data-legend-item"><strong>2025.12:</strong> 0.8987（低点，年末资金回流）</div>
-                <div class="data-legend-item"><strong>2026.01:</strong> 0.8986（年初波动）</div>
-                <div class="data-legend-item"><strong>2026.05:</strong> 0.878（CFETS 月末中间价）</div>
-                <div class="data-legend-item"><strong>2026.04:</strong> 0.872（最新，4 月 14 日低点）</div>
+                <div class="data-legend-item"><strong>2025.04:</strong> 0.937（阶段高位，人民币短期走弱）</div>
+                <div class="data-legend-item"><strong>2025.12:</strong> 0.899（年末低位）</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 0.890（年初继续回落）</div>
+                <div class="data-legend-item"><strong>2026.03:</strong> 0.880（短暂反弹）</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 0.872（当前，4 月末收盘）</div>
             </div>
         </div>
 
@@ -410,16 +410,16 @@
             <h4>汇率对购房成本影响测算</h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>房产总价</th><th>2023 年汇率 (0.99)</th><th>当前汇率 (0.878)</th><th>节省金额</th></tr>
+                    <tr><th>房产总价</th><th>2023 年汇率 (0.99)</th><th>当前汇率 (0.872)</th><th>节省金额</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>1,000 万港元</td><td>¥990 万</td><td>¥878 万</td><td style="color:var(--success)">¥112 万</td></tr>
-                    <tr><td>3,000 万港元</td><td>¥2,970 万</td><td>¥2,634 万</td><td style="color:var(--success)">¥336 万</td></tr>
-                    <tr><td>1 亿港元</td><td>¥9,900 万</td><td>¥8,780 万</td><td style="color:var(--success)">¥1,120 万</td></tr>
+                    <tr><td>1,000 万港元</td><td>¥990 万</td><td>¥872 万</td><td style="color:var(--success)">¥118 万</td></tr>
+                    <tr><td>3,000 万港元</td><td>¥2,970 万</td><td>¥2,616 万</td><td style="color:var(--success)">¥354 万</td></tr>
+                    <tr><td>1 亿港元</td><td>¥9,900 万</td><td>¥8,720 万</td><td style="color:var(--success)">¥1,180 万</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                📌 注：当前汇率采用 CFETS 2026 年 5 月末中间价 0.878，较 2023 年 0.99 贬值约 11.3%
+                📌 注：当前汇率采用 Yahoo Finance 2026 年 4 月末收盘 0.872，较 2023 年 0.99 贬值约 11.9%
             </div>
         </div>
     </div>
@@ -791,9 +791,9 @@
     </div>
 
     <script>
-        // 汇率数据源：CFETS 中国外汇交易中心 | 月末最后一个交易日中间价
-        // 2026 年 5 月 31 日 HKD/CNY = 0.878 | 2026 年 4 月最新≈0.872
-        const EXCHANGE_RATE = 0.878;
+        // 汇率数据源：Yahoo Finance | 月末最后一个交易日收盘
+        // 2026 年 4 月末 HKD/CNY ≈ 0.872
+        const EXCHANGE_RATE = 0.872;
 
         // 香港历史数据
         const hkData = {
@@ -944,14 +944,14 @@
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            // 汇率图表 (数据源：CFETS 中国外汇交易中心 | 月末中间价)
+            // 汇率图表 (数据源：Yahoo Finance | 月末收盘)
             new Chart(document.getElementById('exchangeRateChart'), {
                 type: 'line',
                 data: {
-                    labels: ['2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05','2026-04'],
+                    labels: ['2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'],
                     datasets: [{
                         label: 'HKD/CNY',
-                        data: [0.938, 0.935, 0.932, 0.947, 0.925, 0.918, 0.922, 0.924, 0.919, 0.914, 0.908, 0.899, 0.899, 0.888, 0.878, 0.872],
+                        data: [0.922, 0.937, 0.933, 0.937, 0.919, 0.913, 0.917, 0.915, 0.915, 0.915, 0.910, 0.899, 0.890, 0.874, 0.880, 0.872],
                         borderColor: '#d4af37',
                         backgroundColor: 'rgba(212, 175, 55, 0.1)',
                         fill: true
