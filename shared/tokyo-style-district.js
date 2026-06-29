@@ -167,7 +167,7 @@
             <div class="card">
                 <div class="tokyo-style-header">
                     <div>
-                        <h3>${escapeHTML(config.title || `${config.cityName}东京式区域深度分析`)}</h3>
+                        <h3>${escapeHTML(config.title || `${config.cityName}区域深度分析`)}</h3>
                         <div class="tokyo-style-note">${escapeHTML(config.summary || '按照东京页的区域分析结构，补充区域地图、价位段、商圈详情和租金走势四个视角。')}</div>
                     </div>
                     <div>${badge(config.sourceLabel, config.reliability)}</div>
