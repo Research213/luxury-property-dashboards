@@ -59,18 +59,29 @@
         .stat-change { font-size: 12px; margin-top: 4px; }
         .stat-change.up { color: var(--success); }
         .stat-change.down { color: var(--accent); }
+        .up { color: var(--success); font-weight: 600; }
+        .down { color: var(--accent); font-weight: 600; }
+        .stable { color: var(--text-light); font-weight: 600; }
         .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
         .data-legend { background: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 13px; }
         .data-legend h5 { margin-bottom: 8px; color: var(--primary); }
         .data-legend-item { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
         .legend-color { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+        .cost-calculator { background: #f0fff4; border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .cost-input { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .cost-input label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .cost-input input, .cost-input select { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .cost-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center; }
+        .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
+        .cost-result .item .label { font-size: 12px; color: var(--text-light); }
+        .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
         @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid, .cost-input, .cost-result { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -492,30 +503,75 @@
 
     <!-- 收益计算器 -->
     <div id="roi" class="section">
-        <h2 class="section-title">📈 收益计算器</h2>
+        <h2 class="section-title">📈 累计收益计算器</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>香港收益测算核心看租金回报率、印花税、管理费、差饷与港币汇率。撤辣后交易税费明显下降，但高总价豪宅仍以资产配置和流动性为主，租金回报通常低于中小户型。
+            <strong>小结论：</strong>以 HK$1,000 万房产、首付 40% 为例，持有 5 年累计收益约 35-50%（基于首付+税费的总投入口径，含杠杆）。撤辣后从价印花税明显下降，且香港无资本利得税、持有成本低，是相对税务友好的市场；港币汇率波动对人民币口径收益影响约 ±10%。
         </div>
-        <div class="grid-2">
+
+        <div class="cost-calculator" style="background:#f0f7ff">
+            <h4>🧮 投资收益计算（人民币） <span class="data-source-tag">差饷物业估价署 / 税务局 AVD</span><span class="data-reliability B">B 级</span></h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万港元)</label><input type="number" id="roiPrice" value="1000" onchange="calculateROI()"></div>
+                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="20" max="100" onchange="calculateROI()"></div>
+                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
+                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.3" step="0.1" onchange="calculateROI()"></div>
+                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciationRate" value="2" step="0.1" onchange="calculateROI()"></div>
+                <div><label>港币汇率 (CNY/HKD)</label><input type="number" id="roiExchangeRate" value="0.872" step="0.001" onchange="calculateROI()"></div>
+            </div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥348.8 万</div></div>
+                <div class="item"><div class="label">买入税费 (RMB)</div><div class="value" id="roiBuyCost">¥39.2 万</div></div>
+                <div class="item"><div class="label">租金净收益 (RMB)</div><div class="value" id="roiRentalIncome">¥96.9 万</div></div>
+                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciationVal">¥90.8 万</div></div>
+                <div class="item"><div class="label">累计收益率</div><div class="value up" id="roiTotalReturn">44.6%</div></div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
+                <strong>💡 计算说明：</strong>
+                <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+                    <li><strong>买入税费：</strong>约房产价 4.5%（撤辣后从价印花税 AVD 约 3.75% + 代理费 + 律师费等）</li>
+                    <li><strong>持有成本：</strong>约房产价 1%/年（差饷 + 地租 + 管理费——香港持有成本较低）</li>
+                    <li><strong>卖出税费：</strong>约房产价 1.5%（代理费 + 律师费）；<strong>香港无资本利得税</strong></li>
+                    <li><strong>租金净收益：</strong>已扣除持有成本、管理费、空置率（按 5% 计）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>📊 不同持有年限收益对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金净收益 (RMB)</th><th>房价增值 (RMB)</th><th>卖出税费 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
+                </thead>
+                <tbody id="roiComparisonTable">
+                    <tr><td>1 年</td><td>¥388.0 万</td><td>¥18.6 万</td><td>¥17.4 万</td><td>¥13.3 万</td><td>¥22.7 万</td><td>5.9%</td><td>5.9%</td></tr>
+                    <tr><td>3 年</td><td>¥388.0 万</td><td>¥57.0 万</td><td>¥53.4 万</td><td>¥13.9 万</td><td>¥96.5 万</td><td>24.9%</td><td>7.7%</td></tr>
+                    <tr style="background:#f0fff4"><td>5 年</td><td>¥388.0 万</td><td>¥96.9 万</td><td>¥90.8 万</td><td>¥14.4 万</td><td>¥173.2 万</td><td>44.6%</td><td>7.7%</td></tr>
+                    <tr><td>10 年</td><td>¥388.0 万</td><td>¥203.9 万</td><td>¥191.0 万</td><td>¥15.9 万</td><td>¥378.9 万</td><td>97.6%</td><td>7.1%</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
+                <strong>注：</strong>计算基于房价 HK$1,000 万、首付 40%、年租金回报率 3.3%、年房价增长率 2%、汇率 0.872。实际收益受市场波动影响。
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
             <div class="card">
-                <h4>不同持有期收益情景 <span class="data-source-tag">测算</span><span class="data-reliability B">B 级</span></h4>
-                <table class="data-table">
-                    <thead><tr><th>情景</th><th>买入价</th><th>年租金回报</th><th>年升值假设</th><th>5 年总回报</th></tr></thead>
-                    <tbody>
-                        <tr><td>保守</td><td>HK$1,000 万</td><td>2.8%</td><td>0%</td><td>约 8-10%</td></tr>
-                        <tr><td>基准</td><td>HK$1,000 万</td><td>3.3%</td><td>2%</td><td>约 20-24%</td></tr>
-                        <tr><td>复苏</td><td>HK$1,000 万</td><td>3.5%</td><td>4%</td><td>约 35-40%</td></tr>
-                    </tbody>
-                </table>
+                <h4>✅ 收益构成</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>租金收益：</strong>豪宅租金回报率约 2.8-3.5%，扣除空置、管理费后净收益约 2-2.8%，中小户型回报通常更高</li>
+                    <li><strong>房价增值：</strong>撤辣 + 利率下行支撑回暖，核心区中长期年化约 2-4%</li>
+                    <li><strong>税务优势：</strong>香港无资本利得税、无遗产税，持有成本（差饷/地租/管理费）较低</li>
+                    <li><strong>杠杆效应：</strong>内地买家按揭首付约 30-40%，可放大收益但增加利率风险</li>
+                </ul>
             </div>
             <div class="card">
-                <h4>测算口径</h4>
-                <div class="data-legend">
-                    <div class="data-legend-item">租金回报 = 年租金 ÷ 买入价。</div>
-                    <div class="data-legend-item">买入税费按撤辣后从价印花税口径估算，不含按揭利息。</div>
-                    <div class="data-legend-item">港币兑人民币按页面当前汇率口径换算。</div>
-                    <div class="data-legend-item">该模块用于情景比较，不构成投资建议。</div>
-                </div>
+                <h4>⚠️ 风险提示</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>汇率风险：</strong>港币兑人民币波动可能影响人民币口径收益约 ±10%</li>
+                    <li><strong>租金回报偏低：</strong>高总价豪宅以资产配置为主，租金回报通常低于中小户型</li>
+                    <li><strong>政策风险：</strong>需关注 2026 年是否重设豪宅印花税阶与按揭审查</li>
+                    <li><strong>市场风险：</strong>豪宅复苏节奏取决于内地资金与库存去化，建议长期持有 5 年+</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -630,17 +686,17 @@
             <strong>小结论：</strong>以 1,000 万港元房产为例，年持有成本约 7.5-15 万港元（含管理费、差饷、地租、保险）。租金回报率 3.38%，66.4% 屋苑实现供平过租。
         </div>
 
-        <div class="cost-calculator" style="background:#fef5f5;border-radius:12px;padding:24px;margin-bottom:20px">
+        <div class="cost-calculator">
             <h4>🧮 月度持有成本计算（港元）</h4>
-            <div class="cost-input" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+            <div class="cost-input">
                 <div><label>房产价格 (万港元)</label><input type="number" id="hkPropertyPrice" value="1000" onchange="calculateHKCost()"></div>
                 <div><label>建筑面积 (sqft)</label><input type="number" id="hkSqft" value="800" onchange="calculateHKCost()"></div>
                 <div><label>月租金收入 (万港元)</label><input type="number" id="hkRentIncome" value="3.5" onchange="calculateHKCost()"></div>
             </div>
-            <div class="cost-result" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center">
-                <div class="item" style="background:white;padding:16px;border-radius:8px"><div class="label">每月管理费</div><div class="value" id="hkManagementFee">$3,200</div></div>
-                <div class="item" style="background:white;padding:16px;border-radius:8px"><div class="label">每月持有成本</div><div class="value" id="hkTotalCost">$6,800</div></div>
-                <div class="item" style="background:white;padding:16px;border-radius:8px"><div class="label">租金覆盖比例</div><div class="value" id="hkCoverage">51%</div></div>
+            <div class="cost-result">
+                <div class="item"><div class="label">每月管理费</div><div class="value" id="hkManagementFee">$3,200</div></div>
+                <div class="item"><div class="label">每月持有成本</div><div class="value" id="hkTotalCost">$6,800</div></div>
+                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="hkCoverage">51%</div></div>
             </div>
         </div>
 
@@ -1057,6 +1113,126 @@
             } catch (e) { console.error('✗ 回报率地图加载失败:', e); }
         }
 
+        function calculateHKCost() {
+            const price = (parseFloat(document.getElementById('hkPropertyPrice').value) || 1000) * 10000;
+            const sqft = parseFloat(document.getElementById('hkSqft').value) || 800;
+            const rentIncome = (parseFloat(document.getElementById('hkRentIncome').value) || 3.5) * 10000;
+
+            const managementFee = sqft * 4;
+            const rates = rentIncome * 0.05;
+            const governmentRent = rentIncome * 0.03;
+            const insurance = price * 0.00096 / 12;
+            const totalCost = managementFee + rates + governmentRent + insurance;
+            const coverage = totalCost > 0 ? (rentIncome / totalCost) * 100 : 0;
+
+            document.getElementById('hkManagementFee').textContent = 'HK$' + Math.round(managementFee).toLocaleString();
+            document.getElementById('hkTotalCost').textContent = 'HK$' + Math.round(totalCost).toLocaleString();
+            const coverageEl = document.getElementById('hkCoverage');
+            coverageEl.textContent = Math.round(coverage) + '%';
+            coverageEl.style.color = coverage > 150 ? 'var(--success)' : coverage > 100 ? 'var(--warning)' : 'var(--accent)';
+        }
+
+        // 收益计算器
+        function calculateROI() {
+            const price = parseFloat(document.getElementById('roiPrice').value) || 1000;
+            const downPaymentPct = parseFloat(document.getElementById('roiDownPayment').value) || 40;
+            const years = parseFloat(document.getElementById('roiYears').value) || 5;
+            const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 3.3;
+            const appreciation = parseFloat(document.getElementById('roiAppreciationRate').value) || 2;
+            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.872;
+
+            // 转为人民币（房价单位：万港元）
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * (downPaymentPct / 100);
+
+            // 买入税费：约 4.5%（撤辣后从价印花税 AVD ~3.75% + 代理费 + 律师费等）
+            const buyCost = priceCNY * 0.045;
+
+            // 总投入（首付 + 买入税费）
+            const totalInvest = downPayment + buyCost;
+
+            // 年租金收益（人民币）
+            const annualRental = priceCNY * (rentalYield / 100);
+
+            // 年持有成本（房产价值的 1%：差饷 + 地租 + 管理费，香港持有成本较低）
+            const annualCost = priceCNY * 0.01;
+
+            // 净年收益（扣除持有成本，考虑 5% 空置率）
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
+
+            // N 年总租金净收益（复利，租金年增 2%）
+            let totalRental = 0;
+            for (let i = 0; i < years; i++) {
+                totalRental += netAnnualIncome * Math.pow(1.02, i);
+            }
+
+            // N 年后房价
+            const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
+            const appreciationValue = futurePrice - priceCNY;
+
+            // 卖出税费：代理费 + 律师费约 1.5%，香港无资本利得税
+            const sellCost = futurePrice * 0.015;
+
+            // 净收益
+            const netGain = totalRental + appreciationValue - sellCost;
+
+            // 累计收益率（相对于总投入）
+            const totalReturn = (netGain / totalInvest) * 100;
+
+            // 更新显示
+            document.getElementById('roiDownPaymentAmt').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
+            document.getElementById('roiBuyCost').textContent = '¥' + (buyCost / 10000).toFixed(1) + '万';
+            document.getElementById('roiRentalIncome').textContent = '¥' + (totalRental / 10000).toFixed(1) + '万';
+            document.getElementById('roiAppreciationVal').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
+
+            const returnEl = document.getElementById('roiTotalReturn');
+            returnEl.textContent = totalReturn.toFixed(1) + '%';
+            returnEl.className = 'value ' + (totalReturn > 0 ? 'up' : 'down');
+
+            // 更新对比表格
+            updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate);
+        }
+
+        function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * (downPaymentPct / 100);
+            const buyCost = priceCNY * 0.045;
+            const totalInvest = downPayment + buyCost;
+            const annualRental = priceCNY * (rentalYield / 100);
+            const annualCost = priceCNY * 0.01;
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
+
+            const periods = [1, 3, 5, 10];
+            let html = '';
+
+            periods.forEach(years => {
+                let totalRental = 0;
+                for (let i = 0; i < years; i++) {
+                    totalRental += netAnnualIncome * Math.pow(1.02, i);
+                }
+                const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
+                const appreciationValue = futurePrice - priceCNY;
+                const sellCost = futurePrice * 0.015;
+                const netGain = totalRental + appreciationValue - sellCost;
+                const totalReturn = (netGain / totalInvest) * 100;
+                const irr = Math.pow(1 + totalReturn/100, 1/years) - 1;
+
+                const isHighlight = years === 5 ? 'style="background:#f0fff4"' : '';
+                html += `<tr ${isHighlight}>
+                    <td>${years}年</td>
+                    <td>¥${(totalInvest/10000).toFixed(1)}万</td>
+                    <td>¥${(totalRental/10000).toFixed(1)}万</td>
+                    <td>¥${(appreciationValue/10000).toFixed(1)}万</td>
+                    <td>¥${(sellCost/10000).toFixed(1)}万</td>
+                    <td>¥${(netGain/10000).toFixed(1)}万</td>
+                    <td>${totalReturn.toFixed(1)}%</td>
+                    <td>${(irr*100).toFixed(1)}%</td>
+                </tr>`;
+            });
+
+            document.getElementById('roiComparisonTable').innerHTML = html;
+        }
+
         function showSection(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1160,6 +1336,8 @@
                 ],
                 rentNote: '香港租金走势使用页面已有区域月租样本生成相对趋势，数据来源标注为中原地产/机构样本口径。'
             });
+            calculateROI();
+            calculateHKCost();
             console.log('🇭🇰 香港房产数据看板加载完成 | 版本：v1.0');
         });
     </script>
