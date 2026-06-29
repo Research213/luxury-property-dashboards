@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
         <h3><span class="signal green">✅</span> 总体结论：西洛杉矶和尔湾领涨，华人买家偏好稳定，科技就业支撑房市 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
         <p>2025 年洛杉矶县成交 68,500 户（+10% YoY），中位房价$85 万美元（人民币约¥616 万）。西洛杉矶、尔湾、圣马力诺最稳定，华人区学区房驱动明显。2026 年世界杯 + 降息预期支撑市场。</p>
@@ -135,28 +135,28 @@
             </div>
         </div>
     </div>
-    
+
     <div class="nav-tabs">
-        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
-        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
-        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
-        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
-        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
-        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
-        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
-        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
-        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
-        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
-        <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
+        <button class="nav-tab active" onclick="showSection('market', event)">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district', event)">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type', event)">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi', event)">📈 收益计算器</button>
+        <button class="nav-tab" onclick="showSection('china', event)">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy', event)">📜 政策追踪</button>
+        <button class="nav-tab" onclick="showSection('agency', event)">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('cost', event)">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global', event)">🌍 全球对比</button>
+        <button class="nav-tab" onclick="showSection('hot', event)">🔥 热销推荐</button>
     </div>
-    
+
     <!-- 全市场概览 -->
     <div id="market" class="section active">
         <h2 class="section-title">📊 洛杉矶房地产市场情况</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>2025 年洛杉矶县成交 68,500 户（+10% YoY），成交额约$585 亿美元（人民币约¥4,219 亿元）。2026 年 2 月中位房价$812,950（人民币约¥589 万），同比 +0.6%。西洛杉矶、尔湾、圣马力诺最稳定。数据来源：CRMLS、Zillow（A 级）。
         </div>
-        
+
         <div class="metric-grid">
             <div class="card stat-card" data-title="2025 年洛杉矶成交量" data-content="2025 年洛杉矶县房产成交 68,500 户，同比增长 10%，独立别墅占 55%。" data-source="CRMLS | A 级">
                 <div class="stat-value">6.85 万</div>
@@ -201,7 +201,7 @@
                 <div class="stat-change down">↓ 同比 -1.0 月</div>
             </div>
         </div>
-        
+
         <div class="grid-2">
             <div class="card" data-title="年度成交量与中位房价 (2008-2025)" data-content="2008 年金融危机、2020 年疫情、2024 年降息是关键节点。2025 年中位房价$85 万。" data-source="Zillow, CRMLS | A 级">
                 <h4>年度成交量与中位房价 (2008-2025) <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
@@ -220,7 +220,7 @@
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>平均单价趋势 (万/㎡) | 2008-2025</h4>
             <div style="overflow-x:auto">
@@ -236,7 +236,7 @@
             </div>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：Zillow, Redfin | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
         </div>
-        
+
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分独立别墅/Condo）" data-content="洛杉矶月度独立别墅（SFR）和 Condo 成交量、成交价。SFR 占 55%，Condo 占 30%。" data-source="CRMLS | A 级">
             <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
@@ -255,7 +255,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 区域分析 -->
     <div id="district" class="section">
         <h2 class="section-title">🗺️ 洛杉矶核心区域分析</h2>
@@ -263,7 +263,7 @@
             <strong>小结论：</strong>洛杉矶核心区域：西洛杉矶、圣莫尼卡、尔湾、帕萨迪纳、圣马力诺。西洛杉矶/圣莫尼卡最贵（$150-300 万/套），尔湾/亚凯迪亚最稳定（学区驱动），华人区（圣盖博谷）性价比高（$90-150 万）。
         </div>
         <div id="tokyoStyleDistrictDeepDive"></div>
-        
+
         <div class="grid-2">
             <div class="card">
                 <h4>洛杉矶核心区域房价地图 <span class="data-source-tag">Zillow</span><span class="data-reliability A">A 级</span></h4>
@@ -290,7 +290,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>10 大核心板块房价详解（人民币/㎡）</h4>
             <table class="data-table">
@@ -318,14 +318,14 @@
             </table>
         </div>
     </div>
-    
+
     <!-- 产品类型 -->
     <div id="type" class="section">
         <h2 class="section-title">🏠 产品类型分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>洛杉矶房产以独立别墅（SFR）为主占 55%，Condo 占 30%，Townhouse 占 10%，其他 5%。SFR 中位价$95 万，Condo 中位价$65 万。华人买家偏好 SFR（带地、隐私好）。
         </div>
-        
+
         <div class="grid-2">
             <div class="card" data-title="房产类型分布" data-content="洛杉矶房产类型：独立别墅 55%、Condo 30%、Townhouse 10%、其他 5%。" data-source="CRMLS | A 级">
                 <h4>房产类型占比 <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
@@ -342,7 +342,30 @@
                 <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
             </div>
         </div>
-        
+
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card" data-title="产品类型成交量趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交量趋势。" data-source="CRMLS / Zillow | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
+            </div>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交均价趋势。" data-source="CRMLS / Zillow | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价，按伦敦模板补齐。" data-source="CRMLS / Zillow | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="propertyTypeTable">
+                    <thead><tr><th>月份</th><th>产品类型</th><th>成交量</th><th>成交均价</th><th>环比变化</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据沿用页面已有月度成交口径；用于趋势展示，不跨城市直接比较。</div>
+        </div>
+
+
         <div class="card" style="margin-top:20px">
             <h4>SFR vs Condo 详细对比</h4>
             <table class="data-table">
@@ -363,18 +386,73 @@
             </table>
         </div>
     </div>
-    
+
+
+        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="按伦敦模板补齐：用面积图和雷达图展示中国买家偏好结构变化。" data-source="NAR / Zillow | B 级">
+            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
+            <div class="grid-2">
+                <div class="chart-container"><canvas id="chinaPreferenceStackedChart"></canvas></div>
+                <div class="chart-container"><canvas id="chinaPreferenceRadarChart"></canvas></div>
+            </div>
+            <div class="data-legend">
+                <div class="data-legend-item">趋势图展示中国买家在核心区域、学区/就业、投资出租等偏好的相对变化。</div>
+                <div class="data-legend-item">该模块沿用页面已有机构样本口径，和伦敦页保持同一展示逻辑。</div>
+            </div>
+        </div>
+
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 累计收益计算器</h2>
+        <div class="section-conclusion"><strong>小结论：</strong>以$150 万美元房产、首付 40% 为例，持有 5 年累计收益约 30-45%（基于首付+税费的总投入口径，含杠杆；已扣房价增值 + 租金收益 - 持有成本 - 交易税费）。洛杉矶核心风险是房产税、保险和地震险。</div>
+        <div class="cost-calculator" style="background:#f0f7ff">
+            <h4>🧮 投资收益计算（人民币）</h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万美元)</label><input type="number" id="roiPrice" value="150" onchange="calculateROI()"></div>
+                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="20" max="100" onchange="calculateROI()"></div>
+                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
+                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="4.5" step="0.1" onchange="calculateROI()"></div>
+                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciationRate" value="2" step="0.1" onchange="calculateROI()"></div>
+                <div><label>美元汇率 (CNY/USD)</label><input type="number" id="roiExchangeRate" value="6.83" step="0.01" onchange="calculateROI()"></div>
+            </div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">-</div></div>
+                <div class="item"><div class="label">买入税费 (RMB)</div><div class="value" id="roiBuyCost">-</div></div>
+                <div class="item"><div class="label">租金净收益 (RMB)</div><div class="value" id="roiRentalIncome">-</div></div>
+                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciationVal">-</div></div>
+                <div class="item"><div class="label">累计收益率</div><div class="value up" id="roiTotalReturn">-</div></div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
+                <strong>💡 计算说明：</strong>
+                <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+                    <li><strong>买入税费：</strong>约房产价 3.5%（过户税、产权保险、贷款/律师/托管等综合估算）</li>
+                    <li><strong>持有成本：</strong>约房产价 1.6%/年（房产税 + HOA/保险 + 地震险等）</li>
+                    <li><strong>卖出税费：</strong>约房产价 5.5%（经纪费 + 过户/托管等）</li>
+                    <li><strong>租金净收益：</strong>已扣除持有成本、管理费、空置率（按 5% 计）</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card" style="margin-top:20px">
+            <h4>📊 不同持有年限收益对比</h4>
+            <table class="data-table"><thead><tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金净收益 (RMB)</th><th>房价增值 (RMB)</th><th>卖出税费 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr></thead><tbody id="roiComparisonTable"></tbody></table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>注：</strong>测算基于默认价格、首付 40%、年租金回报率 4.5%、年房价增长率 2%、汇率 6.83。实际收益受市场波动影响。</div>
+        </div>
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card"><h4>✅ 收益构成</h4><ul style="line-height:2;font-size:14px"><li><strong>租金收益：</strong>洛杉矶租赁需求支撑基础现金流。</li><li><strong>房价增值：</strong>核心区中长期价值取决于就业、教育和供应约束。</li><li><strong>汇率影响：</strong>人民币口径收益需同时看房价和汇率。</li><li><strong>杠杆效应：</strong>按揭可放大收益，也会放大利率风险。</li></ul></div>
+            <div class="card"><h4>⚠️ 风险提示</h4><ul style="line-height:2;font-size:14px"><li><strong>现金流风险：</strong>持有成本、空置和维修会压低净收益。</li><li><strong>政策税费：</strong>交易税、房产税和海外收入申报需单独测算。</li><li><strong>市场风险：</strong>高总价资产流动性更依赖周期。</li><li><strong>建议：</strong>按 5 年以上持有周期做压力测试。</li></ul></div>
+        </div>
+    </div>
+
     <!-- 中国买家 -->
     <div id="china" class="section">
         <h2 class="section-title">🇨🇳 中国买家分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>中国买家在洛杉矶占比约 2.8%（占全市场）。偏好区域：尔湾（28%）、圣盖博谷（25%）、西洛杉矶（15%）。预算集中在$120-250 万（55%），全款比例 48%。学区房是首要考虑因素。加州是中国买家首选目的地（占 36%）。
         </div>
-        
+
         <div class="grid-2">
             <div class="card">
                 <h4>美国购房政策详解（针对中国买家） <span class="data-source-tag">NAR, IRS</span><span class="data-reliability A">A 级</span></h4>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🏠 房产税（Property Tax）</span>
@@ -386,7 +464,7 @@
                         <em>注：房产税可抵联邦所得税（SALT 上限$1 万）</em>
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">💰 资本利得税（CGT）</span>
@@ -397,7 +475,7 @@
                         <strong>免税额：</strong>主要自住房可豁免$25 万（单人）/$50 万（夫妻）。
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🏛️ 遗产税（Estate Tax）</span>
@@ -408,7 +486,7 @@
                         <em>注：2026 年美国人免税额$1,292 万，外国人仅$6 万，差距巨大</em>
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🔓 购房限制</span>
@@ -422,7 +500,7 @@
                         <strong>贷款限制：</strong>外国人通常需 30-40% 首付，利率略高，需提供资产证明。
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🛂 签证/居留</span>
@@ -436,7 +514,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card" data-title="中国买家占比趋势" data-content="中国买家在洛杉矶占比约 2.8%（占全市场）。加州是中国买家首选目的地（占 36%）。" data-source="NAR | A 级">
                 <h4>中国买家购房占比 (2020-2026 Q1) <span class="data-source-tag">NAR</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="chinaBuyerChart"></canvas></div>
@@ -448,7 +526,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>中国买家投资偏好（2026 Q1）</h4>
             <table class="data-table">
@@ -471,46 +549,6 @@
                     <tr><td>投资出租</td><td>45%</td><td>租金回报</td></tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    
-    <!-- 收益计算器 -->
-    <div id="roi" class="section">
-        <h2 class="section-title">📈 洛杉矶收益计算器</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>洛杉矶租金回报率约 3.5-4.8%，高现金流区域集中在 Koreatown、Downtown LA 和 Valley，保值型区域集中在 Beverly Hills、Santa Monica、Irvine。回报率按年租金收入 ÷ 房产总价估算，未扣除房产税、HOA、保险及空置成本。
-        </div>
-
-        <div class="grid-2">
-            <div class="card">
-                <h4>核心区域租金回报测算 <span class="data-source-tag">Zillow/Redfin</span><span class="data-reliability B">B 级</span></h4>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>区域</th><th>典型总价</th><th>平均月租</th><th>毛回报率</th><th>投资逻辑</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Downtown LA</td><td>$75-120 万</td><td>$3,500-5,500</td><td>4.2-5.0%</td><td>公寓出租流动性高</td></tr>
-                        <tr><td>Koreatown</td><td>$60-100 万</td><td>$3,000-4,800</td><td>4.5-5.2%</td><td>租客基础深，现金流较好</td></tr>
-                        <tr><td>Santa Monica</td><td>$180-350 万</td><td>$7,000-12,000</td><td>3.5-4.2%</td><td>海滨稀缺，保值优先</td></tr>
-                        <tr><td>Irvine</td><td>$120-220 万</td><td>$5,000-8,500</td><td>3.8-4.6%</td><td>学区与华人需求支撑</td></tr>
-                        <tr><td>Beverly Hills</td><td>$350 万+</td><td>$12,000+</td><td>3.0-3.8%</td><td>豪宅资产属性更强</td></tr>
-                    </tbody>
-                </table>
-                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">回报率公式：平均月租 × 12 ÷ 房产总价 × 100%。此处为毛租金回报率，不含税费与空置。</div>
-            </div>
-            <div class="card">
-                <h4>投资情景对比</h4>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>策略</th><th>目标区域</th><th>预算</th><th>预期表现</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>现金流型</td><td>Downtown / Koreatown</td><td>$60-120 万</td><td>租金回报较高，价格弹性较大</td></tr>
-                        <tr><td>教育自住型</td><td>Irvine / Arcadia / San Marino</td><td>$120-300 万</td><td>学区需求强，流动性稳定</td></tr>
-                        <tr><td>豪宅保值型</td><td>Beverly Hills / Bel Air</td><td>$350 万+</td><td>稀缺性强，交易周期更长</td></tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -578,7 +616,7 @@
         <div class="section-conclusion">
             <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 6.83。美元 2023-2026 年小幅升值约 1.2%，对中国买家的成本影响较温和。美联储降息预期下，汇率或继续波动。
         </div>
-        
+
         <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
             <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
@@ -594,7 +632,7 @@
                 <div class="data-legend-item"><strong>2026.04:</strong> 6.83（当前） - 较 2023 年 1 月小幅升值约 1.2%</div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>汇率对购房成本影响测算</h4>
             <table class="data-table">
@@ -612,64 +650,30 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 持有成本 -->
     <div id="cost" class="section">
         <h2 class="section-title">💰 持有成本计算器</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>以$150 万独立别墅为例，年持有成本约$3.5-5.5 万（含房产税、HOA、保险）。房产税约 1-1.5%/年，HOA$0-500/月（SFR 通常无）。租金回报率 4.5%，部分房源可租养贷。
-        </div>
-        
+        <div class="section-conclusion"><strong>小结论：</strong>以$150 万 SFR 为例，月持有成本约¥3.5-5.0 万，租金可覆盖 70-90%。保险、地震险和 HOA 决定现金流弹性。</div>
         <div class="cost-calculator">
-            <h4>🧮 年度持有成本计算（美元）</h4>
+            <h4>🧮 月度持有成本计算（人民币）</h4>
             <div class="cost-input">
-                <div><label>房产价格 (万美元)</label><input type="number" id="laPropertyPrice" value="150" onchange="calculateLACost()"></div>
-                <div><label>房产类型</label><select id="laPropertyType" onchange="calculateLACost()"><option value="sfr">独立别墅（SFR）</option><option value="condo">Condo</option></select></div>
-                <div><label>月租金收入 (美元)</label><input type="number" id="laRentIncome" value="6500" onchange="calculateLACost()"></div>
+                <div><label>房产价格</label><input type="number" id="holdingPrice" value="150" onchange="calculateHoldingCost()"></div>
+                <div><label>建筑面积 / 参考面积</label><input type="number" id="holdingSize" value="1500" onchange="calculateHoldingCost()"></div>
+                <div><label>月租金收入</label><input type="number" id="holdingRent" value="6500" onchange="calculateHoldingCost()"></div>
             </div>
             <div class="cost-result">
-                <div class="item"><div class="label">年房产税</div><div class="value" id="laPropertyTax">$2.25 万</div></div>
-                <div class="item"><div class="label">年 HOA+ 保险</div><div class="value" id="laHOA">$0.6 万</div></div>
-                <div class="item"><div class="label">年持有成本</div><div class="value" id="laTotalCost">$2.85 万</div></div>
+                <div class="item"><div class="label">每月税费/物业</div><div class="value" id="holdingTaxFee">-</div></div>
+                <div class="item"><div class="label">每月持有成本</div><div class="value" id="holdingTotalCost">-</div></div>
+                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="holdingCoverage">-</div></div>
             </div>
         </div>
-        
         <div class="card" style="margin-top:20px">
-            <h4>持有成本明细（$150 万 SFR）</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>项目</th><th>金额 (美元/年)</th><th>说明</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>房产税</td><td>15,000-22,500</td><td>成交价×1-1.5%/年，加州 13 号提案</td></tr>
-                    <tr><td>HOA 物业费</td><td>0-6,000</td><td>SFR 通常无，Condo $400-800/月</td></tr>
-                    <tr><td>房屋保险</td><td>1,200-2,400</td><td>火险 + 责任险，约$100-200/月</td></tr>
-                    <tr><td>地震险</td><td>800-1,500</td><td>加州建议购买，非强制</td></tr>
-                    <tr><td>维修基金</td><td>2,000-5,000</td><td>建议预留，大修时使用</td></tr>
-                    <tr><td>物业管理</td><td>0-9,360</td><td>如出租，管理费约租金 8%+ 税</td></tr>
-                    <tr style="background:#f0fff4"><td><strong>合计</strong></td><td><strong>$19,000-46,760</strong></td><td><strong>不含房贷</strong></td></tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>SFR vs Condo 持有成本对比</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>项目</th><th>SFR（独立别墅）</th><th>Condo（公寓）</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>房产税</td><td>成交价×1-1.5%/年</td><td>成交价×1-1.5%/年</td></tr>
-                    <tr><td>HOA 物业费</td><td>通常无</td><td>$400-800/月</td></tr>
-                    <tr><td>维护责任</td><td>业主自负</td><td>HOA 负责外部</td></tr>
-                    <tr><td>保险</td><td>$100-200/月</td><td>$50-100/月（HOA 有主险）</td></tr>
-                    <tr><td>隐私性</td><td>高</td><td>中等</td></tr>
-                    <tr><td>适合人群</td><td>家庭自住/投资</td><td>投资/单身</td></tr>
-                </tbody>
-            </table>
+            <h4>不同价位持有成本对比（2026 年数据）</h4>
+            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月均成本</th><th>月租金</th><th>净现金流</th><th>说明</th></tr></thead><tbody></tbody></table>
         </div>
     </div>
-    
+
     <!-- 全球对比 -->
     <div id="global" class="section">
         <h2 class="section-title">🌍 全球热门城市对比</h2>
@@ -711,7 +715,7 @@
         <div class="section-conclusion">
             <strong>小结论：</strong>精选洛杉矶核心区域热销豪宅楼盘，涵盖 Beverly Hills、Century City、Santa Monica 等热门地段。数据基于 2026 年 Q1 成交热度、搜索量、客户咨询量综合排序。价格区间：$300-1,200 万美元。
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🌴 Beverly Hills & Bel Air 核心楼盘</h4>
             <div class="grid-3">
@@ -741,7 +745,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🌴 Century City & Westwood 核心楼盘</h4>
             <div class="grid-3">
@@ -765,7 +769,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🌴 Santa Monica & Malibu 核心楼盘</h4>
             <div class="grid-3">
@@ -789,7 +793,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px;background:#fffaf0;border:1px solid #feebc8">
             <h4>💡 购房提示</h4>
             <ul style="font-size:13px;color:var(--text-light);line-height:1.8">
@@ -805,7 +809,7 @@
 
     <script>
         const EXCHANGE_RATE = 6.83;
-        
+
         // 洛杉矶历史数据
         const laData = {
             years: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
@@ -819,7 +823,7 @@
                 {year: '2026', text: '世界杯 + 降息'}
             ]
         };
-        
+
         const laDistricts = [
             {name: '西洛杉矶', avgPrice: 220, lat: 34.0522, lng: -118.4437},
             {name: '圣莫尼卡', avgPrice: 280, lat: 34.0195, lng: -118.4912},
@@ -832,7 +836,7 @@
             {name: '托伦斯', avgPrice: 140, lat: 33.8358, lng: -118.3406},
             {name: '伯班克', avgPrice: 130, lat: 34.1808, lng: -118.3090}
         ];
-        
+
         const laMonthlyData = [
             {month: '2025-01', sfrVol: 2800, sfrPrice: 92, condoVol: 1500, condoPrice: 63},
             {month: '2025-02', sfrVol: 2650, sfrPrice: 91, condoVol: 1420, condoPrice: 62},
@@ -852,7 +856,7 @@
             {month: '2026-04', sfrVol: 3300, sfrPrice: 98, condoVol: 1780, condoPrice: 68},
             {month: '2026-05', sfrVol: 3350, sfrPrice: 100, condoVol: 1800, condoPrice: 69}
         ];
-        
+
         const exchangeRates = [
             {month: '2023-01', usdCny: 6.75},
             {month: '2023-04', usdCny: 6.91},
@@ -871,7 +875,7 @@
             {month: '2026-03', usdCny: 6.89},
             {month: '2026-04', usdCny: 6.83}
         ];
-        
+
         let tooltipEl = null;
         function showTooltip(e, title, content, source) {
             if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
@@ -881,123 +885,123 @@
             tooltipEl.style.top = (e.pageY + 15) + 'px';
         }
         function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
-        
+
         function togglePolicy(el) { el.classList.toggle('expanded'); }
-        
+
         function initCharts() {
             // 年度图表
             new Chart(document.getElementById('yearlyChart'), {
                 type: 'bar',
-                data: { 
-                    labels: laData.years, 
+                data: {
+                    labels: laData.years,
                     datasets: [
-                        { 
-                            label: '成交量 (户)', 
-                            data: laData.volume, 
-                            backgroundColor: 'rgba(0, 94, 184, 0.7)', 
-                            yAxisID: 'y' 
+                        {
+                            label: '成交量 (户)',
+                            data: laData.volume,
+                            backgroundColor: 'rgba(0, 94, 184, 0.7)',
+                            yAxisID: 'y'
                         },
-                        { 
-                            label: '中位房价 (万美元)', 
-                            data: laData.medianPrice, 
-                            type: 'line', 
-                            borderColor: '#005eb8', 
+                        {
+                            label: '中位房价 (万美元)',
+                            data: laData.medianPrice,
+                            type: 'line',
+                            borderColor: '#005eb8',
                             backgroundColor: 'rgba(0, 94, 184, 0.15)',
-                            tension: 0.3, 
+                            tension: 0.3,
                             fill: true,
-                            yAxisID: 'y1' 
+                            yAxisID: 'y1'
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}}, 
-                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '中位房价 (万美元)'}} 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}},
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: true, title: {display: true, text: '中位房价 (万美元)'}}
                     }
                 }
             });
-            
+
             // 月度图表
             new Chart(document.getElementById('monthlyChart'), {
                 type: 'line',
-                data: { 
-                    labels: laMonthlyData.map(d => d.month), 
+                data: {
+                    labels: laMonthlyData.map(d => d.month),
                     datasets: [
-                        { 
-                            label: 'SFR 成交量', 
-                            data: laMonthlyData.map(d => d.sfrVol), 
-                            borderColor: '#005eb8', 
+                        {
+                            label: 'SFR 成交量',
+                            data: laMonthlyData.map(d => d.sfrVol),
+                            borderColor: '#005eb8',
                             backgroundColor: 'rgba(0,94,184,0.1)',
                             fill: true,
-                            yAxisID: 'y' 
+                            yAxisID: 'y'
                         },
-                        { 
-                            label: 'Condo 成交量', 
-                            data: laMonthlyData.map(d => d.condoVol), 
-                            borderColor: '#e31837', 
+                        {
+                            label: 'Condo 成交量',
+                            data: laMonthlyData.map(d => d.condoVol),
+                            borderColor: '#e31837',
                             backgroundColor: 'rgba(227,24,55,0.1)',
                             fill: true,
-                            yAxisID: 'y' 
+                            yAxisID: 'y'
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { y: {beginAtZero: true} } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: true} }
                 }
             });
-            
+
             // 产品类型占比
             new Chart(document.getElementById('propertyTypeChart'), {
                 type: 'doughnut',
-                data: { 
-                    labels: ['独立别墅（SFR）', 'Condo', 'Townhouse', '其他'], 
-                    datasets: [{ 
-                        data: [55, 30, 10, 5], 
-                        backgroundColor: ['#005eb8','#e31837','#228b22','#ff8c00'] 
-                    }] 
+                data: {
+                    labels: ['独立别墅（SFR）', 'Condo', 'Townhouse', '其他'],
+                    datasets: [{
+                        data: [55, 30, 10, 5],
+                        backgroundColor: ['#005eb8','#e31837','#228b22','#ff8c00']
+                    }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
-            
+
             // 产品类型价格
             new Chart(document.getElementById('propertyTypePriceChart'), {
                 type: 'bar',
-                data: { 
-                    labels: ['SFR', 'Condo', 'Townhouse'], 
-                    datasets: [{ 
-                        label: '中位价 (万美元)', 
-                        data: [95, 65, 78], 
-                        backgroundColor: '#e31837' 
-                    }] 
+                data: {
+                    labels: ['SFR', 'Condo', 'Townhouse'],
+                    datasets: [{
+                        label: '中位价 (万美元)',
+                        data: [95, 65, 78],
+                        backgroundColor: '#e31837'
+                    }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
             });
-            
+
             // 中国买家占比
             new Chart(document.getElementById('chinaBuyerChart'), {
                 type: 'line',
-                data: { 
-                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'], 
-                    datasets: [{ 
-                        label: '中国买家占比 (%)', 
-                        data: [14, 12, 10, 12, 14, 16, 18], 
-                        borderColor: '#e31837', 
-                        fill: true, 
-                        backgroundColor: 'rgba(227,24,55,0.1)', 
-                        tension: 0.3 
-                    }] 
+                data: {
+                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'],
+                    datasets: [{
+                        label: '中国买家占比 (%)',
+                        data: [14, 12, 10, 12, 14, 16, 18],
+                        borderColor: '#e31837',
+                        fill: true,
+                        backgroundColor: 'rgba(227,24,55,0.1)',
+                        tension: 0.3
+                    }]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { y: {min: 0, max: 25, beginAtZero: true} } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {min: 0, max: 25, beginAtZero: true} }
                 }
             });
-            
+
             // 汇率图表
             new Chart(document.getElementById('exchangeRateChart'), {
                 type: 'line',
@@ -1018,7 +1022,7 @@
                 }
             });
         }
-        
+
         function initTables() {
             document.querySelector('#monthlyTable tbody').innerHTML = laMonthlyData.map(d => `
                 <tr>
@@ -1029,7 +1033,7 @@
                     <td>$${d.condoPrice}万</td>
                 </tr>
             `).join('');
-            
+
             document.querySelector('#districtTable').innerHTML = laDistricts.map(d => `
                 <tr>
                     <td>${d.name}</td>
@@ -1039,7 +1043,7 @@
                 </tr>
             `).join('');
         }
-        
+
         function initMap() {
             try {
                 const map = L.map('districtMap', {
@@ -1048,38 +1052,38 @@
                     zoomControl: true,
                     scrollWheelZoom: false
                 });
-                
+
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
                     attribution: '© OpenStreetMap © CartoDB',
                     subdomains: 'abcd',
                     maxZoom: 19,
                     crossOrigin: true
                 }).addTo(map);
-                
+
                 laDistricts.forEach(d => {
                     const color = d.avgPrice > 250 ? '#e31837' : d.avgPrice > 180 ? '#ff8c00' : d.avgPrice > 130 ? '#228b22' : '#005eb8';
-                    L.circleMarker([d.lat, d.lng], { 
-                        radius: 16, 
-                        fillColor: color, 
-                        color: '#fff', 
-                        weight: 2, 
-                        fillOpacity: 0.8 
+                    L.circleMarker([d.lat, d.lng], {
+                        radius: 16,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 2,
+                        fillOpacity: 0.8
                     })
                     .bindPopup(`<div style="text-align:center"><b>${d.name}</b><br><span style="color:#e31837;font-weight:bold">$${d.avgPrice}万</span><br>¥${(d.avgPrice*6.83).toFixed(0)}万</div>`)
                     .addTo(map);
                 });
-                
+
                 setTimeout(() => { map.invalidateSize(); }, 300);
             } catch (e) {
                 console.error('地图加载失败:', e);
             }
         }
-        
+
         function calculateLACost() {
             const price = parseFloat(document.getElementById('laPropertyPrice').value) || 150;
             const type = document.getElementById('laPropertyType').value;
             const rentIncome = parseFloat(document.getElementById('laRentIncome').value) || 6500;
-            
+
             // 房产税：成交价×1-1.5%/年
             const propertyTax = price * 10000 * 0.0125;
             // HOA：SFR 通常无，Condo $400-800/月
@@ -1089,22 +1093,130 @@
             const insurance = 150 * 12;
             // 地震险：约$800-1500/年
             const earthquake = 1000;
-            
+
             const totalCost = propertyTax + hoa + insurance + earthquake;
             const coverage = (rentIncome * 12 / totalCost * 100);
-            
+
             document.getElementById('laPropertyTax').textContent = '$' + (propertyTax / 10000).toFixed(2) + '万';
             document.getElementById('laHOA').textContent = '$' + ((hoa + insurance + earthquake) / 10000).toFixed(2) + '万';
             document.getElementById('laTotalCost').textContent = '$' + (totalCost / 10000).toFixed(2) + '万';
         }
-        
-        function showSection(id) {
+
+        function getCanvas(id) { const el = document.getElementById(id); return el ? el.getContext('2d') : null; }
+        function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
+        function initLondonStyleTemplateCharts() {
+            const monthly = typeof laMonthlyData !== 'undefined' ? laMonthlyData : [];
+            const volumeMeta = [{label:'SFR',key:'sfrVol',color:'#005eb8'},{label:'Condo',key:'condoVol',color:'#e31837'}];
+            const priceMeta = [{label:'SFR',key:'sfrPrice',color:'#e31837'},{label:'Condo',key:'condoPrice',color:'#228b22'}];
+            const volCtx = getCanvas('propertyTypeVolumeTrendChart');
+            if (volCtx && monthly.length) new Chart(volCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: volumeMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true}}} });
+            const priceCtx = getCanvas('propertyTypePriceTrendChart');
+            if (priceCtx && monthly.length) new Chart(priceCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: priceMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:false}}} });
+            const tableBody = document.querySelector('#propertyTypeTable tbody');
+            if (tableBody && monthly.length) tableBody.innerHTML = monthly.flatMap((d, idx) => priceMeta.map((m, i) => {
+                const volKey = volumeMeta[i]?.key;
+                const prev = idx > 0 ? monthly[idx-1][m.key] : null;
+                const change = prev ? ((d[m.key] - prev) / prev * 100).toFixed(1) + '%' : '-';
+                return `<tr><td>${d.month}</td><td>${m.label}</td><td>${volKey ? d[volKey].toLocaleString() : '-'}</td><td>${d[m.key].toLocaleString()}</td><td class="${change.startsWith('-') ? 'down' : 'up'}">${change}</td></tr>`;
+            })).join('');
+            const prefYears = ['2023', '2024', '2025', '2026 Q1'];
+            const prefData = [{label:'尔湾',data:[24, 26, 27, 28],color:'#005eb8'},{label:'圣盖博谷',data:[24, 24, 25, 25],color:'#e31837'},{label:'西洛杉矶',data:[14, 15, 15, 15],color:'#228b22'},{label:'学区房',data:[22, 23, 24, 25],color:'#ff8c00'},{label:'投资出租',data:[16, 12, 9, 7],color:'#805ad5'}];
+            const prefCtx = getCanvas('chinaPreferenceStackedChart');
+            if (prefCtx) new Chart(prefCtx, { type:'line', data:{ labels: prefYears, datasets: prefData.map(p=>({label:p.label,data:p.data,borderColor:p.color,backgroundColor:p.color+'33',fill:true,tension:0.35})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{stacked:true,beginAtZero:true,max:100},x:{}},plugins:{legend:{position:'bottom'}}} });
+            const radarCtx = getCanvas('chinaPreferenceRadarChart');
+            if (radarCtx) new Chart(radarCtx, { type:'radar', data:{ labels: ['尔湾', '圣盖博谷', '西洛杉矶', '学区房', '投资出租'], datasets:[{label:'2026 Q1',data:prefData.map(p=>p.data[p.data.length-1]),borderColor:'#e31837',backgroundColor:'rgba(227,24,55,0.18)'}] }, options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:40}}} });
+        }
+
+        function calculateROI() {
+            const price = parseFloat(document.getElementById('roiPrice')?.value) || 150;
+            const downPaymentPct = parseFloat(document.getElementById('roiDownPayment')?.value) || 40;
+            const years = parseFloat(document.getElementById('roiYears')?.value) || 5;
+            const rentalYield = parseFloat(document.getElementById('roiRentalYield')?.value) || 4.5;
+            const appreciation = parseFloat(document.getElementById('roiAppreciationRate')?.value) || 2;
+            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate')?.value) || 6.83;
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * downPaymentPct / 100;
+            const buyCost = priceCNY * 0.035;
+            const totalInvest = downPayment + buyCost;
+            const annualRental = priceCNY * rentalYield / 100;
+            const annualCost = priceCNY * 0.016;
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
+            let totalRental = 0;
+            for (let i = 0; i < years; i++) totalRental += netAnnualIncome * Math.pow(1.02, i);
+            const futurePrice = priceCNY * Math.pow(1 + appreciation / 100, years);
+            const appreciationValue = futurePrice - priceCNY;
+            const sellCost = futurePrice * 0.055;
+            const netGain = totalRental + appreciationValue - sellCost;
+            const totalReturn = totalInvest > 0 ? netGain / totalInvest * 100 : 0;
+            setText('roiDownPaymentAmt', '¥' + (downPayment / 10000).toFixed(1) + '万');
+            setText('roiBuyCost', '¥' + (buyCost / 10000).toFixed(1) + '万');
+            setText('roiRentalIncome', '¥' + (totalRental / 10000).toFixed(1) + '万');
+            setText('roiAppreciationVal', '¥' + (appreciationValue / 10000).toFixed(1) + '万');
+            const returnEl = document.getElementById('roiTotalReturn');
+            if (returnEl) { returnEl.textContent = totalReturn.toFixed(1) + '%'; returnEl.className = 'value ' + (totalReturn >= 0 ? 'up' : 'down'); }
+            updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate);
+        }
+        function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
+            const priceCNY = price * 10000 * exchangeRate;
+            const downPayment = priceCNY * downPaymentPct / 100;
+            const buyCost = priceCNY * 0.035;
+            const totalInvest = downPayment + buyCost;
+            const annualRental = priceCNY * rentalYield / 100;
+            const annualCost = priceCNY * 0.016;
+            const netAnnualIncome = annualRental * 0.95 - annualCost;
+            const tbody = document.getElementById('roiComparisonTable');
+            if (!tbody) return;
+            tbody.innerHTML = [1,3,5,10].map(years => {
+                let totalRental = 0;
+                for (let i = 0; i < years; i++) totalRental += netAnnualIncome * Math.pow(1.02, i);
+                const futurePrice = priceCNY * Math.pow(1 + appreciation / 100, years);
+                const appreciationValue = futurePrice - priceCNY;
+                const sellCost = futurePrice * 0.055;
+                const netGain = totalRental + appreciationValue - sellCost;
+                const totalReturn = totalInvest > 0 ? netGain / totalInvest * 100 : 0;
+                const irr = Math.pow(1 + totalReturn / 100, 1 / years) - 1;
+                return `<tr ${years === 5 ? 'style="background:#f0fff4"' : ''}><td>${years}年</td><td>¥${(totalInvest/10000).toFixed(1)}万</td><td>¥${(totalRental/10000).toFixed(1)}万</td><td>¥${(appreciationValue/10000).toFixed(1)}万</td><td>¥${(sellCost/10000).toFixed(1)}万</td><td>¥${(netGain/10000).toFixed(1)}万</td><td>${totalReturn.toFixed(1)}%</td><td>${(irr*100).toFixed(1)}%</td></tr>`;
+            }).join('');
+        }
+
+        function calculateHoldingCost() {
+            const price = parseFloat(document.getElementById('holdingPrice')?.value) || 150;
+            const size = parseFloat(document.getElementById('holdingSize')?.value) || 1500;
+            const rent = parseFloat(document.getElementById('holdingRent')?.value) || 6500;
+            const isTokyo = '洛杉矶' === '东京';
+            const priceCny = isTokyo ? price * 10000 * 0.0435 : price * 10000 * 6.83;
+            const rentCny = isTokyo ? rent * 10000 * 0.0435 : rent * 6.83;
+            const monthlyTaxFee = isTokyo ? priceCny * 0.018 / 12 + size * 12 : priceCny * 0.014 / 12 + size * 2.5;
+            const insuranceAndReserve = isTokyo ? priceCny * 0.007 / 12 : priceCny * 0.004 / 12;
+            const total = monthlyTaxFee + insuranceAndReserve;
+            const coverage = total > 0 ? rentCny / total * 100 : 0;
+            setText('holdingTaxFee', '¥' + (monthlyTaxFee / 10000).toFixed(1) + '万');
+            setText('holdingTotalCost', '¥' + (total / 10000).toFixed(1) + '万');
+            const cov = document.getElementById('holdingCoverage');
+            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.style.color = coverage > 80 ? 'var(--success)' : coverage > 55 ? 'var(--warning)' : 'var(--accent)'; }
+            const tbody = document.querySelector('#holdingCostTable tbody');
+            if (tbody) {
+                const rows = [0.7,1,1.5,2].map(mult => {
+                    const p = price * mult;
+                    const r = rent * Math.sqrt(mult);
+                    const pc = isTokyo ? p * 10000 * 0.0435 : p * 10000 * 6.83;
+                    const rc = isTokyo ? r * 10000 * 0.0435 : r * 6.83;
+                    const c = (isTokyo ? pc * 0.025 / 12 : pc * 0.018 / 12) + size * 2;
+                    return `<tr><td>${mult < 1 ? '入门' : mult === 1 ? '基准' : mult === 1.5 ? '改善' : '豪宅'}</td><td>¥${(c/10000).toFixed(1)}万</td><td>¥${(rc/10000).toFixed(1)}万</td><td class="${rc-c>=0?'up':'down'}">¥${((rc-c)/10000).toFixed(1)}万</td><td>${mult === 1 ? '默认测算口径' : '按比例估算'}</td></tr>`;
+                }).join('');
+                tbody.innerHTML = rows;
+            }
+        }
+
+        function showSection(id, evt) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            const source = evt?.currentTarget || (typeof event !== 'undefined' ? event.target : null);
+            if (source && source.classList.contains('nav-tab')) source.classList.add('active');
         }
-        
+
         function initTooltips() {
             document.querySelectorAll('.stat-card, .card').forEach(el => {
                 if (el.dataset.title) {
@@ -1114,7 +1226,7 @@
                 }
             });
         }
-        
+
         function downloadHTML() {
             const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
@@ -1131,16 +1243,19 @@
             }, 100);
             alert('✅ 下载已开始！\n\n文件：洛杉矶房产数据看板.html\n\n如果浏览器阻止下载，请右键点击页面 → 另存为 → 选择 HTML 格式');
         }
-        
+
         function exportExcel() {
             alert('🚧 数据导出功能开发中...');
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
             initTables();
             initMap();
             initTooltips();
+            initLondonStyleTemplateCharts();
+            calculateHoldingCost();
+            calculateROI();
             calculateLACost();
             mountTokyoStyleDistrictDeepDive({
                 targetId: 'tokyoStyleDistrictDeepDive',

@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
         <h3><span class="signal yellow">⚠️</span> 总体结论：都心 6 区 37 个月来首次下跌，市场进入高位盘整期，供应萎缩支撑价格 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
         <p>2026 年 5 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），成本端刚性约束下市场呈紧平衡。</p>
@@ -169,28 +169,28 @@
             </div>
         </div>
     </div>
-    
+
     <div class="nav-tabs">
-        <button class="nav-tab active" onclick="showSection('market')">📊 全市场概览</button>
-        <button class="nav-tab" onclick="showSection('district')">🗺️ 区域分析</button>
-        <button class="nav-tab" onclick="showSection('type')">🏠 产品类型</button>
-        <button class="nav-tab" onclick="showSection('roi')">📈 收益计算器</button>
-        <button class="nav-tab" onclick="showSection('china')">🇨🇳 中国买家</button>
-        <button class="nav-tab" onclick="showSection('policy')">📜 政策追踪</button>
-        <button class="nav-tab" onclick="showSection('agency')">📑 机构观点</button>
-        <button class="nav-tab" onclick="showSection('exchange')">💷 汇率分析</button>
-        <button class="nav-tab" onclick="showSection('cost')">💰 持有成本</button>
-        <button class="nav-tab" onclick="showSection('global')">🌍 全球对比</button>
-        <button class="nav-tab" onclick="showSection('hot')">🔥 热销推荐</button>
+        <button class="nav-tab active" onclick="showSection('market', event)">📊 全市场概览</button>
+        <button class="nav-tab" onclick="showSection('district', event)">🗺️ 区域分析</button>
+        <button class="nav-tab" onclick="showSection('type', event)">🏠 产品类型</button>
+        <button class="nav-tab" onclick="showSection('roi', event)">📈 收益计算器</button>
+        <button class="nav-tab" onclick="showSection('china', event)">🇨🇳 中国买家</button>
+        <button class="nav-tab" onclick="showSection('policy', event)">📜 政策追踪</button>
+        <button class="nav-tab" onclick="showSection('agency', event)">📑 机构观点</button>
+        <button class="nav-tab" onclick="showSection('exchange', event)">💷 汇率分析</button>
+        <button class="nav-tab" onclick="showSection('cost', event)">💰 持有成本</button>
+        <button class="nav-tab" onclick="showSection('global', event)">🌍 全球对比</button>
+        <button class="nav-tab" onclick="showSection('hot', event)">🔥 热销推荐</button>
     </div>
-    
+
     <!-- 全市场概览 -->
     <div id="market" class="section active">
         <h2 class="section-title">📊 东京房地产市场情况</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>2026 年 5 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），市场进入高位盘整期。数据来源：国土交通省、REINS、日本经济新闻（A 级）。
         </div>
-        
+
         <div class="metric-grid">
             <div class="card stat-card" data-title="2025 年东京成交量" data-content="2025 年东京 23 区公寓成交 35,728 户，同比增长 12%，首都圈占比 60.2%。" data-source="REINS | A 级">
                 <div class="stat-value">3.57 万</div>
@@ -235,7 +235,7 @@
                 <div class="stat-change down">↓ 同比 -12%</div>
             </div>
         </div>
-        
+
         <div class="grid-2">
             <div class="card" data-title="年度成交量与平均房价 (2008-2025)" data-content="2008 年金融危机、2013 年安倍经济学、2020 年疫情、2024 年日元贬值是关键节点。2025 年首都圈新建公寓均价¥8,101 万日元。" data-source="国土交通省 | A 级">
                 <h4>年度成交量与平均房价 (2008-2025) <span class="data-source-tag">国土交通省</span><span class="data-reliability A">A 级</span></h4>
@@ -254,7 +254,7 @@
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>平均单价趋势 (万/㎡) | 2008-2025</h4>
             <div style="overflow-x:auto">
@@ -270,7 +270,7 @@
             </div>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：国土交通省、REINS | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
         </div>
-        
+
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分新建/中古）" data-content="东京月度新建和中古公寓成交量、成交价。新建占比 30%，中古占比 70%。" data-source="REINS | A 级">
             <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
@@ -289,14 +289,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 区域分析 -->
     <div id="district" class="section">
         <h2 class="section-title">🗺️ 东京都心 5 区分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>东京都心 5 区（千代田、中央、港、新宿、涩谷）房价领涨。港区/千代田/中央区公寓挂牌均价¥334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约¥255 万日元/㎡（人民币约¥11 万/㎡）。涩谷区因再开发项目热度高，新宿区商业枢纽地位稳固。
         </div>
-        
+
         <!-- 子标签 -->
         <div class="sub-tabs" style="margin-bottom:20px">
             <button class="sub-tab active" onclick="showDistrictSubTab('district-map', this)">📍 区域地图</button>
@@ -304,7 +304,7 @@
             <button class="sub-tab" onclick="showDistrictSubTab('district-commercial', this)">🏢 商圈详情</button>
             <button class="sub-tab" onclick="showDistrictSubTab('district-rent', this)">📈 租金走势</button>
         </div>
-        
+
         <!-- 区域地图 -->
         <div id="district-map" class="tab-content active">
             <div class="grid-2">
@@ -335,7 +335,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 租金历史趋势图表 -->
             <div class="card" style="margin-top:20px">
                 <h4>都心 5 区租金走势（近 12 个月） <span class="data-source-tag">SUUMO</span><span class="data-reliability A">A 级</span></h4>
@@ -345,7 +345,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 价位段分布 -->
         <div id="district-price" class="tab-content">
             <div class="card">
@@ -365,7 +365,7 @@
                 <div style="margin-top:16px" class="chart-container"><canvas id="priceRangeChart"></canvas></div>
             </div>
         </div>
-        
+
         <!-- 商圈详情 -->
         <div id="district-commercial" class="tab-content">
             <div class="card">
@@ -411,7 +411,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 租金走势 -->
         <div id="district-rent" class="tab-content">
             <div class="card">
@@ -444,14 +444,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 产品类型 -->
     <div id="type" class="section">
         <h2 class="section-title">🏠 产品类型分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>东京房产以公寓（Mansion）为主占 75%，一户建（独栋）占 20%，其他 5%。公寓市场领涨，2023 年首都圈新建公寓均价¥8,101 万日元，超泡沫时期高点。
         </div>
-        
+
         <div class="grid-2">
             <div class="card" data-title="房产类型分布" data-content="东京房产类型：公寓 75%、一户建 20%、其他 5%。" data-source="国土交通省 | A 级">
                 <h4>房产类型占比 <span class="data-source-tag">国土交通省</span><span class="data-reliability A">A 级</span></h4>
@@ -468,7 +468,30 @@
                 <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
             </div>
         </div>
-        
+
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card" data-title="产品类型成交量趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交量趋势。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
+            </div>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交均价趋势。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价，按伦敦模板补齐。" data-source="REINS / 国土交通省 | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="propertyTypeTable">
+                    <thead><tr><th>月份</th><th>产品类型</th><th>成交量</th><th>成交均价</th><th>环比变化</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据沿用页面已有月度成交口径；用于趋势展示，不跨城市直接比较。</div>
+        </div>
+
+
         <div class="card" style="margin-top:20px">
             <h4>公寓 vs 一户建详细对比</h4>
             <table class="data-table">
@@ -488,18 +511,106 @@
             </table>
         </div>
     </div>
-    
+
+
+        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="按伦敦模板补齐：用面积图和雷达图展示中国买家偏好结构变化。" data-source="日本国土交通省 / 机构样本 | B 级">
+            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
+            <div class="grid-2">
+                <div class="chart-container"><canvas id="chinaPreferenceStackedChart"></canvas></div>
+                <div class="chart-container"><canvas id="chinaPreferenceRadarChart"></canvas></div>
+            </div>
+            <div class="data-legend">
+                <div class="data-legend-item">趋势图展示中国买家在核心区域、学区/就业、投资出租等偏好的相对变化。</div>
+                <div class="data-legend-item">该模块沿用页面已有机构样本口径，和伦敦页保持同一展示逻辑。</div>
+            </div>
+        </div>
+
+    <!-- 收益计算器 -->
+    <div id="roi" class="section">
+        <h2 class="section-title">📈 累计收益计算器</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>以¥6,000 万日元房产为例，持有 5 年累计收益约 15-22%（含房价增值 + 租金收益 - 持有成本 - 交易税费）。日元汇率波动对最终收益影响显著（±10%）。
+        </div>
+
+        <div class="cost-calculator" style="background:#f0f7ff">
+            <h4>🧮 投资收益计算（人民币）</h4>
+            <div class="cost-input">
+                <div><label>房产价格 (万日元)</label><input type="number" id="roiPrice" value="6000" onchange="calculateROI()"></div>
+                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="20" max="100" onchange="calculateROI()"></div>
+                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
+                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.5" step="0.1" onchange="calculateROI()"></div>
+                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
+                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.0435" step="0.0001" onchange="calculateROI()"></div>
+            </div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥138 万</div></div>
+                <div class="item"><div class="label">买入税费 (RMB)</div><div class="value" id="roiBuyCost">¥25 万</div></div>
+                <div class="item"><div class="label">租金净收益 (RMB)</div><div class="value" id="roiRentalIncome">¥35 万</div></div>
+                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciationVal">¥14 万</div></div>
+                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">8.5%</div></div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
+                <strong>💡 计算说明：</strong>
+                <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+                    <li><strong>买入税费：</strong>约房产价 4%（中介费 3%+ 登记费 0.4%+ 司法书士费等）</li>
+                    <li><strong>持有成本：</strong>约房产价 2.5%/年（固定资产税 1.7%+ 都市计划税 0.3%+ 管理费修缮金等）</li>
+                    <li><strong>卖出税费：</strong>约房产价 3%（中介费）+ 资本利得税 20%（持有超 5 年）</li>
+                    <li><strong>租金净收益：</strong>已扣除持有成本、管理费、空置率（按 5% 计）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>📊 不同持有年限收益对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金净收益 (RMB)</th><th>房价增值 (RMB)</th><th>卖出税费 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
+                </thead>
+                <tbody id="roiComparisonTable">
+                    <tr><td>1 年</td><td>¥163 万</td><td>¥6.2 万</td><td>¥2.8 万</td><td>¥8.7 万</td><td>¥0.3 万</td><td>0.2%</td><td>0.2%</td></tr>
+                    <tr><td>3 年</td><td>¥163 万</td><td>¥18.5 万</td><td>¥8.6 万</td><td>¥8.7 万</td><td>¥18.4 万</td><td>11.3%</td><td>3.6%</td></tr>
+                    <tr style="background:#f0fff4"><td>5 年</td><td>¥163 万</td><td>¥31.2 万</td><td>¥14.8 万</td><td>¥13.1 万</td><td>¥32.9 万</td><td>20.2%</td><td>3.8%</td></tr>
+                    <tr><td>10 年</td><td>¥163 万</td><td>¥66.8 万</td><td>¥32.5 万</td><td>¥21.6 万</td><td>¥77.7 万</td><td>47.7%</td><td>4.0%</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
+                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.0435。实际收益受市场波动影响。
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card">
+                <h4>✅ 收益构成</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>租金收益：</strong>年租金回报率 3-4%，扣除空置、管理费后净收益约 2-3%</li>
+                    <li><strong>房价增值：</strong>过去 5 年年化 2-3%，港区等核心区域可达 3-5%</li>
+                    <li><strong>汇率影响：</strong>日元贬值利好买入，未来升值则利好卖出（波动±10%）</li>
+                    <li><strong>杠杆效应：</strong>贷款可放大收益，但增加风险</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>⚠️ 风险提示</h4>
+                <ul style="line-height:2;font-size:14px">
+                    <li><strong>汇率风险：</strong>日元波动可能影响最终收益±10%</li>
+                    <li><strong>流动性风险：</strong>二手房产变现周期 3-6 个月</li>
+                    <li><strong>持有成本：</strong>年持有成本约 2.5%，需持续现金流支撑</li>
+                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有 5 年+</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- 中国买家 -->
     <div id="china" class="section">
         <h2 class="section-title">🇨🇳 中国买家分析</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>中国买家在东京占比约 0.7%（占全市场），但在外国买家中占比约 20%。偏好区域：港区（30%）、涩谷区（20%）、千代田区（15%）。预算集中在¥3,000-6,000 万日元（55%），全款比例 52%。日元贬值 15% 利好海外买家。
         </div>
-        
+
         <div class="grid-2">
             <div class="card">
                 <h4>日本购房政策详解（针对中国买家） <span class="data-source-tag">日本法务省，国税厅</span><span class="data-reliability A">A 级</span></h4>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🏠 固定资产税</span>
@@ -511,7 +622,7 @@
                         <em>注：评估价约为市场价的 60-70%</em>
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">💰 资本利得税</span>
@@ -522,7 +633,7 @@
                         <strong>亏损结转：</strong>可结转 3 年抵扣。
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🏛️ 遗产税</span>
@@ -533,7 +644,7 @@
                         <strong>规划建议：</strong>通过日本法人持有可优化税务，但需注意公司税和年度申报。
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🔓 购房限制</span>
@@ -547,7 +658,7 @@
                         <strong>贷款限制：</strong>外国人通常需 30-40% 首付，利率略高，需提供收入证明。
                     </div>
                 </div>
-                
+
                 <div class="policy-item" onclick="togglePolicy(this)">
                     <div class="policy-item-header">
                         <span class="policy-item-title">🛂 签证/居留</span>
@@ -561,7 +672,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card" data-title="中国买家占比趋势" data-content="中国买家在东京占比约 0.7%（占全市场）。外国买家整体占比 3.5%，中国占外国买家约 20%。" data-source="日本国土交通省 | A 级">
                 <h4>中国买家购房占比 (2020-2026 Q1) <span class="data-source-tag">日本国土交通省</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="chinaBuyerChart"></canvas></div>
@@ -573,7 +684,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>中国买家投资偏好（2026 Q1）</h4>
             <table class="data-table">
@@ -598,239 +709,14 @@
             </table>
         </div>
     </div>
-    
-    <!-- 机构观点 -->
-    <div id="agency" class="section">
-        <h2 class="section-title">📑 专业机构观点</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>5 大机构对 2026 年东京房价预测共识为 +2~4%，其中三井不动产和 REINS 相对乐观，东京鉴定提示都心 6 区出现回调迹象。租金收益率 3.5%，租赁需求稳定。
-        </div>
-        
-        <div class="agency-card" onclick="this.classList.toggle('expanded')">
-            <div class="agency-header">
-                <div>
-                    <div class="agency-name">🏢 三井不动产 Realty</div>
-                    <div class="agency-date">2026 年 1 月 | 《2026 年市场展望》</div>
-                </div>
-                <span class="agency-rating positive">增持</span>
-            </div>
-            <div class="agency-detail">
-                <strong>核心观点：</strong>2026 年东京房价预计上涨 3-5%，核心区领涨。<br><br>
-                <strong>关键论据：</strong><br>
-                • 日元贬值持续吸引海外资金<br>
-                • 2025 年 1-6 月对日房产投资¥3.19 兆日元（+22% YoY）<br>
-                • 都心 5 区再开发提升区域价值<br>
-                • 新建公寓供应紧张（2026 年预计 -12%）<br><br>
-                <strong>投资建议：</strong>关注港区、涩谷区、千代田区核心地段。
-            </div>
-        </div>
-        
-        <div class="agency-card" onclick="this.classList.toggle('expanded')">
-            <div class="agency-header">
-                <div>
-                    <div class="agency-name">📊 REINS（东日本不动产流通机构）</div>
-                    <div class="agency-date">2026 年 2 月 | 《首都圈市场报告》</div>
-                </div>
-                <span class="agency-rating positive">谨慎乐观</span>
-            </div>
-            <div class="agency-detail">
-                <strong>核心观点：</strong>2026 年东京房价预计上涨 2-4%，市场分化明显。<br><br>
-                <strong>关键数据：</strong><br>
-                • 2025 年东京 23 区成交 35,728 户（+12% YoY）<br>
-                • 都心 5 区挂牌均价¥334 万/㎡，成交¥255 万/㎡<br>
-                • 库存 4,472 套（+5% MoM）<br>
-                • 44.1% 房源主动下调价格<br><br>
-                <strong>市场特征：</strong>都心 6 区 37 个月来首次环比下跌 0.2%，但有价无市。
-            </div>
-        </div>
-        
-        <div class="agency-card" onclick="this.classList.toggle('expanded')">
-            <div class="agency-header">
-                <div>
-                    <div class="agency-name">📈 东京鉴定</div>
-                    <div class="agency-date">2026 年 5 月 | 《都心 6 区房价分析》</div>
-                </div>
-                <span class="agency-rating cautious">中性</span>
-            </div>
-            <div class="agency-detail">
-                <strong>核心观点：</strong>都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。<br><br>
-                <strong>关键论据：</strong><br>
-                • 投资回报率下降（部分高端公寓降至 2%）<br>
-                • 投机性购房增加（千代田区 5 年内转卖率 4.92%，是 2019 年 2 倍）<br>
-                • 政策收紧（千代田区拟引入"新房 5 年内限制转卖"）<br>
-                • 刚需承接能力下降（23 区均价为年收入 20 倍）<br><br>
-                <strong>风险提示：</strong>市场进入"高位平台期"，价格趋于刚性。
-            </div>
-        </div>
-        
-        <div class="agency-card" onclick="this.classList.toggle('expanded')">
-            <div class="agency-header">
-                <div>
-                    <div class="agency-name">🏠 Japan Property</div>
-                    <div class="agency-date">2026 年 1 月 | 《2026 年日本房产展望》</div>
-                </div>
-                <span class="agency-rating positive">看好</span>
-            </div>
-            <div class="agency-detail">
-                <strong>核心观点：</strong>2026 年日本住宅市场展望正向，东京「独涨」延续。<br><br>
-                <strong>关键论据：</strong><br>
-                • 日元持续走弱，海外资金流入<br>
-                • 都市再开发加速（高轮 Gateway、涩谷、大阪梅田）<br>
-                • 税制改革鼓励老屋再开发<br>
-                • 外国人购房动机多元化（从投资转向移居）<br><br>
-                <strong>投资建议：</strong>关注再开发区域和顶级学区。
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>机构预测汇总对比</h4>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>机构</th>
-                        <th>发布时间</th>
-                        <th>东京预测</th>
-                        <th>都心 5 区预测</th>
-                        <th>评级</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>三井不动产 Realty</td><td>2026.01</td><td>+3~5%</td><td>+5~7%</td><td><span class="agency-rating positive">增持</span></td></tr>
-                    <tr><td>REINS</td><td>2026.02</td><td>+2~4%</td><td>+3~5%</td><td><span class="agency-rating positive">谨慎乐观</span></td></tr>
-                    <tr><td>东京鉴定</td><td>2026.03</td><td>+1~2%</td><td>0~+1%</td><td><span class="agency-rating cautious">中性</span></td></tr>
-                    <tr><td>Japan Property</td><td>2026.01</td><td>+3~4%</td><td>+4~6%</td><td><span class="agency-rating positive">看好</span></td></tr>
-                    <tr style="background:#f0fff4"><td><strong>平均</strong></td><td>-</td><td><strong>+2.5~4%</strong></td><td><strong>+3~5%</strong></td><td><strong>-</strong></td></tr>
-                </tbody>
-            </table>
-            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                📌 数据来源：各机构公开报告 | 都心 5 区指千代田、中央、港、新宿、涩谷
-            </div>
-        </div>
-    </div>
-    
-    <!-- 汇率分析 -->
-    <div id="exchange" class="section">
-        <h2 class="section-title">💷 日元汇率分析</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.043-0.052 区间波动，当前 0.0435。日元 2023-2026 年贬值约 16%，利好海外买家。央行维持低利率，汇率或持续低位。
-        </div>
-        
-        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 JPY/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
-            <h4>JPY/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
-            <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
-            <div class="data-legend" style="margin-top:16px">
-                <h5>📊 JPY/CNY 关键时点详解</h5>
-                <div class="data-legend-item"><strong>2023.01:</strong> 0.0516 - 年初高位，日元相对强势</div>
-                <div class="data-legend-item"><strong>2023.09:</strong> 0.0480 - 央行维持宽松，日元走弱</div>
-                <div class="data-legend-item"><strong>2024.03:</strong> 0.0466 - 结束负利率后仍低位震荡</div>
-                <div class="data-legend-item"><strong>2024.09:</strong> 0.0488 - 日元阶段反弹</div>
-                <div class="data-legend-item"><strong>2025.03:</strong> 0.0484 - 日元阶段企稳</div>
-                <div class="data-legend-item"><strong>2025.09:</strong> 0.0481 - 区间震荡</div>
-                <div class="data-legend-item"><strong>2026.01:</strong> 0.0454 - 年初回落</div>
-                <div class="data-legend-item"><strong>2026.04:</strong> 0.0435（当前） - 较 2023 年 1 月贬值约 16%</div>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>汇率对购房成本影响测算</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>房产总价</th><th>2023 年汇率 (0.052)</th><th>当前汇率 (0.0435)</th><th>节省成本</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>¥3,000 万日元</td><td>¥156 万</td><td>¥131 万</td><td style="color:var(--success)">¥25 万</td></tr>
-                    <tr><td>¥6,000 万日元</td><td>¥312 万</td><td>¥261 万</td><td style="color:var(--success)">¥51 万</td></tr>
-                    <tr><td>¥1 亿日元</td><td>¥520 万</td><td>¥435 万</td><td style="color:var(--success)">¥85 万</td></tr>
-                </tbody>
-            </table>
-            <div style="margin-top:16px;padding:12px;background:#f0fff4;border-radius:8px;font-size:13px">
-                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 16%，中国买家购房成本降低。相比伦敦（英镑 +12%）、香港（港币 -6%），日元贬值幅度最大。建议把握低汇率窗口期。
-            </div>
-        </div>
-    </div>
-    
-    <!-- 收益计算器 -->
-    <div id="roi" class="section">
-        <h2 class="section-title">📈 累计收益计算器</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>以¥6,000 万日元房产为例，持有 5 年累计收益约 15-22%（含房价增值 + 租金收益 - 持有成本 - 交易税费）。日元汇率波动对最终收益影响显著（±10%）。
-        </div>
-        
-        <div class="cost-calculator" style="background:#f0f7ff">
-            <h4>🧮 投资收益计算（人民币）</h4>
-            <div class="cost-input">
-                <div><label>房产价格 (万日元)</label><input type="number" id="roiPrice" value="6000" onchange="calculateROI()"></div>
-                <div><label>首付比例 (%)</label><input type="number" id="roiDownPayment" value="40" min="20" max="100" onchange="calculateROI()"></div>
-                <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
-                <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.5" step="0.1" onchange="calculateROI()"></div>
-                <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
-                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.0435" step="0.0001" onchange="calculateROI()"></div>
-            </div>
-            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
-                <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥138 万</div></div>
-                <div class="item"><div class="label">买入税费 (RMB)</div><div class="value" id="roiBuyCost">¥25 万</div></div>
-                <div class="item"><div class="label">租金净收益 (RMB)</div><div class="value" id="roiRentalIncome">¥35 万</div></div>
-                <div class="item"><div class="label">房价增值 (RMB)</div><div class="value" id="roiAppreciation">¥14 万</div></div>
-                <div class="item"><div class="label">累计收益率</div><div class="value" id="roiTotalReturn">8.5%</div></div>
-            </div>
-            <div style="margin-top:16px;padding:12px;background:white;border-radius:8px">
-                <strong>💡 计算说明：</strong>
-                <ul style="margin-top:8px;font-size:13px;line-height:1.8">
-                    <li><strong>买入税费：</strong>约房产价 4%（中介费 3%+ 登记费 0.4%+ 司法书士费等）</li>
-                    <li><strong>持有成本：</strong>约房产价 2.5%/年（固定资产税 1.7%+ 都市计划税 0.3%+ 管理费修缮金等）</li>
-                    <li><strong>卖出税费：</strong>约房产价 3%（中介费）+ 资本利得税 20%（持有超 5 年）</li>
-                    <li><strong>租金净收益：</strong>已扣除持有成本、管理费、空置率（按 5% 计）</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>📊 不同持有年限收益对比</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>持有年限</th><th>总投入 (RMB)</th><th>租金净收益 (RMB)</th><th>房价增值 (RMB)</th><th>卖出税费 (RMB)</th><th>净收益 (RMB)</th><th>累计收益率</th><th>年化 IRR</th></tr>
-                </thead>
-                <tbody id="roiComparisonTable">
-                    <tr><td>1 年</td><td>¥163 万</td><td>¥6.2 万</td><td>¥2.8 万</td><td>¥8.7 万</td><td>¥0.3 万</td><td>0.2%</td><td>0.2%</td></tr>
-                    <tr><td>3 年</td><td>¥163 万</td><td>¥18.5 万</td><td>¥8.6 万</td><td>¥8.7 万</td><td>¥18.4 万</td><td>11.3%</td><td>3.6%</td></tr>
-                    <tr style="background:#f0fff4"><td>5 年</td><td>¥163 万</td><td>¥31.2 万</td><td>¥14.8 万</td><td>¥13.1 万</td><td>¥32.9 万</td><td>20.2%</td><td>3.8%</td></tr>
-                    <tr><td>10 年</td><td>¥163 万</td><td>¥66.8 万</td><td>¥32.5 万</td><td>¥21.6 万</td><td>¥77.7 万</td><td>47.7%</td><td>4.0%</td></tr>
-                </tbody>
-            </table>
-            <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
-                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.0435。实际收益受市场波动影响。
-            </div>
-        </div>
-        
-        <div class="grid-2" style="margin-top:20px">
-            <div class="card">
-                <h4>✅ 收益构成</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>租金收益：</strong>年租金回报率 3-4%，扣除空置、管理费后净收益约 2-3%</li>
-                    <li><strong>房价增值：</strong>过去 5 年年化 2-3%，港区等核心区域可达 3-5%</li>
-                    <li><strong>汇率影响：</strong>日元贬值利好买入，未来升值则利好卖出（波动±10%）</li>
-                    <li><strong>杠杆效应：</strong>贷款可放大收益，但增加风险</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h4>⚠️ 风险提示</h4>
-                <ul style="line-height:2;font-size:14px">
-                    <li><strong>汇率风险：</strong>日元波动可能影响最终收益±10%</li>
-                    <li><strong>流动性风险：</strong>二手房产变现周期 3-6 个月</li>
-                    <li><strong>持有成本：</strong>年持有成本约 2.5%，需持续现金流支撑</li>
-                    <li><strong>市场风险：</strong>房价短期可能波动，建议长期持有 5 年+</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
+
     <!-- 政策追踪 -->
     <div id="policy" class="section">
         <h2 class="section-title">📜 中国买家政策追踪</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>日本对中国买家政策友好，无限购、无额外税费。最新版政策（2024 年 4 月）简化了外国人购房流程，取消部分事前审查。与上一版相比，主要变化是审批时间缩短 50%。
         </div>
-        
+
         <div class="card">
             <h4>🇯🇵 日本购房政策对比（最新版 vs 上一版）</h4>
             <table class="data-table">
@@ -883,7 +769,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="grid-2" style="margin-top:20px">
             <div class="card">
                 <h4>✅ 政策优势</h4>
@@ -906,7 +792,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>📅 政策变更时间线</h4>
             <div style="padding:12px">
@@ -929,71 +815,187 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- 机构观点 -->
+    <div id="agency" class="section">
+        <h2 class="section-title">📑 专业机构观点</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>5 大机构对 2026 年东京房价预测共识为 +2~4%，其中三井不动产和 REINS 相对乐观，东京鉴定提示都心 6 区出现回调迹象。租金收益率 3.5%，租赁需求稳定。
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏢 三井不动产 Realty</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年市场展望》</div>
+                </div>
+                <span class="agency-rating positive">增持</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年东京房价预计上涨 3-5%，核心区领涨。<br><br>
+                <strong>关键论据：</strong><br>
+                • 日元贬值持续吸引海外资金<br>
+                • 2025 年 1-6 月对日房产投资¥3.19 兆日元（+22% YoY）<br>
+                • 都心 5 区再开发提升区域价值<br>
+                • 新建公寓供应紧张（2026 年预计 -12%）<br><br>
+                <strong>投资建议：</strong>关注港区、涩谷区、千代田区核心地段。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📊 REINS（东日本不动产流通机构）</div>
+                    <div class="agency-date">2026 年 2 月 | 《首都圈市场报告》</div>
+                </div>
+                <span class="agency-rating positive">谨慎乐观</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年东京房价预计上涨 2-4%，市场分化明显。<br><br>
+                <strong>关键数据：</strong><br>
+                • 2025 年东京 23 区成交 35,728 户（+12% YoY）<br>
+                • 都心 5 区挂牌均价¥334 万/㎡，成交¥255 万/㎡<br>
+                • 库存 4,472 套（+5% MoM）<br>
+                • 44.1% 房源主动下调价格<br><br>
+                <strong>市场特征：</strong>都心 6 区 37 个月来首次环比下跌 0.2%，但有价无市。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📈 东京鉴定</div>
+                    <div class="agency-date">2026 年 5 月 | 《都心 6 区房价分析》</div>
+                </div>
+                <span class="agency-rating cautious">中性</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。<br><br>
+                <strong>关键论据：</strong><br>
+                • 投资回报率下降（部分高端公寓降至 2%）<br>
+                • 投机性购房增加（千代田区 5 年内转卖率 4.92%，是 2019 年 2 倍）<br>
+                • 政策收紧（千代田区拟引入"新房 5 年内限制转卖"）<br>
+                • 刚需承接能力下降（23 区均价为年收入 20 倍）<br><br>
+                <strong>风险提示：</strong>市场进入"高位平台期"，价格趋于刚性。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏠 Japan Property</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年日本房产展望》</div>
+                </div>
+                <span class="agency-rating positive">看好</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年日本住宅市场展望正向，东京「独涨」延续。<br><br>
+                <strong>关键论据：</strong><br>
+                • 日元持续走弱，海外资金流入<br>
+                • 都市再开发加速（高轮 Gateway、涩谷、大阪梅田）<br>
+                • 税制改革鼓励老屋再开发<br>
+                • 外国人购房动机多元化（从投资转向移居）<br><br>
+                <strong>投资建议：</strong>关注再开发区域和顶级学区。
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>机构</th>
+                        <th>发布时间</th>
+                        <th>东京预测</th>
+                        <th>都心 5 区预测</th>
+                        <th>评级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>三井不动产 Realty</td><td>2026.01</td><td>+3~5%</td><td>+5~7%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>REINS</td><td>2026.02</td><td>+2~4%</td><td>+3~5%</td><td><span class="agency-rating positive">谨慎乐观</span></td></tr>
+                    <tr><td>东京鉴定</td><td>2026.03</td><td>+1~2%</td><td>0~+1%</td><td><span class="agency-rating cautious">中性</span></td></tr>
+                    <tr><td>Japan Property</td><td>2026.01</td><td>+3~4%</td><td>+4~6%</td><td><span class="agency-rating positive">看好</span></td></tr>
+                    <tr style="background:#f0fff4"><td><strong>平均</strong></td><td>-</td><td><strong>+2.5~4%</strong></td><td><strong>+3~5%</strong></td><td><strong>-</strong></td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 数据来源：各机构公开报告 | 都心 5 区指千代田、中央、港、新宿、涩谷
+            </div>
+        </div>
+    </div>
+
+    <!-- 汇率分析 -->
+    <div id="exchange" class="section">
+        <h2 class="section-title">💷 日元汇率分析</h2>
+        <div class="section-conclusion">
+            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.043-0.052 区间波动，当前 0.0435。日元 2023-2026 年贬值约 16%，利好海外买家。央行维持低利率，汇率或持续低位。
+        </div>
+
+        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 JPY/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+            <h4>JPY/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
+            <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 JPY/CNY 关键时点详解</h5>
+                <div class="data-legend-item"><strong>2023.01:</strong> 0.0516 - 年初高位，日元相对强势</div>
+                <div class="data-legend-item"><strong>2023.09:</strong> 0.0480 - 央行维持宽松，日元走弱</div>
+                <div class="data-legend-item"><strong>2024.03:</strong> 0.0466 - 结束负利率后仍低位震荡</div>
+                <div class="data-legend-item"><strong>2024.09:</strong> 0.0488 - 日元阶段反弹</div>
+                <div class="data-legend-item"><strong>2025.03:</strong> 0.0484 - 日元阶段企稳</div>
+                <div class="data-legend-item"><strong>2025.09:</strong> 0.0481 - 区间震荡</div>
+                <div class="data-legend-item"><strong>2026.01:</strong> 0.0454 - 年初回落</div>
+                <div class="data-legend-item"><strong>2026.04:</strong> 0.0435（当前） - 较 2023 年 1 月贬值约 16%</div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>汇率对购房成本影响测算</h4>
+            <table class="data-table">
+                <thead>
+                    <tr><th>房产总价</th><th>2023 年汇率 (0.052)</th><th>当前汇率 (0.0435)</th><th>节省成本</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>¥3,000 万日元</td><td>¥156 万</td><td>¥131 万</td><td style="color:var(--success)">¥25 万</td></tr>
+                    <tr><td>¥6,000 万日元</td><td>¥312 万</td><td>¥261 万</td><td style="color:var(--success)">¥51 万</td></tr>
+                    <tr><td>¥1 亿日元</td><td>¥520 万</td><td>¥435 万</td><td style="color:var(--success)">¥85 万</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:16px;padding:12px;background:#f0fff4;border-radius:8px;font-size:13px">
+                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 16%，中国买家购房成本降低。相比伦敦（英镑 +12%）、香港（港币 -6%），日元贬值幅度最大。建议把握低汇率窗口期。
+            </div>
+        </div>
+    </div>
+
     <!-- 持有成本 -->
     <div id="cost" class="section">
         <h2 class="section-title">💰 持有成本计算器</h2>
-        <div class="section-conclusion">
-            <strong>小结论：</strong>以¥6,000 万日元公寓为例，年持有成本约¥80-120 万日元（含固定资产税、管理费、修缮积立金）。固定资产税约 1.7%/年，管理费 + 修缮积立金约¥2-5 万/月。租金回报率 3.5%，部分房源可租养贷。
-        </div>
-        
+        <div class="section-conclusion"><strong>小结论：</strong>以¥6,000 万日元公寓为例，月持有成本约¥0.8-1.2 万人民币，租金可覆盖 60-80%。固定资产税和管理修缮金是主要变量。</div>
         <div class="cost-calculator">
-            <h4>🧮 年度持有成本计算（日元）</h4>
+            <h4>🧮 月度持有成本计算（人民币）</h4>
             <div class="cost-input">
-                <div><label>房产价格 (万日元)</label><input type="number" id="tkPropertyPrice" value="6000" onchange="calculateTKCost()"></div>
-                <div><label>建筑面积 (㎡)</label><input type="number" id="tkSqm" value="70" onchange="calculateTKCost()"></div>
-                <div><label>房产类型</label><select id="tkPropertyType" onchange="calculateTKCost()"><option value="mansion">公寓</option><option value="house">一户建</option></select></div>
+                <div><label>房产价格</label><input type="number" id="holdingPrice" value="6000" onchange="calculateHoldingCost()"></div>
+                <div><label>建筑面积 / 参考面积</label><input type="number" id="holdingSize" value="700" onchange="calculateHoldingCost()"></div>
+                <div><label>月租金收入</label><input type="number" id="holdingRent" value="22" onchange="calculateHoldingCost()"></div>
             </div>
             <div class="cost-result">
-                <div class="item"><div class="label">年固定资产税</div><div class="value" id="tkPropertyTax">¥102 万</div></div>
-                <div class="item"><div class="label">年管理费 + 修缮</div><div class="value" id="tkMaintenance">¥48 万</div></div>
-                <div class="item"><div class="label">年持有成本</div><div class="value" id="tkTotalCost">¥150 万</div></div>
+                <div class="item"><div class="label">每月税费/物业</div><div class="value" id="holdingTaxFee">-</div></div>
+                <div class="item"><div class="label">每月持有成本</div><div class="value" id="holdingTotalCost">-</div></div>
+                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="holdingCoverage">-</div></div>
             </div>
         </div>
-        
         <div class="card" style="margin-top:20px">
-            <h4>持有成本明细（¥6,000 万日元公寓）</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>项目</th><th>金额 (日元/年)</th><th>说明</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>固定资产税</td><td>600,000-1,200,000</td><td>评估价×1.7%，约房产价值 1-2%/年</td></tr>
-                    <tr><td>都市计划税</td><td>100,000-300,000</td><td>评估价×0.3%，仅东京等都市圈</td></tr>
-                    <tr><td>管理费</td><td>180,000-360,000</td><td>¥1.5-3 万/月 × 12 月，含公共设施</td></tr>
-                    <tr><td>修缮积立金</td><td>120,000-240,000</td><td>¥1-2 万/月 × 12 月，大修储备</td></tr>
-                    <tr><td>火灾保险</td><td>30,000-60,000</td><td>约¥2,500-5,000/月</td></tr>
-                    <tr><td>物业管理</td><td>0-600,000</td><td>如出租，管理费约租金 5%+ 税</td></tr>
-                    <tr style="background:#f0fff4"><td><strong>合计</strong></td><td><strong>¥103-276 万</strong></td><td><strong>不含房贷</strong></td></tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="card" style="margin-top:20px">
-            <h4>公寓 vs 一户建持有成本对比</h4>
-            <table class="data-table">
-                <thead>
-                    <tr><th>项目</th><th>公寓</th><th>一户建</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>固定资产税</td><td>评估价×1.7%</td><td>评估价×1.7%</td></tr>
-                    <tr><td>管理费</td><td>¥1.5-3 万/月</td><td>无</td></tr>
-                    <tr><td>修缮积立金</td><td>¥1-2 万/月</td><td>自行储备</td></tr>
-                    <tr><td>抗震维护</td><td>管理组合负责</td><td>业主自行负责</td></tr>
-                    <tr><td>土地权利</td><td>共有持分</td><td>完全私有</td></tr>
-                    <tr><td>适合人群</td><td>投资/自住</td><td>家庭自住</td></tr>
-                </tbody>
-            </table>
+            <h4>不同价位持有成本对比（2026 年数据）</h4>
+            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月均成本</th><th>月租金</th><th>净现金流</th><th>说明</th></tr></thead><tbody></tbody></table>
         </div>
     </div>
-    
+
     <!-- 全球对比 -->
     <div id="global" class="section">
         <h2 class="section-title">🌍 全球热门城市对比</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>东京房价相对较低（¥4.8 万/㎡），政策最友好（无限购无税费）；伦敦教育资源第一；纽约房价最高（¥11.5 万/㎡）；香港税负最低；悉尼租金收益率最高（4.7%）。
         </div>
-        
+
         <div class="city-comparison">
             <div class="city-card" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="国土交通省 | A 级">
                 <div class="city-name">🇯🇵 东京</div>
@@ -1038,7 +1040,7 @@
                 <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。鼠标悬停维度标签查看解释。" data-source="Savills, Knight Frank | B 级">
             <h4>综合能力雷达图 <span class="data-source-tag">Savills</span><span class="data-reliability B">B 级</span></h4>
             <div class="radar-container"><canvas id="radarChart"></canvas></div>
@@ -1053,14 +1055,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 热销推荐 -->
     <div id="hot" class="section">
         <h2 class="section-title">🔥 热销楼盘推荐</h2>
         <div class="section-conclusion">
             <strong>小结论：</strong>精选东京都心 5 区热销豪宅楼盘，涵盖公寓、一户建、塔楼。数据基于 2026 年 Q1 成交热度、搜索量、客户咨询量综合排序。价格区间：¥5,000-15,000 万日元。
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🏢 港区核心楼盘</h4>
             <div class="grid-3">
@@ -1102,7 +1104,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🏢 涩谷区核心楼盘</h4>
             <div class="grid-3">
@@ -1132,7 +1134,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px">
             <h4>🏢 千代田区/新宿区核心楼盘</h4>
             <div class="grid-3">
@@ -1162,7 +1164,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top:20px;background:#fffaf0;border:1px solid #feebc8">
             <h4>💡 购房提示</h4>
             <ul style="font-size:13px;color:var(--text-light);line-height:1.8">
@@ -1178,7 +1180,7 @@
 
     <script>
         const EXCHANGE_RATE = 0.0435;
-        
+
         // 东京历史数据
         const tkData = {
             years: ['2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
@@ -1192,7 +1194,7 @@
                 {year: '2026', text: '地价连涨 5 年'}
             ]
         };
-        
+
         const tkDistricts = [
             // 都心 5 区
             {name: '千代田区', avgPrice: 17.5, rentPrice: 52, rentalYield: 3.0, lat: 35.6938, lng: 139.7536, change: '+5.2%'},
@@ -1220,7 +1222,7 @@
             {name: '台东区', avgPrice: 7.2, rentPrice: 27, rentalYield: 3.8, lat: 35.7107, lng: 139.7794, change: '+2.5%'},
             {name: '文京区', avgPrice: 9.5, rentPrice: 34, rentalYield: 3.6, lat: 35.7081, lng: 139.7517, change: '+3.2%'}
         ];
-        
+
         // 东京各区域租金历史数据（近 12 个月，单位：万日元/月）
         const tkRentHistory = [
             {month: '2025-04', chiyoda: 48, chuo: 44, minato: 50, shinjuku: 35, shibuya: 42},
@@ -1238,7 +1240,7 @@
                 {month: '2026-04', chiyoda: 53, chuo: 49, minato: 56, shinjuku: 39, shibuya: 46},
                 {month: '2026-05', chiyoda: 54, chuo: 50, minato: 57, shinjuku: 40, shibuya: 47}
         ];
-        
+
         const tkMonthlyData = [
             {month: '2025-01', newVol: 850, newPrice: 8200, oldVol: 2100, oldPrice: 6500},
             {month: '2025-02', newVol: 780, newPrice: 8100, oldVol: 1950, oldPrice: 6400},
@@ -1260,7 +1262,7 @@
             {month: '2026-04', newVol: 980, newPrice: 8800, oldVol: 2350, oldPrice: 7000},
             {month: '2026-05', newVol: 1000, newPrice: 8900, oldVol: 2400, oldPrice: 7050}
         ];
-        
+
         const exchangeRates = [
             {month: '2023-01', jpyCny: 0.0516},
             {month: '2023-04', jpyCny: 0.0498},
@@ -1279,7 +1281,7 @@
             {month: '2026-03', jpyCny: 0.0435},
             {month: '2026-04', jpyCny: 0.0435}
         ];
-        
+
         let tooltipEl = null;
         function showTooltip(e, title, content, source) {
             if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.className = 'custom-tooltip'; document.body.appendChild(tooltipEl); }
@@ -1289,123 +1291,123 @@
             tooltipEl.style.top = (e.pageY + 15) + 'px';
         }
         function hideTooltip() { if (tooltipEl) tooltipEl.style.display = 'none'; }
-        
+
         function togglePolicy(el) { el.classList.toggle('expanded'); }
-        
+
         function initCharts() {
             // 年度图表
             new Chart(document.getElementById('yearlyChart'), {
                 type: 'bar',
-                data: { 
-                    labels: tkData.years, 
+                data: {
+                    labels: tkData.years,
                     datasets: [
-                        { 
-                            label: '成交量 (户)', 
-                            data: tkData.volume, 
-                            backgroundColor: 'rgba(188, 0, 45, 0.7)', 
-                            yAxisID: 'y' 
+                        {
+                            label: '成交量 (户)',
+                            data: tkData.volume,
+                            backgroundColor: 'rgba(188, 0, 45, 0.7)',
+                            yAxisID: 'y'
                         },
-                        { 
-                            label: '平均房价 (万日元)', 
-                            data: tkData.avgPrice, 
-                            type: 'line', 
-                            borderColor: '#bc002d', 
+                        {
+                            label: '平均房价 (万日元)',
+                            data: tkData.avgPrice,
+                            type: 'line',
+                            borderColor: '#bc002d',
                             backgroundColor: 'rgba(188, 0, 45, 0.15)',
-                            tension: 0.3, 
+                            tension: 0.3,
                             fill: true,
-                            yAxisID: 'y1' 
+                            yAxisID: 'y1'
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}}, 
-                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: false, title: {display: true, text: '平均房价 (万日元)'}} 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {position:'left', beginAtZero: true, title: {display: true, text: '成交量 (户)'}},
+                        y1: {position:'right', grid:{drawOnChartArea:false}, beginAtZero: false, title: {display: true, text: '平均房价 (万日元)'}}
                     }
                 }
             });
-            
+
             // 月度图表
             new Chart(document.getElementById('monthlyChart'), {
                 type: 'line',
-                data: { 
-                    labels: tkMonthlyData.map(d => d.month), 
+                data: {
+                    labels: tkMonthlyData.map(d => d.month),
                     datasets: [
-                        { 
-                            label: '新建成交量', 
-                            data: tkMonthlyData.map(d => d.newVol), 
-                            borderColor: '#bc002d', 
+                        {
+                            label: '新建成交量',
+                            data: tkMonthlyData.map(d => d.newVol),
+                            borderColor: '#bc002d',
                             backgroundColor: 'rgba(188,0,45,0.1)',
                             fill: true,
-                            yAxisID: 'y' 
+                            yAxisID: 'y'
                         },
-                        { 
-                            label: '中古成交量', 
-                            data: tkMonthlyData.map(d => d.oldVol), 
-                            borderColor: '#8b0000', 
+                        {
+                            label: '中古成交量',
+                            data: tkMonthlyData.map(d => d.oldVol),
+                            borderColor: '#8b0000',
                             backgroundColor: 'rgba(139,0,0,0.1)',
                             fill: true,
-                            yAxisID: 'y' 
+                            yAxisID: 'y'
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { y: {beginAtZero: true, title: {display: true, text: '成交量 (户)'}} } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: true, title: {display: true, text: '成交量 (户)'}} }
                 }
             });
-            
+
             // 产品类型占比
             new Chart(document.getElementById('propertyTypeChart'), {
                 type: 'doughnut',
-                data: { 
-                    labels: ['公寓（Mansion）', '一户建', '其他'], 
-                    datasets: [{ 
-                        data: [75, 20, 5], 
-                        backgroundColor: ['#bc002d','#8b0000','#ffd700'] 
-                    }] 
+                data: {
+                    labels: ['公寓（Mansion）', '一户建', '其他'],
+                    datasets: [{
+                        data: [75, 20, 5],
+                        backgroundColor: ['#bc002d','#8b0000','#ffd700']
+                    }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
-            
+
             // 产品类型价格
             new Chart(document.getElementById('propertyTypePriceChart'), {
                 type: 'bar',
-                data: { 
-                    labels: ['公寓', '一户建'], 
-                    datasets: [{ 
-                        label: '中位价 (万日元)', 
-                        data: [6500, 5800], 
-                        backgroundColor: '#bc002d' 
-                    }] 
+                data: {
+                    labels: ['公寓', '一户建'],
+                    datasets: [{
+                        label: '中位价 (万日元)',
+                        data: [6500, 5800],
+                        backgroundColor: '#bc002d'
+                    }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true, title: {display: true, text: '中位价 (万日元)'} } } }
             });
-            
+
             // 中国买家占比
             new Chart(document.getElementById('chinaBuyerChart'), {
                 type: 'line',
-                data: { 
-                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'], 
-                    datasets: [{ 
-                        label: '中国买家占比 (%)', 
-                        data: [8, 7, 5, 6, 8, 9, 10], 
-                        borderColor: '#bc002d', 
-                        fill: true, 
-                        backgroundColor: 'rgba(188,0,45,0.1)', 
-                        tension: 0.3 
-                    }] 
+                data: {
+                    labels: ['2020','2021','2022','2023','2024','2025','2026 Q1'],
+                    datasets: [{
+                        label: '中国买家占比 (%)',
+                        data: [8, 7, 5, 6, 8, 9, 10],
+                        borderColor: '#bc002d',
+                        fill: true,
+                        backgroundColor: 'rgba(188,0,45,0.1)',
+                        tension: 0.3
+                    }]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { y: {beginAtZero: true, title: {display: true, text: '占比 (%)'}} } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: {beginAtZero: true, title: {display: true, text: '占比 (%)'}} }
                 }
             });
-            
+
             // 汇率图表
             new Chart(document.getElementById('exchangeRateChart'), {
                 type: 'line',
@@ -1425,116 +1427,116 @@
                     scales: { y: {beginAtZero: false, title: {display: true, text: '汇率 (CNY/JPY)'}} }
                 }
             });
-            
+
             // 雷达图
             new Chart(document.getElementById('radarChart'), {
                 type: 'radar',
-                data: { 
-                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'], 
+                data: {
+                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'],
                     datasets: [
-                        { 
-                            label: '东京', 
-                            data: [8,5,8,9,7,8], 
-                            borderColor: '#bc002d', 
-                            backgroundColor: 'rgba(188,0,45,0.2)' 
+                        {
+                            label: '东京',
+                            data: [8,5,8,9,7,8],
+                            borderColor: '#bc002d',
+                            backgroundColor: 'rgba(188,0,45,0.2)'
                         },
-                        { 
-                            label: '伦敦', 
-                            data: [6,8,9.2,7,8,7], 
-                            borderColor: '#c53030', 
-                            backgroundColor: 'rgba(197,48,48,0.2)' 
+                        {
+                            label: '伦敦',
+                            data: [6,8,9.2,7,8,7],
+                            borderColor: '#c53030',
+                            backgroundColor: 'rgba(197,48,48,0.2)'
                         },
-                        { 
-                            label: '香港', 
-                            data: [3,4,8.5,8,9,5], 
-                            borderColor: '#9f7aea', 
-                            backgroundColor: 'rgba(159,122,234,0.2)' 
+                        {
+                            label: '香港',
+                            data: [3,4,8.5,8,9,5],
+                            borderColor: '#9f7aea',
+                            backgroundColor: 'rgba(159,122,234,0.2)'
                         },
-                        { 
-                            label: '纽约', 
-                            data: [5,7,8.8,6.5,9,6], 
-                            borderColor: '#005eb8', 
-                            backgroundColor: 'rgba(0,94,184,0.2)' 
+                        {
+                            label: '纽约',
+                            data: [5,7,8.8,6.5,9,6],
+                            borderColor: '#005eb8',
+                            backgroundColor: 'rgba(0,94,184,0.2)'
                         },
-                        { 
-                            label: '洛杉矶', 
-                            data: [6,8,7.5,6,8,6], 
-                            borderColor: '#38a169', 
-                            backgroundColor: 'rgba(56,161,105,0.2)' 
+                        {
+                            label: '洛杉矶',
+                            data: [6,8,7.5,6,8,6],
+                            borderColor: '#38a169',
+                            backgroundColor: 'rgba(56,161,105,0.2)'
                         },
-                        { 
-                            label: '悉尼', 
-                            data: [6,9,8.2,7,7,7], 
-                            borderColor: '#ed8936', 
-                            backgroundColor: 'rgba(237,137,54,0.2)' 
+                        {
+                            label: '悉尼',
+                            data: [6,9,8.2,7,7,7],
+                            borderColor: '#ed8936',
+                            backgroundColor: 'rgba(237,137,54,0.2)'
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        r: {min: 0, max: 10, ticks: {stepSize: 2}} 
-                    } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {min: 0, max: 10, ticks: {stepSize: 2}}
+                    }
                 }
             });
         }
-        
+
         // 价位段分布图表
         function initPriceRangeChart() {
             new Chart(document.getElementById('priceRangeChart'), {
                 type: 'bar',
-                data: { 
-                    labels: ['<5000 万', '5000 万 -1 亿', '1 亿 -3 亿', '3 亿 -5 亿', '5 亿+'], 
-                    datasets: [{ 
-                        label: '成交占比 (%)', 
-                        data: [35, 40, 18, 5, 2], 
-                        backgroundColor: ['#38a169', '#2c5282', '#d69e2e', '#c53030', '#bc002d'] 
-                    }] 
+                data: {
+                    labels: ['<5000 万', '5000 万 -1 亿', '1 亿 -3 亿', '3 亿 -5 亿', '5 亿+'],
+                    datasets: [{
+                        label: '成交占比 (%)',
+                        data: [35, 40, 18, 5, 2],
+                        backgroundColor: ['#38a169', '#2c5282', '#d69e2e', '#c53030', '#bc002d']
+                    }]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: {display: false} }
                 }
             });
         }
-        
+
         // 租金走势图表
         function initRentTrendChart() {
             new Chart(document.getElementById('rentTrendChart'), {
                 type: 'line',
-                data: { 
-                    labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'], 
+                data: {
+                    labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'],
                     datasets: [
-                        { 
-                            label: '港区', 
-                            data: [28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5], 
-                            borderColor: '#bc002d', 
-                            tension: 0.3 
+                        {
+                            label: '港区',
+                            data: [28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5],
+                            borderColor: '#bc002d',
+                            tension: 0.3
                         },
-                        { 
-                            label: '涩谷区', 
-                            data: [24, 24.3, 24.6, 25, 25.3, 25.6, 26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3], 
-                            borderColor: '#2c5282', 
-                            tension: 0.3 
+                        {
+                            label: '涩谷区',
+                            data: [24, 24.3, 24.6, 25, 25.3, 25.6, 26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3],
+                            borderColor: '#2c5282',
+                            tension: 0.3
                         },
-                        { 
-                            label: '新宿区', 
-                            data: [20, 20.2, 20.4, 20.6, 20.8, 21, 21.2, 21.4, 21.6, 21.8, 22, 22.2, 22.4, 22.6], 
-                            borderColor: '#38a169', 
-                            tension: 0.3 
+                        {
+                            label: '新宿区',
+                            data: [20, 20.2, 20.4, 20.6, 20.8, 21, 21.2, 21.4, 21.6, 21.8, 22, 22.2, 22.4, 22.6],
+                            borderColor: '#38a169',
+                            tension: 0.3
                         },
-                        { 
-                            label: '千代田区', 
-                            data: [26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3, 28.6, 29, 29.3, 29.6, 30, 30.3], 
-                            borderColor: '#d69e2e', 
-                            tension: 0.3 
+                        {
+                            label: '千代田区',
+                            data: [26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3, 28.6, 29, 29.3, 29.6, 30, 30.3],
+                            borderColor: '#d69e2e',
+                            tension: 0.3
                         }
-                    ] 
+                    ]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         tooltip: {
@@ -1545,58 +1547,58 @@
                             }
                         }
                     },
-                    scales: { 
-                        y: { 
+                    scales: {
+                        y: {
                             beginAtZero: true,
                             title: {display: true, text: '月租金 (万日元)'}
-                        } 
-                    } 
+                        }
+                    }
                 }
             });
-            
+
             // 租金历史趋势图表（区域地图 tab）
             if (document.getElementById('rentHistoryChart')) {
                 new Chart(document.getElementById('rentHistoryChart'), {
                     type: 'line',
-                    data: { 
-                        labels: tkRentHistory.map(d => d.month), 
+                    data: {
+                        labels: tkRentHistory.map(d => d.month),
                         datasets: [
-                            { 
-                                label: '港区', 
-                                data: tkRentHistory.map(d => d.minato), 
-                                borderColor: '#bc002d', 
+                            {
+                                label: '港区',
+                                data: tkRentHistory.map(d => d.minato),
+                                borderColor: '#bc002d',
                                 backgroundColor: 'rgba(188, 0, 45, 0.1)',
                                 tension: 0.3,
                                 fill: true
                             },
-                            { 
-                                label: '千代田区', 
-                                data: tkRentHistory.map(d => d.chiyoda), 
-                                borderColor: '#d69e2e', 
-                                tension: 0.3 
+                            {
+                                label: '千代田区',
+                                data: tkRentHistory.map(d => d.chiyoda),
+                                borderColor: '#d69e2e',
+                                tension: 0.3
                             },
-                            { 
-                                label: '涩谷区', 
-                                data: tkRentHistory.map(d => d.shibuya), 
-                                borderColor: '#2c5282', 
-                                tension: 0.3 
+                            {
+                                label: '涩谷区',
+                                data: tkRentHistory.map(d => d.shibuya),
+                                borderColor: '#2c5282',
+                                tension: 0.3
                             },
-                            { 
-                                label: '新宿区', 
-                                data: tkRentHistory.map(d => d.shinjuku), 
-                                borderColor: '#38a169', 
-                                tension: 0.3 
+                            {
+                                label: '新宿区',
+                                data: tkRentHistory.map(d => d.shinjuku),
+                                borderColor: '#38a169',
+                                tension: 0.3
                             },
-                            { 
-                                label: '中央区', 
-                                data: tkRentHistory.map(d => d.chuo), 
-                                borderColor: '#805ad5', 
-                                tension: 0.3 
+                            {
+                                label: '中央区',
+                                data: tkRentHistory.map(d => d.chuo),
+                                borderColor: '#805ad5',
+                                tension: 0.3
                             }
-                        ] 
+                        ]
                     },
-                    options: { 
-                        responsive: true, 
+                    options: {
+                        responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
                             tooltip: {
@@ -1610,17 +1612,17 @@
                                 position: 'top',
                             }
                         },
-                        scales: { 
-                            y: { 
+                        scales: {
+                            y: {
                                 beginAtZero: false,
                                 title: {display: true, text: '月租金 (万日元)'}
-                            } 
-                        } 
+                            }
+                        }
                     }
                 });
             }
         }
-        
+
         function initTables() {
             document.querySelector('#monthlyTable tbody').innerHTML = tkMonthlyData.map(d => `
                 <tr>
@@ -1631,7 +1633,7 @@
                     <td>¥${d.oldPrice}万</td>
                 </tr>
             `).join('');
-            
+
             // 按房价排序显示区域
             const sortedDistricts = [...tkDistricts].sort((a, b) => b.avgPrice - a.avgPrice);
             document.querySelector('#districtTable tbody').innerHTML = sortedDistricts.map(d => `
@@ -1645,7 +1647,7 @@
                 </tr>
             `).join('');
         }
-        
+
         function initMap() {
             try {
                 const map = L.map('districtMap', {
@@ -1654,22 +1656,22 @@
                     zoomControl: true,
                     scrollWheelZoom: true
                 });
-                
+
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
                     attribution: '© OpenStreetMap © CartoDB',
                     subdomains: 'abcd',
                     maxZoom: 19,
                     crossOrigin: true
                 }).addTo(map);
-                
+
                 tkDistricts.forEach(d => {
                     const color = d.avgPrice > 15 ? '#bc002d' : d.avgPrice > 12 ? '#8b0000' : d.avgPrice > 9 ? '#ffd700' : '#228b22';
-                    const marker = L.circleMarker([d.lat, d.lng], { 
-                        radius: 12, 
-                        fillColor: color, 
-                        color: '#fff', 
-                        weight: 2, 
-                        fillOpacity: 0.85 
+                    const marker = L.circleMarker([d.lat, d.lng], {
+                        radius: 12,
+                        fillColor: color,
+                        color: '#fff',
+                        weight: 2,
+                        fillOpacity: 0.85
                     })
                     .bindPopup(`
                         <div style="text-align:center;min-width:150px">
@@ -1678,31 +1680,31 @@
                             <span style="color:${d.change.includes('+')?'#228b22':'#bc002d'};font-size:12px">${d.change} YoY</span>
                         </div>
                     `);
-                    
+
                     marker.on('click', function() {
                         this.openPopup();
                         // 高亮选中
                         this.setStyle({radius: 16, weight: 3});
                     });
-                    
+
                     marker.on('mouseout', function() {
                         this.setStyle({radius: 12, weight: 2});
                     });
-                    
+
                     marker.addTo(map);
                 });
-                
+
                 setTimeout(() => { map.invalidateSize(); }, 300);
             } catch (e) {
                 console.error('地图加载失败:', e);
             }
         }
-        
+
         function calculateTKCost() {
             const price = parseFloat(document.getElementById('tkPropertyPrice').value) || 6000;
             const sqm = parseFloat(document.getElementById('tkSqm').value) || 70;
             const type = document.getElementById('tkPropertyType').value;
-            
+
             // 固定资产税：评估价×1.7%（评估价约为市价 60-70%）
             const propertyTax = price * 10000 * 0.6 * 0.017;
             // 都市计划税：评估价×0.3%
@@ -1712,28 +1714,84 @@
             const maintenance = maintenancePerMonth * 12;
             // 保险：约¥3-5 千/月
             const insurance = 4500 * 12;
-            
+
             const totalCost = propertyTax + cityTax + maintenance + insurance;
-            
+
             document.getElementById('tkPropertyTax').textContent = '¥' + Math.round((propertyTax + cityTax) / 10000) + '万';
             document.getElementById('tkMaintenance').textContent = '¥' + Math.round(maintenance / 10000) + '万';
             document.getElementById('tkTotalCost').textContent = '¥' + Math.round(totalCost / 10000) + '万';
         }
-        
-        function showSection(id) {
+
+        function getCanvas(id) { const el = document.getElementById(id); return el ? el.getContext('2d') : null; }
+        function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
+        function initLondonStyleTemplateCharts() {
+            const monthly = typeof tkMonthlyData !== 'undefined' ? tkMonthlyData : [];
+            const volumeMeta = [{label:'新建公寓',key:'newVol',color:'#005eb8'},{label:'中古公寓',key:'oldVol',color:'#e31837'}];
+            const priceMeta = [{label:'新建公寓',key:'newPrice',color:'#e31837'},{label:'中古公寓',key:'oldPrice',color:'#228b22'}];
+            const volCtx = getCanvas('propertyTypeVolumeTrendChart');
+            if (volCtx && monthly.length) new Chart(volCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: volumeMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true}}} });
+            const priceCtx = getCanvas('propertyTypePriceTrendChart');
+            if (priceCtx && monthly.length) new Chart(priceCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: priceMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:false}}} });
+            const tableBody = document.querySelector('#propertyTypeTable tbody');
+            if (tableBody && monthly.length) tableBody.innerHTML = monthly.flatMap((d, idx) => priceMeta.map((m, i) => {
+                const volKey = volumeMeta[i]?.key;
+                const prev = idx > 0 ? monthly[idx-1][m.key] : null;
+                const change = prev ? ((d[m.key] - prev) / prev * 100).toFixed(1) + '%' : '-';
+                return `<tr><td>${d.month}</td><td>${m.label}</td><td>${volKey ? d[volKey].toLocaleString() : '-'}</td><td>${d[m.key].toLocaleString()}</td><td class="${change.startsWith('-') ? 'down' : 'up'}">${change}</td></tr>`;
+            })).join('');
+            const prefYears = ['2023', '2024', '2025', '2026 Q1'];
+            const prefData = [{label:'港区',data:[28, 29, 30, 30],color:'#005eb8'},{label:'涩谷区',data:[18, 19, 20, 20],color:'#e31837'},{label:'千代田区',data:[14, 15, 15, 15],color:'#228b22'},{label:'日元窗口',data:[20, 22, 24, 26],color:'#ff8c00'},{label:'租赁回报',data:[20, 15, 11, 9],color:'#805ad5'}];
+            const prefCtx = getCanvas('chinaPreferenceStackedChart');
+            if (prefCtx) new Chart(prefCtx, { type:'line', data:{ labels: prefYears, datasets: prefData.map(p=>({label:p.label,data:p.data,borderColor:p.color,backgroundColor:p.color+'33',fill:true,tension:0.35})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{stacked:true,beginAtZero:true,max:100},x:{}},plugins:{legend:{position:'bottom'}}} });
+            const radarCtx = getCanvas('chinaPreferenceRadarChart');
+            if (radarCtx) new Chart(radarCtx, { type:'radar', data:{ labels: ['港区', '涩谷区', '千代田区', '日元窗口', '租赁回报'], datasets:[{label:'2026 Q1',data:prefData.map(p=>p.data[p.data.length-1]),borderColor:'#e31837',backgroundColor:'rgba(227,24,55,0.18)'}] }, options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:40}}} });
+        }
+
+        function calculateHoldingCost() {
+            const price = parseFloat(document.getElementById('holdingPrice')?.value) || 6000;
+            const size = parseFloat(document.getElementById('holdingSize')?.value) || 700;
+            const rent = parseFloat(document.getElementById('holdingRent')?.value) || 22;
+            const isTokyo = '东京' === '东京';
+            const priceCny = isTokyo ? price * 10000 * 0.0435 : price * 10000 * 6.83;
+            const rentCny = isTokyo ? rent * 10000 * 0.0435 : rent * 6.83;
+            const monthlyTaxFee = isTokyo ? priceCny * 0.018 / 12 + size * 12 : priceCny * 0.014 / 12 + size * 2.5;
+            const insuranceAndReserve = isTokyo ? priceCny * 0.007 / 12 : priceCny * 0.004 / 12;
+            const total = monthlyTaxFee + insuranceAndReserve;
+            const coverage = total > 0 ? rentCny / total * 100 : 0;
+            setText('holdingTaxFee', '¥' + (monthlyTaxFee / 10000).toFixed(1) + '万');
+            setText('holdingTotalCost', '¥' + (total / 10000).toFixed(1) + '万');
+            const cov = document.getElementById('holdingCoverage');
+            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.style.color = coverage > 80 ? 'var(--success)' : coverage > 55 ? 'var(--warning)' : 'var(--accent)'; }
+            const tbody = document.querySelector('#holdingCostTable tbody');
+            if (tbody) {
+                const rows = [0.7,1,1.5,2].map(mult => {
+                    const p = price * mult;
+                    const r = rent * Math.sqrt(mult);
+                    const pc = isTokyo ? p * 10000 * 0.0435 : p * 10000 * 6.83;
+                    const rc = isTokyo ? r * 10000 * 0.0435 : r * 6.83;
+                    const c = (isTokyo ? pc * 0.025 / 12 : pc * 0.018 / 12) + size * 2;
+                    return `<tr><td>${mult < 1 ? '入门' : mult === 1 ? '基准' : mult === 1.5 ? '改善' : '豪宅'}</td><td>¥${(c/10000).toFixed(1)}万</td><td>¥${(rc/10000).toFixed(1)}万</td><td class="${rc-c>=0?'up':'down'}">¥${((rc-c)/10000).toFixed(1)}万</td><td>${mult === 1 ? '默认测算口径' : '按比例估算'}</td></tr>`;
+                }).join('');
+                tbody.innerHTML = rows;
+            }
+        }
+
+        function showSection(id, evt) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            const source = evt?.currentTarget || (typeof event !== 'undefined' ? event.target : null);
+            if (source && source.classList.contains('nav-tab')) source.classList.add('active');
         }
-        
+
         function showDistrictSubTab(id, btn) {
             const parent = btn.closest('.section');
             parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             parent.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
-            
+
             // 如果切换到区域地图 tab，初始化地图
             if (id === 'district-map' && !window.districtMapInit) {
                 setTimeout(() => { initMap(); window.districtMapInit = true; }, 100);
@@ -1749,7 +1807,7 @@
                 window.priceRangeInit = true;
             }
         }
-        
+
         function initTooltips() {
             document.querySelectorAll('.stat-card, .card').forEach(el => {
                 if (el.dataset.title) {
@@ -1759,7 +1817,7 @@
                 }
             });
         }
-        
+
         function downloadHTML() {
             const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
@@ -1776,11 +1834,11 @@
             }, 100);
             alert('✅ 下载已开始！\n\n文件：东京房产数据看板.html\n\n如果浏览器阻止下载，请右键点击页面 → 另存为 → 选择 HTML 格式');
         }
-        
+
         function exportExcel() {
             alert('🚧 数据导出功能开发中...');
         }
-        
+
         // 收益计算器
         function calculateROI() {
             const price = parseFloat(document.getElementById('roiPrice').value) || 6000;
@@ -1789,65 +1847,65 @@
             const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 3.5;
             const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
             const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.0435;
-            
+
             // 转为人民币
             const priceCNY = price * 10000 * exchangeRate;
             const downPayment = priceCNY * (downPaymentPct / 100);
             const loanAmount = priceCNY - downPayment;
-            
+
             // 买入税费：约 4%（中介费 3%+ 登记费 0.4%+ 司法书士费等）
             const buyCost = priceCNY * 0.04;
-            
+
             // 总投入（首付 + 买入税费）
             const totalInvest = downPayment + buyCost;
-            
+
             // 年租金收益（人民币）
             const annualRental = priceCNY * (rentalYield / 100);
-            
+
             // 年持有成本（房产价值的 2.5%：固定资产税 1.7%+ 都市计划税 0.3%+ 管理费修缮金等）
             const annualCost = priceCNY * 0.025;
-            
+
             // 净年收益（扣除持有成本，考虑 5% 空置率）
             const netAnnualIncome = annualRental * 0.95 - annualCost;
-            
+
             // N 年总租金净收益（复利，租金年增 2%）
             let totalRental = 0;
             for (let i = 0; i < years; i++) {
                 totalRental += netAnnualIncome * Math.pow(1.02, i);
             }
-            
+
             // N 年后房价
             const futurePrice = priceCNY * Math.pow(1 + appreciation/100, years);
             const appreciationValue = futurePrice - priceCNY;
-            
+
             // 卖出税费：中介费 3% + 资本利得税 20%（持有超 5 年）
             const sellAgentFee = futurePrice * 0.03;
             const capitalGainTax = appreciationValue > 0 && years > 5 ? appreciationValue * 0.20315 : 0;
             const sellCost = sellAgentFee + capitalGainTax;
-            
+
             // 净收益
             const netGain = totalRental + appreciationValue - sellCost;
-            
+
             // 累计收益率（相对于总投入）
             const totalReturn = (netGain / totalInvest) * 100;
-            
+
             // 年化 IRR（简化计算）
             const irr = Math.pow(1 + totalReturn/100, 1/years) - 1;
-            
+
             // 更新显示
             document.getElementById('roiDownPaymentAmt').textContent = '¥' + (downPayment / 10000).toFixed(1) + '万';
             document.getElementById('roiBuyCost').textContent = '¥' + (buyCost / 10000).toFixed(1) + '万';
             document.getElementById('roiRentalIncome').textContent = '¥' + (totalRental / 10000).toFixed(1) + '万';
-            document.getElementById('roiAppreciation').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
-            
+            document.getElementById('roiAppreciationVal').textContent = '¥' + (appreciationValue / 10000).toFixed(1) + '万';
+
             const returnEl = document.getElementById('roiTotalReturn');
             returnEl.textContent = totalReturn.toFixed(1) + '%';
             returnEl.className = 'value ' + (totalReturn > 0 ? 'up' : 'down');
-            
+
             // 更新对比表格
             updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate);
         }
-        
+
         function updateROIComparison(price, downPaymentPct, rentalYield, appreciation, exchangeRate) {
             const priceCNY = price * 10000 * exchangeRate;
             const downPayment = priceCNY * (downPaymentPct / 100);
@@ -1856,10 +1914,10 @@
             const annualRental = priceCNY * (rentalYield / 100);
             const annualCost = priceCNY * 0.025;
             const netAnnualIncome = annualRental * 0.95 - annualCost;
-            
+
             const periods = [1, 3, 5, 10];
             let html = '';
-            
+
             periods.forEach(years => {
                 let totalRental = 0;
                 for (let i = 0; i < years; i++) {
@@ -1873,7 +1931,7 @@
                 const netGain = totalRental + appreciationValue - sellCost;
                 const totalReturn = (netGain / totalInvest) * 100;
                 const irr = Math.pow(1 + totalReturn/100, 1/years) - 1;
-                
+
                 const isHighlight = years === 5 ? 'style="background:#f0fff4"' : '';
                 html += `<tr ${isHighlight}>
                     <td>${years}年</td>
@@ -1886,15 +1944,17 @@
                     <td>${(irr*100).toFixed(1)}%</td>
                 </tr>`;
             });
-            
+
             document.getElementById('roiComparisonTable').innerHTML = html;
         }
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
             initTables();
             initMap();
             initTooltips();
+            initLondonStyleTemplateCharts();
+            calculateHoldingCost();
             calculateTKCost();
             calculateROI();
             console.log('🗼 东京房产数据看板加载完成 | 版本：v5.0');
