@@ -847,13 +847,18 @@
             <h4>🧮 月度持有成本计算（港元）</h4>
             <div class="cost-input">
                 <div><label>房产价格 (万港元)</label><input type="number" id="hkPropertyPrice" value="1000" onchange="calculateHKCost()"></div>
+                <div><label>贷款比例 (%)</label><input type="number" id="hkLoanRatio" value="50" min="0" max="80" onchange="calculateHKCost()"></div>
+                <div><label>贷款年利率 (%)</label><input type="number" id="hkInterestRate" value="4.0" step="0.1" onchange="calculateHKCost()"></div>
+                <div><label>物业类型</label><select id="hkPropertyType" onchange="calculateHKCost()"><option value="estate">屋苑公寓</option><option value="luxury">豪宅/服务式公寓</option><option value="house">洋房/独立屋</option></select></div>
                 <div><label>建筑面积 (sqft)</label><input type="number" id="hkSqft" value="800" onchange="calculateHKCost()"></div>
                 <div><label>月租金收入 (万港元)</label><input type="number" id="hkRentIncome" value="3.5" onchange="calculateHKCost()"></div>
             </div>
-            <div class="cost-result">
-                <div class="item"><div class="label">每月管理费</div><div class="value" id="hkManagementFee">$3,200</div></div>
-                <div class="item"><div class="label">每月持有成本</div><div class="value" id="hkTotalCost">$6,800</div></div>
-                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="hkCoverage">51%</div></div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">每月贷款月供</div><div class="value" id="hkMortgage">-</div></div>
+                <div class="item"><div class="label">管理费/差饷地租</div><div class="value" id="hkManagementFee">-</div></div>
+                <div class="item"><div class="label">保险/维修/空置</div><div class="value" id="hkReserveCost">-</div></div>
+                <div class="item"><div class="label">每月总支出</div><div class="value" id="hkTotalCost">-</div></div>
+                <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="hkCoverage">-</div></div>
             </div>
         </div>
 
@@ -875,19 +880,14 @@
         </div>
 
         <div class="card" style="margin-top:20px">
-            <h4>不同价位租金回报率对比</h4>
-            <table class="data-table">
+            <h4>不同价位持有成本对比（2026 年数据）</h4>
+            <table class="data-table" id="hkHoldingCostTable">
                 <thead>
-                    <tr><th>总价 (万港元)</th><th>月租金 (港元)</th><th>年回报率</th><th>供平过租</th></tr>
+                    <tr><th>价位</th><th>月供</th><th>管理/差饷地租</th><th>保险/维修/空置</th><th>总支出/月</th><th>月租金</th><th>净现金流/月</th><th>租金覆盖</th></tr>
                 </thead>
-                <tbody>
-                    <tr><td>500 以下</td><td>16,000-20,000</td><td>3.8-4.2%</td><td>✅ 是</td></tr>
-                    <tr><td>500-800</td><td>20,000-28,000</td><td>3.5-3.8%</td><td>✅ 是</td></tr>
-                    <tr><td>800-1,500</td><td>28,000-45,000</td><td>3.2-3.5%</td><td>✅ 是 (66.4%)</td></tr>
-                    <tr><td>1,500-3,000</td><td>45,000-80,000</td><td>3.0-3.3%</td><td>⚠️ 部分</td></tr>
-                    <tr><td>3,000 以上</td><td>80,000+</td><td>2.5-3.0%</td><td>❌ 否</td></tr>
-                </tbody>
+                <tbody></tbody>
             </table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>港元输入；月供按 30 年等额本息估算；管理/差饷地租包含管理费、差饷和地租；保险/维修/空置包含家居保险、维修预留、5% 空置和 3% 租务管理，不含个人所得税、未来大维修和买卖交易税费。</div>
         </div>
     </div>
 
@@ -1529,23 +1529,73 @@
             } catch (e) { console.error('✗ 回报率地图加载失败:', e); }
         }
 
-        function calculateHKCost() {
-            const price = (parseFloat(document.getElementById('hkPropertyPrice').value) || 1000) * 10000;
-            const sqft = parseFloat(document.getElementById('hkSqft').value) || 800;
-            const rentIncome = (parseFloat(document.getElementById('hkRentIncome').value) || 3.5) * 10000;
+        function formatHKD(value) {
+            return 'HK$' + Math.round(value).toLocaleString();
+        }
 
-            const managementFee = sqft * 4;
+        function calculateHKCost() {
+            const price = (parseFloat(document.getElementById('hkPropertyPrice')?.value) || 1000) * 10000;
+            const loanRatio = parseFloat(document.getElementById('hkLoanRatio')?.value) || 0;
+            const interestRate = parseFloat(document.getElementById('hkInterestRate')?.value) || 4.0;
+            const propertyType = document.getElementById('hkPropertyType')?.value || 'estate';
+            const sqft = parseFloat(document.getElementById('hkSqft')?.value) || 800;
+            const rentIncome = (parseFloat(document.getElementById('hkRentIncome')?.value) || 3.5) * 10000;
+
+            const monthlyRate = interestRate / 100 / 12;
+            const loanMonths = 30 * 12;
+            const mortgageFor = (principal) => {
+                if (principal <= 0) return 0;
+                if (monthlyRate <= 0) return principal / loanMonths;
+                return principal * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1);
+            };
+
+            const loanPrincipal = price * loanRatio / 100;
+            const monthlyMortgage = mortgageFor(loanPrincipal);
+            const managementRate = propertyType === 'luxury' ? 8 : propertyType === 'house' ? 2.5 : 4;
+            const managementFee = sqft * managementRate;
             const rates = rentIncome * 0.05;
             const governmentRent = rentIncome * 0.03;
-            const insurance = price * 0.00096 / 12;
-            const totalCost = managementFee + rates + governmentRent + insurance;
+            const insurance = price * (propertyType === 'luxury' ? 0.0012 : 0.0008) / 12;
+            const repairReserve = price * (propertyType === 'house' ? 0.003 : propertyType === 'luxury' ? 0.0025 : 0.0015) / 12;
+            const vacancyAndLeasing = rentIncome * 0.08;
+
+            const taxAndManagement = managementFee + rates + governmentRent;
+            const reserveCost = insurance + repairReserve + vacancyAndLeasing;
+            const totalCost = monthlyMortgage + taxAndManagement + reserveCost;
             const coverage = totalCost > 0 ? (rentIncome / totalCost) * 100 : 0;
 
-            document.getElementById('hkManagementFee').textContent = 'HK$' + Math.round(managementFee).toLocaleString();
-            document.getElementById('hkTotalCost').textContent = 'HK$' + Math.round(totalCost).toLocaleString();
+            document.getElementById('hkMortgage').textContent = formatHKD(monthlyMortgage);
+            document.getElementById('hkManagementFee').textContent = formatHKD(taxAndManagement);
+            document.getElementById('hkReserveCost').textContent = formatHKD(reserveCost);
+            document.getElementById('hkTotalCost').textContent = formatHKD(totalCost);
             const coverageEl = document.getElementById('hkCoverage');
             coverageEl.textContent = Math.round(coverage) + '%';
-            coverageEl.style.color = coverage > 150 ? 'var(--success)' : coverage > 100 ? 'var(--warning)' : 'var(--accent)';
+            coverageEl.className = 'value ' + (coverage >= 100 ? 'up' : coverage >= 70 ? 'stable' : 'down');
+
+            const tbody = document.querySelector('#hkHoldingCostTable tbody');
+            if (!tbody) return;
+
+            const cases = [
+                { label: '入门屋苑', price: 500, rent: 1.8, sqft: 450, type: 'estate' },
+                { label: '基准屋苑', price: 1000, rent: 3.5, sqft: 800, type: 'estate' },
+                { label: '核心豪宅', price: 2500, rent: 7.5, sqft: 1200, type: 'luxury' },
+                { label: '山顶/南区洋房', price: 6000, rent: 16, sqft: 2500, type: 'house' }
+            ];
+
+            tbody.innerHTML = cases.map(item => {
+                const itemPrice = item.price * 10000;
+                const itemRent = item.rent * 10000;
+                const itemMortgage = mortgageFor(itemPrice * loanRatio / 100);
+                const itemManagementRate = item.type === 'luxury' ? 8 : item.type === 'house' ? 2.5 : 4;
+                const itemManagement = item.sqft * itemManagementRate;
+                const itemTax = itemRent * 0.08;
+                const itemReserveRate = item.type === 'house' ? 0.0038 : item.type === 'luxury' ? 0.0037 : 0.0023;
+                const itemReserve = itemPrice * itemReserveRate / 12 + itemRent * 0.08;
+                const itemTotal = itemMortgage + itemManagement + itemTax + itemReserve;
+                const itemNet = itemRent - itemTotal;
+                const itemCoverage = itemTotal > 0 ? itemRent / itemTotal * 100 : 0;
+                return `<tr ${item.label === '基准屋苑' ? 'style="background:#f0fff4"' : ''}><td>${item.label}</td><td>${formatHKD(itemMortgage)}</td><td>${formatHKD(itemManagement + itemTax)}</td><td>${formatHKD(itemReserve)}</td><td>${formatHKD(itemTotal)}</td><td>${formatHKD(itemRent)}</td><td class="${itemNet >= 0 ? 'up' : 'down'}">${formatHKD(itemNet)}</td><td>${Math.round(itemCoverage)}%</td></tr>`;
+            }).join('');
         }
 
         // 收益计算器
