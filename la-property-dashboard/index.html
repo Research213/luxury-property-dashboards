@@ -72,13 +72,35 @@
         .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
         .cost-result .item .label { font-size: 12px; color: var(--text-light); }
         .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        .cost-result .item .value.up { color: var(--success); }
+        .cost-result .item .value.down { color: var(--accent); }
+        .city-comparison { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .city-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .city-card:hover { transform: translateY(-2px); }
+        .city-card .city-name { font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
+        .city-metric { margin: 6px 0; }
+        .city-metric .label { font-size: 10px; color: var(--text-light); }
+        .city-metric .value { font-size: 14px; font-weight: 600; }
+        .radar-container { height: 350px; }
+        .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .agency-card.expanded { background: #f0fff4; }
+        .agency-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .agency-name { font-weight: 600; color: var(--primary); font-size: 16px; }
+        .agency-date { font-size: 12px; color: var(--text-light); }
+        .agency-rating { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .agency-rating.positive { background: #c6f6d5; color: #22543d; }
+        .agency-rating.neutral { background: #fef3c7; color: #744210; }
+        .agency-rating.cautious { background: #fed7d7; color: #742a2a; }
+        .agency-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .agency-card.expanded .agency-detail { display: block; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
-        @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid, .city-comparison { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid, .city-comparison, .cost-input, .cost-result { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -388,18 +410,6 @@
     </div>
 
 
-        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="按伦敦模板补齐：用面积图和雷达图展示中国买家偏好结构变化。" data-source="NAR / Zillow | B 级">
-            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
-            <div class="grid-2">
-                <div class="chart-container"><canvas id="chinaPreferenceStackedChart"></canvas></div>
-                <div class="chart-container"><canvas id="chinaPreferenceRadarChart"></canvas></div>
-            </div>
-            <div class="data-legend">
-                <div class="data-legend-item">趋势图展示中国买家在核心区域、学区/就业、投资出租等偏好的相对变化。</div>
-                <div class="data-legend-item">该模块沿用页面已有机构样本口径，和伦敦页保持同一展示逻辑。</div>
-            </div>
-        </div>
-
     <!-- 收益计算器 -->
     <div id="roi" class="section">
         <h2 class="section-title">📈 累计收益计算器</h2>
@@ -554,59 +564,59 @@
 
     <!-- 政策追踪 -->
     <div id="policy" class="section">
-        <h2 class="section-title">📜 洛杉矶政策追踪</h2>
+        <h2 class="section-title">📜 中国买家政策追踪</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>洛杉矶投资需重点关注加州 Proposition 13 房产税上限、洛杉矶市 ULA 转让税、FIRPTA 外国卖家预扣税以及出租管制。政策对豪宅交易成本和出租净收益影响显著。
+            <strong>小结论：</strong>洛杉矶对中国/海外买家不设购房资格限制，但 2026 年投资测算必须单独考虑 Measure ULA 豪宅转让税、Prop 13 房产税评估规则、加州/洛杉矶租赁监管、短租登记限制、FIRPTA 预扣税和山火/地震保险成本。
         </div>
 
         <div class="card">
-            <h4>关键政策影响</h4>
+            <h4>🇺🇸 洛杉矶购房政策对比（最新版 vs 上一版） <span class="data-source-tag">LA City / CA State</span><span class="data-reliability A">A 级</span></h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>政策</th><th>适用范围</th><th>主要影响</th><th>投资提示</th></tr>
+                    <tr><th>政策项目</th><th>最新版 (2026 年口径)</th><th>上一版 (2023-2025 口径)</th><th>关键变化</th><th>影响分析</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Proposition 13</td><td>加州</td><td>房产税评估值年涨幅通常受限</td><td>长期持有税负更可控</td></tr>
-                    <tr><td>Measure ULA</td><td>洛杉矶市</td><td>高价物业转让税显著增加</td><td>豪宅交易需预留退出成本</td></tr>
-                    <tr><td>FIRPTA</td><td>美国联邦</td><td>外国卖家出售时通常需预扣税款</td><td>退出前做税务结构规划</td></tr>
-                    <tr><td>租金管制</td><td>部分城市/物业</td><td>限制续租涨幅与驱逐条件</td><td>出租前确认物业是否受限</td></tr>
-                    <tr><td>地震/火险成本</td><td>加州</td><td>保险费用和可得性影响净收益</td><td>山火风险区需单独核保</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>购房资格</strong></td><td>中国/海外买家可购买 SFR、Condo、Townhouse</td><td>同样无限购</td><td><span class="stable">→ 资格不变</span></td><td>核心限制不是国籍资格，而是融资、税费、保险和资金合规</td></tr>
+                    <tr><td><strong>Measure ULA</strong></td><td>洛杉矶市内高价房产出售时适用额外转让税，约 $500 万以上进入高税档</td><td>2023 年起实施，市场逐步消化</td><td><span class="down">⬆ 退出成本更显性</span></td><td>市内豪宅流动性受影响，Beverly Hills 等独立城市需单独确认是否适用</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>Prop 13 房产税</strong></td><td>评估值年涨幅通常受限，成交后按新成交价重估</td><td>长期规则稳定</td><td><span class="stable">→ 长持税负可控</span></td><td>长期持有有利，但新买入首年税基会抬升</td></tr>
+                    <tr><td><strong>租赁监管</strong></td><td>洛杉矶市 RSO、州 AB 1482 等规则影响涨租和 eviction</td><td>租赁监管持续存在</td><td><span class="stable">→ 合规要求延续</span></td><td>投资出租前必须确认建造年份、物业类型和租约限制</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>短租规则</strong></td><td>LA 短租通常要求主居所登记，非主居所短租受限</td><td>短租登记和执法持续加强</td><td><span class="down">⬆ 短租灵活度下降</span></td><td>Airbnb 型现金流不能直接套用普通出租回报</td></tr>
+                    <tr><td><strong>FIRPTA / 税务退出</strong></td><td>外国卖家出售美国不动产通常涉及预扣和申报</td><td>联邦口径长期存在</td><td><span class="stable">→ 退出税务不变</span></td><td>出售前需做资本利得、预扣退税和持有结构规划</td></tr>
+                    <tr style="background:#f0fff4"><td><strong>保险与灾害风险</strong></td><td>山火风险区保险成本和可得性压力上升，地震险需另购</td><td>保险成本已逐步上升</td><td><span class="down">⬆ 持有成本上升</span></td><td>Malibu、Pacific Palisades、山坡地块需先核保再报价</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card"><h4>✅ 政策优势</h4><ul style="line-height:2;font-size:14px"><li><strong>无限购：</strong>海外买家可买独栋、公寓和联排，不按国籍限购。</li><li><strong>产权成熟：</strong>产权保险、escrow 和经纪交易流程标准化。</li><li><strong>Prop 13：</strong>长期持有时评估值涨幅受限，税负路径更可预测。</li><li><strong>华人社区深：</strong>尔湾、圣盖博谷等区域租售需求有长期支撑。</li><li><strong>美元资产：</strong>教育、科技、娱乐产业和生活方式形成配置价值。</li></ul></div>
+            <div class="card"><h4>⚠️ 注意事项</h4><ul style="line-height:2;font-size:14px"><li><strong>ULA：</strong>洛杉矶市内豪宅出售成本显著，买入前要确认城市边界。</li><li><strong>保险：</strong>山火、地震、屋况和屋顶材料会直接影响可保性。</li><li><strong>租赁监管：</strong>出租涨租、驱逐和短租都可能受限。</li><li><strong>贷款利率：</strong>美国高利率环境下月供是现金流核心变量。</li><li><strong>税务退出：</strong>外国卖家需提前处理 FIRPTA、资本利得和州税申报。</li></ul></div>
         </div>
     </div>
 
     <!-- 机构观点 -->
     <div id="agency" class="section">
-        <h2 class="section-title">📑 洛杉矶机构观点</h2>
+        <h2 class="section-title">📑 专业机构观点</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>机构观点总体偏谨慎乐观：利率下行有利成交恢复，但保险、税费和可负担性压制普通买家。西洛杉矶、尔湾和核心学区房更具抗跌性。
+            <strong>小结论：</strong>洛杉矶机构观点按伦敦式结构重做：先看可展开机构卡片，再看汇总表。共识是 2026 年成交有温和修复空间，但保险、利率、ULA 和可负担性会继续造成区域分化；尔湾、西洛杉矶、圣盖博谷和优质学区房韧性更强。
         </div>
 
-        <div class="grid-2">
-            <div class="card">
-                <h4>机构判断摘要</h4>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>机构</th><th>关注点</th><th>对洛杉矶判断</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Zillow</td><td>价格与库存</td><td>库存改善，核心区价格韧性较强</td></tr>
-                        <tr><td>Redfin</td><td>成交与议价</td><td>高利率下买家更挑剔，优质房源成交快</td></tr>
-                        <tr><td>CAR</td><td>加州交易</td><td>降息预期有助于释放改善需求</td></tr>
-                        <tr><td>NAR</td><td>海外买家</td><td>加州仍是国际买家重点目的地</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card">
-                <h4>2026 重点观察</h4>
-                <div class="data-legend">
-                    <div class="data-legend-item"><strong>利率：</strong>贷款利率回落将优先改善中高端成交量。</div>
-                    <div class="data-legend-item"><strong>保险：</strong>山火风险区保险成本可能侵蚀净回报。</div>
-                    <div class="data-legend-item"><strong>税费：</strong>ULA 对洛杉矶市内豪宅流动性影响仍需观察。</div>
-                    <div class="data-legend-item"><strong>需求：</strong>学区、自住改善和海外资产配置支撑核心区。</div>
-                </div>
-            </div>
+        <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">🏠 California Association of Realtors (CAR)</div><div class="agency-date">2026 年展望 | 加州住宅市场</div></div><span class="agency-rating positive">温和复苏</span></div><div class="agency-detail"><strong>核心观点：</strong>利率回落预期有助释放改善型需求，但可负担性仍是加州最大约束。<br><br><strong>关键论据：</strong><br>• 南加州买家对月供和保险成本更敏感<br>• 成交恢复会先体现在中高收入社区和学区房<br>• 库存改善后买家议价能力略有提升<br><br><strong>投资建议：</strong>优先看就业、学区和租赁需求都稳定的区域。</div></div>
+        <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">📊 Zillow / Redfin</div><div class="agency-date">2026 年 1-4 月 | 平台挂牌与成交样本</div></div><span class="agency-rating neutral">区域分化</span></div><div class="agency-detail"><strong>核心观点：</strong>洛杉矶核心区价格韧性强，但山火风险区、保险成本高和挂牌价过高的房源成交慢。<br><br><strong>关键论据：</strong><br>• 优质学区和通勤便利区域挂牌吸收更快<br>• 高总价房源对利率和税费敏感<br>• 买家更重视保险可得性、屋况和维护成本<br><br><strong>投资建议：</strong>用成交价、保险报价和出租可行性一起筛选。</div></div>
+        <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">🏢 NAR</div><div class="agency-date">2026 年 | 国际买家与美国住宅</div></div><span class="agency-rating positive">海外需求</span></div><div class="agency-detail"><strong>核心观点：</strong>加州仍是国际买家重点目的地，教育、社区和资产配置是中国买家主要驱动。<br><br><strong>关键论据：</strong><br>• 华人社区、大学资源和产业机会支撑长期需求<br>• 全款或高首付买家受利率影响较低<br>• 海外买家更偏好可自住、可出租、易管理资产<br><br><strong>投资建议：</strong>尔湾、圣盖博谷、西洛杉矶等兼具自住和出租需求的区域优先。</div></div>
+        <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">🏗️ CBRE / JLL</div><div class="agency-date">2026 年展望 | 南加州资本与租赁市场</div></div><span class="agency-rating neutral">现金流优先</span></div><div class="agency-detail"><strong>核心观点：</strong>租赁需求仍稳定，但高保险、高维修和融资成本压缩净收益。<br><br><strong>关键论据：</strong><br>• 高收入就业区租客质量更好<br>• 低密度住宅维护和保险成本上升<br>• 新建公寓和便利通勤区域更容易出租<br><br><strong>投资建议：</strong>以租金覆盖率和持有成本做压力测试，不只看房价涨幅。</div></div>
+        <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">🔥 保险与风险顾问</div><div class="agency-date">2026 年 | 山火/地震/保险市场</div></div><span class="agency-rating cautious">风险上升</span></div><div class="agency-detail"><strong>核心观点：</strong>洛杉矶豪宅持有成本的边际变量正在从 HOA 转向保险可得性、山火风险和地震险。<br><br><strong>关键论据：</strong><br>• 山坡、峡谷、沿海和高火险区域核保更严格<br>• 地震险通常不是标准屋主保险的一部分<br>• 保险报价会影响贷款审批和真实净回报<br><br><strong>投资建议：</strong>报价前先做保险预核保，尤其是 Malibu、Pacific Palisades、Bel Air 山坡物业。</div></div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比</h4>
+            <table class="data-table"><thead><tr><th>机构</th><th>发布时间</th><th>洛杉矶判断</th><th>核心受益区域/产品</th><th>核心风险</th><th>评级</th></tr></thead><tbody>
+                <tr><td>CAR</td><td>2026 展望</td><td>成交温和修复</td><td>改善型住房、学区房</td><td>利率、可负担性</td><td><span class="agency-rating positive">温和复苏</span></td></tr>
+                <tr><td>Zillow / Redfin</td><td>2026.01-04</td><td>区域分化</td><td>尔湾、西洛杉矶、圣盖博谷</td><td>挂牌价、保险</td><td><span class="agency-rating neutral">区域分化</span></td></tr>
+                <tr><td>NAR</td><td>2026</td><td>海外需求仍在</td><td>华人社区、教育型资产</td><td>汇率、融资</td><td><span class="agency-rating positive">海外需求</span></td></tr>
+                <tr><td>CBRE / JLL</td><td>2026 展望</td><td>现金流优先</td><td>通勤节点、租赁强区</td><td>保险、维护、空置</td><td><span class="agency-rating neutral">现金流优先</span></td></tr>
+                <tr><td>保险/风险顾问</td><td>2026</td><td>灾害风险成本上升</td><td>低火险、屋况好的资产</td><td>山火、地震、核保</td><td><span class="agency-rating cautious">风险上升</span></td></tr>
+                <tr style="background:#f0fff4"><td><strong>综合判断</strong></td><td>-</td><td><strong>谨慎乐观</strong></td><td><strong>学区/华人社区/可出租资产</strong></td><td><strong>保险 + 利率 + ULA</strong></td><td><strong>分化中找机会</strong></td></tr>
+            </tbody></table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：CAR、Zillow、Redfin、NAR、CBRE/JLL、保险市场公开信息 | B 级</div>
         </div>
     </div>
 
@@ -654,23 +664,29 @@
     <!-- 持有成本 -->
     <div id="cost" class="section">
         <h2 class="section-title">💰 持有成本计算器</h2>
-        <div class="section-conclusion"><strong>小结论：</strong>以$150 万 SFR 为例，月持有成本约¥3.5-5.0 万，租金可覆盖 70-90%。保险、地震险和 HOA 决定现金流弹性。</div>
+        <div class="section-conclusion"><strong>小结论：</strong>以 $150 万 SFR、贷款 50%、年利率 6.5% 为例，洛杉矶月度总现金流支出约¥5.5-7.5 万；若月租 $6,500，租金覆盖通常约 60-85%。保险、地震险、HOA、贷款利率和 ULA 退出成本是核心变量。</div>
         <div class="cost-calculator">
             <h4>🧮 月度持有成本计算（人民币）</h4>
             <div class="cost-input">
-                <div><label>房产价格</label><input type="number" id="holdingPrice" value="150" onchange="calculateHoldingCost()"></div>
-                <div><label>建筑面积 / 参考面积</label><input type="number" id="holdingSize" value="1500" onchange="calculateHoldingCost()"></div>
-                <div><label>月租金收入</label><input type="number" id="holdingRent" value="6500" onchange="calculateHoldingCost()"></div>
+                <div><label>房产价格（万美元）</label><input type="number" id="holdingPrice" value="150" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款比例（%）</label><input type="number" id="holdingLoanRatio" value="50" min="0" max="80" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款年利率（%）</label><input type="number" id="holdingInterestRate" value="6.5" step="0.1" onchange="calculateHoldingCost()"></div>
+                <div><label>物业类型</label><select id="holdingPropertyType" onchange="calculateHoldingCost()"><option value="sfr">SFR 独栋</option><option value="condo">Condo 公寓</option><option value="luxury">豪宅/高火险区</option></select></div>
+                <div><label>建筑面积 (sqft)</label><input type="number" id="holdingSize" value="1500" onchange="calculateHoldingCost()"></div>
+                <div><label>月租金收入（美元）</label><input type="number" id="holdingRent" value="6500" onchange="calculateHoldingCost()"></div>
             </div>
-            <div class="cost-result">
-                <div class="item"><div class="label">每月税费/物业</div><div class="value" id="holdingTaxFee">-</div></div>
-                <div class="item"><div class="label">每月持有成本</div><div class="value" id="holdingTotalCost">-</div></div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">每月贷款月供</div><div class="value" id="holdingMortgage">-</div></div>
+                <div class="item"><div class="label">每月税费/HOA</div><div class="value" id="holdingTaxFee">-</div></div>
+                <div class="item"><div class="label">保险/地震/管理</div><div class="value" id="holdingReserveCost">-</div></div>
+                <div class="item"><div class="label">每月总支出</div><div class="value" id="holdingTotalCost">-</div></div>
                 <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="holdingCoverage">-</div></div>
             </div>
         </div>
         <div class="card" style="margin-top:20px">
             <h4>不同价位持有成本对比（2026 年数据）</h4>
-            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月均成本</th><th>月租金</th><th>净现金流</th><th>说明</th></tr></thead><tbody></tbody></table>
+            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月供</th><th>税费/HOA</th><th>保险/管理</th><th>总支出/月</th><th>月租金</th><th>净现金流/月</th><th>租金覆盖</th></tr></thead><tbody></tbody></table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>美元输入按 1 USD = 6.83 CNY 折算；月供按 30 年等额本息估算；税费/HOA 包含 Prop 13 后按成交价估算的房产税、HOA；保险/管理包含屋主险、地震险、5% 空置和 8% 物业管理，不含个人所得税、维修大额支出和 ULA 退出税。</div>
         </div>
     </div>
 
@@ -678,35 +694,25 @@
     <div id="global" class="section">
         <h2 class="section-title">🌍 全球热门城市对比</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>洛杉矶在全球豪宅城市中以生活方式、气候和华人社区见长，租金回报率高于香港、东京和湾区，但持有税费和保险成本也更高。
+            <strong>小结论：</strong>洛杉矶在全球豪宅城市中生活方式、气候和华人社区优势突出，租金回报高于香港、东京和湾区，但政策友好度受 ULA、保险、山火/地震风险拖累。适合看重教育、社区和长期美元资产配置的买家。
         </div>
 
         <div class="city-comparison">
-            <div class="city-card">
-                <div class="city-name">🇺🇸 洛杉矶</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
-                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
-                <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
-            </div>
-            <div class="city-card">
-                <div class="city-name">🇬🇧 伦敦</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
-                <div class="city-metric"><div class="label">租金收益率</div><div class="value">5.0%</div></div>
-                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
-            </div>
-            <div class="city-card">
-                <div class="city-name">🇭🇰 香港</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
-                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.4%</div></div>
-                <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
-            </div>
-            <div class="city-card">
-                <div class="city-name">🇯🇵 东京</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
-                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
-                <div class="city-metric"><div class="label">政策</div><div class="value">9.0</div></div>
-            </div>
+            <div class="city-card" data-title="洛杉矶" data-content="气候、教育和华人社区强，保险和 ULA 是核心风险。" data-source="Zillow / CAR | B 级"><div class="city-name">🇺🇸 洛杉矶</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">7.5</div></div><div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div></div>
+            <div class="city-card" data-title="伦敦" data-content="教育和法律体系强，税负较重。" data-source="Savills | B 级"><div class="city-name">🇬🇧 伦敦</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">9.2</div></div><div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div></div>
+            <div class="city-card" data-title="纽约" data-content="全球金融中心，流动性强但持有税费高。" data-source="StreetEasy | B 级"><div class="city-name">🇺🇸 纽约</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥11.5 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">3.8%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">8.8</div></div><div class="city-metric"><div class="label">政策</div><div class="value">5.5</div></div></div>
+            <div class="city-card" data-title="东京" data-content="政策友好、汇率窗口明显，但租金收益率偏低。" data-source="MLIT | A 级"><div class="city-name">🇯🇵 东京</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">8.0</div></div><div class="city-metric"><div class="label">政策</div><div class="value">8.5</div></div></div>
+            <div class="city-card" data-title="香港" data-content="税负低、流动性强，但总价和单价高。" data-source="中原 / 美联 | B 级"><div class="city-name">🇭🇰 香港</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">3.2%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">8.5</div></div><div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div></div>
+            <div class="city-card" data-title="悉尼" data-content="租金收益率较高，移民和教育需求强。" data-source="NAB / CoreLogic | B 级"><div class="city-name">🇦🇺 悉尼</div><div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥7.8 万</div></div><div class="city-metric"><div class="label">租金收益率</div><div class="value">4.7%</div></div><div class="city-metric"><div class="label">教育</div><div class="value">8.2</div></div><div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div></div>
         </div>
+
+        <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。" data-source="Savills, Knight Frank, CAR | B 级">
+            <h4>综合能力雷达图 <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
+            <div class="radar-container"><canvas id="radarChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px"><h5>📊 维度解释</h5><div class="data-legend-item"><strong>房价可负担性：</strong>基于房价收入比，分数越高越容易负担。</div><div class="data-legend-item"><strong>租金收益率：</strong>年租金/房价，分数越高回报越好。</div><div class="data-legend-item"><strong>教育资源：</strong>大学、中小学和国际学校资源。</div><div class="data-legend-item"><strong>政策友好度：</strong>购房限制、税费、出租监管和保险风险。</div><div class="data-legend-item"><strong>市场流动性：</strong>交易活跃度、买卖周期和退出便利度。</div><div class="data-legend-item"><strong>汇率风险：</strong>货币波动和人民币口径成本不确定性。</div></div>
+        </div>
+
+        <div class="card" style="margin-top:20px"><h4>雷达图各维度前三名分析</h4><div class="grid-2"><div class="data-legend"><div class="data-legend-item"><strong>教育资源：</strong>伦敦、纽约、香港更强；洛杉矶以 UCLA、USC、私校和尔湾学区补强。</div><div class="data-legend-item"><strong>租金收益率：</strong>悉尼、洛杉矶、伦敦较高；香港和东京较低。</div><div class="data-legend-item"><strong>政策友好：</strong>东京、香港、伦敦更清晰；洛杉矶受 ULA 与保险拖累。</div></div><div class="data-legend"><div class="data-legend-item"><strong>流动性：</strong>纽约、香港、伦敦领先；洛杉矶高端市场依赖区域和保险可得性。</div><div class="data-legend-item"><strong>可负担性：</strong>东京相对更高，洛杉矶居中，香港最低。</div><div class="data-legend-item"><strong>配置建议：</strong>洛杉矶更适合教育、自住改善和华人社区长期持有。</div></div></div></div>
     </div>
 
     <!-- 热销推荐 -->
@@ -1023,6 +1029,23 @@
             });
         }
 
+            const radarCanvas = document.getElementById('radarChart');
+            if (radarCanvas) new Chart(radarCanvas, {
+                type: 'radar',
+                data: {
+                    labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'],
+                    datasets: [
+                        { label: '洛杉矶', data: [6,8,7,6,8,6], borderColor: '#005eb8', backgroundColor: 'rgba(0,94,184,0.2)' },
+                        { label: '伦敦', data: [6,8,9,7,8,7], borderColor: '#2c5282', backgroundColor: 'rgba(44,82,130,0.2)' },
+                        { label: '纽约', data: [5,7,9,6,9,6], borderColor: '#c53030', backgroundColor: 'rgba(197,48,48,0.2)' },
+                        { label: '东京', data: [8,5,8,9,7,8], borderColor: '#d69e2e', backgroundColor: 'rgba(214,158,46,0.2)' },
+                        { label: '香港', data: [3,4,8,8,9,5], borderColor: '#9f7aea', backgroundColor: 'rgba(159,122,234,0.2)' },
+                        { label: '悉尼', data: [6,9,8,7,7,7], borderColor: '#ed8936', backgroundColor: 'rgba(237,137,54,0.2)' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 10 } }, plugins: { legend: { position: 'bottom' } } }
+            });
+
         function initTables() {
             document.querySelector('#monthlyTable tbody').innerHTML = laMonthlyData.map(d => `
                 <tr>
@@ -1080,26 +1103,7 @@
         }
 
         function calculateLACost() {
-            const price = parseFloat(document.getElementById('laPropertyPrice').value) || 150;
-            const type = document.getElementById('laPropertyType').value;
-            const rentIncome = parseFloat(document.getElementById('laRentIncome').value) || 6500;
-
-            // 房产税：成交价×1-1.5%/年
-            const propertyTax = price * 10000 * 0.0125;
-            // HOA：SFR 通常无，Condo $400-800/月
-            const hoaPerMonth = type === 'sfr' ? 0 : 600;
-            const hoa = hoaPerMonth * 12;
-            // 保险：约$100-200/月
-            const insurance = 150 * 12;
-            // 地震险：约$800-1500/年
-            const earthquake = 1000;
-
-            const totalCost = propertyTax + hoa + insurance + earthquake;
-            const coverage = (rentIncome * 12 / totalCost * 100);
-
-            document.getElementById('laPropertyTax').textContent = '$' + (propertyTax / 10000).toFixed(2) + '万';
-            document.getElementById('laHOA').textContent = '$' + ((hoa + insurance + earthquake) / 10000).toFixed(2) + '万';
-            document.getElementById('laTotalCost').textContent = '$' + (totalCost / 10000).toFixed(2) + '万';
+            calculateHoldingCost();
         }
 
         function getCanvas(id) { const el = document.getElementById(id); return el ? el.getContext('2d') : null; }
@@ -1119,12 +1123,6 @@
                 const change = prev ? ((d[m.key] - prev) / prev * 100).toFixed(1) + '%' : '-';
                 return `<tr><td>${d.month}</td><td>${m.label}</td><td>${volKey ? d[volKey].toLocaleString() : '-'}</td><td>${d[m.key].toLocaleString()}</td><td class="${change.startsWith('-') ? 'down' : 'up'}">${change}</td></tr>`;
             })).join('');
-            const prefYears = ['2023', '2024', '2025', '2026 Q1'];
-            const prefData = [{label:'尔湾',data:[24, 26, 27, 28],color:'#005eb8'},{label:'圣盖博谷',data:[24, 24, 25, 25],color:'#e31837'},{label:'西洛杉矶',data:[14, 15, 15, 15],color:'#228b22'},{label:'学区房',data:[22, 23, 24, 25],color:'#ff8c00'},{label:'投资出租',data:[16, 12, 9, 7],color:'#805ad5'}];
-            const prefCtx = getCanvas('chinaPreferenceStackedChart');
-            if (prefCtx) new Chart(prefCtx, { type:'line', data:{ labels: prefYears, datasets: prefData.map(p=>({label:p.label,data:p.data,borderColor:p.color,backgroundColor:p.color+'33',fill:true,tension:0.35})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{stacked:true,beginAtZero:true,max:100},x:{}},plugins:{legend:{position:'bottom'}}} });
-            const radarCtx = getCanvas('chinaPreferenceRadarChart');
-            if (radarCtx) new Chart(radarCtx, { type:'radar', data:{ labels: ['尔湾', '圣盖博谷', '西洛杉矶', '学区房', '投资出租'], datasets:[{label:'2026 Q1',data:prefData.map(p=>p.data[p.data.length-1]),borderColor:'#e31837',backgroundColor:'rgba(227,24,55,0.18)'}] }, options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:40}}} });
         }
 
         function calculateROI() {
@@ -1181,30 +1179,61 @@
 
         function calculateHoldingCost() {
             const price = parseFloat(document.getElementById('holdingPrice')?.value) || 150;
+            const loanRatio = parseFloat(document.getElementById('holdingLoanRatio')?.value) || 0;
+            const interestRate = parseFloat(document.getElementById('holdingInterestRate')?.value) || 6.5;
+            const type = document.getElementById('holdingPropertyType')?.value || 'sfr';
             const size = parseFloat(document.getElementById('holdingSize')?.value) || 1500;
-            const rent = parseFloat(document.getElementById('holdingRent')?.value) || 6500;
-            const isTokyo = '洛杉矶' === '东京';
-            const priceCny = isTokyo ? price * 10000 * 0.0435 : price * 10000 * 6.83;
-            const rentCny = isTokyo ? rent * 10000 * 0.0435 : rent * 6.83;
-            const monthlyTaxFee = isTokyo ? priceCny * 0.018 / 12 + size * 12 : priceCny * 0.014 / 12 + size * 2.5;
-            const insuranceAndReserve = isTokyo ? priceCny * 0.007 / 12 : priceCny * 0.004 / 12;
-            const total = monthlyTaxFee + insuranceAndReserve;
+            const rentUsd = parseFloat(document.getElementById('holdingRent')?.value) || 6500;
+            const exchangeRate = 6.83;
+            const priceUsd = price * 10000;
+            const priceCny = priceUsd * exchangeRate;
+            const loanPrincipal = priceCny * loanRatio / 100;
+            const monthlyRate = interestRate / 100 / 12;
+            const loanMonths = 30 * 12;
+            const monthlyMortgage = loanPrincipal > 0 && monthlyRate > 0
+                ? loanPrincipal * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1)
+                : loanPrincipal / loanMonths;
+            const propertyTax = priceCny * 0.0125 / 12;
+            const hoaUsd = type === 'condo' ? 650 : type === 'luxury' ? 1200 : 0;
+            const hoa = hoaUsd * exchangeRate;
+            const insuranceRate = type === 'luxury' ? 0.006 : type === 'sfr' ? 0.0035 : 0.0028;
+            const insurance = priceCny * insuranceRate / 12;
+            const earthquake = priceCny * 0.0012 / 12;
+            const management = rentUsd * exchangeRate * 0.08;
+            const vacancyReserve = rentUsd * exchangeRate * 0.05;
+            const taxFee = propertyTax + hoa;
+            const reserveCost = insurance + earthquake + management + vacancyReserve;
+            const total = monthlyMortgage + taxFee + reserveCost;
+            const rentCny = rentUsd * exchangeRate;
             const coverage = total > 0 ? rentCny / total * 100 : 0;
-            setText('holdingTaxFee', '¥' + (monthlyTaxFee / 10000).toFixed(1) + '万');
+            setText('holdingMortgage', '¥' + (monthlyMortgage / 10000).toFixed(1) + '万');
+            setText('holdingTaxFee', '¥' + (taxFee / 10000).toFixed(1) + '万');
+            setText('holdingReserveCost', '¥' + (reserveCost / 10000).toFixed(1) + '万');
             setText('holdingTotalCost', '¥' + (total / 10000).toFixed(1) + '万');
             const cov = document.getElementById('holdingCoverage');
-            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.style.color = coverage > 80 ? 'var(--success)' : coverage > 55 ? 'var(--warning)' : 'var(--accent)'; }
+            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.className = 'value ' + (coverage >= 80 ? 'up' : coverage < 55 ? 'down' : ''); }
             const tbody = document.querySelector('#holdingCostTable tbody');
             if (tbody) {
-                const rows = [0.7,1,1.5,2].map(mult => {
-                    const p = price * mult;
-                    const r = rent * Math.sqrt(mult);
-                    const pc = isTokyo ? p * 10000 * 0.0435 : p * 10000 * 6.83;
-                    const rc = isTokyo ? r * 10000 * 0.0435 : r * 6.83;
-                    const c = (isTokyo ? pc * 0.025 / 12 : pc * 0.018 / 12) + size * 2;
-                    return `<tr><td>${mult < 1 ? '入门' : mult === 1 ? '基准' : mult === 1.5 ? '改善' : '豪宅'}</td><td>¥${(c/10000).toFixed(1)}万</td><td>¥${(rc/10000).toFixed(1)}万</td><td class="${rc-c>=0?'up':'down'}">¥${((rc-c)/10000).toFixed(1)}万</td><td>${mult === 1 ? '默认测算口径' : '按比例估算'}</td></tr>`;
+                const cases = [
+                    {label:'入门 Condo', price:80, rent:3800, size:850, type:'condo'},
+                    {label:'基准 SFR', price:150, rent:6500, size:1500, type:'sfr'},
+                    {label:'改善 SFR', price:250, rent:9500, size:2400, type:'sfr'},
+                    {label:'豪宅/高火险区', price:500, rent:16000, size:4200, type:'luxury'}
+                ];
+                tbody.innerHTML = cases.map(item => {
+                    const pCny = item.price * 10000 * exchangeRate;
+                    const loan = pCny * loanRatio / 100;
+                    const mortgage = loan > 0 && monthlyRate > 0 ? loan * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loan / loanMonths;
+                    const tax = pCny * 0.0125 / 12;
+                    const rowHoa = (item.type === 'condo' ? 650 : item.type === 'luxury' ? 1200 : 0) * exchangeRate;
+                    const rowInsuranceRate = item.type === 'luxury' ? 0.006 : item.type === 'sfr' ? 0.0035 : 0.0028;
+                    const reserve = pCny * (rowInsuranceRate + 0.0012) / 12 + item.rent * exchangeRate * 0.13;
+                    const rowTotal = mortgage + tax + rowHoa + reserve;
+                    const rowRent = item.rent * exchangeRate;
+                    const rowNet = rowRent - rowTotal;
+                    const rowCoverage = rowTotal > 0 ? rowRent / rowTotal * 100 : 0;
+                    return `<tr ${item.label === '基准 SFR' ? 'style="background:#f0fff4"' : ''}><td>${item.label}</td><td>¥${(mortgage/10000).toFixed(1)}万</td><td>¥${((tax+rowHoa)/10000).toFixed(1)}万</td><td>¥${(reserve/10000).toFixed(1)}万</td><td>¥${(rowTotal/10000).toFixed(1)}万</td><td>¥${(rowRent/10000).toFixed(1)}万</td><td class="${rowNet>=0?'up':'down'}">¥${(rowNet/10000).toFixed(1)}万</td><td>${Math.round(rowCoverage)}%</td></tr>`;
                 }).join('');
-                tbody.innerHTML = rows;
             }
         }
 

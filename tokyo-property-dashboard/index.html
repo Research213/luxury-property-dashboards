@@ -71,6 +71,8 @@
         .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
         .cost-result .item .label { font-size: 12px; color: var(--text-light); }
         .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        .cost-result .item .value.up { color: var(--success); }
+        .cost-result .item .value.down { color: var(--accent); }
         .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
         .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .agency-card.expanded { background: #f0fff4; }
@@ -512,18 +514,6 @@
         </div>
     </div>
 
-
-        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="按伦敦模板补齐：用面积图和雷达图展示中国买家偏好结构变化。" data-source="日本国土交通省 / 机构样本 | B 级">
-            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
-            <div class="grid-2">
-                <div class="chart-container"><canvas id="chinaPreferenceStackedChart"></canvas></div>
-                <div class="chart-container"><canvas id="chinaPreferenceRadarChart"></canvas></div>
-            </div>
-            <div class="data-legend">
-                <div class="data-legend-item">趋势图展示中国买家在核心区域、学区/就业、投资出租等偏好的相对变化。</div>
-                <div class="data-legend-item">该模块沿用页面已有机构样本口径，和伦敦页保持同一展示逻辑。</div>
-            </div>
-        </div>
 
     <!-- 收益计算器 -->
     <div id="roi" class="section">
@@ -969,23 +959,29 @@
     <!-- 持有成本 -->
     <div id="cost" class="section">
         <h2 class="section-title">💰 持有成本计算器</h2>
-        <div class="section-conclusion"><strong>小结论：</strong>以¥6,000 万日元公寓为例，月持有成本约¥0.8-1.2 万人民币，租金可覆盖 60-80%。固定资产税和管理修缮金是主要变量。</div>
+        <div class="section-conclusion"><strong>小结论：</strong>以 ¥6,000 万日元公寓、贷款 50%、年利率 2.0% 为例，东京月度总现金流支出约¥1.3-1.8 万人民币；若月租 ¥22 万日元，租金通常可覆盖 55-80%。固定资产税、管理费、修缮积立金、贷款利率和日元汇率是核心变量。</div>
         <div class="cost-calculator">
             <h4>🧮 月度持有成本计算（人民币）</h4>
             <div class="cost-input">
-                <div><label>房产价格</label><input type="number" id="holdingPrice" value="6000" onchange="calculateHoldingCost()"></div>
-                <div><label>建筑面积 / 参考面积</label><input type="number" id="holdingSize" value="700" onchange="calculateHoldingCost()"></div>
-                <div><label>月租金收入</label><input type="number" id="holdingRent" value="22" onchange="calculateHoldingCost()"></div>
+                <div><label>房产价格（万日元）</label><input type="number" id="holdingPrice" value="6000" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款比例（%）</label><input type="number" id="holdingLoanRatio" value="50" min="0" max="80" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款年利率（%）</label><input type="number" id="holdingInterestRate" value="2.0" step="0.1" onchange="calculateHoldingCost()"></div>
+                <div><label>物业类型</label><select id="holdingPropertyType" onchange="calculateHoldingCost()"><option value="mansion">Mansion 公寓</option><option value="house">一户建</option><option value="luxury">都心豪宅</option></select></div>
+                <div><label>建筑面积 (㎡)</label><input type="number" id="holdingSize" value="55" onchange="calculateHoldingCost()"></div>
+                <div><label>月租金收入（万日元）</label><input type="number" id="holdingRent" value="22" onchange="calculateHoldingCost()"></div>
             </div>
-            <div class="cost-result">
-                <div class="item"><div class="label">每月税费/物业</div><div class="value" id="holdingTaxFee">-</div></div>
-                <div class="item"><div class="label">每月持有成本</div><div class="value" id="holdingTotalCost">-</div></div>
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">每月贷款月供</div><div class="value" id="holdingMortgage">-</div></div>
+                <div class="item"><div class="label">每月税费/管理</div><div class="value" id="holdingTaxFee">-</div></div>
+                <div class="item"><div class="label">修缮/保险/空置</div><div class="value" id="holdingReserveCost">-</div></div>
+                <div class="item"><div class="label">每月总支出</div><div class="value" id="holdingTotalCost">-</div></div>
                 <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="holdingCoverage">-</div></div>
             </div>
         </div>
         <div class="card" style="margin-top:20px">
             <h4>不同价位持有成本对比（2026 年数据）</h4>
-            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月均成本</th><th>月租金</th><th>净现金流</th><th>说明</th></tr></thead><tbody></tbody></table>
+            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月供</th><th>税费/管理</th><th>修缮/保险</th><th>总支出/月</th><th>月租金</th><th>净现金流/月</th><th>租金覆盖</th></tr></thead><tbody></tbody></table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>日元输入按 1 JPY = 0.0435 CNY 折算；月供按 35 年等额本息估算；税费/管理包含固定资产税、都市计划税、管理费；修缮/保险包含修缮积立金、火灾保险、5% 空置和 5% 管理费，不含所得税和大规模修缮临时征收。</div>
         </div>
     </div>
 
@@ -1701,80 +1697,66 @@
         }
 
         function calculateTKCost() {
-            const price = parseFloat(document.getElementById('tkPropertyPrice').value) || 6000;
-            const sqm = parseFloat(document.getElementById('tkSqm').value) || 70;
-            const type = document.getElementById('tkPropertyType').value;
-
-            // 固定资产税：评估价×1.7%（评估价约为市价 60-70%）
-            const propertyTax = price * 10000 * 0.6 * 0.017;
-            // 都市计划税：评估价×0.3%
-            const cityTax = price * 10000 * 0.6 * 0.003;
-            // 管理费 + 修缮积立金：公寓¥2.5-5 万/月，一户建无
-            const maintenancePerMonth = type === 'mansion' ? 4 : 0;
-            const maintenance = maintenancePerMonth * 12;
-            // 保险：约¥3-5 千/月
-            const insurance = 4500 * 12;
-
-            const totalCost = propertyTax + cityTax + maintenance + insurance;
-
-            document.getElementById('tkPropertyTax').textContent = '¥' + Math.round((propertyTax + cityTax) / 10000) + '万';
-            document.getElementById('tkMaintenance').textContent = '¥' + Math.round(maintenance / 10000) + '万';
-            document.getElementById('tkTotalCost').textContent = '¥' + Math.round(totalCost / 10000) + '万';
+            calculateHoldingCost();
+            setTimeout(calculateHoldingCost, 0);
         }
 
-        function getCanvas(id) { const el = document.getElementById(id); return el ? el.getContext('2d') : null; }
-        function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
-        function initLondonStyleTemplateCharts() {
-            const monthly = typeof tkMonthlyData !== 'undefined' ? tkMonthlyData : [];
-            const volumeMeta = [{label:'新建公寓',key:'newVol',color:'#005eb8'},{label:'中古公寓',key:'oldVol',color:'#e31837'}];
-            const priceMeta = [{label:'新建公寓',key:'newPrice',color:'#e31837'},{label:'中古公寓',key:'oldPrice',color:'#228b22'}];
-            const volCtx = getCanvas('propertyTypeVolumeTrendChart');
-            if (volCtx && monthly.length) new Chart(volCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: volumeMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true}}} });
-            const priceCtx = getCanvas('propertyTypePriceTrendChart');
-            if (priceCtx && monthly.length) new Chart(priceCtx, { type:'line', data:{ labels: monthly.map(d=>d.month), datasets: priceMeta.map(m=>({label:m.label,data:monthly.map(d=>d[m.key]),borderColor:m.color,backgroundColor:m.color+'22',tension:0.3,fill:false})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:false}}} });
-            const tableBody = document.querySelector('#propertyTypeTable tbody');
-            if (tableBody && monthly.length) tableBody.innerHTML = monthly.flatMap((d, idx) => priceMeta.map((m, i) => {
-                const volKey = volumeMeta[i]?.key;
-                const prev = idx > 0 ? monthly[idx-1][m.key] : null;
-                const change = prev ? ((d[m.key] - prev) / prev * 100).toFixed(1) + '%' : '-';
-                return `<tr><td>${d.month}</td><td>${m.label}</td><td>${volKey ? d[volKey].toLocaleString() : '-'}</td><td>${d[m.key].toLocaleString()}</td><td class="${change.startsWith('-') ? 'down' : 'up'}">${change}</td></tr>`;
-            })).join('');
-            const prefYears = ['2023', '2024', '2025', '2026 Q1'];
-            const prefData = [{label:'港区',data:[28, 29, 30, 30],color:'#005eb8'},{label:'涩谷区',data:[18, 19, 20, 20],color:'#e31837'},{label:'千代田区',data:[14, 15, 15, 15],color:'#228b22'},{label:'日元窗口',data:[20, 22, 24, 26],color:'#ff8c00'},{label:'租赁回报',data:[20, 15, 11, 9],color:'#805ad5'}];
-            const prefCtx = getCanvas('chinaPreferenceStackedChart');
-            if (prefCtx) new Chart(prefCtx, { type:'line', data:{ labels: prefYears, datasets: prefData.map(p=>({label:p.label,data:p.data,borderColor:p.color,backgroundColor:p.color+'33',fill:true,tension:0.35})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{stacked:true,beginAtZero:true,max:100},x:{}},plugins:{legend:{position:'bottom'}}} });
-            const radarCtx = getCanvas('chinaPreferenceRadarChart');
-            if (radarCtx) new Chart(radarCtx, { type:'radar', data:{ labels: ['港区', '涩谷区', '千代田区', '日元窗口', '租赁回报'], datasets:[{label:'2026 Q1',data:prefData.map(p=>p.data[p.data.length-1]),borderColor:'#e31837',backgroundColor:'rgba(227,24,55,0.18)'}] }, options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:40}}} });
-        }
 
         function calculateHoldingCost() {
             const price = parseFloat(document.getElementById('holdingPrice')?.value) || 6000;
-            const size = parseFloat(document.getElementById('holdingSize')?.value) || 700;
-            const rent = parseFloat(document.getElementById('holdingRent')?.value) || 22;
-            const isTokyo = '东京' === '东京';
-            const priceCny = isTokyo ? price * 10000 * 0.0435 : price * 10000 * 6.83;
-            const rentCny = isTokyo ? rent * 10000 * 0.0435 : rent * 6.83;
-            const monthlyTaxFee = isTokyo ? priceCny * 0.018 / 12 + size * 12 : priceCny * 0.014 / 12 + size * 2.5;
-            const insuranceAndReserve = isTokyo ? priceCny * 0.007 / 12 : priceCny * 0.004 / 12;
-            const total = monthlyTaxFee + insuranceAndReserve;
+            const loanRatio = parseFloat(document.getElementById('holdingLoanRatio')?.value) || 0;
+            const interestRate = parseFloat(document.getElementById('holdingInterestRate')?.value) || 2.0;
+            const type = document.getElementById('holdingPropertyType')?.value || 'mansion';
+            const size = parseFloat(document.getElementById('holdingSize')?.value) || 55;
+            const rentManJpy = parseFloat(document.getElementById('holdingRent')?.value) || 22;
+            const exchangeRate = 0.0435;
+            const priceCny = price * 10000 * exchangeRate;
+            const rentCny = rentManJpy * 10000 * exchangeRate;
+            const loanPrincipal = priceCny * loanRatio / 100;
+            const monthlyRate = interestRate / 100 / 12;
+            const loanMonths = 35 * 12;
+            const monthlyMortgage = loanPrincipal > 0 && monthlyRate > 0 ? loanPrincipal * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loanPrincipal / loanMonths;
+            const fixedAssetTax = priceCny * 0.014 / 12;
+            const managementJpy = type === 'house' ? 0 : type === 'luxury' ? size * 850 : size * 520;
+            const management = managementJpy * exchangeRate;
+            const repairJpy = type === 'house' ? size * 280 : type === 'luxury' ? size * 650 : size * 380;
+            const repairReserve = repairJpy * exchangeRate;
+            const insurance = priceCny * 0.0012 / 12;
+            const vacancyAndMgmt = rentCny * 0.10;
+            const taxFee = fixedAssetTax + management;
+            const reserveCost = repairReserve + insurance + vacancyAndMgmt;
+            const total = monthlyMortgage + taxFee + reserveCost;
             const coverage = total > 0 ? rentCny / total * 100 : 0;
-            setText('holdingTaxFee', '¥' + (monthlyTaxFee / 10000).toFixed(1) + '万');
+            setText('holdingMortgage', '¥' + (monthlyMortgage / 10000).toFixed(1) + '万');
+            setText('holdingTaxFee', '¥' + (taxFee / 10000).toFixed(1) + '万');
+            setText('holdingReserveCost', '¥' + (reserveCost / 10000).toFixed(1) + '万');
             setText('holdingTotalCost', '¥' + (total / 10000).toFixed(1) + '万');
             const cov = document.getElementById('holdingCoverage');
-            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.style.color = coverage > 80 ? 'var(--success)' : coverage > 55 ? 'var(--warning)' : 'var(--accent)'; }
+            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.className = 'value ' + (coverage >= 80 ? 'up' : coverage < 55 ? 'down' : ''); }
             const tbody = document.querySelector('#holdingCostTable tbody');
             if (tbody) {
-                const rows = [0.7,1,1.5,2].map(mult => {
-                    const p = price * mult;
-                    const r = rent * Math.sqrt(mult);
-                    const pc = isTokyo ? p * 10000 * 0.0435 : p * 10000 * 6.83;
-                    const rc = isTokyo ? r * 10000 * 0.0435 : r * 6.83;
-                    const c = (isTokyo ? pc * 0.025 / 12 : pc * 0.018 / 12) + size * 2;
-                    return `<tr><td>${mult < 1 ? '入门' : mult === 1 ? '基准' : mult === 1.5 ? '改善' : '豪宅'}</td><td>¥${(c/10000).toFixed(1)}万</td><td>¥${(rc/10000).toFixed(1)}万</td><td class="${rc-c>=0?'up':'down'}">¥${((rc-c)/10000).toFixed(1)}万</td><td>${mult === 1 ? '默认测算口径' : '按比例估算'}</td></tr>`;
+                const cases = [
+                    {label:'入门公寓', price:4000, rent:16, size:38, type:'mansion'},
+                    {label:'基准公寓', price:6000, rent:22, size:55, type:'mansion'},
+                    {label:'都心改善', price:10000, rent:38, size:75, type:'luxury'},
+                    {label:'一户建', price:8500, rent:28, size:90, type:'house'}
+                ];
+                tbody.innerHTML = cases.map(item => {
+                    const pCny = item.price * 10000 * exchangeRate;
+                    const rCny = item.rent * 10000 * exchangeRate;
+                    const loan = pCny * loanRatio / 100;
+                    const mortgage = loan > 0 && monthlyRate > 0 ? loan * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loan / loanMonths;
+                    const tax = pCny * 0.014 / 12;
+                    const mgmt = (item.type === 'house' ? 0 : item.type === 'luxury' ? item.size * 850 : item.size * 520) * exchangeRate;
+                    const reserve = (item.type === 'house' ? item.size * 280 : item.type === 'luxury' ? item.size * 650 : item.size * 380) * exchangeRate + pCny * 0.0012 / 12 + rCny * 0.10;
+                    const rowTotal = mortgage + tax + mgmt + reserve;
+                    const rowNet = rCny - rowTotal;
+                    const rowCoverage = rowTotal > 0 ? rCny / rowTotal * 100 : 0;
+                    return `<tr ${item.label === '基准公寓' ? 'style="background:#f0fff4"' : ''}><td>${item.label}</td><td>¥${(mortgage/10000).toFixed(1)}万</td><td>¥${((tax+mgmt)/10000).toFixed(1)}万</td><td>¥${(reserve/10000).toFixed(1)}万</td><td>¥${(rowTotal/10000).toFixed(1)}万</td><td>¥${(rCny/10000).toFixed(1)}万</td><td class="${rowNet>=0?'up':'down'}">¥${(rowNet/10000).toFixed(1)}万</td><td>${Math.round(rowCoverage)}%</td></tr>`;
                 }).join('');
-                tbody.innerHTML = rows;
             }
         }
+        window.calculateHoldingCost = calculateHoldingCost;
 
         function showSection(id, evt) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1959,6 +1941,72 @@
             calculateROI();
             console.log('🗼 东京房产数据看板加载完成 | 版本：v5.0');
         });
+    </script>
+
+    <script>
+    (function () {
+        function yenCostText(value) { return '¥' + (value / 10000).toFixed(1) + '万'; }
+        function setValue(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
+        function calculateTokyoHoldingCost() {
+            const price = parseFloat(document.getElementById('holdingPrice')?.value) || 6000;
+            const loanRatio = parseFloat(document.getElementById('holdingLoanRatio')?.value) || 0;
+            const interestRate = parseFloat(document.getElementById('holdingInterestRate')?.value) || 2.0;
+            const type = document.getElementById('holdingPropertyType')?.value || 'mansion';
+            const size = parseFloat(document.getElementById('holdingSize')?.value) || 55;
+            const rentManJpy = parseFloat(document.getElementById('holdingRent')?.value) || 22;
+            const exchangeRate = 0.0435;
+            const priceCny = price * 10000 * exchangeRate;
+            const rentCny = rentManJpy * 10000 * exchangeRate;
+            const loanPrincipal = priceCny * loanRatio / 100;
+            const monthlyRate = interestRate / 100 / 12;
+            const loanMonths = 35 * 12;
+            const mortgage = loanPrincipal > 0 && monthlyRate > 0 ? loanPrincipal * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loanPrincipal / loanMonths;
+            const fixedAssetTax = priceCny * 0.014 / 12;
+            const management = (type === 'house' ? 0 : type === 'luxury' ? size * 850 : size * 520) * exchangeRate;
+            const repair = (type === 'house' ? size * 280 : type === 'luxury' ? size * 650 : size * 380) * exchangeRate;
+            const reserve = repair + priceCny * 0.0012 / 12 + rentCny * 0.10;
+            const taxFee = fixedAssetTax + management;
+            const total = mortgage + taxFee + reserve;
+            const coverage = total > 0 ? rentCny / total * 100 : 0;
+            setValue('holdingMortgage', yenCostText(mortgage));
+            setValue('holdingTaxFee', yenCostText(taxFee));
+            setValue('holdingReserveCost', yenCostText(reserve));
+            setValue('holdingTotalCost', yenCostText(total));
+            const cov = document.getElementById('holdingCoverage');
+            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.className = 'value ' + (coverage >= 80 ? 'up' : coverage < 55 ? 'down' : ''); }
+            const tbody = document.querySelector('#holdingCostTable tbody');
+            if (tbody) {
+                const cases = [
+                    {label:'入门公寓', price:4000, rent:16, size:38, type:'mansion'},
+                    {label:'基准公寓', price:6000, rent:22, size:55, type:'mansion'},
+                    {label:'都心改善', price:10000, rent:38, size:75, type:'luxury'},
+                    {label:'一户建', price:8500, rent:28, size:90, type:'house'}
+                ];
+                tbody.innerHTML = cases.map(item => {
+                    const pCny = item.price * 10000 * exchangeRate;
+                    const rCny = item.rent * 10000 * exchangeRate;
+                    const loan = pCny * loanRatio / 100;
+                    const rowMortgage = loan > 0 && monthlyRate > 0 ? loan * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loan / loanMonths;
+                    const tax = pCny * 0.014 / 12;
+                    const mgmt = (item.type === 'house' ? 0 : item.type === 'luxury' ? item.size * 850 : item.size * 520) * exchangeRate;
+                    const rowReserve = (item.type === 'house' ? item.size * 280 : item.type === 'luxury' ? item.size * 650 : item.size * 380) * exchangeRate + pCny * 0.0012 / 12 + rCny * 0.10;
+                    const rowTotal = rowMortgage + tax + mgmt + rowReserve;
+                    const rowNet = rCny - rowTotal;
+                    const rowCoverage = rowTotal > 0 ? rCny / rowTotal * 100 : 0;
+                    return `<tr ${item.label === '基准公寓' ? 'style="background:#f0fff4"' : ''}><td>${item.label}</td><td>${yenCostText(rowMortgage)}</td><td>${yenCostText(tax+mgmt)}</td><td>${yenCostText(rowReserve)}</td><td>${yenCostText(rowTotal)}</td><td>${yenCostText(rCny)}</td><td class="${rowNet>=0?'up':'down'}">${yenCostText(rowNet)}</td><td>${Math.round(rowCoverage)}%</td></tr>`;
+                }).join('');
+            }
+        }
+        window.calculateHoldingCost = calculateTokyoHoldingCost;
+        document.addEventListener('DOMContentLoaded', function () {
+            ['holdingPrice','holdingLoanRatio','holdingInterestRate','holdingPropertyType','holdingSize','holdingRent'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', calculateTokyoHoldingCost);
+            });
+            calculateTokyoHoldingCost();
+            setTimeout(calculateTokyoHoldingCost, 0);
+        });
+    })();
     </script>
 </body>
 </html>

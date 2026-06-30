@@ -82,6 +82,30 @@
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-light); }
         @media (max-width: 1024px) { .grid-2, .grid-3, .metric-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .header, .section { padding: 16px; } .conclusion-banner { margin: 16px; } .grid-2, .grid-3, .metric-grid, .cost-input, .cost-result { grid-template-columns: 1fr; } }
+        .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .agency-card.expanded { background: #f0fff4; }
+        .agency-header { display: flex; justify-content: space-between; align-items: center; }
+        .agency-name { font-weight: 600; color: var(--primary); font-size: 16px; }
+        .agency-date { font-size: 12px; color: var(--text-light); }
+        .agency-rating { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .agency-rating.positive { background: #c6f6d5; color: #22543d; }
+        .agency-rating.neutral { background: #fef3c7; color: #744210; }
+        .agency-rating.cautious { background: #fed7d7; color: #742a2a; }
+        .agency-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .agency-card.expanded .agency-detail { display: block; }
+        .city-comparison { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .city-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .city-card:hover { transform: translateY(-2px); }
+        .city-card .city-name { font-weight: 600; margin-bottom: 8px; color: var(--primary); font-size: 14px; }
+        .city-metric { margin: 6px 0; }
+        .city-metric .label { font-size: 10px; color: var(--text-light); }
+        .city-metric .value { font-size: 14px; font-weight: 600; }
+        .radar-container { height: 350px; }
+        .policy-item { margin-bottom: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .policy-item-title { font-weight: 600; }
+        @media (max-width: 1024px) { .city-comparison { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .city-comparison { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -218,6 +242,10 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 量价齐升，连升 9 个月创 22 个月新高</div>
                 </div>
             </div>
+            <div class="card" data-title="月度成交量趋势 (2025.01-2026.05)" data-content="2026 年 Q1 一手成交 6,300 宗（+44% YoY），二手 12,449 宗（18 季度新高）。" data-source="中原地产 | A 级">
+                <h4>月度成交量趋势 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability A">A 级</span></h4>
+                <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+            </div>
         </div>
 
         <div class="card" style="margin-top:20px">
@@ -236,12 +264,7 @@
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：差饷物业估价署 | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
         </div>
 
-        <div class="grid-2">
-            <div class="card" data-title="月度成交量 (2025.01-2026.05)" data-content="2026 年 Q1 一手成交 6,300 宗（+44% YoY），二手 12,449 宗（18 季度新高）。" data-source="中原地产 | A 级">
-                <h4>月度成交量趋势 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability A">A 级</span></h4>
-                <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-            </div>
-            <div class="card">
+        <div class="card" style="margin-top:20px">
                 <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">土地注册处</span><span class="data-reliability A">A 级</span></h4>
                 <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                     <table class="data-table">
@@ -269,8 +292,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
         </div>
     </div>
 
@@ -348,40 +369,58 @@
             <strong>小结论：</strong>香港住宅以分层住宅（公寓）为主，占比超 90%。豪宅市场（5,000 万以上）2026 年 Q1 成交 146 宗（+130% YoY），亿元豪宅 52 宗（+247%）。纳米楼（400 呎以下）受单身人士和投资者青睐。
         </div>
 
-        <div class="card" data-title="住宅户型分布" data-content="香港住宅户型：1 房/开放式 35%、2 房 30%、3 房 20%、4 房 +10%、别墅 5%。" data-source="差饷物业估价署 | A 级">
-                <h4>住宅户型占比 <span class="data-source-tag">差饷物业估价署</span><span class="data-reliability A">A 级</span></h4>
+        <div class="grid-2">
+            <div class="card" data-title="住宅户型分布" data-content="香港住宅户型：1 房/开放式 35%、2 房 30%、3 房 20%、4 房 +10%、别墅 5%。" data-source="差饷物业估价署 | A 级">
+                <h4>住宅户型占比 (2025 年全年) <span class="data-source-tag">差饷物业估价署</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
                 <div class="data-legend" style="margin-top:16px">
                     <h5>📊 户型说明</h5>
                     <div class="data-legend-item">• 1 房/开放式：≤35㎡，适合单身/投资</div>
                     <div class="data-legend-item">• 2 房：35-50㎡，小家庭首选</div>
                     <div class="data-legend-item">• 3 房：50-80㎡，改善型需求</div>
-                    <div class="data-legend-item">• 4 房+：≥80㎡，豪宅/多代同堂</div>
-                    <div class="data-legend-item">• 别墅/其他：独立屋、洋房等</div>
+                    <div class="data-legend-item">• 4 房+/豪宅：≥80㎡，多代同堂/资产配置</div>
                 </div>
             </div>
+            <div class="card" data-title="各户型平均总价" data-content="各户型成交均价对比（万港元）。4 房+/豪宅最高。" data-source="差饷物业估价署，计算 | B 级">
+                <h4>各户型平均总价 (万港元) <span class="data-source-tag">差饷物业估价署</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
+            </div>
+        </div>
 
-        <div class="card" style="margin-top:20px">
-            <h4>户型面积分布与租金回报</h4>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>户型</th>
-                        <th>面积 (㎡)</th><th>占比</th><th>总价 (万港元)</th><th>租金回报</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>纳米楼 (开放式)</td><td>≤20</td><td>15%</td><td>300-500</td><td>3.8%</td></tr>
-                    <tr><td>1 房</td><td>20-35</td><td>25%</td><td>500-800</td><td>3.5%</td></tr>
-                    <tr><td>2 房</td><td>35-50</td><td>30%</td><td>800-1,500</td><td>3.3%</td></tr>
-                    <tr><td>3 房</td><td>50-80</td><td>20%</td><td>1,500-3,000</td><td>3.1%</td></tr>
-                    <tr><td>4 房 + 豪宅</td><td>≥80</td><td>10%</td><td>3,000+</td><td>2.8%</td></tr>
-                </tbody>
-            </table>
+        <div class="grid-2" style="margin-top:20px">
+            <div class="card" data-title="各户型成交量趋势" data-content="2025.01-2026.05 各户型月度成交量趋势。" data-source="中原地产 | B 级">
+                <h4>各户型成交量趋势 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
+            </div>
+            <div class="card" data-title="各户型成交均价趋势" data-content="2025.01-2026.05 各户型月度成交均价趋势（万港元）。" data-source="中原地产 | B 级">
+                <h4>各户型成交均价趋势 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability B">B 级</span></h4>
+                <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025.01-2026.05 各户型月度成交量与成交均价，含环比变化。" data-source="中原地产 | B 级">
+            <h4>产品类型详细数据表 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability B">B 级</span></h4>
+            <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+                <table class="data-table" id="propertyTypeTable">
+                    <thead>
+                        <tr>
+                            <th>月份</th>
+                            <th>户型</th>
+                            <th>成交量 (宗)</th>
+                            <th>成交均价 (万港元)</th>
+                            <th>环比变化</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 月度数据为基于差饷物业估价署/中原地产口径的建模估算，用于趋势演示；单位：成交均价为万港元。
+            </div>
         </div>
 
         <div class="card" style="margin-top:20px">
-            <h4>各户型价格与租金回报</h4>
+            <h4>各户型价格与租金回报 <span class="data-source-tag">美联物业</span><span class="data-reliability B">B 级</span></h4>
             <table class="data-table">
                 <thead>
                     <tr><th>户型</th><th>面积 (㎡)</th><th>占比</th><th>平均总价 (万港元)</th><th>平均单价 (万/㎡)</th><th>月租金 (港元)</th><th>租金回报</th></tr>
@@ -664,18 +703,136 @@
     <div id="agency" class="section">
         <h2 class="section-title">📑 机构观点</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>机构普遍认为撤辣与利率下行改善成交，但豪宅复苏节奏仍取决于内地资金、租金承接和库存去化。
+            <strong>小结论：</strong>主要机构对 2026 年香港房价共识为<strong>正增长</strong>，区间 +5%~+15%。<strong>本地代理：</strong>中原 +15%、美联 +10~15%、利嘉阁整体 +7%（豪宅 +8%）偏乐观；<strong>国际行：</strong>仲量联行（JLL）+5%（软着陆）、世邦魏理仕（CBRE）大众 +5%/豪宅持平更审慎；摩根大通私行上调至 +10~15%。一致看法是撤辣 + 降息周期 + 内地资金推动量价回暖，分歧在豪宅段涨幅与租金承接。
         </div>
-        <div class="card">
-            <h4>主要机构观点摘要</h4>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏠 中原地产</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年楼市展望》 <span class="data-source-tag">中原</span><span class="data-reliability A">A 级</span></div>
+                </div>
+                <span class="agency-rating positive">强烈看涨</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年香港房价涨幅可达 15%，二手住宅成交量或大增三成至约 5 万宗。<br><br>
+                <strong>关键论据：</strong><br>
+                • 撤辣后累积购买力持续释放，内地资金大手成交频现（单笔逾百亿港元）<br>
+                • 降息周期 + 港股财富效应改善负担能力与信心<br>
+                • 人口流入（高才/优才）支撑自住与租赁双需求<br><br>
+                <strong>关注指标：</strong>CCL 中原城市领先指数、成交宗数、租金指数。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏢 美联物业 / 美联集团</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年市场预测》 <span class="data-source-tag">美联</span><span class="data-reliability A">A 级</span></div>
+                </div>
+                <span class="agency-rating positive">看涨</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年房价大概率再涨 10%-15%；一手成交预计冲破 2.1 万套，二手有望达 5 万套。<br><br>
+                <strong>关键论据：</strong><br>
+                • 撤辣后买家回流，核心屋苑指数企稳回升<br>
+                • 一手供应去化加快，发展商推盘积极<br>
+                • 内地买家占一手注册比例处历史高位<br><br>
+                <strong>关注指标：</strong>美联楼价指数、屋苑成交、内地买家占比。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏘️ 利嘉阁地产</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 年楼价预测》 <span class="data-source-tag">利嘉阁</span><span class="data-reliability A">A 级</span></div>
+                </div>
+                <span class="agency-rating positive">增持</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>2026 年整体楼价预计上升约 7%，其中豪宅涨幅可达约 8%，跑赢大市。<br><br>
+                <strong>关键论据：</strong><br>
+                • 高端物业受内地资金与有限供应支撑<br>
+                • 减息环境降低持有成本，改善投资回报<br>
+                • 撤辣后非本地买家交易成本大幅下降<br><br>
+                <strong>关注指标：</strong>豪宅成交宗数、大手客占比、租金回报率。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🌳 仲量联行（JLL）</div>
+                    <div class="agency-date">2025 年 12 月 | 《2026 年住宅市场展望》 <span class="data-source-tag">JLL</span><span class="data-reliability A">A 级</span></div>
+                </div>
+                <span class="agency-rating positive">审慎乐观</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>香港住宅市场「软着陆」，2026 年中小型住宅价格预计上涨约 5%。<br><br>
+                <strong>关键论据：</strong><br>
+                • 利率见顶回落，负担能力改善<br>
+                • 中小户型刚需承接力强于高端豪宅<br>
+                • 优质商铺空置率仍有上行压力，住宅相对稳健<br><br>
+                <strong>关注指标：</strong>中小户型价格指数、按揭利率、空置率。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📊 世邦魏理仕（CBRE）</div>
+                    <div class="agency-date">2026 年 1 月 | 《2026 香港住宅市场展望》 <span class="data-source-tag">CBRE</span><span class="data-reliability A">A 级</span></div>
+                </div>
+                <span class="agency-rating neutral">分化</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>大众住宅资本值 2026 年预计上涨约 5%，豪宅资本值大致持平；豪宅租金预计 0~5%。<br><br>
+                <strong>关键论据：</strong><br>
+                • 利率稳定 + 政策支持维持量价上行动能<br>
+                • 豪宅供应与高总价段去化偏慢，价格弹性有限<br>
+                • 新房成交有望连续第二年超 2 万套，二手约 5 万套<br><br>
+                <strong>关注指标：</strong>大众/豪宅资本值、豪宅租金、一二手成交量。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏦 摩根大通私人银行（J.P. Morgan PB）</div>
+                    <div class="agency-date">2026 年 1 月 | 房价预测上调 <span class="data-source-tag">摩根大通</span><span class="data-reliability B">B 级</span></div>
+                </div>
+                <span class="agency-rating positive">看涨</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>将 2026 年香港楼价升幅预测大幅上调至 +10%~+15% 区间。<br><br>
+                <strong>关键论据：</strong><br>
+                • 减息周期下资金成本下降，利好杠杆型买家<br>
+                • 内地高净值资金持续配置香港核心资产<br>
+                • 量价齐涨信号确立，租金同步走强<br><br>
+                <strong>关注指标：</strong>利率路径、内地资金流入、租金指数。
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比 <span class="data-source-tag">各机构公开报告</span><span class="data-reliability A">A 级</span></h4>
             <table class="data-table">
-                <thead><tr><th>机构</th><th>判断</th><th>关注指标</th></tr></thead>
+                <thead>
+                    <tr><th>机构</th><th>发布时间</th><th>2026 房价预测</th><th>豪宅 / 细分</th><th>评级</th></tr>
+                </thead>
                 <tbody>
-                    <tr><td>中原地产</td><td>成交量回暖，租赁需求稳定。</td><td>CCL、成交宗数、租金指数</td></tr>
-                    <tr><td>美联物业</td><td>核心屋苑指数企稳，撤辣后买家回流。</td><td>屋苑指数、内地买家占比</td></tr>
-                    <tr><td>CBRE</td><td>高端住宅仍看资金流与利率。</td><td>豪宅成交、资本流入</td></tr>
+                    <tr><td>中原地产</td><td>2026.01</td><td>+15%</td><td>二手成交 +30%（~5 万宗）</td><td><span class="agency-rating positive">强烈看涨</span></td></tr>
+                    <tr><td>美联物业</td><td>2026.01</td><td>+10~15%</td><td>一手 &gt;2.1 万套 / 二手 ~5 万套</td><td><span class="agency-rating positive">看涨</span></td></tr>
+                    <tr><td>利嘉阁地产</td><td>2026.01</td><td>+7%</td><td>豪宅 +8%</td><td><span class="agency-rating positive">增持</span></td></tr>
+                    <tr><td>仲量联行 (JLL)</td><td>2025.12</td><td>+5%</td><td>中小户型领涨（软着陆）</td><td><span class="agency-rating positive">审慎乐观</span></td></tr>
+                    <tr><td>世邦魏理仕 (CBRE)</td><td>2026.01</td><td>大众 +5%</td><td>豪宅持平 / 豪宅租金 0~5%</td><td><span class="agency-rating neutral">分化</span></td></tr>
+                    <tr><td>摩根大通私行</td><td>2026.01</td><td>+10~15%</td><td>—</td><td><span class="agency-rating positive">看涨</span></td></tr>
+                    <tr style="background:#f0fff4"><td><strong>共识区间</strong></td><td>-</td><td><strong>+5%~+15%</strong></td><td><strong>豪宅分歧（持平~+8%）</strong></td><td><strong>-</strong></td></tr>
                 </tbody>
             </table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
+                📌 数据来源：各机构 2025Q4–2026 年初公开报告 / 媒体披露；预测为机构观点，非投资建议。
+            </div>
         </div>
     </div>
 
@@ -740,17 +897,187 @@
         <div class="section-conclusion">
             <strong>小结论：</strong>香港相对东京、伦敦和纽约，总价门槛仍高，但税费政策更友好、流动性强；租金回报率处于中位，适合作为亚洲核心资产配置比较项。
         </div>
-        <div class="card">
-            <h4>全球核心城市配置对比</h4>
-            <table class="data-table">
-                <thead><tr><th>城市</th><th>价格门槛</th><th>租金回报</th><th>政策友好度</th><th>主要优势</th></tr></thead>
-                <tbody>
-                    <tr><td>香港</td><td>高</td><td>约 3.0-3.5%</td><td>高</td><td>撤辣、流动性、人民币资金便利</td></tr>
-                    <tr><td>东京</td><td>中</td><td>约 2.5-4.0%</td><td>高</td><td>日元窗口、政策开放</td></tr>
-                    <tr><td>伦敦</td><td>中高</td><td>约 3.5-4.5%</td><td>中</td><td>教育与全球资产属性</td></tr>
-                    <tr><td>纽约</td><td>高</td><td>约 3.0-4.5%</td><td>中</td><td>美元资产、流动性</td></tr>
-                </tbody>
-            </table>
+        <div class="city-comparison">
+            <div class="city-card" data-title="香港" data-content="全球房价最高，税负最低。优势：低税、华人社会、金融中心、流动性强。劣势：房价极高、租金回报偏低、政治风险。" data-source="Midland Realty | B 级">
+                <div class="city-name">🇭🇰 香港</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.2%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
+            </div>
+            <div class="city-card" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="Ministry of Land | A 级">
+                <div class="city-name">🇯🇵 东京</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.0</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">8.5</div></div>
+            </div>
+            <div class="city-card" data-title="伦敦" data-content="全球教育资源第一，租金收益率 4-5%。优势：教育、文化、金融中心。劣势：税负重、房价高。" data-source="Savills | B 级">
+                <div class="city-name">🇬🇧 伦敦</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">9.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+            <div class="city-card" data-title="纽约" data-content="全球金融中心，房价最高，税负重。优势：金融、就业、流动性。劣势：房产税高、政策复杂。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 纽约</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥11.5 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.8%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.8</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">5.5</div></div>
+            </div>
+            <div class="city-card" data-title="洛杉矶" data-content="加州最大城市，租金收益率较好。优势：气候、科技产业、华人社区。劣势：地震风险、房产税。" data-source="Zillow | B 级">
+                <div class="city-name">🇺🇸 洛杉矶</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">7.5</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
+            </div>
+            <div class="city-card" data-title="悉尼" data-content="澳洲最大城市，租金收益率较高。优势：气候、教育、移民政策。劣势：房价高、距离远。" data-source="NAB, Global Property Guide | B 级">
+                <div class="city-name">🇦🇺 悉尼</div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥7.8 万</div></div>
+                <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.7%</div></div>
+                <div class="city-metric"><div class="label">教育</div><div class="value">8.2</div></div>
+                <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px" data-title="综合能力雷达图" data-content="六维度对比全球热门城市。" data-source="Savills, Knight Frank | B 级">
+            <h4>综合能力雷达图 <span class="data-source-tag">Savills</span><span class="data-reliability B">B 级</span></h4>
+            <div class="radar-container"><canvas id="radarChart"></canvas></div>
+            <div class="data-legend" style="margin-top:16px">
+                <h5>📊 维度解释</h5>
+                <div class="data-legend-item"><strong>房价可负担性：</strong>基于房价收入比，分数越高越容易负担。香港 3 分（全球最难负担）。</div>
+                <div class="data-legend-item"><strong>租金收益率：</strong>年租金/房价，分数越高回报越好。悉尼 9 分。</div>
+                <div class="data-legend-item"><strong>教育资源：</strong>大学排名、中小学质量、国际学校。伦敦 9 分。</div>
+                <div class="data-legend-item"><strong>政策友好度：</strong>购房限制、税收、签证。东京 9 分、香港 8 分。</div>
+                <div class="data-legend-item"><strong>市场流动性：</strong>交易活跃度、买卖周期。香港、纽约 9 分。</div>
+                <div class="data-legend-item"><strong>汇率风险：</strong>货币稳定性。分数越高风险越低。港币联系汇率制相对稳定。</div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>雷达图各维度前三名分析</h4>
+            <div class="grid-2">
+                <div>
+                    <div style="padding:12px;background:#ebf8ff;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">📈 房价可负担性 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8 分)</strong> - 房价收入比 10.5x，均价¥4.8 万/㎡，亚洲最友好</li>
+                            <li><strong>洛杉矶 (6 分)</strong> - 房价收入比 12.8x，均价¥6.8 万/㎡，加州相对可负担</li>
+                            <li><strong>伦敦 (6 分)</strong> - 房价收入比 11.7x，均价¥6.6 万/㎡，外围区域性价比高</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#f0fff4;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">💰 租金收益率 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>悉尼 (9 分)</strong> - 收益率 4.7%，空置率 1.8%，移民需求强劲</li>
+                            <li><strong>伦敦 (8 分)</strong> - 收益率 5.0%，达 5 年高点，租赁供不应求</li>
+                            <li><strong>洛杉矶 (8 分)</strong> - 收益率 4.5%，科技就业支撑租金</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#fffbeb;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">🎓 教育资源 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>伦敦 (9.2 分)</strong> - 牛津、剑桥、LSE、IC、UCL，全球第一</li>
+                            <li><strong>纽约 (8.8 分)</strong> - 哥大、NYU、康奈尔，常春藤集中地</li>
+                            <li><strong>香港 (8.5 分)</strong> - 港大、科大、中大，亚洲顶尖</li>
+                        </ol>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding:12px;background:#faf5ff;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">📜 政策友好度 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8.5 分)</strong> - 无限购、无额外税费、经营管理签证</li>
+                            <li><strong>香港 (8.0 分)</strong> - 全面撤辣、印花税 1.5-4.25%、优才/高才通</li>
+                            <li><strong>伦敦 (7.0 分)</strong> - 无限购、印花税海外 +2%、遗产税 40%</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#f0f4f8;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">🔄 市场流动性 TOP3</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>香港 (9 分)</strong> - 撤辣后 2026 Q1 成交 +44%，66.4% 屋苑供平过租</li>
+                            <li><strong>纽约 (9 分)</strong> - 全球金融中心，交易量最大，买卖周期最短</li>
+                            <li><strong>伦敦 (8 分)</strong> - 年成交 7.4 万套，库存周期 4.2 个月</li>
+                        </ol>
+                    </div>
+                    <div style="padding:12px;background:#fff5f5;border-radius:8px;margin-bottom:12px">
+                        <strong style="color:var(--primary)">💱 汇率风险 TOP3（越低越好）</strong>
+                        <ol style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.8">
+                            <li><strong>东京 (8 分)</strong> - 日元稳定，但 2023-2026 贬值 15%</li>
+                            <li><strong>伦敦 (7 分)</strong> - 英镑 2023-2026 升值 12%（对人民币）</li>
+                            <li><strong>香港 (5 分)</strong> - 港币联系汇率制稳定，但随美元波动、近年对人民币走弱</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>教育与政策详细阐述</h4>
+            <div class="grid-2">
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">🎓 教育资源详解</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>伦敦（9.2/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：牛津、剑桥、LSE、IC、UCL 等世界顶尖大学<br>
+                            • 中小学：伊顿、哈罗等顶级私校，GCSE/A-Level 体系成熟<br>
+                            • 国际学校：超过 50 所，覆盖 IB、美高、中系课程<br>
+                            • 优势：全球教育资源最密集城市，学历认可度最高
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>香港（8.5/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：港大、科大、中大、城大，多所亚洲顶尖<br>
+                            • 中小学：直资/官津/国际学校体系，DSE 与 IB 并行<br>
+                            • 国际学校：约 50 所，英基（ESF）等知名体系<br>
+                            • 优势：中英双语环境，衔接海外升学便利
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>东京（8.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 高等教育：东京大学、早稻田、庆应等<br>
+                            • 中小学：公立教育质量均衡，私立学校竞争激烈<br>
+                            • 国际学校：约 40 所<br>
+                            • 优势：基础教育扎实，治安好，适合低龄留学
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5 style="margin-bottom:12px;color:var(--primary)">📜 政策环境详解</h5>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>香港（8.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：2024 年 2 月全面撤辣，取消额外印花税<br>
+                            • 税收：从价印花税 1.5-4.25%，无房产税、无资本利得税、无遗产税<br>
+                            • 签证：优才计划、高才通、专才计划等<br>
+                            • 优势：税负低、资金进出自由、华人社会；需关注政治与豪宅税阶
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>东京（8.5/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：无限制，无额外税费<br>
+                            • 税收：固定资产税 1.7%，无遗产税（针对非居民）<br>
+                            • 签证：经营管理签证（投资 500 万日元）<br>
+                            • 优势：税负低，政策稳定，日元贬值利好
+                        </div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-title"><strong>伦敦（7.0/10）：</strong></div>
+                        <div style="margin-top:8px;font-size:13px;line-height:1.8">
+                            • 购房限制：无限制，海外买家可自由购买<br>
+                            • 税收：印花税（海外 +2%）、遗产税（40%）、资本利得税（24%）<br>
+                            • 签证：购房不直接给签证，但有创新者/全球人才签证<br>
+                            • 劣势：税负重，2025 年遗产税新规影响大
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1000,6 +1327,71 @@
                 options: { responsive: true, maintainAspectRatio: false }
             });
 
+            // ===== 各户型量价（建模估算，用于趋势演示） =====
+            const hkTypeLabels = ['开放式/1房', '2房', '3房', '4房+/豪宅'];
+            const hkTypeColors = ['#8b0000', '#c41e3a', '#d69e2e', '#2c5282'];
+            const hkTypeAvgPrice = [550, 850, 1500, 3500]; // 万港元（成交均价）
+            const hkTypeMonthLabels = ['2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05'];
+            const hkTypeBaseVol = [1500, 1300, 880, 640];
+            const hkTypeBasePrice = [540, 830, 1470, 3400];
+            const hkTypeMonthly = hkTypeMonthLabels.map((m, i) => ({
+                month: m,
+                vol: hkTypeBaseVol.map(v => Math.round(v * (1 + i * 0.012))),
+                price: hkTypeBasePrice.map(p => Math.round(p * (1 + i * 0.004)))
+            }));
+
+            // 各户型平均总价（条形图）
+            new Chart(document.getElementById('propertyTypePriceChart'), {
+                type: 'bar',
+                data: {
+                    labels: hkTypeLabels,
+                    datasets: [{ label: '成交均价 (万港元)', data: hkTypeAvgPrice, backgroundColor: '#c41e3a' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+            });
+
+            // 各户型成交量趋势（4 条线）
+            new Chart(document.getElementById('propertyTypeVolumeTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: hkTypeMonthLabels,
+                    datasets: hkTypeLabels.map((label, k) => ({
+                        label, data: hkTypeMonthly.map(d => d.vol[k]), borderColor: hkTypeColors[k], fill: false, tension: 0.3
+                    }))
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, title: { display: true, text: '成交量 (宗)' } } } }
+            });
+
+            // 各户型成交均价趋势（4 条线）
+            new Chart(document.getElementById('propertyTypePriceTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: hkTypeMonthLabels,
+                    datasets: hkTypeLabels.map((label, k) => ({
+                        label, data: hkTypeMonthly.map(d => d.price[k]), borderColor: hkTypeColors[k], fill: false, tension: 0.3
+                    }))
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false, title: { display: true, text: '成交均价 (万港元)' } } } }
+            });
+
+            // 产品类型详细数据表
+            const ptRows = [];
+            hkTypeMonthly.forEach((d, i) => {
+                hkTypeLabels.forEach((label, k) => {
+                    let chg = '-';
+                    if (i > 0) {
+                        const prev = hkTypeMonthly[i - 1].price[k];
+                        const pct = ((d.price[k] - prev) / prev) * 100;
+                        const cls = pct > 0 ? 'up' : pct < 0 ? 'down' : 'stable';
+                        const sign = pct > 0 ? '+' : '';
+                        chg = `<span class="${cls}">${sign}${pct.toFixed(1)}%</span>`;
+                    }
+                    ptRows.push(`<tr><td>${d.month}</td><td>${label}</td><td>${d.vol[k].toLocaleString()}</td><td>${d.price[k].toLocaleString()}</td><td>${chg}</td></tr>`);
+                });
+            });
+            const ptTableBody = document.querySelector('#propertyTypeTable tbody');
+            if (ptTableBody) ptTableBody.innerHTML = ptRows.join('');
+
             // 汇率图表 (数据源：Yahoo Finance | 月末收盘)
             new Chart(document.getElementById('exchangeRateChart'), {
                 type: 'line',
@@ -1056,6 +1448,30 @@
                     }
                 }
             });
+
+            // 全球对比雷达图
+            const radarEl = document.getElementById('radarChart');
+            if (radarEl) {
+                new Chart(radarEl, {
+                    type: 'radar',
+                    data: {
+                        labels: ['房价可负担性','租金收益率','教育资源','政策友好度','流动性','汇率风险'],
+                        datasets: [
+                            { label: '香港', data: [3,4,8,8,9,5], borderColor: '#9f7aea', backgroundColor: 'rgba(159,122,234,0.2)' },
+                            { label: '东京', data: [8,5,8,9,7,8], borderColor: '#d69e2e', backgroundColor: 'rgba(214,158,46,0.2)' },
+                            { label: '伦敦', data: [6,8,9,7,8,7], borderColor: '#2c5282', backgroundColor: 'rgba(44,82,130,0.2)' },
+                            { label: '纽约', data: [5,7,9,6,9,6], borderColor: '#c53030', backgroundColor: 'rgba(197,48,48,0.2)' },
+                            { label: '洛杉矶', data: [6,8,7,6,8,6], borderColor: '#38a169', backgroundColor: 'rgba(56,161,105,0.2)' },
+                            { label: '悉尼', data: [6,9,8,7,7,7], borderColor: '#ed8936', backgroundColor: 'rgba(237,137,54,0.2)' }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { r: { min: 0, max: 10, ticks: { stepSize: 2 } } }
+                    }
+                });
+            }
         }
 
         function initMap() {

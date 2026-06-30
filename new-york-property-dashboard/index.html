@@ -78,6 +78,20 @@
         .cost-result .item { background: white; padding: 16px; border-radius: 8px; }
         .cost-result .item .label { font-size: 12px; color: var(--text-light); }
         .cost-result .item .value { font-size: 24px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+        .cost-result .item .value.up { color: var(--success); }
+        .cost-result .item .value.down { color: var(--accent); }
+        .agency-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: transform 0.2s; }
+        .agency-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .agency-card.expanded { background: #f0fff4; }
+        .agency-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .agency-name { font-weight: 600; color: var(--primary); font-size: 16px; }
+        .agency-date { font-size: 12px; color: var(--text-light); }
+        .agency-rating { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .agency-rating.positive { background: #c6f6d5; color: #22543d; }
+        .agency-rating.neutral { background: #fef3c7; color: #744210; }
+        .agency-rating.cautious { background: #fed7d7; color: #742a2a; }
+        .agency-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 13px; line-height: 1.8; }
+        .agency-card.expanded .agency-detail { display: block; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
@@ -414,18 +428,6 @@
     </div>
 
 
-        <div class="card" style="margin-top:20px" data-title="中国买家投资偏好趋势" data-content="按伦敦模板补齐：用面积图和雷达图展示中国买家偏好结构变化。" data-source="NAR / StreetEasy | B 级">
-            <h4>中国买家投资偏好趋势 (2023-2026) <span class="data-source-tag">机构样本</span><span class="data-reliability B">B 级</span></h4>
-            <div class="grid-2">
-                <div class="chart-container"><canvas id="chinaPreferenceStackedChart"></canvas></div>
-                <div class="chart-container"><canvas id="chinaPreferenceRadarChart"></canvas></div>
-            </div>
-            <div class="data-legend">
-                <div class="data-legend-item">趋势图展示中国买家在核心区域、学区/就业、投资出租等偏好的相对变化。</div>
-                <div class="data-legend-item">该模块沿用页面已有机构样本口径，和伦敦页保持同一展示逻辑。</div>
-            </div>
-        </div>
-
     <!-- 收益计算器 -->
     <div id="roi" class="section">
         <h2 class="section-title">📈 累计收益计算器</h2>
@@ -670,20 +672,117 @@
 
     <!-- 机构观点 -->
     <div id="agency" class="section">
-        <h2 class="section-title">📑 机构观点</h2>
+        <h2 class="section-title">📑 专业机构观点</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>纽约机构观点通常围绕库存、利率、美元资产配置和 Manhattan Condo 流动性。核心区高端房源价格更稳定，但成交周期对利率敏感。
+            <strong>小结论：</strong>纽约机构观点按伦敦页的展示逻辑重做：先看可展开机构卡片，再看预测汇总。共识是 2026 年纽约住宅市场温和复苏，Manhattan Condo 和优质租赁资产更稳，Co-op 与高持有成本房源分化更明显。
         </div>
-        <div class="card">
-            <h4>主要机构观点摘要</h4>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏙️ StreetEasy</div>
+                    <div class="agency-date">2026 年 1 月 | 纽约市场观察</div>
+                </div>
+                <span class="agency-rating positive">库存改善</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>买家议价空间仍存在，但优质 Condo 和交通便利区域挂牌吸收速度更快。<br><br>
+                <strong>关键论据：</strong><br>
+                • Manhattan 核心区租赁需求仍强，支撑投资型 Condo 定价<br>
+                • 降价房源比例仍高于疫情前，但高品质新盘更抗跌<br>
+                • Brooklyn 与 LIC 受益于通勤和相对总价优势<br><br>
+                <strong>投资建议：</strong>优先筛选 common charge、房产税和可出租性清晰的 Condo。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏢 REBNY</div>
+                    <div class="agency-date">2026 年 Q1 | Residential Market Report</div>
+                </div>
+                <span class="agency-rating positive">交易回暖</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>纽约住宅交易量回暖，但 Condo、Co-op 和 Townhouse 的恢复节奏不同。<br><br>
+                <strong>关键论据：</strong><br>
+                • 现金买家和低杠杆买家仍是高端市场重要力量<br>
+                • Condo 对海外买家更友好，审批不确定性低于 Co-op<br>
+                • 成交周期对 mortgage rate 和挂牌定价敏感<br><br>
+                <strong>投资建议：</strong>用成交价、持有成本和楼宇规则三项交叉筛选，不只看挂牌折扣。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">🏠 Douglas Elliman / Miller Samuel</div>
+                    <div class="agency-date">2026 年 Q1 | Manhattan Sales Report</div>
+                </div>
+                <span class="agency-rating neutral">高端分化</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>Manhattan 高端市场依赖现金买家、稀缺景观和服务配套，普通高总价房源更受税费与管理费压制。<br><br>
+                <strong>关键论据：</strong><br>
+                • Trophy asset 仍有全球买家需求，但成交样本更挑剔<br>
+                • 新盘和品牌住宅流动性强于老楼高费率资产<br>
+                • Co-op 的审批和转售限制会压低海外买家偏好<br><br>
+                <strong>风险提示：</strong>高端房源需要单独核查储备金、assessment 和建筑维护历史。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">📊 Zillow / Redfin</div>
+                    <div class="agency-date">2026 年 1-4 月 | 平台成交与挂牌样本</div>
+                </div>
+                <span class="agency-rating neutral">温和复苏</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>利率回落预期改善买方情绪，但高房价、高保险和高税费仍限制成交弹性。<br><br>
+                <strong>关键论据：</strong><br>
+                • 降息预期改善 affordability，但月供压力仍高<br>
+                • 租赁市场强，部分买家继续先租后买<br>
+                • 核心区优质房源恢复快，外围和高费率房源恢复慢<br><br>
+                <strong>投资建议：</strong>优先做现金流压力测试，特别是房产税、common charge 和空置期。
+            </div>
+        </div>
+
+        <div class="agency-card" onclick="this.classList.toggle('expanded')">
+            <div class="agency-header">
+                <div>
+                    <div class="agency-name">💼 CBRE / JLL</div>
+                    <div class="agency-date">2026 年展望 | 都市租赁与资本市场</div>
+                </div>
+                <span class="agency-rating positive">看好租赁</span>
+            </div>
+            <div class="agency-detail">
+                <strong>核心观点：</strong>纽约核心就业、金融服务和教育资源继续支撑租赁需求，投资回报更取决于买入价和持有成本控制。<br><br>
+                <strong>关键论据：</strong><br>
+                • Manhattan、Downtown Brooklyn、LIC 租客基础深<br>
+                • 新 CBD 和交通节点更容易形成稳定出租承接<br>
+                • 高利率环境下 capitalization rate 修复较慢<br><br>
+                <strong>投资建议：</strong>关注通勤节点、租金覆盖率和可退出流动性，而不是单纯追逐低总价。
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+            <h4>机构预测汇总对比</h4>
             <table class="data-table">
-                <thead><tr><th>机构</th><th>判断</th><th>关注指标</th></tr></thead>
+                <thead>
+                    <tr><th>机构</th><th>发布时间</th><th>纽约整体判断</th><th>Manhattan / Condo 判断</th><th>核心风险</th><th>评级</th></tr>
+                </thead>
                 <tbody>
-                    <tr><td>StreetEasy</td><td>买方议价空间仍存在，核心区库存改善。</td><td>挂牌量、降价比例、成交周期</td></tr>
-                    <tr><td>REBNY</td><td>交易活动回暖但分化明显。</td><td>季度成交量、Condo/Co-op 结构</td></tr>
-                    <tr><td>Douglas Elliman</td><td>高端市场依赖现金买家和国际资金。</td><td>豪宅成交、现金交易占比</td></tr>
+                    <tr><td>StreetEasy</td><td>2026.01</td><td>库存改善，买方仍有议价空间</td><td>核心 Condo 更稳</td><td>挂牌价过高、成交周期</td><td><span class="agency-rating positive">库存改善</span></td></tr>
+                    <tr><td>REBNY</td><td>2026 Q1</td><td>交易活动回暖但结构分化</td><td>Condo 优于 Co-op</td><td>利率、审批、税费</td><td><span class="agency-rating positive">交易回暖</span></td></tr>
+                    <tr><td>Douglas Elliman</td><td>2026 Q1</td><td>高端依赖现金买家</td><td>Trophy asset 抗跌</td><td>高费率楼宇流动性</td><td><span class="agency-rating neutral">高端分化</span></td></tr>
+                    <tr><td>Zillow / Redfin</td><td>2026.01-04</td><td>温和复苏</td><td>租赁强区支撑更好</td><td>月供、保险、税费</td><td><span class="agency-rating neutral">温和复苏</span></td></tr>
+                    <tr><td>CBRE / JLL</td><td>2026 展望</td><td>租赁需求稳</td><td>交通节点和新 CBD 更优</td><td>cap rate 修复慢</td><td><span class="agency-rating positive">看好租赁</span></td></tr>
+                    <tr style="background:#f0fff4"><td><strong>综合判断</strong></td><td>-</td><td><strong>温和复苏</strong></td><td><strong>Condo / 新盘 / 交通节点优先</strong></td><td><strong>持有成本与利率</strong></td><td><strong>谨慎乐观</strong></td></tr>
                 </tbody>
             </table>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：StreetEasy、REBNY、Douglas Elliman/Miller Samuel、Zillow/Redfin、CBRE/JLL 公开报告与市场样本 | B 级</div>
         </div>
     </div>
 
@@ -731,23 +830,32 @@
     <!-- 持有成本 -->
     <div id="cost" class="section">
         <h2 class="section-title">💰 持有成本计算器</h2>
-        <div class="section-conclusion"><strong>小结论：</strong>以$150 万 Condo 为例，月持有成本约¥5.5-7.5 万，租金可覆盖 55-75%。房产税和 common charge 是最大变量。</div>
+        <div class="section-conclusion"><strong>小结论：</strong>以 $150 万 Condo、贷款 50%、年利率 6.5% 为例，纽约月度总现金流支出约¥7-9 万；若月租 $6,500，租金通常只能覆盖约 45-65%。房产税、common charge、贷款利率和空置管理费是最大变量。</div>
         <div class="cost-calculator">
             <h4>🧮 月度持有成本计算（人民币）</h4>
             <div class="cost-input">
-                <div><label>房产价格</label><input type="number" id="holdingPrice" value="150" onchange="calculateHoldingCost()"></div>
-                <div><label>建筑面积 / 参考面积</label><input type="number" id="holdingSize" value="1200" onchange="calculateHoldingCost()"></div>
-                <div><label>月租金收入</label><input type="number" id="holdingRent" value="6500" onchange="calculateHoldingCost()"></div>
+                <div><label>房产价格（万美元）</label><input type="number" id="holdingPrice" value="150" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款比例（%）</label><input type="number" id="holdingLoanRatio" value="50" min="0" max="80" onchange="calculateHoldingCost()"></div>
+                <div><label>贷款年利率（%）</label><input type="number" id="holdingInterestRate" value="6.5" step="0.1" onchange="calculateHoldingCost()"></div>
+                <div><label>物业类型</label><select id="holdingPropertyType" onchange="calculateHoldingCost()"><option value="condo">Condo</option><option value="coop">Co-op</option><option value="townhouse">Townhouse</option></select></div>
+                <div><label>建筑面积 (sqft)</label><input type="number" id="holdingSize" value="1200" onchange="calculateHoldingCost()"></div>
+                <div><label>月租金收入（美元）</label><input type="number" id="holdingRent" value="6500" onchange="calculateHoldingCost()"></div>
             </div>
-            <div class="cost-result">
+            <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
+                <div class="item"><div class="label">每月贷款月供</div><div class="value" id="holdingMortgage">-</div></div>
                 <div class="item"><div class="label">每月税费/物业</div><div class="value" id="holdingTaxFee">-</div></div>
-                <div class="item"><div class="label">每月持有成本</div><div class="value" id="holdingTotalCost">-</div></div>
+                <div class="item"><div class="label">空置/管理/保险</div><div class="value" id="holdingReserveCost">-</div></div>
+                <div class="item"><div class="label">每月总支出</div><div class="value" id="holdingTotalCost">-</div></div>
                 <div class="item"><div class="label">租金覆盖比例</div><div class="value" id="holdingCoverage">-</div></div>
             </div>
         </div>
         <div class="card" style="margin-top:20px">
             <h4>不同价位持有成本对比（2026 年数据）</h4>
-            <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月均成本</th><th>月租金</th><th>净现金流</th><th>说明</th></tr></thead><tbody></tbody></table>
+            <table class="data-table" id="holdingCostTable">
+                <thead><tr><th>价位</th><th>月供</th><th>税费/物业</th><th>总支出/月</th><th>月租金</th><th>净现金流/月</th><th>租金覆盖</th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>美元输入按 1 USD = 6.83 CNY 折算；月供按 30 年等额本息估算；税费/物业包含 NYC 房产税、common charge/maintenance、保险、管理费和 5% 空置假设，不含个人所得税和未来 special assessment。</div>
         </div>
     </div>
 
@@ -1339,23 +1447,7 @@
         }
 
         function calculateNYCost() {
-            const price = parseFloat(document.getElementById('nyPropertyPrice').value) || 150;
-            const sqft = parseFloat(document.getElementById('nySqft').value) || 1200;
-            const type = document.getElementById('nyPropertyType').value;
-
-            // 房产税：1-2%/年
-            const propertyTax = price * 10000 * 0.015;
-            // Condo Fee: $1-3/sqft/月
-            const condoFeePerSqft = type === 'condo' ? 2 : 2.5;
-            const condoFee = sqft * condoFeePerSqft * 12;
-            // 保险：约$100-200/月
-            const insurance = 1800;
-
-            const totalCost = propertyTax + condoFee + insurance;
-
-            document.getElementById('nyPropertyTax').textContent = '$' + (propertyTax / 10000).toFixed(2) + '万';
-            document.getElementById('nyCondoFee').textContent = '$' + (condoFee / 10000).toFixed(2) + '万';
-            document.getElementById('nyTotalCost').textContent = '$' + (totalCost / 10000).toFixed(2) + '万';
+            calculateHoldingCost();
         }
 
         function getCanvas(id) { const el = document.getElementById(id); return el ? el.getContext('2d') : null; }
@@ -1375,12 +1467,6 @@
                 const change = prev ? ((d[m.key] - prev) / prev * 100).toFixed(1) + '%' : '-';
                 return `<tr><td>${d.month}</td><td>${m.label}</td><td>${volKey ? d[volKey].toLocaleString() : '-'}</td><td>${d[m.key].toLocaleString()}</td><td class="${change.startsWith('-') ? 'down' : 'up'}">${change}</td></tr>`;
             })).join('');
-            const prefYears = ['2023', '2024', '2025', '2026 Q1'];
-            const prefData = [{label:'上东区',data:[28, 27, 26, 28],color:'#005eb8'},{label:'中城',data:[20, 21, 22, 22],color:'#e31837'},{label:'金融区',data:[13, 14, 15, 15],color:'#228b22'},{label:'新开发区',data:[18, 19, 20, 21],color:'#ff8c00'},{label:'教育/资产配置',data:[21, 19, 17, 14],color:'#805ad5'}];
-            const prefCtx = getCanvas('chinaPreferenceStackedChart');
-            if (prefCtx) new Chart(prefCtx, { type:'line', data:{ labels: prefYears, datasets: prefData.map(p=>({label:p.label,data:p.data,borderColor:p.color,backgroundColor:p.color+'33',fill:true,tension:0.35})) }, options:{responsive:true,maintainAspectRatio:false,scales:{y:{stacked:true,beginAtZero:true,max:100},x:{}},plugins:{legend:{position:'bottom'}}} });
-            const radarCtx = getCanvas('chinaPreferenceRadarChart');
-            if (radarCtx) new Chart(radarCtx, { type:'radar', data:{ labels: ['上东区', '中城', '金融区', '新开发区', '教育/资产配置'], datasets:[{label:'2026 Q1',data:prefData.map(p=>p.data[p.data.length-1]),borderColor:'#e31837',backgroundColor:'rgba(227,24,55,0.18)'}] }, options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:40}}} });
         }
 
         function calculateROI() {
@@ -1437,30 +1523,62 @@
 
         function calculateHoldingCost() {
             const price = parseFloat(document.getElementById('holdingPrice')?.value) || 150;
+            const loanRatio = parseFloat(document.getElementById('holdingLoanRatio')?.value) || 0;
+            const interestRate = parseFloat(document.getElementById('holdingInterestRate')?.value) || 6.5;
+            const type = document.getElementById('holdingPropertyType')?.value || 'condo';
             const size = parseFloat(document.getElementById('holdingSize')?.value) || 1200;
-            const rent = parseFloat(document.getElementById('holdingRent')?.value) || 6500;
-            const isTokyo = '纽约' === '东京';
-            const priceCny = isTokyo ? price * 10000 * 0.0435 : price * 10000 * 6.83;
-            const rentCny = isTokyo ? rent * 10000 * 0.0435 : rent * 6.83;
-            const monthlyTaxFee = isTokyo ? priceCny * 0.018 / 12 + size * 12 : priceCny * 0.014 / 12 + size * 2.5;
-            const insuranceAndReserve = isTokyo ? priceCny * 0.007 / 12 : priceCny * 0.004 / 12;
-            const total = monthlyTaxFee + insuranceAndReserve;
+            const rentUsd = parseFloat(document.getElementById('holdingRent')?.value) || 6500;
+            const exchangeRate = 6.83;
+            const priceUsd = price * 10000;
+            const priceCny = priceUsd * exchangeRate;
+            const loanPrincipal = priceCny * loanRatio / 100;
+            const monthlyRate = interestRate / 100 / 12;
+            const loanMonths = 30 * 12;
+            const monthlyMortgage = loanPrincipal > 0 && monthlyRate > 0
+                ? loanPrincipal * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1)
+                : loanPrincipal / loanMonths;
+            const propertyTax = priceCny * (type === 'townhouse' ? 0.012 : 0.014) / 12;
+            const commonChargeUsd = type === 'condo' ? size * 2.2 : type === 'coop' ? size * 2.8 : size * 0.8;
+            const commonCharge = commonChargeUsd * exchangeRate;
+            const insurance = priceCny * 0.0025 / 12;
+            const management = rentUsd * exchangeRate * 0.08;
+            const vacancyReserve = rentUsd * exchangeRate * 0.05;
+            const taxFee = propertyTax + commonCharge;
+            const reserveCost = insurance + management + vacancyReserve;
+            const total = monthlyMortgage + taxFee + reserveCost;
+            const rentCny = rentUsd * exchangeRate;
             const coverage = total > 0 ? rentCny / total * 100 : 0;
-            setText('holdingTaxFee', '¥' + (monthlyTaxFee / 10000).toFixed(1) + '万');
+            const netCashFlow = rentCny - total;
+            setText('holdingMortgage', '¥' + (monthlyMortgage / 10000).toFixed(1) + '万');
+            setText('holdingTaxFee', '¥' + (taxFee / 10000).toFixed(1) + '万');
+            setText('holdingReserveCost', '¥' + (reserveCost / 10000).toFixed(1) + '万');
             setText('holdingTotalCost', '¥' + (total / 10000).toFixed(1) + '万');
             const cov = document.getElementById('holdingCoverage');
-            if (cov) { cov.textContent = Math.round(coverage) + '%'; cov.style.color = coverage > 80 ? 'var(--success)' : coverage > 55 ? 'var(--warning)' : 'var(--accent)'; }
+            if (cov) {
+                cov.textContent = Math.round(coverage) + '%';
+                cov.className = 'value ' + (coverage >= 80 ? 'up' : coverage < 55 ? 'down' : '');
+            }
             const tbody = document.querySelector('#holdingCostTable tbody');
             if (tbody) {
-                const rows = [0.7,1,1.5,2].map(mult => {
-                    const p = price * mult;
-                    const r = rent * Math.sqrt(mult);
-                    const pc = isTokyo ? p * 10000 * 0.0435 : p * 10000 * 6.83;
-                    const rc = isTokyo ? r * 10000 * 0.0435 : r * 6.83;
-                    const c = (isTokyo ? pc * 0.025 / 12 : pc * 0.018 / 12) + size * 2;
-                    return `<tr><td>${mult < 1 ? '入门' : mult === 1 ? '基准' : mult === 1.5 ? '改善' : '豪宅'}</td><td>¥${(c/10000).toFixed(1)}万</td><td>¥${(rc/10000).toFixed(1)}万</td><td class="${rc-c>=0?'up':'down'}">¥${((rc-c)/10000).toFixed(1)}万</td><td>${mult === 1 ? '默认测算口径' : '按比例估算'}</td></tr>`;
+                const cases = [
+                    {label:'入门 Condo', price:80, rent:4200, size:650},
+                    {label:'基准 Condo', price:150, rent:6500, size:1200},
+                    {label:'改善 Condo', price:300, rent:11000, size:1800},
+                    {label:'顶豪 Condo', price:600, rent:20000, size:2800}
+                ];
+                tbody.innerHTML = cases.map(item => {
+                    const pCny = item.price * 10000 * exchangeRate;
+                    const loan = pCny * loanRatio / 100;
+                    const mortgage = loan > 0 && monthlyRate > 0 ? loan * monthlyRate * Math.pow(1 + monthlyRate, loanMonths) / (Math.pow(1 + monthlyRate, loanMonths) - 1) : loan / loanMonths;
+                    const tax = pCny * 0.014 / 12;
+                    const charge = item.size * 2.2 * exchangeRate;
+                    const reserve = pCny * 0.0025 / 12 + item.rent * exchangeRate * 0.13;
+                    const rowTotal = mortgage + tax + charge + reserve;
+                    const rowRent = item.rent * exchangeRate;
+                    const rowCoverage = rowTotal > 0 ? rowRent / rowTotal * 100 : 0;
+                    const rowNet = rowRent - rowTotal;
+                    return `<tr ${item.label === '基准 Condo' ? 'style="background:#f0fff4"' : ''}><td>${item.label}</td><td>¥${(mortgage/10000).toFixed(1)}万</td><td>¥${((tax+charge)/10000).toFixed(1)}万</td><td>¥${(rowTotal/10000).toFixed(1)}万</td><td>¥${(rowRent/10000).toFixed(1)}万</td><td class="${rowNet>=0?'up':'down'}">¥${(rowNet/10000).toFixed(1)}万</td><td>${Math.round(rowCoverage)}%</td></tr>`;
                 }).join('');
-                tbody.innerHTML = rows;
             }
         }
 
