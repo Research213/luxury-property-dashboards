@@ -123,7 +123,7 @@
             <div>
                 <h1>🗼 东京房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
-                <div class="data-version">版本：v2.7 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="data-version">版本：v2.8 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -251,9 +251,10 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 公示地价连涨 5 年，东京领涨全国</div>
                 </div>
             </div>
-            <div class="card" data-title="月度中古公寓成交量 (2025.06-2026.06)" data-content="REINS 2026 年 6 月已发布；7 月月报待发布。本图展示首都圈、东京都整体与东京都区部中古公寓成交件数。" data-source="REINS Market Watch 2026.06 | A 级">
-                <h4>月度中古公寓成交量 (2025.06-2026.06，首都圈/东京都/区部) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度中古公寓平均成交价 (2025.06-2026.06)" data-content="REINS 2026 年 6 月已发布；7 月月报待发布。本图展示中古公寓平均成交总价，首都圈为 REINS 公布口径，东京都/区部为单价和面积估算口径。" data-source="REINS Market Watch 2026.06 | A 级">
+                <h4>月度中古公寓平均成交价 (2025.06-2026.06，万日元/套) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 首都圈均价为 REINS 月报公布的成約価格；东京都/区部总价按公开㎡单价与成交面积估算，2026 年 6 月区部均价采用 REINS 正文披露的 7,559 万日元。</div>
             </div>
         </div>
 
@@ -273,7 +274,7 @@
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：国土交通省、REINS | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
         </div>
 
-        <div class="card" style="margin-top:20px" data-title="月度成交明细（中古公寓）" data-content="REINS 首都圈、东京都整体、区部与多摩中古公寓月度成交量、区部成交单价；最新公开至 2026 年 6 月。" data-source="REINS Market Watch 2026.06 | A 级">
+        <div class="card" style="margin-top:20px" data-title="月度成交明细（中古公寓）" data-content="REINS 首都圈、东京都整体、区部与多摩中古公寓月度成交量、成交单价和平均成交总价；最新公开至 2026 年 6 月。" data-source="REINS Market Watch 2026.06 | A 级">
             <h4>月度成交明细 (2025.06-2026.06，中古公寓) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
@@ -284,12 +285,16 @@
                             <th>东京都成交 (套)</th>
                             <th>区部成交 (套)</th>
                             <th>多摩成交 (套)</th>
+                            <th>首都圈均价 (万日元/套)</th>
+                            <th>东京都估算总价 (万日元/套)</th>
+                            <th>区部估算总价 (万日元/套)</th>
                             <th>区部单价 (万日元/㎡)</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 首都圈平均成交价为 REINS 公布值；东京都/区部总价为估算口径，用于观察价格方向，不等同逐套成交明细。</div>
         </div>
     </div>
 
@@ -1240,19 +1245,19 @@
         ];
 
         const tkMonthlyData = [
-            {month: '2025-06', metroVol: 4299, tokyoVol: 2360, wardVol: 1969, tamaVol: 391, wardUnitPrice: 129.19},
-            {month: '2025-07', metroVol: 3979, tokyoVol: 2164, wardVol: 1823, tamaVol: 341, wardUnitPrice: 132.16},
-            {month: '2025-08', metroVol: 3553, tokyoVol: 1921, wardVol: 1593, tamaVol: 328, wardUnitPrice: 133.10},
-            {month: '2025-09', metroVol: 4475, tokyoVol: 2431, wardVol: 1995, tamaVol: 436, wardUnitPrice: 131.54},
-            {month: '2025-10', metroVol: 4222, tokyoVol: 2234, wardVol: 1836, tamaVol: 398, wardUnitPrice: 135.03},
-            {month: '2025-11', metroVol: 4435, tokyoVol: 2230, wardVol: 1853, tamaVol: 377, wardUnitPrice: 130.96},
-            {month: '2025-12', metroVol: 3975, tokyoVol: 2096, wardVol: 1695, tamaVol: 401, wardUnitPrice: 135.61},
-            {month: '2026-01', metroVol: 3343, tokyoVol: 1752, wardVol: 1433, tamaVol: 319, wardUnitPrice: 137.50},
-            {month: '2026-02', metroVol: 4241, tokyoVol: 2227, wardVol: 1817, tamaVol: 410, wardUnitPrice: 133.37},
-            {month: '2026-03', metroVol: 5001, tokyoVol: 2583, wardVol: 2145, tamaVol: 438, wardUnitPrice: 136.10},
-            {month: '2026-04', metroVol: 3903, tokyoVol: 2008, wardVol: 1635, tamaVol: 373, wardUnitPrice: 137.46},
-            {month: '2026-05', metroVol: 3709, tokyoVol: 1819, wardVol: 1452, tamaVol: 367, wardUnitPrice: 131.24},
-            {month: '2026-06', metroVol: 4241, tokyoVol: 2136, wardVol: 1716, tamaVol: 420, wardUnitPrice: 131.15, wardAvgPrice: 7559}
+            {month: '2025-06', metroVol: 4299, tokyoVol: 2360, wardVol: 1969, tamaVol: 391, metroAvgPrice: 5209, tokyoAvgPrice: 6751, wardAvgPrice: 7447, wardUnitPrice: 129.19},
+            {month: '2025-07', metroVol: 3979, tokyoVol: 2164, wardVol: 1823, tamaVol: 341, metroAvgPrice: 5303, tokyoAvgPrice: 6905, wardAvgPrice: 7618, wardUnitPrice: 132.16},
+            {month: '2025-08', metroVol: 3553, tokyoVol: 1921, wardVol: 1593, tamaVol: 328, metroAvgPrice: 5279, tokyoAvgPrice: 6910, wardAvgPrice: 7672, wardUnitPrice: 133.10},
+            {month: '2025-09', metroVol: 4475, tokyoVol: 2431, wardVol: 1995, tamaVol: 436, metroAvgPrice: 5352, tokyoAvgPrice: 6835, wardAvgPrice: 7582, wardUnitPrice: 131.54},
+            {month: '2025-10', metroVol: 4222, tokyoVol: 2234, wardVol: 1836, tamaVol: 398, metroAvgPrice: 5325, tokyoAvgPrice: 6985, wardAvgPrice: 7783, wardUnitPrice: 135.03},
+            {month: '2025-11', metroVol: 4435, tokyoVol: 2230, wardVol: 1853, tamaVol: 377, metroAvgPrice: 5204, tokyoAvgPrice: 6840, wardAvgPrice: 7549, wardUnitPrice: 130.96},
+            {month: '2025-12', metroVol: 3975, tokyoVol: 2096, wardVol: 1695, tamaVol: 401, metroAvgPrice: 5340, tokyoAvgPrice: 6931, wardAvgPrice: 7817, wardUnitPrice: 135.61},
+            {month: '2026-01', metroVol: 3343, tokyoVol: 1752, wardVol: 1433, tamaVol: 319, metroAvgPrice: 5493, tokyoAvgPrice: 7100, wardAvgPrice: 7926, wardUnitPrice: 137.50},
+            {month: '2026-02', metroVol: 4241, tokyoVol: 2227, wardVol: 1817, tamaVol: 410, metroAvgPrice: 5458, tokyoAvgPrice: 6911, wardAvgPrice: 7687, wardUnitPrice: 133.37},
+            {month: '2026-03', metroVol: 5001, tokyoVol: 2583, wardVol: 2145, tamaVol: 438, metroAvgPrice: 5521, tokyoAvgPrice: 7105, wardAvgPrice: 7845, wardUnitPrice: 136.10},
+            {month: '2026-04', metroVol: 3903, tokyoVol: 2008, wardVol: 1635, tamaVol: 373, metroAvgPrice: 5321, tokyoAvgPrice: 7079, wardAvgPrice: 7923, wardUnitPrice: 137.46},
+            {month: '2026-05', metroVol: 3709, tokyoVol: 1819, wardVol: 1452, tamaVol: 367, metroAvgPrice: 5067, tokyoAvgPrice: 6719, wardAvgPrice: 7565, wardUnitPrice: 131.24},
+            {month: '2026-06', metroVol: 4241, tokyoVol: 2136, wardVol: 1716, tamaVol: 420, metroAvgPrice: 5208, tokyoAvgPrice: 6746, wardAvgPrice: 7559, wardUnitPrice: 131.15}
         ];
 
         const tkAreaData = [
@@ -1348,31 +1353,31 @@
                 }
             });
 
-            // 月度图表
+            // 月度中古公寓平均成交价图表
             new Chart(document.getElementById('monthlyChart'), {
                 type: 'line',
                 data: {
                     labels: tkMonthlyData.map(d => d.month),
                     datasets: [
                         {
-                            label: '首都圈中古公寓成交',
-                            data: tkMonthlyData.map(d => d.metroVol),
+                            label: '首都圈平均成交价',
+                            data: tkMonthlyData.map(d => d.metroAvgPrice),
                             borderColor: '#2c5282',
                             backgroundColor: 'rgba(44,82,130,0.08)',
                             fill: true,
                             yAxisID: 'y'
                         },
                         {
-                            label: '东京都中古成交',
-                            data: tkMonthlyData.map(d => d.tokyoVol),
+                            label: '东京都估算总价',
+                            data: tkMonthlyData.map(d => d.tokyoAvgPrice),
                             borderColor: '#bc002d',
                             backgroundColor: 'rgba(188,0,45,0.1)',
                             fill: true,
                             yAxisID: 'y'
                         },
                         {
-                            label: '东京都区部中古成交',
-                            data: tkMonthlyData.map(d => d.wardVol),
+                            label: '东京都区部估算总价',
+                            data: tkMonthlyData.map(d => d.wardAvgPrice),
                             borderColor: '#8b0000',
                             backgroundColor: 'rgba(139,0,0,0.1)',
                             fill: true,
@@ -1383,7 +1388,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: {beginAtZero: true, title: {display: true, text: '成交量 (户)'}} }
+                    scales: { y: {beginAtZero: false, title: {display: true, text: '平均成交价 (万日元/套)'}} }
                 }
             });
 
@@ -1785,6 +1790,9 @@
                     <td>${d.tokyoVol.toLocaleString()}</td>
                     <td>${d.wardVol.toLocaleString()}</td>
                     <td>${d.tamaVol.toLocaleString()}</td>
+                    <td>¥${d.metroAvgPrice.toLocaleString()}万</td>
+                    <td>¥${d.tokyoAvgPrice.toLocaleString()}万</td>
+                    <td>¥${d.wardAvgPrice.toLocaleString()}万</td>
                     <td>¥${d.wardUnitPrice.toFixed(2)}万</td>
                 </tr>
             `).join('');
@@ -2133,7 +2141,7 @@
             safeInit('持有成本计算器', calculateHoldingCost);
             safeInit('东京成本计算器', calculateTKCost);
             safeInit('ROI 计算器', calculateROI);
-            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.7');
+            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.8');
         });
     </script>
 
