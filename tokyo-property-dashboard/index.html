@@ -123,7 +123,7 @@
             <div>
                 <h1>🗼 东京房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
-                <div class="data-version">版本：v2.8 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="data-version">版本：v2.9 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -251,10 +251,10 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 公示地价连涨 5 年，东京领涨全国</div>
                 </div>
             </div>
-            <div class="card" data-title="月度中古公寓平均成交价 (2025.06-2026.06)" data-content="REINS 2026 年 6 月已发布；7 月月报待发布。本图展示中古公寓平均成交总价，首都圈为 REINS 公布口径，东京都/区部为单价和面积估算口径。" data-source="REINS Market Watch 2026.06 | A 级">
-                <h4>月度中古公寓平均成交价 (2025.06-2026.06，万日元/套) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度中古公寓成交量与成交额 (2025.06-2026.06)" data-content="左轴展示首都圈、东京都和东京都区部中古公寓成交量，右轴展示对应成交额。成交额按月度成交量乘以平均成交总价计算；东京都和区部总价含估算口径。" data-source="REINS Market Watch 2026.06 | A/B 级">
+                <h4>月度中古公寓成交量与成交额 (2025.06-2026.06) <span class="data-source-tag">REINS</span><span class="data-reliability B">A/B 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 首都圈均价为 REINS 月报公布的成約価格；东京都/区部总价按公开㎡单价与成交面积估算，2026 年 6 月区部均价采用 REINS 正文披露的 7,559 万日元。</div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 实线为成交量（左轴），虚线为成交额（右轴，亿日元）。首都圈成交额按 REINS 公布均价计算；东京都/区部成交额按公开㎡单价与成交面积估算，2026 年 6 月区部采用 REINS 正文披露均价。三个区域为包含关系，不可相加。</div>
             </div>
         </div>
 
@@ -1353,42 +1353,89 @@
                 }
             });
 
-            // 月度中古公寓平均成交价图表
+            // 月度中古公寓成交量与成交额图表
             new Chart(document.getElementById('monthlyChart'), {
                 type: 'line',
                 data: {
                     labels: tkMonthlyData.map(d => d.month),
                     datasets: [
                         {
-                            label: '首都圈平均成交价',
-                            data: tkMonthlyData.map(d => d.metroAvgPrice),
+                            label: '首都圈成交量',
+                            data: tkMonthlyData.map(d => d.metroVol),
                             borderColor: '#2c5282',
                             backgroundColor: 'rgba(44,82,130,0.08)',
                             fill: true,
                             yAxisID: 'y'
                         },
                         {
-                            label: '东京都估算总价',
-                            data: tkMonthlyData.map(d => d.tokyoAvgPrice),
-                            borderColor: '#bc002d',
-                            backgroundColor: 'rgba(188,0,45,0.1)',
-                            fill: true,
+                            label: '东京都成交量',
+                            data: tkMonthlyData.map(d => d.tokyoVol),
+                            borderColor: '#38a169',
+                            backgroundColor: 'rgba(56,161,105,0.08)',
+                            fill: false,
                             yAxisID: 'y'
                         },
                         {
-                            label: '东京都区部估算总价',
-                            data: tkMonthlyData.map(d => d.wardAvgPrice),
-                            borderColor: '#8b0000',
-                            backgroundColor: 'rgba(139,0,0,0.1)',
-                            fill: true,
+                            label: '东京都区部成交量',
+                            data: tkMonthlyData.map(d => d.wardVol),
+                            borderColor: '#805ad5',
+                            backgroundColor: 'rgba(128,90,213,0.08)',
+                            fill: false,
                             yAxisID: 'y'
+                        },
+                        {
+                            label: '首都圈成交额 (亿日元)',
+                            data: tkMonthlyData.map(d => Math.round(d.metroVol * d.metroAvgPrice / 10000)),
+                            borderColor: '#c53030',
+                            backgroundColor: 'transparent',
+                            borderDash: [6, 5],
+                            fill: false,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: '东京都成交额估算 (亿日元)',
+                            data: tkMonthlyData.map(d => Math.round(d.tokyoVol * d.tokyoAvgPrice / 10000)),
+                            borderColor: '#d69e2e',
+                            backgroundColor: 'transparent',
+                            borderDash: [6, 5],
+                            fill: false,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: '东京都区部成交额估算 (亿日元)',
+                            data: tkMonthlyData.map(d => Math.round(d.wardVol * d.wardAvgPrice / 10000)),
+                            borderColor: '#dd6b20',
+                            backgroundColor: 'transparent',
+                            borderDash: [2, 4],
+                            fill: false,
+                            yAxisID: 'y1'
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: {beginAtZero: false, title: {display: true, text: '平均成交价 (万日元/套)'}} }
+                    interaction: {mode: 'index', intersect: false},
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: context => `${context.dataset.label}: ${context.parsed.y.toLocaleString()}${context.dataset.yAxisID === 'y' ? ' 套' : ' 亿日元'}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            position: 'left',
+                            beginAtZero: true,
+                            title: {display: true, text: '成交量 (套)'}
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: true,
+                            grid: {drawOnChartArea: false},
+                            title: {display: true, text: '成交额 (亿日元)'}
+                        }
+                    }
                 }
             });
 
@@ -2141,7 +2188,7 @@
             safeInit('持有成本计算器', calculateHoldingCost);
             safeInit('东京成本计算器', calculateTKCost);
             safeInit('ROI 计算器', calculateROI);
-            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.8');
+            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.9');
         });
     </script>
 
