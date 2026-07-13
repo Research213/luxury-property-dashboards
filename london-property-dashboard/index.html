@@ -219,7 +219,7 @@
             <div>
                 <h1>🏛️ 伦敦房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.07 元人民币 | 数据更新至 2026 年 7 月 13 日（HMLR 最新公开至 2026 年 4 月）</div>
-                <div class="data-version">版本：v4.3 | 最后更新：2026-07-13 | 数据来源：ONS, HM Land Registry, UK HPI, Knight Frank, Savills, Chestertons, Lloyds/Halifax 市场温度补充</div>
+                <div class="data-version">版本：v4.4 | 最后更新：2026-07-13 | 数据来源：ONS, HM Land Registry, UK HPI, Knight Frank, Savills, Chestertons, Lloyds/Halifax 市场温度补充</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
@@ -552,35 +552,35 @@
     <div id="type" class="section">
         <h2 class="section-title">🏠 产品类型量价走势</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>公寓 (Flat) 占伦敦成交量约 65%，是市场主流。2025 年 1 月 -2026 年 3 月数据显示，公寓价格相对稳定（+2.1%），别墅类产品涨幅略高（+2.8~4.2%）。数据来源：ONS, HM Land Registry（A 级）。
+            <strong>小结论：</strong>UK HPI 已发布 2026 年 4 月伦敦按房型均价：公寓 £431,455（同比 -4.3%）、排屋 £637,506（+0.7%）、半独立 £715,926（+0.1%）、独立屋 £1,159,487（-1.7%）。下方价格图使用全伦敦 UK HPI，成交量趋势使用页面已接入的 HMLR 目标邮编成交拆分，避免把价格指数和成交明细混成同一口径。数据来源：HM Land Registry / UK HPI（A 级）。
         </div>
         
         <div class="grid-2">
-            <div class="card" data-title="产品类型成交量" data-content="伦敦房产类型分布：公寓 65%、带露台别墅 20%、半独立别墅 10%、独立别墅 5%。数据基于 2025 年全年。" data-source="ONS | A 级">
-                <h4>产品类型成交量占比 (2025 年全年) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型成交量" data-content="HMLR 目标邮编成交拆分显示，2025 年样本中公寓仍占绝对主流；别墅类成交样本较少，价格波动更容易受少数高价成交影响。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交量占比 (2025 年 HMLR 目标邮编样本) <span class="data-source-tag">HMLR</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeChart"></canvas></div>
             </div>
-            <div class="card" data-title="产品类型价格" data-content="各产品类型成交均价对比。独立别墅最贵（£110.4 万/套）。" data-source="ONS | A 级">
-                <h4>各产品类型价格 (2025.01-2026.03 月度平均) <span class="data-source-tag">ONS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型价格" data-content="UK HPI 2026 年 4 月伦敦按房型均价：公寓约¥391 万、排屋约¥578 万、半独立约¥649 万、独立屋约¥1,052 万。" data-source="HM Land Registry / UK HPI | A 级">
+                <h4>各产品类型价格 (2026.04 UK HPI) <span class="data-source-tag">UK HPI</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceChart"></canvas></div>
             </div>
         </div>
         
         <div class="grid-2" style="margin-top:20px">
-            <div class="card" data-title="产品类型成交量趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量。" data-source="HM Land Registry | A 级">
-                <h4>产品类型成交量趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型成交量趋势" data-content="2025 年 1 月 -2026 年 4 月目标邮编样本各产品类型月度成交量；2026 年 4 月因登记滞后，成交量仍会修订。" data-source="HM Land Registry | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.04) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
                 
             </div>
-            <div class="card" data-title="产品类型成交均价趋势" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交均价。" data-source="HM Land Registry | A 级">
-                <h4>产品类型成交均价趋势 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="2025 年 1 月 -2026 年 4 月 UK HPI 全伦敦按房型均价，人民币按 2026-07-13 GBP/CNY 9.07004 折算。" data-source="HM Land Registry / UK HPI | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.04) <span class="data-source-tag">UK HPI</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
                 
             </div>
         </div>
         
-        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025 年 1 月 -2026 年 3 月各产品类型月度成交量和价格，包含环比变化。" data-source="HM Land Registry | A 级">
-            <h4>产品类型详细数据表 (2025.01-2026.03) <span class="data-source-tag">HM Land Registry</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="2025 年 1 月 -2026 年 4 月各产品类型成交量和 UK HPI 均价，包含价格环比变化。" data-source="HM Land Registry / UK HPI | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.04) <span class="data-source-tag">HMLR / UK HPI</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="propertyTypeTable">
                     <thead>
@@ -596,7 +596,7 @@
                 </table>
             </div>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                📌 汇总统计（15 个月平均）：公寓 £40.8 万 | 带露台别墅 £61.8 万 | 半独立别墅 £49.8 万 | 独立别墅 £108.8 万
+                📌 口径说明：成交量为页面 37 个目标邮编 HMLR 成交样本；价格为 UK HPI 伦敦全市按房型均价。2026 年 4 月：公寓 £431,455、排屋 £637,506、半独立 £715,926、独立屋 £1,159,487。
             </div>
         </div>
     </div>
@@ -1641,27 +1641,28 @@
                 {range: '¥5000 万以上', vol: 1500, pct: 2, areas: '肯辛顿 - 切尔西'}
             ],
             propertyTypes: [
-                {type: '公寓 (Flat)', vol: 48000, price: 414, change: '+2.1%'},
-                {type: '带露台别墅 (Terrace)', vol: 14800, price: 626, change: '+3.5%'},
-                {type: '半独立别墅 (Semi-Detached)', vol: 7400, price: 506, change: '+4.2%'},
-                {type: '独立别墅 (Detached)', vol: 3700, price: 1104, change: '+2.8%'}
+                {type: '公寓 (Flat)', vol: 16492, price: 391, change: '-4.3%'},
+                {type: '带露台别墅 (Terrace)', vol: 3266, price: 578, change: '+0.7%'},
+                {type: '半独立别墅 (Semi-Detached)', vol: 334, price: 649, change: '+0.1%'},
+                {type: '独立别墅 (Detached)', vol: 85, price: 1052, change: '-1.7%'}
             ],
             propertyTypesMonthly: [
-                {month: '2025-01', flat: 3200, terrace: 980, semi: 490, detached: 240, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
-                {month: '2025-02', flat: 3500, terrace: 1100, semi: 550, detached: 270, flatPrice: 410, terracePrice: 620, semiPrice: 500, detachedPrice: 1090},
-                {month: '2025-03', flat: 4200, terrace: 1350, semi: 680, detached: 320, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095},
-                {month: '2025-04', flat: 3800, terrace: 1200, semi: 600, detached: 290, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
-                {month: '2025-05', flat: 4100, terrace: 1280, semi: 640, detached: 310, flatPrice: 412, terracePrice: 622, semiPrice: 502, detachedPrice: 1092},
-                {month: '2025-06', flat: 3700, terrace: 1150, semi: 570, detached: 280, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
-                {month: '2025-07', flat: 4000, terrace: 1250, semi: 620, detached: 300, flatPrice: 418, terracePrice: 628, semiPrice: 508, detachedPrice: 1100},
-                {month: '2025-08', flat: 3400, terrace: 1000, semi: 500, detached: 250, flatPrice: 398, terracePrice: 605, semiPrice: 488, detachedPrice: 1070},
-                {month: '2025-09', flat: 3600, terrace: 1100, semi: 550, detached: 270, flatPrice: 405, terracePrice: 615, semiPrice: 495, detachedPrice: 1085},
-                {month: '2025-10', flat: 3500, terrace: 1050, semi: 530, detached: 260, flatPrice: 402, terracePrice: 610, semiPrice: 492, detachedPrice: 1080},
-                {month: '2025-11', flat: 3700, terrace: 1120, semi: 560, detached: 280, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
-                {month: '2025-12', flat: 3900, terrace: 1180, semi: 590, detached: 290, flatPrice: 412, terracePrice: 622, semiPrice: 502, detachedPrice: 1092},
-                {month: '2026-01', flat: 3600, terrace: 1080, semi: 540, detached: 270, flatPrice: 402, terracePrice: 612, semiPrice: 492, detachedPrice: 1080},
-                {month: '2026-02', flat: 3800, terrace: 1150, semi: 570, detached: 280, flatPrice: 408, terracePrice: 618, semiPrice: 498, detachedPrice: 1088},
-                {month: '2026-03', flat: 4100, terrace: 1220, semi: 610, detached: 300, flatPrice: 415, terracePrice: 625, semiPrice: 505, detachedPrice: 1095}
+                {month: '2025-01', flat: 1456, terrace: 263, semi: 27, detached: 9, other: 168, flatPrice: 408, terracePrice: 578, semiPrice: 645, detachedPrice: 1049},
+                {month: '2025-02', flat: 1416, terrace: 281, semi: 35, detached: 12, other: 126, flatPrice: 406, terracePrice: 575, semiPrice: 640, detachedPrice: 1040},
+                {month: '2025-03', flat: 3531, terrace: 529, semi: 46, detached: 12, other: 239, flatPrice: 403, terracePrice: 566, semiPrice: 628, detachedPrice: 1005},
+                {month: '2025-04', flat: 729, terrace: 159, semi: 25, detached: 9, other: 133, flatPrice: 409, terracePrice: 574, semiPrice: 649, detachedPrice: 1070},
+                {month: '2025-05', flat: 1125, terrace: 251, semi: 17, detached: 4, other: 121, flatPrice: 409, terracePrice: 576, semiPrice: 647, detachedPrice: 1060},
+                {month: '2025-06', flat: 1362, terrace: 259, semi: 18, detached: 5, other: 132, flatPrice: 408, terracePrice: 583, semiPrice: 652, detachedPrice: 1065},
+                {month: '2025-07', flat: 1449, terrace: 367, semi: 45, detached: 9, other: 138, flatPrice: 410, terracePrice: 585, semiPrice: 653, detachedPrice: 1055},
+                {month: '2025-08', flat: 1233, terrace: 290, semi: 23, detached: 6, other: 89, flatPrice: 404, terracePrice: 590, semiPrice: 655, detachedPrice: 1045},
+                {month: '2025-09', flat: 1234, terrace: 283, semi: 39, detached: 5, other: 89, flatPrice: 401, terracePrice: 587, semiPrice: 653, detachedPrice: 1054},
+                {month: '2025-10', flat: 1156, terrace: 248, semi: 31, detached: 10, other: 82, flatPrice: 393, terracePrice: 579, semiPrice: 650, detachedPrice: 1048},
+                {month: '2025-11', flat: 936, terrace: 199, semi: 19, detached: 3, other: 53, flatPrice: 395, terracePrice: 584, semiPrice: 652, detachedPrice: 1051},
+                {month: '2025-12', flat: 865, terrace: 137, semi: 9, detached: 1, other: 54, flatPrice: 388, terracePrice: 573, semiPrice: 644, detachedPrice: 1040},
+                {month: '2026-01', flat: 713, terrace: 146, semi: 19, detached: 3, other: 35, flatPrice: 389, terracePrice: 582, semiPrice: 648, detachedPrice: 1039},
+                {month: '2026-02', flat: 622, terrace: 94, semi: 11, detached: 6, other: 24, flatPrice: 383, terracePrice: 568, semiPrice: 641, detachedPrice: 1029},
+                {month: '2026-03', flat: 697, terrace: 121, semi: 8, detached: 4, other: 26, flatPrice: 381, terracePrice: 574, semiPrice: 642, detachedPrice: 1027},
+                {month: '2026-04', flat: 243, terrace: 44, semi: 3, detached: 3, other: 8, flatPrice: 391, terracePrice: 578, semiPrice: 649, detachedPrice: 1052}
             ],
             chinaBuyers: [5.5, 6.2, 7.5, 8.5, 8.2, 7.8, 6.8, 6.2, 7.0],
             chinaPreference: [
@@ -2773,7 +2774,7 @@
                 rentNote: '伦敦成交价量为 HMLR A 级；租金走势图沿用平均月租样本口径，不等同官方邮编级月度租金。'
             });
             
-            console.log('📊 看板加载完成 | 版本：v4.0 | 加载时间：' + new Date().toLocaleString('zh-CN'));
+            console.log('📊 看板加载完成 | 版本：v4.4 | 加载时间：' + new Date().toLocaleString('zh-CN'));
         });
         
 function exportExcel() {
