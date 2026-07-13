@@ -123,7 +123,7 @@
             <div>
                 <h1>🗼 东京房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
-                <div class="data-version">版本：v2.5 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="data-version">版本：v2.6 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -1653,6 +1653,60 @@
         function initRentHistoryChart() {
             const rentHistoryCanvas = document.getElementById('rentHistoryChart');
             if (!rentHistoryCanvas) return;
+            renderRentHistorySvg(rentHistoryCanvas);
+        }
+
+        function renderRentHistorySvg(canvas) {
+            const container = canvas.parentElement;
+            if (!container) return;
+            const series = [
+                {label: '港区', key: 'minato', color: '#bc002d'},
+                {label: '千代田区', key: 'chiyoda', color: '#d69e2e'},
+                {label: '涩谷区', key: 'shibuya', color: '#2c5282'},
+                {label: '新宿区', key: 'shinjuku', color: '#38a169'},
+                {label: '中央区', key: 'chuo', color: '#805ad5'}
+            ];
+            const width = 920;
+            const height = 340;
+            const pad = {top: 30, right: 26, bottom: 48, left: 58};
+            const values = tkRentHistory.flatMap(d => series.map(s => d[s.key]));
+            const min = Math.floor(Math.min(...values) - 2);
+            const max = Math.ceil(Math.max(...values) + 2);
+            const x = i => pad.left + (i * (width - pad.left - pad.right)) / (tkRentHistory.length - 1);
+            const y = v => pad.top + ((max - v) * (height - pad.top - pad.bottom)) / (max - min);
+            const linePath = s => tkRentHistory.map((d, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(d[s.key]).toFixed(1)}`).join(' ');
+            const yTicks = Array.from({length: 5}, (_, i) => min + (i * (max - min)) / 4);
+            const legend = series.map((s, i) => {
+                const lx = pad.left + i * 130;
+                return `<g transform="translate(${lx},14)"><line x1="0" y1="0" x2="22" y2="0" stroke="${s.color}" stroke-width="3"/><text x="30" y="5" fill="#4a5568" font-size="13">${s.label}</text></g>`;
+            }).join('');
+            const grid = yTicks.map(v => {
+                const yy = y(v);
+                return `<g><line x1="${pad.left}" y1="${yy.toFixed(1)}" x2="${width - pad.right}" y2="${yy.toFixed(1)}" stroke="#e2e8f0"/><text x="${pad.left - 10}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#718096" font-size="12">${v.toFixed(0)}</text></g>`;
+            }).join('');
+            const xLabels = tkRentHistory.map((d, i) => {
+                if (i % 2 !== 0 && i !== tkRentHistory.length - 1) return '';
+                return `<text x="${x(i).toFixed(1)}" y="${height - 18}" text-anchor="middle" fill="#718096" font-size="11">${d.month}</text>`;
+            }).join('');
+            const lines = series.map(s => `<path d="${linePath(s)}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+            const dots = series.map(s => tkRentHistory.map((d, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(d[s.key]).toFixed(1)}" r="3" fill="${s.color}"><title>${s.label} ${d.month}: ¥${d[s.key]}万/月</title></circle>`).join('')).join('');
+            container.innerHTML = `
+                <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="都心 5 区租金走势" style="width:100%;height:100%;display:block">
+                    <rect width="${width}" height="${height}" fill="#fff"/>
+                    ${legend}
+                    ${grid}
+                    <line x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}" stroke="#cbd5e0"/>
+                    <line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${height - pad.bottom}" stroke="#cbd5e0"/>
+                    ${xLabels}
+                    <text x="18" y="${height / 2}" transform="rotate(-90,18,${height / 2})" text-anchor="middle" fill="#718096" font-size="12">月租金 (万日元)</text>
+                    ${lines}
+                    ${dots}
+                </svg>`;
+        }
+
+        function initRentHistoryChartWithChartJs() {
+            const rentHistoryCanvas = document.getElementById('rentHistoryChart');
+            if (!rentHistoryCanvas || typeof Chart === 'undefined') return;
             if (window.rentHistoryChartInstance) window.rentHistoryChartInstance.destroy();
             window.rentHistoryChartInstance = new Chart(rentHistoryCanvas, {
                 type: 'line',
@@ -2055,19 +2109,27 @@
             document.getElementById('roiComparisonTable').innerHTML = html;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initCharts();
-            initTables();
-            initMap();
-            requestAnimationFrame(() => initRentHistoryChart());
-            initTooltips();
-            if (typeof initLondonStyleTemplateCharts === 'function') {
-                initLondonStyleTemplateCharts();
+        function safeInit(name, fn) {
+            try {
+                fn();
+            } catch (error) {
+                console.warn(`东京看板模块加载失败：${name}`, error);
             }
-            calculateHoldingCost();
-            calculateTKCost();
-            calculateROI();
-            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.5');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            safeInit('核心图表', initCharts);
+            safeInit('数据表', initTables);
+            requestAnimationFrame(() => safeInit('都心 5 区租金走势图', initRentHistoryChart));
+            safeInit('地图', initMap);
+            safeInit('工具提示', initTooltips);
+            if (typeof initLondonStyleTemplateCharts === 'function') {
+                safeInit('伦敦模板图表', initLondonStyleTemplateCharts);
+            }
+            safeInit('持有成本计算器', calculateHoldingCost);
+            safeInit('东京成本计算器', calculateTKCost);
+            safeInit('ROI 计算器', calculateROI);
+            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.6');
         });
     </script>
 
