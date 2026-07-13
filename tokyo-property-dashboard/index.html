@@ -122,8 +122,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗼 东京房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（市场硬数据最新公开口径为 2026 年 5 月）</div>
-                <div class="data-version">版本：v2.2 | 最后更新：2026-07-13 | 数据来源：国土交通省，REINS，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
+                <div class="data-version">版本：v2.3 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -134,8 +134,8 @@
     </div>
 
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal yellow">⚠️</span> 总体结论：都心 6 区 37 个月来首次下跌，市场进入高位盘整期，供应萎缩支撑价格 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>东京最新可引用的公开硬数据仍以 2026 年 5 月为主：东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑；东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。截至 2026-07-13，7 月更高频官方成交数据待发布，因此本页只更新汇率和人民币折算，不补写未公开成交数。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：REINS 6 月成交已发布，区部成交回升但同比仍降，价格处于高位盘整 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>REINS 最新月度硬数据已更新至 2026 年 6 月：东京都区部中古公寓成交 1,716 套（同比 -12.8%），成交单价 131.15 万日元/㎡（同比 +1.5%），平均成交价 7,559 万日元（同比 +1.8%，约人民币 316 万）。新建高端盘仍以 5 月公开口径补充观察：东京 23 区新建公寓均价 1.138 亿日元（+27% YoY）。截至 2026-07-13，7 月 REINS 月报尚未发布。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -190,24 +190,24 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 东京房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>最新公开硬数据仍为 2026 年 5 月：东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑；东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），市场进入高位盘整期。人民币口径按 2026-07-13 JPY/CNY 0.0418 重算。数据来源：国土交通省、REINS、日本经济新闻、Exchangerate API（A/B 级）。
+            <strong>小结论：</strong>REINS 最新公开硬数据为 2026 年 6 月：东京都区部中古公寓成交 1,716 套（同比 -12.8%），较 5 月 1,452 套回升；成交单价 131.15 万日元/㎡（同比 +1.5%，按 2026-07-13 汇率折合约 ¥5.5 万/㎡），平均成交价 7,559 万日元（同比 +1.8%，约人民币 ¥316 万）。5 月新建公寓高价仍作为补充观察，市场处于高位盘整。数据来源：REINS、国土交通省、日本经济新闻、Exchangerate API（A/B 级）。
         </div>
 
         <div class="metric-grid">
-            <div class="card stat-card" data-title="2025 年东京成交量" data-content="2025 年东京 23 区公寓成交 35,728 户，同比增长 12%，首都圈占比 60.2%。" data-source="REINS | A 级">
-                <div class="stat-value">3.57 万</div>
-                <div class="stat-label">成交量（户）</div>
-                <div class="stat-change up">↑ 同比 +12%</div>
+            <div class="card stat-card" data-title="2026 年 6 月东京成交量" data-content="REINS 2026 年 6 月东京都区部中古公寓成交 1,716 套，环比 5 月 1,452 套回升，同比仍下降 12.8%。" data-source="REINS Market Watch 2026.06 | A 级">
+                <div class="stat-value">1,716</div>
+                <div class="stat-label">区部中古成交（套）</div>
+                <div class="stat-change down">↓ 同比 -12.8%</div>
             </div>
-            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年首都圈新建公寓成交额约 2.8 兆日元；按 2026-07-13 JPY/CNY 0.0418 重算，人民币约¥1,172 亿元。" data-source="国土交通省, Exchangerate API | A/B 级">
-                <div class="stat-value">¥1,172 亿</div>
-                <div class="stat-label">成交额</div>
-                <div class="stat-change up">↑ 同比 +15%</div>
+            <div class="card stat-card" data-title="2026 年 6 月估算成交额" data-content="按 REINS 东京都区部 2026 年 6 月成交 1,716 套、平均成交价 7,559 万日元估算，成交额约 1,297 亿日元，折合人民币约 ¥54.3 亿元。" data-source="REINS Market Watch 2026.06, Exchangerate API, 计算 | A/B 级">
+                <div class="stat-value">¥54.3 亿</div>
+                <div class="stat-label">区部月度成交额</div>
+                <div class="stat-change stable">6 月 REINS 口径</div>
             </div>
-            <div class="card stat-card" data-title="东京平均房价" data-content="2025 年首都圈新建公寓均价 9,418 万日元（按 0.0418 折合约¥394 万），东京 23 区约 1.138 亿日元（约¥476 万，+27% YoY）。" data-source="国土交通省, Exchangerate API | A/B 级">
-                <div class="stat-value">¥394 万</div>
+            <div class="card stat-card" data-title="东京平均房价" data-content="REINS 2026 年 6 月东京都区部中古公寓平均成交价 7,559 万日元，按 2026-07-13 JPY/CNY 0.0418 折合约 ¥316 万。" data-source="REINS Market Watch 2026.06, Exchangerate API | A/B 级">
+                <div class="stat-value">¥316 万</div>
                 <div class="stat-label">平均房价</div>
-                <div class="stat-change up">↑ 同比 +20.4%</div>
+                <div class="stat-change up">↑ 同比 +1.8%</div>
             </div>
             <div class="card stat-card" data-title="租金收益率" data-content="东京租金收益率 2-3.5%，都心高端公寓回报率降至约 2%，租赁需求稳定。" data-source="LIFULL | A 级">
                 <div class="stat-value">2-3.5%</div>
@@ -216,14 +216,14 @@
             </div>
         </div>
         <div class="metric-grid" style="margin-top:16px">
-            <div class="card stat-card" data-title="万/平方米单价" data-content="东京都心 6 区公寓挂牌均价约 334 万日元/㎡（按 0.0418 折合约¥14.0 万/㎡），实际成交约 255 万日元/㎡。" data-source="东日本不动产流通机构, Exchangerate API | A/B 级">
-                <div class="stat-value">¥14.0 万</div>
+            <div class="card stat-card" data-title="万/平方米单价" data-content="REINS 2026 年 6 月东京都区部中古公寓成交单价 131.15 万日元/㎡，按 0.0418 折合约 ¥5.5 万/㎡。" data-source="REINS Market Watch 2026.06, Exchangerate API | A/B 级">
+                <div class="stat-value">¥5.5 万</div>
                 <div class="stat-label">万/平方米</div>
-                <div class="stat-change down">↓ 3 月环比 -0.2%</div>
+                <div class="stat-change up">↑ 同比 +1.5%</div>
             </div>
-            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，东京 23 区套均总价约 1.138 亿日元（按 0.0418 折合约¥476 万）。" data-source="REINS, Exchangerate API, 计算 | A/B 级">
+            <div class="card stat-card" data-title="新建公寓补充口径" data-content="新建高端盘保留 2026 年 5 月公开口径：东京 23 区新建公寓均价 1.138 亿日元，按 0.0418 折合约 ¥476 万。" data-source="日本经济新闻, Exchangerate API | B 级">
                 <div class="stat-value">¥476 万</div>
-                <div class="stat-label">套均总价</div>
+                <div class="stat-label">23 区新建均价</div>
                 <div class="stat-change up">↑ 同比 +27%</div>
             </div>
             <div class="card stat-card" data-title="房价收入比" data-content="东京房价收入比约 20 倍，为当地平均年收入的近 20 倍，合理购房价格应为 5-7 倍。" data-source="钻石周刊 | B 级">
@@ -251,8 +251,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 公示地价连涨 5 年，东京领涨全国</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.06，最新官方月报待确认)" data-content="2026 年 5 月为本页最新可引用硬数据；6-7 月官方月报待确认。" data-source="REINS | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度中古公寓成交量 (2025.06-2026.06)" data-content="REINS 2026 年 6 月已发布；7 月月报待发布。本图展示东京都整体与东京都区部中古公寓成交件数。" data-source="REINS Market Watch 2026.06 | A 级">
+                <h4>月度中古公寓成交量 (2025.06-2026.06，REINS 已发布至 6 月) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -273,17 +273,16 @@
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">📌 数据来源：国土交通省、REINS | 单位：万元人民币/㎡ | 基于 70㎡套均面积计算</div>
         </div>
 
-        <div class="card" style="margin-top:20px" data-title="月度成交明细（分新建/中古）" data-content="东京月度新建和中古公寓成交量、成交价。新建占比 30%，中古占比 70%。" data-source="REINS | A 级">
-            <h4>月度成交明细 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+        <div class="card" style="margin-top:20px" data-title="月度成交明细（中古公寓）" data-content="REINS 东京都整体与东京都区部中古公寓月度成交量、区部成交单价；最新公开至 2026 年 6 月。" data-source="REINS Market Watch 2026.06 | A 级">
+            <h4>月度成交明细 (2025.06-2026.06，中古公寓) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
                         <tr>
                             <th>月份</th>
-                            <th>新建成交 (户)</th>
-                            <th>新建均价 (万日元)</th>
-                            <th>中古成交 (户)</th>
-                            <th>中古均价 (万日元)</th>
+                            <th>东京都成交 (套)</th>
+                            <th>区部成交 (套)</th>
+                            <th>区部单价 (万日元/㎡)</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -472,18 +471,18 @@
         </div>
 
         <div class="grid-2" style="margin-top:20px">
-            <div class="card" data-title="产品类型成交量趋势" data-content="按页面既有趋势口径展示主要产品类型月度成交量；6-7 月官方月报待确认。" data-source="REINS / 国土交通省 | A 级">
-                <h4>产品类型成交量趋势 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div class="card" data-title="产品类型成交量趋势" data-content="REINS 已发布 2026 年 6 月中古公寓/中古户建月报；产品类型趋势沿用页面既有结构，用于方向观察。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.06，REINS 已发布至 6 月) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
             </div>
-            <div class="card" data-title="产品类型成交均价趋势" data-content="按页面既有趋势口径展示主要产品类型月度成交均价；6-7 月官方月报待确认。" data-source="REINS / 国土交通省 | A 级">
-                <h4>产品类型成交均价趋势 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="REINS 已发布 2026 年 6 月中古公寓/中古户建月报；产品类型趋势沿用页面既有结构，用于方向观察。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.06，REINS 已发布至 6 月) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
             </div>
         </div>
 
-        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价；最新月官方明细待确认。" data-source="REINS / 国土交通省 | A 级">
-            <h4>产品类型详细数据表 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价；REINS 最新月报已至 2026 年 6 月。" data-source="REINS / 国土交通省 | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.06，REINS 已发布至 6 月) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="propertyTypeTable">
                     <thead><tr><th>月份</th><th>产品类型</th><th>成交量</th><th>成交均价</th><th>环比变化</th></tr></thead>
@@ -1238,25 +1237,19 @@
         ];
 
         const tkMonthlyData = [
-            {month: '2025-01', newVol: 850, newPrice: 8200, oldVol: 2100, oldPrice: 6500},
-            {month: '2025-02', newVol: 780, newPrice: 8100, oldVol: 1950, oldPrice: 6400},
-            {month: '2025-03', newVol: 920, newPrice: 8300, oldVol: 2250, oldPrice: 6600},
-            {month: '2025-04', newVol: 880, newPrice: 8250, oldVol: 2150, oldPrice: 6550},
-            {month: '2025-05', newVol: 900, newPrice: 8350, oldVol: 2200, oldPrice: 6600},
-            {month: '2025-06', newVol: 870, newPrice: 8300, oldVol: 2100, oldPrice: 6550},
-            {month: '2025-07', newVol: 910, newPrice: 8400, oldVol: 2250, oldPrice: 6650},
-            {month: '2025-08', newVol: 850, newPrice: 8350, oldVol: 2050, oldPrice: 6600},
-            {month: '2025-09', newVol: 880, newPrice: 8400, oldVol: 2150, oldPrice: 6650},
-            {month: '2025-10', newVol: 870, newPrice: 8450, oldVol: 2100, oldPrice: 6700},
-            {month: '2025-11', newVol: 890, newPrice: 8500, oldVol: 2200, oldPrice: 6750},
-            {month: '2025-12', newVol: 920, newPrice: 8550, oldVol: 2250, oldPrice: 6800},
-            {month: '2026-01', newVol: 900, newPrice: 8600, oldVol: 2200, oldPrice: 6850},
-            {month: '2026-02', newVol: 920, newPrice: 8650, oldVol: 2250, oldPrice: 6900},
-            {month: '2026-03', newVol: 950, newPrice: 8700, oldVol: 2300, oldPrice: 6950},
-                {month: '2026-04', newVol: 980, newPrice: 8800, oldVol: 2350, oldPrice: 7000},
-                {month: '2026-05', newVol: 1000, newPrice: 8900, oldVol: 2400, oldPrice: 7050},
-            {month: '2026-04', newVol: 980, newPrice: 8800, oldVol: 2350, oldPrice: 7000},
-            {month: '2026-05', newVol: 1000, newPrice: 8900, oldVol: 2400, oldPrice: 7050}
+            {month: '2025-06', tokyoVol: 2360, wardVol: 1969, wardUnitPrice: 129.19},
+            {month: '2025-07', tokyoVol: 2164, wardVol: 1823, wardUnitPrice: 132.16},
+            {month: '2025-08', tokyoVol: 1921, wardVol: 1593, wardUnitPrice: 133.10},
+            {month: '2025-09', tokyoVol: 2431, wardVol: 1995, wardUnitPrice: 131.54},
+            {month: '2025-10', tokyoVol: 2234, wardVol: 1836, wardUnitPrice: 135.03},
+            {month: '2025-11', tokyoVol: 2230, wardVol: 1853, wardUnitPrice: 130.96},
+            {month: '2025-12', tokyoVol: 2096, wardVol: 1695, wardUnitPrice: 135.61},
+            {month: '2026-01', tokyoVol: 1752, wardVol: 1433, wardUnitPrice: 137.50},
+            {month: '2026-02', tokyoVol: 2227, wardVol: 1817, wardUnitPrice: 133.37},
+            {month: '2026-03', tokyoVol: 2583, wardVol: 2145, wardUnitPrice: 136.10},
+            {month: '2026-04', tokyoVol: 2008, wardVol: 1635, wardUnitPrice: 137.46},
+            {month: '2026-05', tokyoVol: 1819, wardVol: 1452, wardUnitPrice: 131.24},
+            {month: '2026-06', tokyoVol: 2136, wardVol: 1716, wardUnitPrice: 131.15, wardAvgPrice: 7559}
         ];
 
         const exchangeRates = [
@@ -1333,16 +1326,16 @@
                     labels: tkMonthlyData.map(d => d.month),
                     datasets: [
                         {
-                            label: '新建成交量',
-                            data: tkMonthlyData.map(d => d.newVol),
+                            label: '东京都中古成交',
+                            data: tkMonthlyData.map(d => d.tokyoVol),
                             borderColor: '#bc002d',
                             backgroundColor: 'rgba(188,0,45,0.1)',
                             fill: true,
                             yAxisID: 'y'
                         },
                         {
-                            label: '中古成交量',
-                            data: tkMonthlyData.map(d => d.oldVol),
+                            label: '东京都区部中古成交',
+                            data: tkMonthlyData.map(d => d.wardVol),
                             borderColor: '#8b0000',
                             backgroundColor: 'rgba(139,0,0,0.1)',
                             fill: true,
@@ -1625,10 +1618,9 @@
             if (monthlyBody) monthlyBody.innerHTML = tkMonthlyData.map(d => `
                 <tr>
                     <td>${d.month}</td>
-                    <td>${d.newVol}</td>
-                    <td>¥${d.newPrice}万</td>
-                    <td>${d.oldVol}</td>
-                    <td>¥${d.oldPrice}万</td>
+                    <td>${d.tokyoVol.toLocaleString()}</td>
+                    <td>${d.wardVol.toLocaleString()}</td>
+                    <td>¥${d.wardUnitPrice.toFixed(2)}万</td>
                 </tr>
             `).join('');
 
