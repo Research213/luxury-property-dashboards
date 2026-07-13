@@ -123,7 +123,7 @@
             <div>
                 <h1>🗼 东京房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
-                <div class="data-version">版本：v2.4 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="data-version">版本：v2.5 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -1592,7 +1592,10 @@
 
         // 租金走势图表
         function initRentTrendChart() {
-            new Chart(document.getElementById('rentTrendChart'), {
+            const rentTrendCanvas = document.getElementById('rentTrendChart');
+            if (!rentTrendCanvas) return;
+            if (window.rentTrendChartInstance) window.rentTrendChartInstance.destroy();
+            window.rentTrendChartInstance = new Chart(rentTrendCanvas, {
                 type: 'line',
                 data: {
                     labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'],
@@ -1644,71 +1647,75 @@
                 }
             });
 
-            // 租金历史趋势图表（区域地图 tab）
-            if (document.getElementById('rentHistoryChart')) {
-                new Chart(document.getElementById('rentHistoryChart'), {
-                    type: 'line',
-                    data: {
-                        labels: tkRentHistory.map(d => d.month),
-                        datasets: [
-                            {
-                                label: '港区',
-                                data: tkRentHistory.map(d => d.minato),
-                                borderColor: '#bc002d',
-                                backgroundColor: 'rgba(188, 0, 45, 0.1)',
-                                tension: 0.3,
-                                fill: true
-                            },
-                            {
-                                label: '千代田区',
-                                data: tkRentHistory.map(d => d.chiyoda),
-                                borderColor: '#d69e2e',
-                                tension: 0.3
-                            },
-                            {
-                                label: '涩谷区',
-                                data: tkRentHistory.map(d => d.shibuya),
-                                borderColor: '#2c5282',
-                                tension: 0.3
-                            },
-                            {
-                                label: '新宿区',
-                                data: tkRentHistory.map(d => d.shinjuku),
-                                borderColor: '#38a169',
-                                tension: 0.3
-                            },
-                            {
-                                label: '中央区',
-                                data: tkRentHistory.map(d => d.chuo),
-                                borderColor: '#805ad5',
-                                tension: 0.3
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return context.dataset.label + ': ¥' + context.parsed.y + '万/月'
-                                    }
+        }
+
+        // 租金历史趋势图表（区域地图 tab）
+        function initRentHistoryChart() {
+            const rentHistoryCanvas = document.getElementById('rentHistoryChart');
+            if (!rentHistoryCanvas) return;
+            if (window.rentHistoryChartInstance) window.rentHistoryChartInstance.destroy();
+            window.rentHistoryChartInstance = new Chart(rentHistoryCanvas, {
+                type: 'line',
+                data: {
+                    labels: tkRentHistory.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '港区',
+                            data: tkRentHistory.map(d => d.minato),
+                            borderColor: '#bc002d',
+                            backgroundColor: 'rgba(188, 0, 45, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '千代田区',
+                            data: tkRentHistory.map(d => d.chiyoda),
+                            borderColor: '#d69e2e',
+                            tension: 0.3
+                        },
+                        {
+                            label: '涩谷区',
+                            data: tkRentHistory.map(d => d.shibuya),
+                            borderColor: '#2c5282',
+                            tension: 0.3
+                        },
+                        {
+                            label: '新宿区',
+                            data: tkRentHistory.map(d => d.shinjuku),
+                            borderColor: '#38a169',
+                            tension: 0.3
+                        },
+                        {
+                            label: '中央区',
+                            data: tkRentHistory.map(d => d.chuo),
+                            borderColor: '#805ad5',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ¥' + context.parsed.y + '万/月'
                                 }
-                            },
-                            legend: {
-                                position: 'top',
                             }
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                title: {display: true, text: '月租金 (万日元)'}
-                            }
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {display: true, text: '月租金 (万日元)'}
                         }
                     }
-                });
-            }
+                }
+            });
         }
 
         function initTables() {
@@ -1888,10 +1895,18 @@
             if (id === 'district-map' && !window.districtMapInit) {
                 setTimeout(() => { initMap(); window.districtMapInit = true; }, 100);
             }
+            if (id === 'district-map') {
+                requestAnimationFrame(() => {
+                    initRentHistoryChart();
+                    setTimeout(() => window.rentHistoryChartInstance?.resize(), 80);
+                });
+            }
             // 如果切换到租金走势 tab，初始化图表
-            if (id === 'district-rent' && !window.rentTrendInit) {
-                initRentTrendChart();
-                window.rentTrendInit = true;
+            if (id === 'district-rent') {
+                requestAnimationFrame(() => {
+                    initRentTrendChart();
+                    setTimeout(() => window.rentTrendChartInstance?.resize(), 80);
+                });
             }
             // 如果切换到价位段 tab，初始化图表
             if (id === 'district-price' && !window.priceRangeInit) {
@@ -2044,6 +2059,7 @@
             initCharts();
             initTables();
             initMap();
+            requestAnimationFrame(() => initRentHistoryChart());
             initTooltips();
             if (typeof initLondonStyleTemplateCharts === 'function') {
                 initLondonStyleTemplateCharts();
@@ -2051,7 +2067,7 @@
             calculateHoldingCost();
             calculateTKCost();
             calculateROI();
-            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.4');
+            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.5');
         });
     </script>
 
