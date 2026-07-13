@@ -123,7 +123,7 @@
             <div>
                 <h1>🗼 东京房产数据看板</h1>
                 <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（REINS 月度硬数据最新公开至 2026 年 6 月）</div>
-                <div class="data-version">版本：v2.6 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
+                <div class="data-version">版本：v2.7 | 最后更新：2026-07-13 | 数据来源：REINS，国土交通省，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -341,10 +341,10 @@
 
             <!-- 租金历史趋势图表 -->
             <div class="card" style="margin-top:20px">
-                <h4>都心 5 区租金走势（近 12 个月） <span class="data-source-tag">SUUMO</span><span class="data-reliability A">A 级</span></h4>
+                <h4>都心 5 区租金样本走势（2025.07-2026.06） <span class="data-source-tag">平台挂牌样本</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container large"><canvas id="rentHistoryChart"></canvas></div>
                 <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                    📌 都心 5 区租金连涨 12 个月，港区领涨（+10% YoY），涩谷/新宿因再开发项目租金上涨明显
+                    📌 6 月为最新样本月；该图使用挂牌样本口径观察区域方向，不是官方月度租金指数。不同平台、户型与面积结构会造成月度波动，不能解读为五区同步上涨。
                 </div>
             </div>
         </div>
@@ -418,7 +418,7 @@
         <!-- 租金走势 -->
         <div id="district-rent" class="tab-content">
             <div class="card">
-                <h4>东京各区域租金走势（近 12 个月） <span class="data-source-tag">SUUMO</span><span class="data-reliability A">A 级</span></h4>
+                <h4>东京各区域租金样本走势（2025.07-2026.06） <span class="data-source-tag">平台挂牌样本</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container" style="height:400px"><canvas id="rentTrendChart"></canvas></div>
             </div>
             <div class="grid-2" style="margin-top:20px">
@@ -1223,22 +1223,20 @@
             {name: '文京区', avgPrice: 9.5, rentPrice: 34, rentalYield: 3.6, lat: 35.7081, lng: 139.7517, change: '+3.2%'}
         ];
 
-        // 东京各区域租金历史数据（近 12 个月，单位：万日元/月）
+        // 东京各区域租金历史数据（挂牌样本，单位：万日元/月；非官方月度租金指数）
         const tkRentHistory = [
-            {month: '2025-04', chiyoda: 48, chuo: 44, minato: 50, shinjuku: 35, shibuya: 42},
-            {month: '2025-05', chiyoda: 49, chuo: 45, minato: 51, shinjuku: 35, shibuya: 43},
-            {month: '2025-06', chiyoda: 49, chuo: 45, minato: 52, shinjuku: 36, shibuya: 43},
-            {month: '2025-07', chiyoda: 50, chuo: 46, minato: 53, shinjuku: 36, shibuya: 44},
-            {month: '2025-08', chiyoda: 50, chuo: 46, minato: 53, shinjuku: 37, shibuya: 44},
-            {month: '2025-09', chiyoda: 51, chuo: 47, minato: 54, shinjuku: 37, shibuya: 45},
-            {month: '2025-10', chiyoda: 51, chuo: 47, minato: 54, shinjuku: 37, shibuya: 45},
-            {month: '2025-11', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-            {month: '2025-12', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-            {month: '2026-01', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-            {month: '2026-02', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-            {month: '2026-03', chiyoda: 52, chuo: 48, minato: 55, shinjuku: 38, shibuya: 45},
-                {month: '2026-04', chiyoda: 53, chuo: 49, minato: 56, shinjuku: 39, shibuya: 46},
-                {month: '2026-05', chiyoda: 54, chuo: 50, minato: 57, shinjuku: 40, shibuya: 47}
+            {month: '2025-07', chiyoda: 50.0, chuo: 47.0, minato: 53.0, shinjuku: 37.0, shibuya: 44.0},
+            {month: '2025-08', chiyoda: 49.5, chuo: 47.0, minato: 54.0, shinjuku: 37.5, shibuya: 43.5},
+            {month: '2025-09', chiyoda: 50.0, chuo: 46.5, minato: 54.5, shinjuku: 37.2, shibuya: 44.0},
+            {month: '2025-10', chiyoda: 51.0, chuo: 47.0, minato: 54.0, shinjuku: 37.5, shibuya: 44.5},
+            {month: '2025-11', chiyoda: 52.0, chuo: 48.0, minato: 55.5, shinjuku: 38.0, shibuya: 44.0},
+            {month: '2025-12', chiyoda: 51.5, chuo: 48.5, minato: 55.0, shinjuku: 37.8, shibuya: 45.0},
+            {month: '2026-01', chiyoda: 52.0, chuo: 48.0, minato: 55.0, shinjuku: 38.2, shibuya: 44.5},
+            {month: '2026-02', chiyoda: 51.0, chuo: 47.5, minato: 54.5, shinjuku: 37.5, shibuya: 45.2},
+            {month: '2026-03', chiyoda: 52.0, chuo: 48.0, minato: 55.0, shinjuku: 38.0, shibuya: 45.0},
+            {month: '2026-04', chiyoda: 53.0, chuo: 49.0, minato: 56.0, shinjuku: 39.0, shibuya: 46.0},
+            {month: '2026-05', chiyoda: 52.5, chuo: 48.5, minato: 56.5, shinjuku: 39.5, shibuya: 45.5},
+            {month: '2026-06', chiyoda: 52.0, chuo: 48.0, minato: 55.0, shinjuku: 38.0, shibuya: 45.0}
         ];
 
         const tkMonthlyData = [
@@ -1598,30 +1596,36 @@
             window.rentTrendChartInstance = new Chart(rentTrendCanvas, {
                 type: 'line',
                 data: {
-                    labels: ['2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05'],
+                    labels: tkRentHistory.map(d => d.month),
                     datasets: [
                         {
                             label: '港区',
-                            data: [28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5],
+                            data: tkRentHistory.map(d => d.minato),
                             borderColor: '#bc002d',
                             tension: 0.3
                         },
                         {
                             label: '涩谷区',
-                            data: [24, 24.3, 24.6, 25, 25.3, 25.6, 26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3],
+                            data: tkRentHistory.map(d => d.shibuya),
                             borderColor: '#2c5282',
                             tension: 0.3
                         },
                         {
                             label: '新宿区',
-                            data: [20, 20.2, 20.4, 20.6, 20.8, 21, 21.2, 21.4, 21.6, 21.8, 22, 22.2, 22.4, 22.6],
+                            data: tkRentHistory.map(d => d.shinjuku),
                             borderColor: '#38a169',
                             tension: 0.3
                         },
                         {
                             label: '千代田区',
-                            data: [26, 26.3, 26.6, 27, 27.3, 27.6, 28, 28.3, 28.6, 29, 29.3, 29.6, 30, 30.3],
+                            data: tkRentHistory.map(d => d.chiyoda),
                             borderColor: '#d69e2e',
+                            tension: 0.3
+                        },
+                        {
+                            label: '中央区',
+                            data: tkRentHistory.map(d => d.chuo),
+                            borderColor: '#805ad5',
                             tension: 0.3
                         }
                     ]
@@ -2129,7 +2133,7 @@
             safeInit('持有成本计算器', calculateHoldingCost);
             safeInit('东京成本计算器', calculateTKCost);
             safeInit('ROI 计算器', calculateROI);
-            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.6');
+            console.log('🗼 东京房产数据看板加载完成 | 版本：v2.7');
         });
     </script>
 
