@@ -108,8 +108,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🌴 洛杉矶房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 6.83 CNY | 数据更新至 2026 年 5 月</div>
-                <div class="data-version">版本：v1.1 | 最后更新：2026-05-14 | 数据来源：CRMLS、Zillow、Redfin、California Association of Realtors、NAR</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 6.78 CNY | 数据更新至 2026 年 7 月 13 日（最新公开口径）</div>
+                <div class="data-version">版本：v1.2 | 最后更新：2026-07-13 | 数据来源：CRMLS、Zillow、Redfin、California Association of Realtors、NAR、ATTOM、WSJ/MarketWatch 市场补充</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -120,8 +120,8 @@
     </div>
 
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal green">✅</span> 总体结论：西洛杉矶和尔湾领涨，华人买家偏好稳定，科技就业支撑房市 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2025 年洛杉矶县成交 68,500 户（+10% YoY），中位房价$85 万美元（人民币约¥616 万）。西洛杉矶、尔湾、圣马力诺最稳定，华人区学区房驱动明显。2026 年世界杯 + 降息预期支撑市场。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：成交低位分化，优质学区与华人社区相对稳健 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>2026 年中美国住宅销售整体降温，洛杉矶县工资增速阶段性跑赢房价，但高端市场仍受 ULA、保险、山火/地震风险和高利率压制。西洛杉矶、尔湾、圣马力诺和优质学区房韧性更强，投资判断需先做保险和持有成本压力测试。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -141,13 +141,13 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
-                    <div class="value">2026 预测 +3~5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">世界杯 + 降息双重利好</div>
+                    <div class="value">2026 预测 -1~+2%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">销售降温，核心区相对抗跌</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">USD/CNY 6.83 (+1.2% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">美元强势，利好海外买家</div>
+                    <div class="value">USD/CNY 6.78</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">按 2026-07-13 汇率重算人民币成本</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -176,7 +176,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 洛杉矶房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2025 年洛杉矶县成交 68,500 户（+10% YoY），成交额约$585 亿美元（人民币约¥4,219 亿元）。2026 年 2 月中位房价$812,950（人民币约¥589 万），同比 +0.6%。西洛杉矶、尔湾、圣马力诺最稳定。数据来源：CRMLS、Zillow（A 级）。
+            <strong>小结论：</strong>2025 年洛杉矶县成交 68,500 户（+10% YoY），成交额约$585 亿美元（人民币约¥3,966 亿元，按 2026-07-13 汇率）。2026 年中美国整体销售降温，洛杉矶县工资增速阶段性跑赢房价，但高端市场仍受 ULA、保险、山火/地震风险和高利率压制；西洛杉矶、尔湾、圣马力诺相对稳定。数据来源：CRMLS、Zillow、CAR、NAR、ATTOM（A/B 级）。
         </div>
 
         <div class="metric-grid">
@@ -185,15 +185,15 @@
                 <div class="stat-label">成交量（户）</div>
                 <div class="stat-change up">↑ 同比 +10%</div>
             </div>
-            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年洛杉矶县成交额约$585 亿美元（人民币约¥4,219 亿元）。" data-source="California CAR | A 级">
-                <div class="stat-value">¥4,219 亿</div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年洛杉矶县成交额约$585 亿美元（人民币约¥3,966 亿元），按 2026-07-13 USD/CNY 6.78 折算。" data-source="California CAR | A 级">
+                <div class="stat-value">¥3,966 亿</div>
                 <div class="stat-label">成交额</div>
                 <div class="stat-change up">↑ 同比 +12%</div>
             </div>
-            <div class="card stat-card" data-title="洛杉矶中位房价" data-content="2026 年 2 月洛杉矶县中位房价$812,950（人民币约¥589 万），同比 +0.6%。" data-source="Zillow | A 级">
-                <div class="stat-value">¥589 万</div>
+            <div class="card stat-card" data-title="洛杉矶中位房价" data-content="2026 年春夏洛杉矶县价格低位分化，上一硬口径中位价约$812,950（人民币约¥551 万），人民币按 2026-07-13 USD/CNY 6.78 折算。" data-source="Zillow / ATTOM | A/B 级">
+                <div class="stat-value">¥551 万</div>
                 <div class="stat-label">中位房价</div>
-                <div class="stat-change up">↑ 同比 +0.6%</div>
+                <div class="stat-change stable">→ 低位分化</div>
             </div>
             <div class="card stat-card" data-title="租金收益率" data-content="洛杉矶租金收益率约 4.5%，租赁需求强劲，空置率 3.2%。" data-source="Zillow | A 级">
                 <div class="stat-value">4.5%</div>
@@ -203,12 +203,12 @@
         </div>
         <div class="metric-grid" style="margin-top:16px">
             <div class="card stat-card" data-title="万/平方米单价" data-content="洛杉矶平均房价密度约$6,800/㎡（人民币约 4.9 万/㎡），西洛杉矶/圣莫尼卡达$11,000-16,000/㎡。" data-source="Redfin | A 级">
-                <div class="stat-value">¥6.8 万</div>
+                <div class="stat-value">¥6.6 万</div>
                 <div class="stat-label">万/平方米</div>
                 <div class="stat-change up">↑ 同比 +5%</div>
             </div>
-            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，洛杉矶套均总价约$85 万（人民币约¥616 万）。" data-source="CRMLS, 计算 | A 级">
-                <div class="stat-value">¥616 万</div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，洛杉矶套均总价约$85 万（人民币约¥576 万）。" data-source="CRMLS, 计算 | A 级">
+                <div class="stat-value">¥576 万</div>
                 <div class="stat-label">套均总价</div>
                 <div class="stat-change up">↑ 同比 +3%</div>
             </div>
@@ -234,11 +234,11 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#2c5282"></span><strong>2012:</strong> 市场触底反弹，外资涌入</div>
                     <div class="data-legend-item"><span class="legend-color" style="background:#38a169"></span><strong>2020-2021:</strong> 疫情初期市场冻结，随后反弹创新高</div>
                     <div class="data-legend-item"><span class="legend-color" style="background:#d69e2e"></span><strong>2024:</strong> 美联储降息预期，市场回暖</div>
-                    <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 世界杯 + 降息，豪宅市场领涨</div>
+                    <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 利率、保险和 ULA 压制流动性，优质学区与华人社区相对稳健</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.05)" data-content="2026 年 Q1 成交 18,500 户（+12% YoY），成交额$158 亿。" data-source="CRMLS | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.05) <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.06，最新月待 MLS 完整披露)" data-content="2026 年 Q1 成交 18,500 户（+12% YoY），成交额$158 亿；6月美国整体成屋销售降温，洛杉矶高端市场继续分化。" data-source="CRMLS / NAR | A/B 级">
+                <h4>月度成交量与成交额 (2025.01-2026.06，最新月待 MLS 披露) <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -260,7 +260,7 @@
         </div>
 
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分独立别墅/Condo）" data-content="洛杉矶月度独立别墅（SFR）和 Condo 成交量、成交价。SFR 占 55%，Condo 占 30%。" data-source="CRMLS | A 级">
-            <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025.01-2026.06，最新月待 MLS 披露) <span class="data-source-tag">CRMLS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
@@ -597,7 +597,7 @@
     <div id="agency" class="section">
         <h2 class="section-title">📑 专业机构观点</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>洛杉矶机构观点按伦敦式结构重做：先看可展开机构卡片，再看汇总表。共识是 2026 年成交有温和修复空间，但保险、利率、ULA 和可负担性会继续造成区域分化；尔湾、西洛杉矶、圣盖博谷和优质学区房韧性更强。
+            <strong>小结论：</strong>洛杉矶机构观点按伦敦式结构重做：先看可展开机构卡片，再看汇总表。2026 年中共识转向更谨慎：成交可能温和修复，但高利率、ULA、保险和可负担性继续造成区域分化；尔湾、西洛杉矶、圣盖博谷和优质学区房韧性更强。
         </div>
 
         <div class="agency-card" onclick="this.classList.toggle('expanded')"><div class="agency-header"><div><div class="agency-name">🏠 California Association of Realtors (CAR)</div><div class="agency-date">2026 年展望 | 加州住宅市场</div></div><span class="agency-rating positive">温和复苏</span></div><div class="agency-detail"><strong>核心观点：</strong>利率回落预期有助释放改善型需求，但可负担性仍是加州最大约束。<br><br><strong>关键论据：</strong><br>• 南加州买家对月供和保险成本更敏感<br>• 成交恢复会先体现在中高收入社区和学区房<br>• 库存改善后买家议价能力略有提升<br><br><strong>投资建议：</strong>优先看就业、学区和租赁需求都稳定的区域。</div></div>
@@ -624,10 +624,10 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 美元汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 6.83。美元 2023-2026 年小幅升值约 1.2%，对中国买家的成本影响较温和。美联储降息预期下，汇率或继续波动。
+            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前约 6.78（2026 年 7 月 13 日）。美元资产的人民币成本较上一版小幅下降，但洛杉矶净收益更受保险、税费、贷款利率和退出成本影响。
         </div>
 
-        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 7 月 USD/CNY 汇率走势。" data-source="Exchangerate API / Yahoo Finance | B 级">
             <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">

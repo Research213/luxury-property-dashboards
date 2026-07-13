@@ -122,8 +122,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗼 东京房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0435 CNY | 数据更新至 2026 年 5 月</div>
-                <div class="data-version">版本：v2.1 | 最后更新：2026-05-14 | 数据来源：国土交通省，REINS，东日本不动产流通机构，日本经济新闻</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 JPY ≈ 0.0418 CNY | 页面更新至 2026 年 7 月 13 日（市场硬数据最新公开口径为 2026 年 5 月）</div>
+                <div class="data-version">版本：v2.2 | 最后更新：2026-07-13 | 数据来源：国土交通省，REINS，东日本不动产流通机构，日本经济新闻，Exchangerate API</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -135,7 +135,7 @@
 
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
         <h3><span class="signal yellow">⚠️</span> 总体结论：都心 6 区 37 个月来首次下跌，市场进入高位盘整期，供应萎缩支撑价格 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2026 年 5 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），成本端刚性约束下市场呈紧平衡。</p>
+        <p>东京最新可引用的公开硬数据仍以 2026 年 5 月为主：东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑；东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。截至 2026-07-13，7 月更高频官方成交数据待发布，因此本页只更新汇率和人民币折算，不补写未公开成交数。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -160,8 +160,8 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">JPY/CNY 0.0435 (-16% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">日元贬值 15%，利好海外买家</div>
+                    <div class="value">JPY/CNY 0.0418</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">按 2026-07-13 汇率重算人民币成本</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -190,7 +190,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 东京房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2026 年 5 月东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑。东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），市场进入高位盘整期。数据来源：国土交通省、REINS、日本经济新闻（A 级）。
+            <strong>小结论：</strong>最新公开硬数据仍为 2026 年 5 月：东京都心 6 区二手公寓价格环比下跌 0.2%，为 37 个月来首次下滑；东京 23 区新建公寓均价 1.138 亿日元（+27% YoY），首都圈均价 9,418 万日元（+20.4%）。2026 年供应量预计降至 2.3 万户（-12%），市场进入高位盘整期。人民币口径按 2026-07-13 JPY/CNY 0.0418 重算。数据来源：国土交通省、REINS、日本经济新闻、Exchangerate API（A/B 级）。
         </div>
 
         <div class="metric-grid">
@@ -199,13 +199,13 @@
                 <div class="stat-label">成交量（户）</div>
                 <div class="stat-change up">↑ 同比 +12%</div>
             </div>
-            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年首都圈新建公寓成交额约¥2.8 兆日元（人民币约¥1,344 亿元）。" data-source="国土交通省 | A 级">
-                <div class="stat-value">¥1,344 亿</div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年首都圈新建公寓成交额约 2.8 兆日元；按 2026-07-13 JPY/CNY 0.0418 重算，人民币约¥1,172 亿元。" data-source="国土交通省, Exchangerate API | A/B 级">
+                <div class="stat-value">¥1,172 亿</div>
                 <div class="stat-label">成交额</div>
                 <div class="stat-change up">↑ 同比 +15%</div>
             </div>
-            <div class="card stat-card" data-title="东京平均房价" data-content="2025 年首都圈新建公寓均价 9,418 万日元（人民币约¥452 万），东京 23 区约 1.138 亿日元（+27% YoY）。" data-source="国土交通省 | A 级">
-                <div class="stat-value">¥452 万</div>
+            <div class="card stat-card" data-title="东京平均房价" data-content="2025 年首都圈新建公寓均价 9,418 万日元（按 0.0418 折合约¥394 万），东京 23 区约 1.138 亿日元（约¥476 万，+27% YoY）。" data-source="国土交通省, Exchangerate API | A/B 级">
+                <div class="stat-value">¥394 万</div>
                 <div class="stat-label">平均房价</div>
                 <div class="stat-change up">↑ 同比 +20.4%</div>
             </div>
@@ -216,13 +216,13 @@
             </div>
         </div>
         <div class="metric-grid" style="margin-top:16px">
-            <div class="card stat-card" data-title="万/平方米单价" data-content="东京都心 6 区公寓挂牌均价 334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约 255 万日元/㎡。" data-source="东日本不动产流通机构 | A 级">
-                <div class="stat-value">¥14.5 万</div>
+            <div class="card stat-card" data-title="万/平方米单价" data-content="东京都心 6 区公寓挂牌均价约 334 万日元/㎡（按 0.0418 折合约¥14.0 万/㎡），实际成交约 255 万日元/㎡。" data-source="东日本不动产流通机构, Exchangerate API | A/B 级">
+                <div class="stat-value">¥14.0 万</div>
                 <div class="stat-label">万/平方米</div>
                 <div class="stat-change down">↓ 3 月环比 -0.2%</div>
             </div>
-            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，东京 23 区套均总价约 1.138 亿日元（人民币约¥546 万）。" data-source="REINS, 计算 | A 级">
-                <div class="stat-value">¥546 万</div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，东京 23 区套均总价约 1.138 亿日元（按 0.0418 折合约¥476 万）。" data-source="REINS, Exchangerate API, 计算 | A/B 级">
+                <div class="stat-value">¥476 万</div>
                 <div class="stat-label">套均总价</div>
                 <div class="stat-change up">↑ 同比 +27%</div>
             </div>
@@ -251,8 +251,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 公示地价连涨 5 年，东京领涨全国</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.03)" data-content="2025 年 5 月首都圈中古公寓成交 3,841 户，市场持续活跃。" data-source="REINS | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.05) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.06，最新官方月报待确认)" data-content="2026 年 5 月为本页最新可引用硬数据；6-7 月官方月报待确认。" data-source="REINS | A 级">
+                <h4>月度成交量与成交额 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -265,7 +265,7 @@
                         <tr><th>年份</th><th>2008</th><th>2009</th><th>2010</th><th>2011</th><th>2012</th><th>2013</th><th>2014</th><th>2015</th><th>2016</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>单价 (万/㎡)</td><td>8.5</td><td>8.2</td><td>8.5</td><td>8.8</td><td>9.2</td><td>9.8</td><td>10.2</td><td>10.5</td><td>10.8</td><td>11.2</td><td>11.5</td><td>11.8</td><td>12.2</td><td>12.8</td><td>13.2</td><td>13.8</td><td>14.2</td><td>14.5</td></tr>
+                        <tr><td>单价 (万/㎡)</td><td>8.5</td><td>8.2</td><td>8.5</td><td>8.8</td><td>9.2</td><td>9.8</td><td>10.2</td><td>10.5</td><td>10.8</td><td>11.2</td><td>11.5</td><td>11.8</td><td>12.2</td><td>12.8</td><td>13.2</td><td>13.8</td><td>14.2</td><td>14.0</td></tr>
                         <tr><td>同比</td><td>-</td><td>-4%</td><td>+4%</td><td>+4%</td><td>+5%</td><td>+7%</td><td>+4%</td><td>+3%</td><td>+3%</td><td>+4%</td><td>+3%</td><td>+3%</td><td>+3%</td><td>+5%</td><td>+3%</td><td>+5%</td><td>+3%</td><td>+2%</td></tr>
                     </tbody>
                 </table>
@@ -274,7 +274,7 @@
         </div>
 
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分新建/中古）" data-content="东京月度新建和中古公寓成交量、成交价。新建占比 30%，中古占比 70%。" data-source="REINS | A 级">
-            <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">REINS</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
@@ -296,7 +296,7 @@
     <div id="district" class="section">
         <h2 class="section-title">🗺️ 东京都心 5 区分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>东京都心 5 区（千代田、中央、港、新宿、涩谷）房价领涨。港区/千代田/中央区公寓挂牌均价¥334 万日元/㎡（人民币约¥14.5 万/㎡），实际成交约¥255 万日元/㎡（人民币约¥11 万/㎡）。涩谷区因再开发项目热度高，新宿区商业枢纽地位稳固。
+            <strong>小结论：</strong>东京都心 5 区（千代田、中央、港、新宿、涩谷）房价领涨。港区/千代田/中央区公寓挂牌均价¥334 万日元/㎡（按 2026-07-13 汇率折合人民币约¥14.0 万/㎡），实际成交约¥255 万日元/㎡（人民币约¥10.7 万/㎡）。涩谷区因再开发项目热度高，新宿区商业枢纽地位稳固。
         </div>
 
         <!-- 子标签 -->
@@ -472,18 +472,18 @@
         </div>
 
         <div class="grid-2" style="margin-top:20px">
-            <div class="card" data-title="产品类型成交量趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交量趋势。" data-source="REINS / 国土交通省 | A 级">
-                <h4>产品类型成交量趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div class="card" data-title="产品类型成交量趋势" data-content="按页面既有趋势口径展示主要产品类型月度成交量；6-7 月官方月报待确认。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交量趋势 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypeVolumeTrendChart"></canvas></div>
             </div>
-            <div class="card" data-title="产品类型成交均价趋势" data-content="按伦敦模板补齐：展示主要产品类型的月度成交均价趋势。" data-source="REINS / 国土交通省 | A 级">
-                <h4>产品类型成交均价趋势 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+            <div class="card" data-title="产品类型成交均价趋势" data-content="按页面既有趋势口径展示主要产品类型月度成交均价；6-7 月官方月报待确认。" data-source="REINS / 国土交通省 | A 级">
+                <h4>产品类型成交均价趋势 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container"><canvas id="propertyTypePriceTrendChart"></canvas></div>
             </div>
         </div>
 
-        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价，按伦敦模板补齐。" data-source="REINS / 国土交通省 | A 级">
-            <h4>产品类型详细数据表 (2025.01-2026.05) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
+        <div class="card" style="margin-top:20px" data-title="产品类型详细数据表" data-content="主要产品类型月度成交量和成交均价；最新月官方明细待确认。" data-source="REINS / 国土交通省 | A 级">
+            <h4>产品类型详细数据表 (2025.01-2026.06，最新月待确认) <span class="data-source-tag">机构/MLS</span><span class="data-reliability B">B 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="propertyTypeTable">
                     <thead><tr><th>月份</th><th>产品类型</th><th>成交量</th><th>成交均价</th><th>环比变化</th></tr></thead>
@@ -530,7 +530,7 @@
                 <div><label>持有年限 (年)</label><input type="number" id="roiYears" value="5" min="1" max="30" onchange="calculateROI()"></div>
                 <div><label>年租金回报率 (%)</label><input type="number" id="roiRentalYield" value="3.5" step="0.1" onchange="calculateROI()"></div>
                 <div><label>年房价增长率 (%)</label><input type="number" id="roiAppreciation" value="2" step="0.1" onchange="calculateROI()"></div>
-                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.0435" step="0.0001" onchange="calculateROI()"></div>
+                <div><label>日元汇率 (CNY/JPY)</label><input type="number" id="roiExchangeRate" value="0.0418" step="0.0001" onchange="calculateROI()"></div>
             </div>
             <div class="cost-result" style="grid-template-columns:repeat(5,1fr)">
                 <div class="item"><div class="label">首付投入 (RMB)</div><div class="value" id="roiDownPaymentAmt">¥138 万</div></div>
@@ -564,7 +564,7 @@
                 </tbody>
             </table>
             <div style="margin-top:12px;font-size:13px;color:var(--text-light)">
-                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.0435。实际收益受市场波动影响。
+                <strong>注：</strong>计算基于房价¥6,000 万日元、首付 40%、年租金回报率 3.5%、年房价增长率 2%、汇率 0.0418。实际收益受市场波动影响。
             </div>
         </div>
 
@@ -594,7 +594,7 @@
     <div id="china" class="section">
         <h2 class="section-title">🇨🇳 中国买家分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>中国买家在东京占比约 0.7%（占全市场），但在外国买家中占比约 20%。偏好区域：港区（30%）、涩谷区（20%）、千代田区（15%）。预算集中在¥3,000-6,000 万日元（55%），全款比例 52%。日元贬值 15% 利好海外买家。
+            <strong>小结论：</strong>中国买家在东京占比约 0.7%（占全市场），但在外国买家中占比约 20%。偏好区域：港区（30%）、涩谷区（20%）、千代田区（15%）。预算集中在¥3,000-6,000 万日元（55%），全款比例 52%。日元较 2023 年初贬值约 19%，利好海外买家。
         </div>
 
         <div class="grid-2">
@@ -919,11 +919,11 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 日元汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.043-0.052 区间波动，当前 0.0435。日元 2023-2026 年贬值约 16%，利好海外买家。央行维持低利率，汇率或持续低位。
+            <strong>小结论：</strong>日元采用浮动汇率制，JPY/CNY 在 0.0418-0.052 区间波动，2026-07-13 基准约 0.0418。日元较 2023 年初继续处于低位，降低海外买家人民币入场成本，但后续受日本央行政策与美元周期影响仍可能波动。
         </div>
 
-        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 JPY/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
-            <h4>JPY/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
+        <div class="card" data-title="日元汇率历史走势" data-content="2023 年 1 月至 2026 年 7 月 JPY/CNY 汇率走势，最新点采用 2026-07-13 公开汇率。" data-source="Exchangerate API / Yahoo Finance | B 级">
+            <h4>JPY/CNY 汇率走势 (2023.01-2026.07) <span class="data-source-tag">Exchangerate API</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">
                 <h5>📊 JPY/CNY 关键时点详解</h5>
@@ -934,7 +934,7 @@
                 <div class="data-legend-item"><strong>2025.03:</strong> 0.0484 - 日元阶段企稳</div>
                 <div class="data-legend-item"><strong>2025.09:</strong> 0.0481 - 区间震荡</div>
                 <div class="data-legend-item"><strong>2026.01:</strong> 0.0454 - 年初回落</div>
-                <div class="data-legend-item"><strong>2026.04:</strong> 0.0435（当前） - 较 2023 年 1 月贬值约 16%</div>
+                <div class="data-legend-item"><strong>2026.07:</strong> 0.0418（当前） - 较 2023 年 1 月贬值约 19%</div>
             </div>
         </div>
 
@@ -942,16 +942,16 @@
             <h4>汇率对购房成本影响测算</h4>
             <table class="data-table">
                 <thead>
-                    <tr><th>房产总价</th><th>2023 年汇率 (0.052)</th><th>当前汇率 (0.0435)</th><th>节省成本</th></tr>
+                    <tr><th>房产总价</th><th>2023 年汇率 (0.052)</th><th>当前汇率 (0.0418)</th><th>节省成本</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>¥3,000 万日元</td><td>¥156 万</td><td>¥131 万</td><td style="color:var(--success)">¥25 万</td></tr>
-                    <tr><td>¥6,000 万日元</td><td>¥312 万</td><td>¥261 万</td><td style="color:var(--success)">¥51 万</td></tr>
-                    <tr><td>¥1 亿日元</td><td>¥520 万</td><td>¥435 万</td><td style="color:var(--success)">¥85 万</td></tr>
+                    <tr><td>¥3,000 万日元</td><td>¥156 万</td><td>¥125 万</td><td style="color:var(--success)">¥31 万</td></tr>
+                    <tr><td>¥6,000 万日元</td><td>¥312 万</td><td>¥251 万</td><td style="color:var(--success)">¥61 万</td></tr>
+                    <tr><td>¥1 亿日元</td><td>¥520 万</td><td>¥418 万</td><td style="color:var(--success)">¥102 万</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:16px;padding:12px;background:#f0fff4;border-radius:8px;font-size:13px">
-                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 16%，中国买家购房成本降低。相比伦敦（英镑 +12%）、香港（港币 -6%），日元贬值幅度最大。建议把握低汇率窗口期。
+                <strong>💡 关键洞察：</strong> 2023-2026 年日元贬值约 19%，中国买家购房成本降低。相比英镑和港币，日元低位更明显，但低汇率不应替代房源基本面和退出流动性判断。
             </div>
         </div>
     </div>
@@ -981,7 +981,7 @@
         <div class="card" style="margin-top:20px">
             <h4>不同价位持有成本对比（2026 年数据）</h4>
             <table class="data-table" id="holdingCostTable"><thead><tr><th>价位</th><th>月供</th><th>税费/管理</th><th>修缮/保险</th><th>总支出/月</th><th>月租金</th><th>净现金流/月</th><th>租金覆盖</th></tr></thead><tbody></tbody></table>
-            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>日元输入按 1 JPY = 0.0435 CNY 折算；月供按 35 年等额本息估算；税费/管理包含固定资产税、都市计划税、管理费；修缮/保险包含修缮积立金、火灾保险、5% 空置和 5% 管理费，不含所得税和大规模修缮临时征收。</div>
+            <div style="margin-top:12px;font-size:13px;color:var(--text-light)"><strong>计算口径：</strong>日元输入按 1 JPY = 0.0418 CNY 折算；月供按 35 年等额本息估算；税费/管理包含固定资产税、都市计划税、管理费；修缮/保险包含修缮积立金、火灾保险、5% 空置和 5% 管理费，不含所得税和大规模修缮临时征收。</div>
         </div>
     </div>
 
@@ -989,41 +989,41 @@
     <div id="global" class="section">
         <h2 class="section-title">🌍 全球热门城市对比</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>东京房价相对较低（¥4.8 万/㎡），政策最友好（无限购无税费）；伦敦教育资源第一；纽约房价最高（¥11.5 万/㎡）；香港税负最低；悉尼租金收益率最高（4.7%）。
+            <strong>小结论：</strong>东京核心区房价约 ¥14.0 万/㎡，已接近香港高端区间，优势主要来自低汇率、政策友好和持有税负较低；但租金收益率偏低，短期高位盘整风险需纳入买入折扣。
         </div>
 
         <div class="city-comparison">
             <div class="city-card" data-title="东京" data-content="政策最友好，无房产增值税。优势：低税率、治安好、日元贬值。劣势：租金收益率低、地震风险。" data-source="国土交通省 | A 级">
                 <div class="city-name">🇯🇵 东京</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥4.8 万</div></div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.0 万</div></div>
                 <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.5%</div></div>
                 <div class="city-metric"><div class="label">教育</div><div class="value">8.0</div></div>
                 <div class="city-metric"><div class="label">政策</div><div class="value">9.0</div></div>
             </div>
             <div class="city-card" data-title="伦敦" data-content="全球教育资源第一，租金收益率 4-5%。优势：教育、文化、金融中心。劣势：税负重、房价高。" data-source="Savills | B 级">
                 <div class="city-name">🇬🇧 伦敦</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.0 万</div></div>
                 <div class="city-metric"><div class="label">租金收益率</div><div class="value">5.0%</div></div>
                 <div class="city-metric"><div class="label">教育</div><div class="value">9.2</div></div>
                 <div class="city-metric"><div class="label">政策</div><div class="value">7.0</div></div>
             </div>
             <div class="city-card" data-title="香港" data-content="全球房价最高，税负最低。优势：低税、华人社会、金融中心。劣势：房价极高、政治风险。" data-source="中原物业 | B 级">
                 <div class="city-name">🇭🇰 香港</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.5 万</div></div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥14.4 万</div></div>
                 <div class="city-metric"><div class="label">租金收益率</div><div class="value">3.4%</div></div>
                 <div class="city-metric"><div class="label">教育</div><div class="value">8.5</div></div>
                 <div class="city-metric"><div class="label">政策</div><div class="value">8.0</div></div>
             </div>
             <div class="city-card" data-title="纽约" data-content="全球金融中心，房价最高，税负重。优势：金融、就业、流动性。劣势：房产税高、政策复杂。" data-source="Zillow | B 级">
                 <div class="city-name">🇺🇸 纽约</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥11.5 万</div></div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥13.0 万</div></div>
                 <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.0%</div></div>
                 <div class="city-metric"><div class="label">教育</div><div class="value">8.8</div></div>
                 <div class="city-metric"><div class="label">政策</div><div class="value">6.5</div></div>
             </div>
             <div class="city-card" data-title="洛杉矶" data-content="加州最大城市，租金收益率较好。优势：气候、科技产业、华人社区。劣势：地震风险、房产税。" data-source="Zillow | B 级">
                 <div class="city-name">🇺🇸 洛杉矶</div>
-                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.8 万</div></div>
+                <div class="city-metric"><div class="label">房价 (¥/㎡)</div><div class="value">¥6.6 万</div></div>
                 <div class="city-metric"><div class="label">租金收益率</div><div class="value">4.5%</div></div>
                 <div class="city-metric"><div class="label">教育</div><div class="value">7.5</div></div>
                 <div class="city-metric"><div class="label">政策</div><div class="value">6.0</div></div>
@@ -1175,7 +1175,7 @@
     </div>
 
     <script>
-        const EXCHANGE_RATE = 0.0435;
+        const EXCHANGE_RATE = 0.0418;
 
         // 东京历史数据
         const tkData = {
@@ -1275,7 +1275,8 @@
             {month: '2025-12', jpyCny: 0.0447},
             {month: '2026-01', jpyCny: 0.0454},
             {month: '2026-03', jpyCny: 0.0435},
-            {month: '2026-04', jpyCny: 0.0435}
+            {month: '2026-04', jpyCny: 0.0435},
+            {month: '2026-07', jpyCny: 0.0418}
         ];
 
         let tooltipEl = null;
@@ -1620,7 +1621,8 @@
         }
 
         function initTables() {
-            document.querySelector('#monthlyTable tbody').innerHTML = tkMonthlyData.map(d => `
+            const monthlyBody = document.querySelector('#monthlyTable tbody');
+            if (monthlyBody) monthlyBody.innerHTML = tkMonthlyData.map(d => `
                 <tr>
                     <td>${d.month}</td>
                     <td>${d.newVol}</td>
@@ -1632,7 +1634,8 @@
 
             // 按房价排序显示区域
             const sortedDistricts = [...tkDistricts].sort((a, b) => b.avgPrice - a.avgPrice);
-            document.querySelector('#districtTable tbody').innerHTML = sortedDistricts.map(d => `
+            const districtBody = document.querySelector('#districtTable tbody') || document.querySelector('#districtTable');
+            if (districtBody) districtBody.innerHTML = sortedDistricts.map(d => `
                 <tr>
                     <td><strong>${d.name}</strong></td>
                     <td>¥${d.avgPrice}万</td>
@@ -1709,7 +1712,7 @@
             const type = document.getElementById('holdingPropertyType')?.value || 'mansion';
             const size = parseFloat(document.getElementById('holdingSize')?.value) || 55;
             const rentManJpy = parseFloat(document.getElementById('holdingRent')?.value) || 22;
-            const exchangeRate = 0.0435;
+            const exchangeRate = 0.0418;
             const priceCny = price * 10000 * exchangeRate;
             const rentCny = rentManJpy * 10000 * exchangeRate;
             const loanPrincipal = priceCny * loanRatio / 100;
@@ -1828,7 +1831,7 @@
             const years = parseFloat(document.getElementById('roiYears').value) || 5;
             const rentalYield = parseFloat(document.getElementById('roiRentalYield').value) || 3.5;
             const appreciation = parseFloat(document.getElementById('roiAppreciation').value) || 2;
-            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.0435;
+            const exchangeRate = parseFloat(document.getElementById('roiExchangeRate').value) || 0.0418;
 
             // 转为人民币
             const priceCNY = price * 10000 * exchangeRate;
@@ -1935,7 +1938,9 @@
             initTables();
             initMap();
             initTooltips();
-            initLondonStyleTemplateCharts();
+            if (typeof initLondonStyleTemplateCharts === 'function') {
+                initLondonStyleTemplateCharts();
+            }
             calculateHoldingCost();
             calculateTKCost();
             calculateROI();
@@ -1954,7 +1959,7 @@
             const type = document.getElementById('holdingPropertyType')?.value || 'mansion';
             const size = parseFloat(document.getElementById('holdingSize')?.value) || 55;
             const rentManJpy = parseFloat(document.getElementById('holdingRent')?.value) || 22;
-            const exchangeRate = 0.0435;
+            const exchangeRate = 0.0418;
             const priceCny = price * 10000 * exchangeRate;
             const rentCny = rentManJpy * 10000 * exchangeRate;
             const loanPrincipal = priceCny * loanRatio / 100;

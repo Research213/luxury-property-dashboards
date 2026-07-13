@@ -113,8 +113,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🇭🇰 香港房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 HKD ≈ 0.872 CNY (2026 年 4 月末) | 数据更新至 2026 年 5 月</div>
-                <div class="data-version">版本：v1.1 | 最后更新：2026-05-14 | 数据来源：差饷物业估价署、美联物业、中原地产、土地注册处、CBRE</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 HKD ≈ 0.865 CNY (2026 年 7 月 13 日) | 数据更新至 2026 年 7 月 13 日（最新公开口径）</div>
+                <div class="data-version">版本：v1.2 | 最后更新：2026-07-13 | 数据来源：差饷物业估价署、美联物业、中原地产、土地注册处、CBRE、FT 租赁市场补充</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
@@ -125,8 +125,8 @@
     </div>
 
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal green">✅</span> 总体结论：量价齐升创 5 年同期最佳，楼价连升 10 月破 2 年纪录 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2026 年 Q1 一手成交 6,300 宗（+44% YoY）创 13 年次高，二手 12,449 宗（18 季度新高）。3 月楼价指数 312.8 点（连升 10 个月），创 2023 年 11 月以来新高。4 月买卖签约 8,692 宗（环比 +12.3%）。摩根大通预测 2026 年 +10~15%。</p>
+        <h3><span class="signal green">✅</span> 总体结论：撤辣后成交修复延续，租赁需求由新来港人口支撑 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>截至 2026 年 7 月 13 日可查公开口径，香港销售端仍以 2026 Q1/4 月官方及机构数据为核心：一手成交 6,300 宗（+44% YoY），二手 12,449 宗（18 季度新高），4 月买卖签约 8,692 宗（环比 +12.3%）。租赁端 2023-2025 年累计上涨约 16%，新来港人才继续支撑需求；后续月度楼价指数待差估署发布确认。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -142,7 +142,7 @@
                 <div class="conclusion-item">
                     <div class="label">💰 投资价值</div>
                     <div class="value">租金回报率 3.38%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">租金连升 5 月创新高，全年 +7%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">租赁需求强，2023-2025 年租金约 +16%</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
@@ -151,8 +151,8 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">HKD/CNY 0.872 (-12% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">港币贬值利好内地买家</div>
+                    <div class="value">HKD/CNY 0.865 (-13% vs 2023)</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">按 2026-07-13 汇率重算人民币成本</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -181,7 +181,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 香港房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2025 年全年成交 60,346 宗（+20% YoY），2026 年 Q1 一手 6,300 宗（+44%）、二手 12,449 宗（18 季度新高）。2026 年 2 月楼价指数 307.6 点（连升 9 个月），平均房价约¥1,280 万（港币约 1,376 万）。数据来源：差饷物业估价署、中原地产（A 级）。
+            <strong>小结论：</strong>2025 年全年成交 60,346 宗（+20% YoY），2026 年 Q1 一手 6,300 宗（+44%）、二手 12,449 宗（18 季度新高）。4 月买卖签约 8,692 宗（环比 +12.3%），销售修复仍以撤辣、降息预期和人才流入为主线；人民币换算已按 2026-07-13 HKD/CNY 0.865 更新。数据来源：差饷物业估价署、中原地产、土地注册处（A 级），后续月度指数待官方确认。
         </div>
 
         <div class="metric-grid">
@@ -191,12 +191,12 @@
                 <div class="stat-change up">↑ 同比 +20%</div>
             </div>
             <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年成交额约 6,800 亿港元（人民币约 6,324 亿元），豪宅市场贡献显著。" data-source="中原地产 | A 级">
-                <div class="stat-value">¥6,324 亿</div>
+                <div class="stat-value">¥5,880 亿</div>
                 <div class="stat-label">成交额</div>
                 <div class="stat-change up">↑ 同比 +25%</div>
             </div>
             <div class="card stat-card" data-title="香港平均房价" data-content="2026 年 2 月楼价指数 307.6 点，平均房价约 1,376 万港元（人民币约 1,280 万）。" data-source="差饷物业估价署 | A 级">
-                <div class="stat-value">¥1,280 万</div>
+                <div class="stat-value">¥1,247 万</div>
                 <div class="stat-label">平均房价</div>
                 <div class="stat-change up">↑ 连升 9 个月</div>
             </div>
@@ -208,7 +208,7 @@
         </div>
         <div class="metric-grid" style="margin-top:16px">
             <div class="card stat-card" data-title="万/平方米单价" data-content="香港平均房价密度约 14.5 万元/㎡（港岛核心区 28-47 万/㎡，九龙 15-37 万/㎡）。" data-source="美联物业 | A 级">
-                <div class="stat-value">¥14.5 万</div>
+                <div class="stat-value">¥14.4 万</div>
                 <div class="stat-label">万/平方米</div>
                 <div class="stat-change up">↑ 同比 +8%</div>
             </div>
@@ -242,8 +242,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 量价齐升，连升 9 个月创 22 个月新高</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量趋势 (2025.01-2026.05)" data-content="2026 年 Q1 一手成交 6,300 宗（+44% YoY），二手 12,449 宗（18 季度新高）。" data-source="中原地产 | A 级">
-                <h4>月度成交量趋势 (2025.01-2026.05) <span class="data-source-tag">中原地产</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量趋势 (2025.01-2026.06，6月待官方确认)" data-content="2026 年 Q1 一手成交 6,300 宗（+44% YoY），二手 12,449 宗（18 季度新高）；6月完整官方口径待发布。" data-source="中原地产 / 土地注册处 | A 级">
+                <h4>月度成交量趋势 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">中原地产</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -265,7 +265,7 @@
         </div>
 
         <div class="card" style="margin-top:20px">
-                <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">土地注册处</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025.01-2026.06，最新月待官方确认) <span class="data-source-tag">土地注册处</span><span class="data-reliability A">A 级</span></h4>
                 <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                     <table class="data-table">
                         <thead>
@@ -440,10 +440,10 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 港币汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>港币采用联系汇率制（7.75-7.85 HKD/USD），汇率稳定。2025-2026 年 HKD/CNY 在 0.87-0.95 区间波动，当前 0.872（2026 年 4 月末收盘）。港币贬值利好内地买家，购房成本降低约 12% vs 2023 年。
+            <strong>小结论：</strong>港币采用联系汇率制（7.75-7.85 HKD/USD），汇率稳定。2025-2026 年 HKD/CNY 在 0.86-0.95 区间波动，当前约 0.865（2026 年 7 月 13 日）。按人民币口径，港币较 2023 年仍处低位，继续降低内地买家的换汇成本。
         </div>
 
-        <div class="card" data-title="港币汇率历史走势" data-content="2025 年 1 月至 2026 年 4 月 HKD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+        <div class="card" data-title="港币汇率历史走势" data-content="2025 年 1 月至 2026 年 7 月 HKD/CNY 汇率走势。" data-source="Exchangerate API / Yahoo Finance | B 级">
             <h4>HKD/CNY 汇率走势 (2025.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">
@@ -469,7 +469,7 @@
                 </tbody>
             </table>
             <div style="margin-top:12px;font-size:11px;color:var(--text-light)">
-                📌 注：当前汇率采用 Yahoo Finance 2026 年 4 月末收盘 0.872，较 2023 年 0.99 贬值约 11.9%
+                📌 注：当前汇率采用 Exchangerate API 2026 年 7 月 13 日 0.865，较 2023 年 0.99 贬值约 12.7%
             </div>
         </div>
     </div>
@@ -1175,7 +1175,7 @@
 
     <script>
         // 汇率数据源：Yahoo Finance | 月末最后一个交易日收盘
-        // 2026 年 4 月末 HKD/CNY ≈ 0.872
+        // 2026 年 7 月 13 日 HKD/CNY ≈ 0.865
         const EXCHANGE_RATE = 0.872;
 
         // 香港历史数据

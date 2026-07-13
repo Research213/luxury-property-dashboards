@@ -106,8 +106,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🗽 纽约房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 6.83 CNY | 数据更新至 2026 年 5 月</div>
-                <div class="data-version">版本：v1.1 | 最后更新：2026-05-14 | 数据来源：StreetEasy, REBNY, Zillow, NAR, Freddie Mac</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 USD ≈ 6.78 CNY | 数据更新至 2026 年 7 月 13 日（销售硬数据最新公开口径为 2026 Q1）</div>
+                <div class="data-version">版本：v1.2 | 最后更新：2026-07-13 | 数据来源：StreetEasy, REBNY, Zillow, NAR, Freddie Mac, Corcoran/Crain's 租赁补充</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="downloadHTML()" style="padding:8px 16px;background:#3182ce;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 下载看板</button>
@@ -118,8 +118,8 @@
     </div>
 
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal green">✅</span> 总体结论：曼哈顿豪宅市场强劲，利率下行预期支撑买家信心 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2026 年 Q1 曼哈顿成交 2,850 套（+18% YoY），中位房价$125 万美元。Condo 市场领涨，Co-op 库存充足。外国人购房无限制但税费较高，房产税约 1-2%/年。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：销售分化、租赁强劲，核心 Condo 仍具流动性 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>销售端最新公开硬数据仍以 2026 Q1 为主：曼哈顿成交 2,850 套（+18% YoY），中位房价约$125 万美元。租赁端更新更快，2026 年 5 月曼哈顿中位租金升至 $5,125/月（约 +7% YoY）并创高；美国 6 月成屋销售降温，纽约更适合精选核心区 Condo 与租赁承接强的资产。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -134,18 +134,18 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💰 投资价值</div>
-                    <div class="value">租金收益率 3.5-4.5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">曼哈顿租赁需求强劲</div>
+                    <div class="value">租金收益率 3.5-4.8%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">5 月租金创高，供应收缩</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
-                    <div class="value">2026 预测 +3~5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">豪宅市场领涨</div>
+                    <div class="value">2026 预测 +1~3%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">销售端分化，租赁端强</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 汇率影响</div>
-                    <div class="value">USD/CNY 6.83 (+1.2% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">美元走强利好海外买家</div>
+                    <div class="value">USD/CNY 6.78</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">按 2026-07-13 汇率重算人民币成本</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -174,7 +174,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 纽约房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2025 年曼哈顿成交 11,200 套（+12% YoY），成交额约$185 亿美元。2026 年 Q1 中位房价$125 万美元（人民币约¥906 万），Condo 中位价$168 万，Co-op 中位价$78.5 万。数据来源：StreetEasy, REBNY（A 级）。
+            <strong>小结论：</strong>2025 年曼哈顿成交 11,200 套（+12% YoY），成交额约$185 亿美元。销售硬数据最新公开口径为 2026 Q1：中位房价约$125 万美元（人民币约¥848 万），Condo 中位价$168 万，Co-op 中位价$78.5 万；租赁端 2026 年 5 月中位租金 $5,125/月创高。数据来源：StreetEasy, REBNY, Corcoran/Crain's（A/B 级）。
         </div>
 
         <div class="metric-grid">
@@ -184,33 +184,33 @@
                 <div class="stat-change up">↑ 同比 +12%</div>
             </div>
             <div class="card stat-card" data-title="2025 年成交额" data-content="2025 年曼哈顿成交额约$185 亿美元（人民币约¥1,341 亿元）。" data-source="StreetEasy | A 级">
-                <div class="stat-value">¥1,341 亿</div>
+                <div class="stat-value">¥1,254 亿</div>
                 <div class="stat-label">成交额</div>
                 <div class="stat-change up">↑ 同比 +15%</div>
             </div>
-            <div class="card stat-card" data-title="纽约中位房价" data-content="2026 年 Q1 曼哈顿中位房价$125 万（人民币约¥906 万），Condo $168 万，Co-op $78.5 万。" data-source="Zillow | A 级">
-                <div class="stat-value">¥906 万</div>
+            <div class="card stat-card" data-title="纽约中位房价" data-content="2026 年 Q1 曼哈顿中位房价$125 万（人民币约¥848 万），Condo $168 万，Co-op $78.5 万，人民币按 2026-07-13 USD/CNY 6.78 折算。" data-source="StreetEasy / REBNY | A 级">
+                <div class="stat-value">¥848 万</div>
                 <div class="stat-label">中位房价</div>
                 <div class="stat-change up">↑ 同比 +5.2%</div>
             </div>
-            <div class="card stat-card" data-title="租金收益率" data-content="曼哈顿租金收益率约 3.5-4.5%，租赁需求强劲，空置率 3.2%。" data-source="UrbanDigs | A 级">
-                <div class="stat-value">4.0%</div>
+            <div class="card stat-card" data-title="租金收益率" data-content="曼哈顿租金收益率约 3.5-4.8%，2026 年 5 月中位租金 $5,125/月创高，供应收缩。" data-source="UrbanDigs, Corcoran/Crain's | A/B 级">
+                <div class="stat-value">3.5-4.8%</div>
                 <div class="stat-label">租金收益率</div>
                 <div class="stat-change up">↑ 同比 +0.3%</div>
             </div>
         </div>
         <div class="metric-grid" style="margin-top:16px">
             <div class="card stat-card" data-title="万/平方米单价" data-content="曼哈顿平均房价密度约$18,500/㎡（人民币约 13.4 万/㎡），Tribeca 最高达$35,000/㎡。" data-source="StreetEasy | A 级">
-                <div class="stat-value">¥13.4 万</div>
+                <div class="stat-value">¥13.0 万</div>
                 <div class="stat-label">万/平方米</div>
                 <div class="stat-change up">↑ 同比 +4.8%</div>
             </div>
-            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，曼哈顿套均总价约$165 万（人民币约¥1,196 万）。" data-source="REBNY, 计算 | A 级">
-                <div class="stat-value">¥1,196 万</div>
+            <div class="card stat-card" data-title="套均总价" data-content="基于 2025 年成交数据计算，曼哈顿套均总价约$165 万（人民币约¥1,119 万）。" data-source="REBNY, 计算 | A 级">
+                <div class="stat-value">¥1,119 万</div>
                 <div class="stat-label">套均总价</div>
                 <div class="stat-change up">↑ 同比 +3%</div>
             </div>
-            <div class="card stat-card" data-title="房价收入比" data-content="曼哈顿房价收入比约 15.2 倍，高于美国平均 5.8 倍，购房压力大。" data-source| Census | B 级">
+            <div class="card stat-card" data-title="房价收入比" data-content="曼哈顿房价收入比约 15.2 倍，高于美国平均 5.8 倍，购房压力大。" data-source="Census | B 级">
                 <div class="stat-value">15.2x</div>
                 <div class="stat-label">房价收入比</div>
                 <div class="stat-change down">↓ 同比 -0.4x</div>
@@ -235,8 +235,8 @@
                     <div class="data-legend-item"><span class="legend-color" style="background:#9f7aea"></span><strong>2026:</strong> 豪宅市场领涨，Condo 供不应求</div>
                 </div>
             </div>
-            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.05)" data-content="2026 年 Q1 成交 2,850 套（+18% YoY），成交额$48 亿。" data-source="StreetEasy | A 级">
-                <h4>月度成交量与成交额 (2025.01-2026.05) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
+            <div class="card" data-title="月度成交量与成交额 (2025.01-2026.06，6月成交待机构完整披露)" data-content="2026 年 Q1 成交 2,850 套（+18% YoY），成交额$48 亿；6月美国整体成屋销售降温。" data-source="StreetEasy / NAR | A/B 级">
+                <h4>月度成交量与成交额 (2025.01-2026.06，最新月待机构披露) <span class="data-source-tag">StreetEasy</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
             </div>
         </div>
@@ -258,7 +258,7 @@
         </div>
 
         <div class="card" style="margin-top:20px" data-title="月度成交明细（分 Condo/Co-op）" data-content="纽约月度 Condo 和 Co-op 成交量、成交价。Condo 占 60%，Co-op 占 40%。" data-source="REBNY | A 级">
-            <h4>月度成交明细 (2025.01-2026.05) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
+            <h4>月度成交明细 (2025.01-2026.06，最新月待机构披露) <span class="data-source-tag">REBNY</span><span class="data-reliability A">A 级</span></h4>
             <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
                 <table class="data-table" id="monthlyTable">
                     <thead>
@@ -790,10 +790,10 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 美元汇率分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前 6.83。美元 2023-2026 年小幅升值约 1.2%，对中国买家的成本影响较温和。美联储降息预期下，汇率或继续波动。
+            <strong>小结论：</strong>美元采用浮动汇率制，USD/CNY 在 6.7-7.3 区间波动，当前约 6.78（2026 年 7 月 13 日）。人民币口径成本较上一版 6.83 小幅下降，但美元资产仍需重点关注利率、税费和持有成本。
         </div>
 
-        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 4 月 USD/CNY 汇率走势。" data-source="Yahoo Finance 月末收盘 | B 级">
+        <div class="card" data-title="美元汇率历史走势" data-content="2023 年 1 月至 2026 年 7 月 USD/CNY 汇率走势。" data-source="Exchangerate API / Yahoo Finance | B 级">
             <h4>USD/CNY 汇率走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
             <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
             <div class="data-legend" style="margin-top:16px">

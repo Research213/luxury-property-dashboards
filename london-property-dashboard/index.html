@@ -218,8 +218,8 @@
         <div style="display:flex;justify-content:space-between;align-items:center">
             <div>
                 <h1>🏛️ 伦敦房产数据看板</h1>
-                <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.29 元人民币 | 数据更新至 2026 年 4 月</div>
-                <div class="data-version">版本：v4.0 | 最后更新：2026-04-18 | 数据来源：ONS, HM Land Registry, Knight Frank, Savills, Chestertons</div>
+                <div class="subtitle">豪宅研究院 | 汇率：1 英镑 ≈ 9.07 元人民币 | 数据更新至 2026 年 7 月 13 日（HMLR 最新公开至 2026 年 4 月）</div>
+                <div class="data-version">版本：v4.3 | 最后更新：2026-07-13 | 数据来源：ONS, HM Land Registry, UK HPI, Knight Frank, Savills, Chestertons, Lloyds/Halifax 市场温度补充</div>
             </div>
             <div style="display:flex;gap:8px">
                 <button onclick="exportExcel()" style="padding:8px 16px;background:var(--success);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600">📊 导出 Excel</button>
@@ -230,8 +230,8 @@
     </div>
     
     <div class="conclusion-banner" onclick="this.classList.toggle('expanded')">
-        <h3><span class="signal yellow">⚠️</span> 总体结论：市场筑底期，长线配置窗口开启 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
-        <p>2025-2026 年伦敦核心区房价较 2024 年下降约 8-11%，但成交量稳定，租金收益率达 5 年高点。2026 年机构预测房价上涨 1-2%，当前是长线投资者择机入场窗口。</p>
+        <h3><span class="signal yellow">⚠️</span> 总体结论：价格低位盘整，租赁现金流成为主要支撑 <span style="margin-left:auto;font-size:12px;opacity:0.8">▼ 点击展开完整分析</span></h3>
+        <p>HM Land Registry / UK HPI 最新公开口径显示，2026 年 4 月伦敦均价约 £552,655，同比约 -2%。6 月英国整体房价小幅修复，但伦敦与东南部仍偏弱；高端住宅受税负和非居民政策影响，当前更适合长线现金流与教育配置型买家。</p>
         <div class="conclusion-detail">
             <div class="conclusion-grid">
                 <div class="conclusion-item">
@@ -246,18 +246,18 @@
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💷 投资价值</div>
-                    <div class="value">租金收益率 4.5-5.5%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">5 年高点，租金年增 3.5%</div>
+                    <div class="value">租金收益率 5-6%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">现金流支撑强于价格弹性</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">📊 价格趋势</div>
-                    <div class="value">2026 预测 +1~2%</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">机构共识：温和复苏</div>
+                    <div class="value">2026 预测 -2~+1%</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">机构观点转谨慎，核心区仍分化</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">💱 汇率影响</div>
-                    <div class="value">GBP/CNY 9.29 (+11.5% vs 2023)</div>
-                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">汇率对冲房价下跌风险</div>
+                    <div class="value">GBP/CNY 9.07</div>
+                    <div style="font-size:11px;color:var(--text-light);margin-top:4px">较上一版 9.29 回落，降低人民币入场成本</div>
                 </div>
                 <div class="conclusion-item">
                     <div class="label">⚠️ 风险评估</div>
@@ -286,7 +286,7 @@
     <div id="market" class="section active">
         <h2 class="section-title">📊 伦敦房地产市场情况</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2025 年伦敦成交量约 7.4 万套（同比下降 20%），成交额约£400 亿。2026 年 1 月平均房价£554,000（同比 -1.7%），市场处于筑底阶段。数据来源：ONS, HM Land Registry（A 级）。
+            <strong>小结论：</strong>2025 年伦敦成交量约 7.4 万套（同比下降 20%），成交额约£400 亿。HM Land Registry / UK HPI 最新公开口径显示 2026 年 4 月伦敦均价约 £552,655（同比约 -2%），价格仍处低位盘整；6 月英国整体价格小幅修复，但伦敦与东南部仍偏弱。数据来源：ONS, HM Land Registry, UK HPI, Lloyds/Halifax（A/B 级）。
         </div>
         
         <div class="metric-grid">
@@ -295,25 +295,25 @@
                 <div class="stat-label">成交量（套）</div>
                 <div class="stat-change down">↓ 同比下降 20%</div>
             </div>
-            <div class="card stat-card" data-title="2025 年成交额" data-content="伦敦 2025 年成交额约£400 亿（人民币约¥3,700 亿），基于平均房价£55.4 万计算。" data-source="ONS, 计算 | A 级">
-                <div class="stat-value">¥3,700 亿</div>
+            <div class="card stat-card" data-title="2025 年成交额" data-content="伦敦 2025 年成交额约£400 亿（人民币约¥3,628 亿），按 2026-07-13 GBP/CNY 9.07 折算。" data-source="ONS, 计算 | A 级">
+                <div class="stat-value">¥3,628 亿</div>
                 <div class="stat-label">成交额</div>
                 <div class="stat-change down">↓ 同比下降 15%</div>
             </div>
-            <div class="card stat-card" data-title="伦敦平均房价" data-content="ONS 2026 年 1 月数据，伦敦平均房价£554,000（人民币约¥518 万），较去年同期下降 1.7%。" data-source="ONS | A 级">
-                <div class="stat-value">¥518 万</div>
+            <div class="card stat-card" data-title="伦敦平均房价" data-content="UK HPI / HM Land Registry 2026 年 4 月伦敦平均房价约£552,655（人民币约¥501 万），同比约下降 2%。" data-source="UK HPI, HM Land Registry | A 级">
+                <div class="stat-value">¥501 万</div>
                 <div class="stat-label">平均房价</div>
-                <div class="stat-change down">↓ 同比下降 1.7%</div>
+                <div class="stat-change down">↓ 同比约 -2%</div>
             </div>
-            <div class="card stat-card" data-title="租金收益率" data-content="伦敦核心区租金收益率约 4.5-5.5%，达 5 年高点。数据基于 2025 年全年平均，租金年增 3.5%。" data-source="ONS, Savills | A 级">
-                <div class="stat-value">5.0%</div>
+            <div class="card stat-card" data-title="租金收益率" data-content="伦敦平均租金收益率约 5-6%，现金流支撑强于销售价格弹性。数据基于机构公开口径。" data-source="ONS, Savills, MoneyWeek | A/B 级">
+                <div class="stat-value">5-6%</div>
                 <div class="stat-label">租金收益率</div>
                 <div class="stat-change up">↑ 5 年高点</div>
             </div>
         </div>
         <div class="metric-grid" style="margin-top:16px">
-            <div class="card stat-card" data-title="万/平方米单价" data-content="伦敦平均房价密度约£6,600/㎡（人民币约¥61,700/㎡），核心区肯辛顿 - 切尔西达£13,900/㎡。" data-source="ONS | A 级">
-                <div class="stat-value">¥6.2 万</div>
+            <div class="card stat-card" data-title="万/平方米单价" data-content="伦敦平均房价密度约£6,600/㎡（人民币约¥59,900/㎡），核心区肯辛顿 - 切尔西达£13,900/㎡。" data-source="ONS | A 级">
+                <div class="stat-value">¥6.0 万</div>
                 <div class="stat-label">万/平方米</div>
                 <div class="stat-change down">↓ 同比 -2.1%</div>
             </div>
@@ -529,7 +529,7 @@
             <div class="card" data-title="价位段分布" data-content="伦敦房产按价格区间分布。数据周期：2025 年全年，2026 Q1 数据待更新。" data-source="Plumplot, ONS | A 级">
                 <h4>价位段成交量分布 (2025 年全年) <span class="data-source-tag">Plumplot</span><span class="data-reliability A">A 级</span></h4>
                 <div class="chart-container"><canvas id="priceSegmentChart"></canvas></div>
-                <div style="margin-top:12px;font-size:12px;color:var(--warning)">📌 注：2026 Q1 数据待 ONS 官方发布（预计 2026 年 5 月）</div>
+            <div style="margin-top:12px;font-size:12px;color:var(--warning)">📌 注：2026 Q2 分项成交数据仍待官方完整发布；价格判断优先采用 UK HPI 2026 年 4 月口径</div>
             </div>
             <div class="card" style="margin-top:20px">
                 <h4>价位段详细数据</h4>
@@ -605,11 +605,11 @@
     <div id="exchange" class="section">
         <h2 class="section-title">💷 汇率影响分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>2023-2026 年英镑对人民币升值约 11.5%，部分对冲了伦敦房价下跌风险。对于中国买家，汇率波动对投资回报的影响可能超过房价本身变化。
+            <strong>小结论：</strong>2023-2026 年英镑对人民币仍处相对高位，但 2026 年 7 月 13 日 GBP/CNY 约 9.07，较页面上一版 9.29 有所回落。对中国买家而言，汇率波动仍可能放大或对冲伦敦房价本身变化。
         </div>
         
         <div class="rate-card">
-            <h4>💱 当前汇率（2026 年 4 月）</h4>
+            <h4>💱 当前汇率（2026 年 7 月 13 日）</h4>
             <div class="rate-values">
                 <div class="rate-item">
                     <div class="label">GBP/CNY（英镑兑人民币）</div>
@@ -625,7 +625,7 @@
         </div>
         
         <div class="grid-2">
-            <div class="card" data-title="英镑汇率历史走势 (2023-2026)" data-content="2023 年 1 月至 2026 年 4 月英镑对人民币和美元汇率月末走势。数据来源：Yahoo Finance 月末收盘。" data-source="Yahoo Finance 月末收盘 | B 级">
+            <div class="card" data-title="英镑汇率历史走势 (2023-2026)" data-content="2023 年 1 月至 2026 年 7 月英镑对人民币和美元汇率走势。数据来源：Exchangerate API / Yahoo Finance。" data-source="Exchangerate API / Yahoo Finance | B 级">
                 <h4>英镑汇率历史走势 (2023.01-2026.04) <span class="data-source-tag">Yahoo</span><span class="data-reliability B">B 级</span></h4>
                 <div class="chart-container large"><canvas id="exchangeRateChart"></canvas></div>
                 <div class="data-legend">
@@ -742,7 +742,7 @@
     <div id="china" class="section">
         <h2 class="section-title">🇨🇳 中国买家分析</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>中国买家在伦敦占比约 5%（占全市场），从 2023 年峰值回落，但 2026 年初出现回升迹象。高净值买家转向"先租后买"策略，更关注租金收益率和长期增值。
+            <strong>小结论：</strong>中国买家在伦敦占比约 5%（占全市场，最新公开口径），从 2023 年峰值回落后趋稳。2026 年中伦敦高端市场受税负、非居民政策和价格预期影响，高净值买家更偏向"先租后买"与核心区议价。
         </div>
         
         <div class="grid-2">
@@ -1028,7 +1028,7 @@
     <div id="agency" class="section">
         <h2 class="section-title">📑 专业机构观点</h2>
         <div class="section-conclusion">
-            <strong>小结论：</strong>12 家机构对 2026 年伦敦房价预测共识为 +1.3%（区间 -5%~+2.5%）。<strong>国际五大行：</strong>CBRE、JLL、Savills、DTZ、Colliers 平均预测 +1.4%；<strong>英国本土经纪公司：</strong>Chestertons、Hamptons、Knight Frank 平均预测 +1.5%；<strong>投行/咨询：</strong>高盛、戴德梁行研究、莱坊研究分别给出独立预测。租金收益率达 5 年高点（5.0%），租赁市场强劲。
+            <strong>小结论：</strong>2026 年中机构观点明显转谨慎，伦敦价格更接近"低位盘整"而非全面上涨：Savills 等机构下修英国/伦敦预测，Knight Frank 仍偏温和。租赁端支撑更清晰，伦敦平均收益率约 5-6%，但高端住宅受税费与非居民政策拖累更明显。
         </div>
         
         <div class="agency-card" onclick="this.classList.toggle('expanded')">
